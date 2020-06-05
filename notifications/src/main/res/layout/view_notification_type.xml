@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.features.types.NotificationTypeViewModel" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:animateLayoutChanges="true"
+        android:layout_height="52dp">
+
+        <TextView
+            style="?attr/SportsBook.NotificationType.Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="14dp"
+            android:text="@{viewModel.name}" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="13dp"
+            android:checked="@{viewModel.enabled}"
+            android:onCheckedChanged="@{(button, on) -> viewModel.onToggled(on)}" />
+
+    </FrameLayout>
+
+</layout>

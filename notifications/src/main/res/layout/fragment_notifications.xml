@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.features.list.NotificationsViewModel" />
+
+    </data>
+
+    <LinearLayout
+        style="?attr/SportsBook.Notifications.Container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                style="?attr/SportsBook.Notifications.Toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                app:navigationIcon="@drawable/ic_nav_back">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="?attr/SportsBook.Notifications.Toolbar.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/sportsbook_notifications_title" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <include
+            style="?attr/SportsBook.Notifications.Container"
+            layout="@layout/view_notifications"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:viewModel="@{viewModel}" />
+
+    </LinearLayout>
+
+</layout>

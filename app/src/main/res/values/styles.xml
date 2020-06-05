@@ -1,0 +1,15 @@
+<resources>
+
+	<!-- Base application theme. -->
+	<style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+
+	</style>
+
+	<style name="OddsetSportsBookModuleStyle" parent="AppTheme">
+
+	</style>
+
+	<style name="BetWarriorSportsBookModuleStyle" parent="AppTheme">
+
+	</style>
+</resources>

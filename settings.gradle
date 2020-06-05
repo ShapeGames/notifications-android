@@ -1,0 +1,2 @@
+include ':notifications', ':notifications-styling-betwarrior', ':notifications-styling-oddset', ':app'
+rootProject.name='Notifications'

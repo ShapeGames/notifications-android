@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.features.types.NotificationTypesViewModel" />
+
+    </data>
+
+    <dk.shape.games.notifications.utils.FadeViewAnimator
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:displayedChildId="@{viewModel.stateViewId}">
+
+        <FrameLayout
+            android:id="@+id/layout_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:viewProvider="@{viewModel.loadingViewProvider}" />
+
+        <dk.shape.games.sportsbook.offerings.uiutils.ErrorView
+            android:id="@+id/layout_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"
+            app:errorButtonText="@{viewModel.errorButtonText}"
+            app:errorIcon="@{viewModel.errorIcon}"
+            app:errorMessage="@{viewModel.errorMessage}"
+            app:onRetryClicked="@{viewModel.onErrorButtonClicked}" />
+
+        <LinearLayout
+            android:id="@+id/layout_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        style="?attr/SportsBook.NotificationTypes.EventIcon"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:layout_gravity="center_vertical"
+                        app:icon="@{viewModel.eventIcon}" />
+
+                    <TextView
+                        style="?attr/SportsBook.NotificationTypes.EventLevel2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="7dp"
+                        android:text="@{viewModel.level2Name}"
+                        tools:text="England" />
+
+                    <TextView
+                        style="?attr/SportsBook.NotificationTypes.EventLevel3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="4dp"
+                        android:text="@{viewModel.level3Name}"
+                        tools:text="International" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="?attr/SportsBook.NotificationTypes.EventDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.eventStartDate}"
+                        tools:text="Today" />
+
+                    <TextView
+                        style="?attr/SportsBook.NotificationTypes.EventTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="@{viewModel.eventStartTime}"
+                        tools:text="18:00" />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="?attr/SportsBook.NotificationTypes.EventName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:text="@{viewModel.eventNameLine1}"
+                    tools:text="AEK Athen" />
+
+                <TextView
+                    style="?attr/SportsBook.NotificationTypes.EventName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.eventNameLine2}"
+                    tools:text="AC Milan" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:diffConfig="@{viewModel.notificationTypesDiffConfig}"
+                app:itemBinding="@{viewModel.notificationTypesBinding}"
+                app:itemsCreator="@{viewModel.notificationTypeViewModelsCreator}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        </LinearLayout>
+
+    </dk.shape.games.notifications.utils.FadeViewAnimator>
+
+</layout>

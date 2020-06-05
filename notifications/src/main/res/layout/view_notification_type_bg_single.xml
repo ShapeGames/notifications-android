@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.features.types.NotificationTypeViewModel" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="true"
+        android:clipToPadding="false"
+        android:paddingLeft="8dp"
+        android:paddingTop="9dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="9dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="9dp"
+            app:cardUseCompatPadding="false">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include
+                    layout="@layout/view_notification_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:viewModel="@{viewModel}" />
+
+            </FrameLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
+
+</layout>

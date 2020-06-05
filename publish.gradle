@@ -1,0 +1,50 @@
+apply plugin: 'digital.wup.android-maven-publish'
+apply plugin: 'org.jetbrains.dokka-android'
+
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/javadoc"
+}
+
+task androidJavadocs(type: Javadoc, dependsOn: dokka) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: dokka) {
+    classifier = 'javadoc'
+    from androidJavadocs.destinationDir
+}
+
+def libraryGroupId = "dk.shape.games.notifications"
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+publishing {
+    publications {
+        mavenAar(MavenPublication) {
+            from components.android
+            artifact javadocJar
+            artifact sourcesJar
+
+            groupId libraryGroupId
+            version project.version
+
+            pom {
+                name = project.name
+            }
+        }
+    }
+    repositories {
+        maven {
+            url = 'http://artifactory.shape.dk:8081/artifactory/libs-release-local'
+            credentials {
+                username = project.hasProperty("shape_publisher_username") ? "$shape_publisher_username" : "$System.env.shape_publisher_username"
+                password = project.hasProperty("shape_publisher_password") ? "$shape_publisher_password" : "$System.env.shape_publisher_password"
+            }
+        }
+    }
+}

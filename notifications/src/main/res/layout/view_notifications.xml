@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.features.list.NotificationsViewModel" />
+
+        <import type="dk.shape.games.notifications.features.list.NotificationsItemDecoration" />
+
+    </data>
+
+    <dk.shape.games.notifications.utils.FadeViewAnimator
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:displayedChildId="@{viewModel.stateViewId}">
+
+        <FrameLayout
+            android:id="@+id/layout_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:viewProvider="@{viewModel.loadingViewProvider}" />
+
+        <dk.shape.games.sportsbook.offerings.uiutils.ErrorView
+            android:id="@+id/layout_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:errorButtonText="@{viewModel.errorButtonText}"
+            app:errorIcon="@{viewModel.errorIcon}"
+            app:errorMessage="@{viewModel.errorMessage}"
+            app:onRetryClicked="@{viewModel.onErrorButtonClicked}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/layout_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:diffConfig="@{viewModel.notificationsDiffConfig}"
+            app:itemBinding="@{viewModel.notificationsBinding}"
+            app:itemDecoration="@{NotificationsItemDecoration.get()}"
+            app:itemsCreator="@{viewModel.notificationViewModelsCreator}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <LinearLayout
+            android:id="@+id/layout_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/notifications_empty_artwork" />
+
+            <TextView
+                style="?attr/SportsBook.Notifications.Empty.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:text="@string/notifications_empty_title" />
+
+            <TextView
+                style="?attr/SportsBook.Notifications.Empty.Description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/notifications_empty_text" />
+
+        </LinearLayout>
+
+    </dk.shape.games.notifications.utils.FadeViewAnimator>
+
+</layout>
