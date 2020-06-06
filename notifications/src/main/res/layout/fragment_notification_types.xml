@@ -11,7 +11,7 @@
     </data>
 
     <LinearLayout
-        style="?attr/SportsBook.NotificationTypes.Container"
+        style="?attr/Notifications.Types.Container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -22,14 +22,14 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                style="?attr/SportsBook.NotificationTypes.Toolbar"
+                style="?attr/Notifications.Types.Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 app:navigationIcon="@drawable/ic_nav_close">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="?attr/SportsBook.NotificationTypes.Toolbar.Title"
+                    style="?attr/Notifications.Types.Toolbar.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

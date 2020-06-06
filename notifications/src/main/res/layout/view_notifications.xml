@@ -63,7 +63,7 @@
                 app:srcCompat="@drawable/notifications_empty_artwork" />
 
             <TextView
-                style="?attr/SportsBook.Notifications.Empty.Headline"
+                style="?attr/Notifications.Empty.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -72,7 +72,7 @@
                 android:text="@string/notifications_empty_title" />
 
             <TextView
-                style="?attr/SportsBook.Notifications.Empty.Description"
+                style="?attr/Notifications.Empty.Description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"

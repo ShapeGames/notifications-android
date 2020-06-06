@@ -11,7 +11,7 @@ object NotificationsScreens {
     @ExperimentalTime
     val screens = listOf(
         DemoScreen(
-            name = "Betwarrior Notifications",
+            name = "Legacy Notifications",
             fragmentProvider = {
                 NotificationsFragment().apply {
                     arguments = NotificationsFragment.Args.create(

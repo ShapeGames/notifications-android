@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <declare-styleable name="NotificationsStyle">
-        <attr name="SportsBook.Notifications.Container" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.Notifications.Toolbar" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.Notifications.Toolbar.Title" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.Notifications.Empty.Headline" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.Notifications.Empty.Description" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.Notification.Card" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.Notification.EventName" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.Notification.NotificationType" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.Notification.ActiveSubscriptions" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.NotificationTypes.Container" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.NotificationTypes.Toolbar" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.NotificationTypes.Toolbar.Title" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.NotificationTypes.EventIcon" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.NotificationTypes.EventLevel2" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.NotificationTypes.EventLevel3" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.NotificationTypes.EventDate" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.NotificationTypes.EventTime" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.NotificationTypes.EventName" format="reference" tools:ignore="ResourceName" />
-        <attr name="SportsBook.NotificationType.Name" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Container" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Toolbar" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Toolbar.Title" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Empty.Headline" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Empty.Description" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Card" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.EventName" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.NotificationType" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.ActiveSubscriptions" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Types.Container" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Types.Toolbar" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Types.Toolbar.Title" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Types.EventIcon" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Types.EventLevel2" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Types.EventLevel3" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Types.EventDate" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Types.EventTime" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Types.EventName" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Types.Name" format="reference" tools:ignore="ResourceName" />
     </declare-styleable>
 </resources>

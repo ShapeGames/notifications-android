@@ -3,32 +3,32 @@
 
     <!-- Notification list -->
 
-    <style name="SportsBook.Notifications.Container" parent="Widget">
+    <style name="Notifications.Container" parent="@style/Widget">
         <item name="android:background">#f5f6f9</item>
     </style>
 
-    <style name="SportsBook.Notifications.Toolbar" parent="Widget.AppCompat.Toolbar">
+    <style name="Notifications.Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">#f5f6f9</item>
     </style>
 
-    <style name="SportsBook.Notifications.Toolbar.Title" parent="@style/Widget.AppCompat.TextView">
+    <style name="Notifications.Toolbar.Title" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textSize">19sp</item>
         <item name="android:textColor">#f26940</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="SportsBook.Notifications.Empty.Headline" parent="Widget.AppCompat.TextView">
+    <style name="Notifications.Empty.Headline" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">#565656</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="SportsBook.Notifications.Empty.Description" parent="Widget.AppCompat.TextView">
+    <style name="Notifications.Empty.Description" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">#bf3b2d3d</item>
     </style>
 
-    <style name="SportsBook.Notification.Card" parent="CardView">
+    <style name="Notifications.Card" parent="CardView">
         <item name="cardElevation">9dp</item>
         <item name="cardCornerRadius">6dp</item>
         <item name="android:layout_marginLeft">7dp</item>
@@ -38,72 +38,71 @@
         <item name="android:background">#ffffff</item>
     </style>
 
-    <style name="SportsBook.Notification.EventName" parent="Widget.AppCompat.TextView">
+    <style name="Notifications.EventName" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">#030303</item>
     </style>
 
-    <style name="SportsBook.Notification.NotificationType" parent="Widget.AppCompat.TextView">
+    <style name="Notifications.NotificationType" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">#7d7d7d</item>
     </style>
 
-    <style name="SportsBook.Notification.ActiveSubscriptions" parent="Widget.AppCompat.TextView">
+    <style name="Notifications.ActiveSubscriptions" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">#7d7d7d</item>
     </style>
 
     <!-- Notification types -->
 
-    <style name="SportsBook.NotificationTypes.Container" parent="Widget">
+    <style name="Notifications.Types.Container" parent="@style/Widget">
         <item name="android:background">#f5f6f9</item>
     </style>
 
-    <style name="SportsBook.NotificationTypes.Toolbar" parent="Widget.AppCompat.Toolbar">
+    <style name="Notifications.Types.Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">#f5f6f9</item>
     </style>
 
-    <style name="SportsBook.NotificationTypes.Toolbar.Title" parent="@style/Widget.AppCompat.TextView">
+    <style name="Notifications.Types.Toolbar.Title" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textSize">19sp</item>
         <item name="android:textColor">#f26940</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="SportsBook.NotificationTypes.EventIcon" parent="Widget">
+    <style name="Notifications.Types.EventIcon" parent="@style/Widget">
         <item name="android:tint">#3b2d3d</item>
     </style>
 
-    <style name="SportsBook.NotificationTypes.EventLevel2" parent="Widget.AppCompat.TextView">
+    <style name="Notifications.Types.EventLevel2" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">#b33b2d3d</item>
         <item name="android:textSize">10.6sp</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="SportsBook.NotificationTypes.EventLevel3" parent="Widget.AppCompat.TextView">
+    <style name="Notifications.Types.EventLevel3" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">#3b2d3d</item>
         <item name="android:textSize">10.6sp</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="SportsBook.NotificationTypes.EventDate" parent="Widget.AppCompat.TextView">
+    <style name="Notifications.Types.EventDate" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">#a19fa3</item>
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="SportsBook.NotificationTypes.EventTime" parent="Widget.AppCompat.TextView">
+    <style name="Notifications.Types.EventTime" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">#47434c</item>
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="SportsBook.NotificationTypes.EventName" parent="Widget.AppCompat.TextView">
+    <style name="Notifications.Types.EventName" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">#252525</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="SportsBook.NotificationType.Name" parent="Widget.AppCompat.TextView">
+    <style name="Notifications.Types.Name" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">#030303</item>
         <item name="android:textSize">14sp</item>
     </style>
-
 
 </resources>

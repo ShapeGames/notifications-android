@@ -14,7 +14,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        style="?attr/SportsBook.Notification.Card"
+        style="?attr/Notifications.Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardUseCompatPadding="false">
@@ -38,7 +38,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    style="?attr/SportsBook.Notification.EventName"
+                    style="?attr/Notifications.EventName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -50,7 +50,7 @@
                     tools:text="Team 1" />
 
                 <TextView
-                    style="?attr/SportsBook.Notification.EventName"
+                    style="?attr/Notifications.EventName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -81,7 +81,7 @@
                 app:constraint_referenced_ids="overview_name,switch_button" />
 
             <LinearLayout
-                style="?attr/SportsBook.Notification.ActiveSubscriptions"
+                style="?attr/Notifications.ActiveSubscriptions"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"

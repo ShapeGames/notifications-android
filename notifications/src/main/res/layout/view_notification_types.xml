@@ -57,14 +57,14 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        style="?attr/SportsBook.NotificationTypes.EventIcon"
+                        style="?attr/Notifications.Types.EventIcon"
                         android:layout_width="13dp"
                         android:layout_height="13dp"
                         android:layout_gravity="center_vertical"
                         app:icon="@{viewModel.eventIcon}" />
 
                     <TextView
-                        style="?attr/SportsBook.NotificationTypes.EventLevel2"
+                        style="?attr/Notifications.Types.EventLevel2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -73,7 +73,7 @@
                         tools:text="England" />
 
                     <TextView
-                        style="?attr/SportsBook.NotificationTypes.EventLevel3"
+                        style="?attr/Notifications.Types.EventLevel3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -91,14 +91,14 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="?attr/SportsBook.NotificationTypes.EventDate"
+                        style="?attr/Notifications.Types.EventDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{viewModel.eventStartDate}"
                         tools:text="Today" />
 
                     <TextView
-                        style="?attr/SportsBook.NotificationTypes.EventTime"
+                        style="?attr/Notifications.Types.EventTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
@@ -118,7 +118,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="?attr/SportsBook.NotificationTypes.EventName"
+                    style="?attr/Notifications.Types.EventName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
@@ -126,7 +126,7 @@
                     tools:text="AEK Athen" />
 
                 <TextView
-                    style="?attr/SportsBook.NotificationTypes.EventName"
+                    style="?attr/Notifications.Types.EventName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.eventNameLine2}"

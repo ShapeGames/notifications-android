@@ -3,10 +3,10 @@ package dk.shape.games.notifications.demo.mock
 import android.content.Context
 import com.google.gson.GsonBuilder
 import dk.shape.games.notifications.demo.R
+import dk.shape.games.notifications.demo.context
 import dk.shape.games.sportsbook.offerings.common.DBPublishService
 import dk.shape.games.sportsbook.offerings.common.action.Action
 import dk.shape.games.sportsbook.offerings.common.hierarchy.Level
-import dk.shape.games.sportsbook.offerings.demo.context
 import dk.shape.games.sportsbook.offerings.generics.search.data.SearchFilterSport
 import dk.shape.games.sportsbook.offerings.generics.search.data.SearchModuleGroup
 import dk.shape.games.sportsbook.offerings.modules.ModuleAction
@@ -33,7 +33,7 @@ private fun event(eventId: String): Event {
     return GsonBuilder()
         .registerTypeAdapter(Event::class.java, EventDeserializer())
         .create()
-        .fromJson<Event>(
+        .fromJson(
             context.readResource(
                 resourceId
             ), Event::class.java
