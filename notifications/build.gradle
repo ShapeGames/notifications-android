@@ -62,29 +62,31 @@ dependencies {
     implementation("me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:4.0.0") {
         transitive false
     }
+
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
     implementation "androidx.appcompat:appcompat:1.1.0"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.constraintlayout:constraintlayout:1.1.3"
-    implementation "dk.shape.games.oddset:viewswitcher:temp-0.1"
+    implementation "com.google.android.material:material:1.2.0-alpha05"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.3.61"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.11.1"
 
     implementation "dk.shape.games:uikit:$uikit_version"
     implementation "dk.shape.games.sportsbook:offerings:$sportsbook_offerings_version"
-
     implementation "dk.shape.componentkit2:componentkit:2.1.4"
     implementation "dk.shape.componentkit2:componentkit-extensions-coroutines-bridge:1.1.0-alpha2"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
-    implementation "com.google.android.material:material:1.2.0-alpha05"
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    implementation "dk.shape.games:toolbox:1.2.0"
+    implementation "dk.shape.games.oddset:viewswitcher:temp-0.1"
+
     implementation "org.parceler:parceler-api:1.1.13"
     kapt "org.parceler:parceler:1.1.13"
-    implementation "dk.shape.games:toolbox:1.2.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.11.1"
+
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.4.0")
     implementation("com.squareup.okhttp3:okhttp:4.0.0")
-    implementation "dk.shape.danskespil.foundation:dsfoundation:2.2.2"
 }
 
 apply from: '../publish.gradle'
