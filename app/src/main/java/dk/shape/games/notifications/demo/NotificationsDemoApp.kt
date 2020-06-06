@@ -7,10 +7,9 @@ import dk.shape.componentkit2.ComponentKit
 import dk.shape.componentkit2.androidextensions.AndroidMainThreadExecutor
 import dk.shape.games.demoskeleton.DemoApp
 import dk.shape.games.demoskeleton.DemoConfig
-import dk.shape.games.demoskeleton.MockModules
 import dk.shape.games.demoskeleton.Style
 import dk.shape.games.notifications.demo.R
-import dk.shape.games.notifications.demo.mock.NotificationsScreens
+import dk.shape.games.notifications.demo.NotificationsScreens
 import kotlin.time.ExperimentalTime
 import java.util.*
 

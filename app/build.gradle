@@ -71,6 +71,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation "dk.shape.danskespil.module:dsmodule:3.4.1"
     implementation "dk.shape.games:uikit:$uikit_version"
+    implementation "dk.shape.games.sportsbook:offerings:$offerings_version"
+
     implementation "dk.shape.componentkit2:componentkit-extensions-android:2.2.0-alpha3"
     implementation "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-viewpager2:3.2.0"
 

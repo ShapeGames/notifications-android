@@ -2,7 +2,10 @@
 
 	<!-- Base application theme. -->
 	<style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<item name="colorPrimaryDark">@color/colorPrimary</item>
+		<item name="android:windowLightStatusBar">true</item>
+		<item name="colorAccent">@color/colorAccent</item>
 	</style>
 
 	<style name="OddsetSportsBookModuleStyle" parent="AppTheme">
@@ -11,5 +14,63 @@
 
 	<style name="BetWarriorSportsBookModuleStyle" parent="AppTheme">
 
+		<!-- Notifications -->
+		<item name="SportsBook.Notifications.Container">
+			@style/SportsBook.Notifications.Container.BetWarrior
+		</item>
+		<item name="SportsBook.Notifications.Toolbar">
+			@style/SportsBook.Notifications.Toolbar.BetWarrior
+		</item>
+		<item name="SportsBook.Notifications.Toolbar.Title">
+			@style/SportsBook.Notifications.Toolbar.Title.BetWarrior
+		</item>
+		<item name="SportsBook.Notifications.Empty.Headline">
+			@style/SportsBook.Notifications.Empty.Headline.BetWarrior
+		</item>
+		<item name="SportsBook.Notifications.Empty.Description">
+			@style/SportsBook.Notifications.Empty.Description.BetWarrior
+		</item>
+		<item name="SportsBook.Notification.Card">
+			@style/SportsBook.Notification.Card.BetWarrior
+		</item>
+		<item name="SportsBook.Notification.EventName">
+			@style/SportsBook.Notification.EventName.BetWarrior
+		</item>
+		<item name="SportsBook.Notification.NotificationType">
+			@style/SportsBook.Notification.NotificationType.BetWarrior
+		</item>
+		<item name="SportsBook.Notification.ActiveSubscriptions">
+			@style/SportsBook.Notification.ActiveSubscriptions.BetWarrior
+		</item>
+		<item name="SportsBook.NotificationTypes.Container">
+			@style/SportsBook.NotificationTypes.Container.BetWarrior
+		</item>
+		<item name="SportsBook.NotificationTypes.Toolbar">
+			@style/SportsBook.NotificationTypes.Toolbar.BetWarrior
+		</item>
+		<item name="SportsBook.NotificationTypes.Toolbar.Title">
+			@style/SportsBook.NotificationTypes.Toolbar.Title.BetWarrior
+		</item>
+		<item name="SportsBook.NotificationTypes.EventIcon">
+			@style/SportsBook.NotificationTypes.EventIcon.BetWarrior
+		</item>
+		<item name="SportsBook.NotificationTypes.EventLevel2">
+			@style/SportsBook.NotificationTypes.EventLevel2.BetWarrior
+		</item>
+		<item name="SportsBook.NotificationTypes.EventLevel3">
+			@style/SportsBook.NotificationTypes.EventLevel3.BetWarrior
+		</item>
+		<item name="SportsBook.NotificationTypes.EventDate">
+			@style/SportsBook.NotificationTypes.EventDate.BetWarrior
+		</item>
+		<item name="SportsBook.NotificationTypes.EventTime">
+			@style/SportsBook.NotificationTypes.EventTime.BetWarrior
+		</item>
+		<item name="SportsBook.NotificationTypes.EventName">
+			@style/SportsBook.NotificationTypes.EventName.BetWarrior
+		</item>
+		<item name="SportsBook.NotificationType.Name">
+			@style/SportsBook.NotificationType.Name.BetWarrior
+		</item>
 	</style>
 </resources>

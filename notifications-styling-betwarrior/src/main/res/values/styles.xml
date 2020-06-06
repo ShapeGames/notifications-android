@@ -2,7 +2,6 @@
 <resources>
 
     <!-- Notification list -->
-
     <style name="SportsBook.Notifications.Container.BetWarrior" parent="@style/SportsBook.Notifications.Container">
         <item name="android:background">#f5f6f9</item>
     </style>
