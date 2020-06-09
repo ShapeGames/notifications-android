@@ -6,6 +6,7 @@ import android.view.View
 import dk.shape.games.notifications.actions.EventNotificationTypesAction
 import dk.shape.games.notifications.demo.R
 import dk.shape.games.notifications.demo.notifications.EventNotificationTypesDependencyProvider
+import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.features.list.NotificationsEventHandler
 import dk.shape.games.notifications.features.list.EventNotificationsFragment
@@ -56,12 +57,16 @@ object NotificationsProviderMock {
 object NotificationsRepositoryMock : NotificationsDataSource {
 
     private val subscriptionSetMock = mutableSetOf(
-        Subscription.Events(
+        Subscription(
             eventId = "event1",
+            subjectId = "event1",
+            subjectType = SubjectType.EVENTS,
             types = setOf("match_start", "match_end")
         ),
-        Subscription.Events(
+        Subscription(
             eventId = "event2",
+            subjectId = "event2",
+            subjectType = SubjectType.EVENTS,
             types = setOf("team_home_score", "team_away_score")
         )
     )
@@ -83,8 +88,10 @@ object NotificationsRepositoryMock : NotificationsDataSource {
     ) {
         subscriptionSetMock.find { it.eventId == eventId }?.let { subscriptionSetMock.remove(it) }
         subscriptionSetMock.add(
-            Subscription.Events(
+            Subscription(
                 eventId = eventId,
+                subjectId = eventId,
+                subjectType = SubjectType.EVENTS,
                 types = subscribedNotificationTypeIds.toSet()
             )
         )

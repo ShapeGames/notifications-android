@@ -1,6 +1,7 @@
 package dk.shape.games.notifications.repositories
 
 import dk.shape.danskespil.foundation.cache.Cache
+import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.entities.Subscription
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BroadcastChannel
@@ -64,13 +65,15 @@ class NotificationsRepository(
             // We want to update the cache only if other subscriptions were already fetched, which
             // means we have the device ID in the cache.
             cache.get(deviceId)?.let {
-                val cachedSubscriptions = (it.filterIsInstance<Subscription.Events>()
-                    .filter { subscription ->
-                        subscription.eventId != eventId
-                    }.toSet() + Subscription.Events(
-                    eventId,
-                    subscribedNotificationTypeIds
+                val cachedSubscriptions = (it.filter { subscription ->
+                    subscription.eventId != eventId
+                }.toSet() + Subscription(
+                    eventId = eventId,
+                    subjectId = eventId,
+                    subjectType = SubjectType.EVENTS,
+                    types = subscribedNotificationTypeIds
                 )).sortSubscriptions()
+
                 cache.put(deviceId, cachedSubscriptions, Cache.CacheDuration.Infinite)
                 getChannelForDeviceId(deviceId).sendBlocking(cachedSubscriptions)
             }
@@ -84,13 +87,9 @@ class NotificationsRepository(
     private fun Set<Subscription>.sortSubscriptions(): SortedSet<Subscription> =
         this.toSortedSet(
             kotlin.Comparator { s1, s2 ->
-                when {
-                    s1 is Subscription.Events && s2 is Subscription.Events -> s1.eventId.toLong()
-                        .compareTo(s2.eventId.toLong())
-                    s1 is Subscription.Stats && s2 is Subscription.Stats -> s1.subjectId.toLong()
-                        .compareTo(s2.subjectId.toLong())
-                    else -> 0
-                }
+                if (s1.eventId != null && s2.eventId != null) {
+                    s1.eventId.toLong().compareTo(s2.eventId.toLong())
+                } else 0
             }
         )
 

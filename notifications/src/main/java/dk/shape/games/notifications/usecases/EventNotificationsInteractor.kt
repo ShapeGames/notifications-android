@@ -39,7 +39,6 @@ internal class EventNotificationsInteractor(
                     collect { subscriptions ->
                         if (!notificationsDataSource.isUpdatingSubscriptions(deviceId)) {
                             val subscriptionEventIds = subscriptions
-                                .filterIsInstance<Subscription.Events>()
                                 .map { it.eventId }
 
                             val betEventIdsWithoutSubscription = if (includePlacements) {

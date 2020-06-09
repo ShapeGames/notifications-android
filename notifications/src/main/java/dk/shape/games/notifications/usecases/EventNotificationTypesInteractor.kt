@@ -101,7 +101,6 @@ internal class EventNotificationTypesInteractor(
         val eventNotificationTypes = provideNotifications().group
             .find { it.groupId == notificationConfigurationId }?.notificationTypes
         enabledNotificationTypes = (notificationsDataSource.getSubscriptions(deviceId).first()
-            .filterIsInstance<Subscription.Events>()
             .find { it.eventId == eventId }
             ?.types?.mapNotNull { type -> eventNotificationTypes?.find { it.identifier == type } }
             ?: emptyList())

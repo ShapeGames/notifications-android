@@ -38,7 +38,6 @@ internal class EventNotificationInteractor(
                             .find { it.groupId == event.notificationConfigurationId }
                         if (notificationsGroup != null) {
                             val subscription = subscriptions
-                                .filterIsInstance<Subscription.Events>()
                                 .find { it.eventId == event.id }
 
                             val enabledNotificationTypes =

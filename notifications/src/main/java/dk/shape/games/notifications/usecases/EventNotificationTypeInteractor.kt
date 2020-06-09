@@ -41,7 +41,6 @@ internal class EventNotificationTypeInteractor(
                             ?.notificationTypes
                         val currentlyEnabledNotificationTypes =
                             subscriptions
-                                .filterIsInstance<Subscription.Events>()
                                 .find { it.eventId == eventId }
                                 ?.types?.mapNotNull { type -> eventNotificationTypes?.find { it.identifier == type } }?.toSet()
                                 ?: emptySet()
