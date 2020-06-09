@@ -27,7 +27,7 @@ internal class EventNotificationTypesInteractor(
     private val provideDeviceId: suspend () -> String,
     private val eventRepository: EventRepository,
     private val onMainToggleError: (e: Throwable) -> Unit
-) : NotificationTypesUseCases {
+) : EventNotificationTypesUseCases {
 
     private val mutableState: BroadcastChannel<EventNotificationTypesState> = BroadcastChannel(Channel.CONFLATED)
     override val state: Flow<EventNotificationTypesState> = mutableState.asFlow()
@@ -59,7 +59,7 @@ internal class EventNotificationTypesInteractor(
                 if(currentUpdateJob?.isActive == true) currentUpdateJob?.cancel()
                 currentUpdateJob = async(Dispatchers.IO) {
                     val newNotificationTypeIds = enabledNotificationTypes ?: emptySet()
-                    notificationsDataSource.updateSubscriptions(
+                    notificationsDataSource.updateEventSubscriptions(
                         provideDeviceId(),
                         eventId,
                         newNotificationTypeIds.toSet()

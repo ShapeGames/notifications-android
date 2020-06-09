@@ -20,7 +20,7 @@ internal class EventNotificationInteractor(
     private val notificationsDataSource: NotificationsDataSource,
     private val provideDeviceId: suspend () -> String,
     private val onMainToggleError: (e: Throwable) -> Unit
-) : NotificationUseCases {
+) : EventNotificationUseCases {
 
     private val mutableState: BroadcastChannel<EventNotificationState> =
         BroadcastChannel(Channel.CONFLATED)
@@ -78,7 +78,7 @@ internal class EventNotificationInteractor(
                     }?.toSet() ?: emptySet()
                 } else emptySet()
 
-                notificationsDataSource.updateSubscriptions(
+                notificationsDataSource.updateEventSubscriptions(
                     provideDeviceId(),
                     event.id,
                     newNotificationTypes.map { it.identifier }.toSet()

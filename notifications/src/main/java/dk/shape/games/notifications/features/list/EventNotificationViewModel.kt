@@ -2,12 +2,12 @@ package dk.shape.games.notifications.features.list
 
 import androidx.lifecycle.*
 import dk.shape.games.notifications.usecases.EventNotificationState
-import dk.shape.games.notifications.usecases.NotificationUseCases
+import dk.shape.games.notifications.usecases.EventNotificationUseCases
 import dk.shape.games.notifications.utils.ContentLiveDataEvent
 import kotlinx.coroutines.*
 
 internal data class EventNotificationViewModel constructor(
-    val notificationUseCases: NotificationUseCases
+    val notificationUseCases: EventNotificationUseCases
 ) : ViewModel() {
 
     @ExperimentalCoroutinesApi

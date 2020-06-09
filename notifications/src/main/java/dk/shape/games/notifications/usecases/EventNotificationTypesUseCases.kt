@@ -2,7 +2,7 @@ package dk.shape.games.notifications.usecases
 
 import kotlinx.coroutines.flow.Flow
 
-internal interface NotificationTypesUseCases {
+internal interface EventNotificationTypesUseCases {
 
     val state: Flow<EventNotificationTypesState>
 

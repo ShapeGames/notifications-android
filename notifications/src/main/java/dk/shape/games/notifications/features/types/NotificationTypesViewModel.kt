@@ -9,7 +9,7 @@ import dk.shape.games.notifications.R
 import dk.shape.games.notifications.aliases.ViewProvider
 import dk.shape.games.notifications.extensions.ItemsCreator
 import dk.shape.games.notifications.usecases.EventNotificationTypesState
-import dk.shape.games.notifications.usecases.NotificationTypesUseCases
+import dk.shape.games.notifications.usecases.EventNotificationTypesUseCases
 import dk.shape.games.notifications.utils.ContentLiveDataEvent
 import dk.shape.games.toolbox_library.utils.RelativeDateUtils
 import dk.shape.games.uikit.databinding.UIText
@@ -17,7 +17,7 @@ import kotlinx.coroutines.*
 import me.tatarka.bindingcollectionadapter2.OnItemBind
 
 internal class NotificationTypesViewModel(
-    private val useCases: NotificationTypesUseCases,
+    private val useCases: EventNotificationTypesUseCases,
     val loadingViewProvider: ViewProvider, // public to be accessible through data binding
     private val createNotificationTypeViewModel: (eventId: String, notificationTypeId: String) -> NotificationTypeViewModel
 ) : ViewModel() {

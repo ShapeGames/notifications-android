@@ -46,7 +46,7 @@ class NotificationsRepository(
         return subscriptionsChannel
     }
 
-    override suspend fun updateSubscriptions(
+    override suspend fun updateEventSubscriptions(
         deviceId: String,
         eventId: String,
         subscribedNotificationTypeIds: Set<String>

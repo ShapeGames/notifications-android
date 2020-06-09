@@ -7,7 +7,7 @@ interface NotificationsDataSource {
 
     suspend fun getSubscriptions(deviceId: String): Flow<Set<Subscription>>
 
-    suspend fun updateSubscriptions(
+    suspend fun updateEventSubscriptions(
         deviceId: String,
         eventId: String,
         subscribedNotificationTypeIds: Set<String>
