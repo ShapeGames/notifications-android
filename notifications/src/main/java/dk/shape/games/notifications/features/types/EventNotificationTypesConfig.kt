@@ -5,7 +5,7 @@ import dk.shape.games.notifications.aliases.ViewProvider
 import dk.shape.games.notifications.repositories.NotificationsDataSource
 import dk.shape.games.sportsbook.offerings.generics.event.data.EventRepository
 
-data class NotificationTypesConfig(
+data class EventNotificationTypesConfig(
 
     val provideDeviceId: suspend () -> String,
 
