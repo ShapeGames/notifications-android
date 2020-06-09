@@ -84,8 +84,8 @@ object NotificationsRepositoryMock : NotificationsDataSource {
         subscriptionSetMock.find { it.eventId == eventId }?.let { subscriptionSetMock.remove(it) }
         subscriptionSetMock.add(
             Subscription(
-                eventId,
-                subscribedNotificationTypeIds.toSet()
+                eventId = eventId,
+                types = subscribedNotificationTypeIds.toSet()
             )
         )
     }

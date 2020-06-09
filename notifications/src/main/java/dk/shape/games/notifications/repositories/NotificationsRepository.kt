@@ -63,8 +63,8 @@ class NotificationsRepository(
             cache.get(deviceId)?.let {
                 val cachedSubscriptions =
                     (it.filter { it.eventId != eventId }.toSet() + Subscription(
-                        eventId,
-                        subscribedNotificationTypeIds
+                        eventId = eventId,
+                        types = subscribedNotificationTypeIds
                     )).sortSubscriptions()
                 cache.put(deviceId, cachedSubscriptions, Cache.CacheDuration.Infinite)
                 getChannelForDeviceId(deviceId).sendBlocking(cachedSubscriptions)
@@ -78,7 +78,9 @@ class NotificationsRepository(
 
     private fun Set<Subscription>.sortSubscriptions(): SortedSet<Subscription> = this.toSortedSet(
         kotlin.Comparator { s1, s2 ->
-            s1.eventId.toLong().compareTo(s2.eventId.toLong())
+            if (s1.eventId != null && s2.eventId != null) {
+                s1.eventId.toLong().compareTo(s2.eventId.toLong())
+            } else 0
         }
     )
 
