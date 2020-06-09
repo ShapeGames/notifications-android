@@ -18,9 +18,9 @@ import kotlinx.android.synthetic.main.fragment_event_notifications.view.*
 
 class EventNotificationsFragment : Fragment() {
 
-    object Args : ConfigFragmentArgs<EventNotificationsAction, NotificationsConfig>()
+    object Args : ConfigFragmentArgs<EventNotificationsAction, EventNotificationsConfig>()
 
-    private val config: NotificationsConfig by config()
+    private val config: EventNotificationsConfig by config()
 
     private val action: EventNotificationsAction by action()
 
