@@ -3,6 +3,7 @@ package dk.shape.games.notifications.usecases
 import dk.shape.componentkit.bridge.coroutines.await
 import dk.shape.componentkit2.ComponentKit
 import dk.shape.games.notifications.aliases.Notifications
+import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.repositories.NotificationsDataSource
 import dk.shape.games.sportsbook.offerings.generics.event.data.EventRepository
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +15,7 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.withContext
 
-internal class NotificationTypeInteractor(
+internal class EventNotificationTypeInteractor(
     private val eventId: String,
     private val notificationTypeId: String,
     private val provideNotifications: suspend () -> Notifications,
@@ -40,6 +41,7 @@ internal class NotificationTypeInteractor(
                             ?.notificationTypes
                         val currentlyEnabledNotificationTypes =
                             subscriptions
+                                .filterIsInstance<Subscription.Events>()
                                 .find { it.eventId == eventId }
                                 ?.types?.mapNotNull { type -> eventNotificationTypes?.find { it.identifier == type } }?.toSet()
                                 ?: emptySet()

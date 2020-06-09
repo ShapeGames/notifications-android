@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="dk.shape.games.notifications.features.list.NotificationsViewModel" />
+            type="dk.shape.games.notifications.features.list.EventNotificationsViewModel" />
 
     </data>
 
@@ -41,7 +41,7 @@
 
         <include
             style="?attr/Notifications.Container"
-            layout="@layout/view_notifications"
+            layout="@layout/view_event_notifications"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:viewModel="@{viewModel}" />

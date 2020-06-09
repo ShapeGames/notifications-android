@@ -2,6 +2,7 @@ package dk.shape.games.notifications.usecases
 
 import dk.shape.games.notifications.aliases.NotificationType
 import dk.shape.games.notifications.aliases.Notifications
+import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.repositories.NotificationsDataSource
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 import kotlinx.coroutines.Dispatchers
@@ -13,16 +14,17 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.withContext
 
-internal class NotificationInteractor(
+internal class EventNotificationInteractor(
     private val event: Event,
     private val provideNotifications: suspend () -> Notifications,
     private val notificationsDataSource: NotificationsDataSource,
     private val provideDeviceId: suspend () -> String,
     private val onMainToggleError: (e: Throwable) -> Unit
-) : NotificationUseCases {
+) : EventNotificationUseCases {
 
-    private val mutableState: BroadcastChannel<NotificationState> = BroadcastChannel(Channel.CONFLATED)
-    override val state: Flow<NotificationState> = mutableState.asFlow()
+    private val mutableState: BroadcastChannel<EventNotificationState> =
+        BroadcastChannel(Channel.CONFLATED)
+    override val state: Flow<EventNotificationState> = mutableState.asFlow()
 
     private var lastKnownNotificationTypes: Set<NotificationType>? = null
 
@@ -35,21 +37,25 @@ internal class NotificationInteractor(
                         val notificationsGroup = notifications.group
                             .find { it.groupId == event.notificationConfigurationId }
                         if (notificationsGroup != null) {
-                            val subscription = subscriptions.find { it.eventId == event.id }
+                            val subscription = subscriptions
+                                .filterIsInstance<Subscription.Events>()
+                                .find { it.eventId == event.id }
+
                             val enabledNotificationTypes =
                                 subscription?.types?.mapNotNull { subscriptionType ->
                                     notificationsGroup.notificationTypes.find { notificationType ->
                                         notificationType.identifier == subscriptionType
                                     }
                                 }?.toSet() ?: emptySet()
+
                             lastKnownNotificationTypes = enabledNotificationTypes
                             mutableState.sendBlocking(
-                                NotificationState.Content.create(
+                                EventNotificationState.Content.create(
                                     event,
                                     enabledNotificationTypes
                                 )
                             )
-                        } else throw IllegalArgumentException("Event "+event.id+" is missing default notifications")
+                        } else throw IllegalArgumentException("Event " + event.id + " is missing default notifications")
                     }
                 }
             }
@@ -71,14 +77,16 @@ internal class NotificationInteractor(
                         }
                     }?.toSet() ?: emptySet()
                 } else emptySet()
-                notificationsDataSource.updateSubscriptions(
+
+                notificationsDataSource.updateEventSubscriptions(
                     provideDeviceId(),
                     event.id,
                     newNotificationTypes.map { it.identifier }.toSet()
                 )
+                
                 lastKnownNotificationTypes = newNotificationTypes
                 mutableState.sendBlocking(
-                    NotificationState.Content.create(
+                    EventNotificationState.Content.create(
                         event,
                         newNotificationTypes
                     )
@@ -94,8 +102,8 @@ internal class NotificationInteractor(
 
     private suspend fun setErrorState() {
         mutableState.sendBlocking(
-            NotificationState.Error(
-                NotificationState.Content.create(
+            EventNotificationState.Error(
+                EventNotificationState.Content.create(
                     event,
                     lastKnownNotificationTypes ?: emptySet()
                 )

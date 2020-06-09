@@ -8,7 +8,7 @@ import dk.shape.games.notifications.demo.R
 import dk.shape.games.notifications.demo.notifications.NotificationTypesDependencyProvider
 import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.features.list.NotificationsEventHandler
-import dk.shape.games.notifications.features.list.NotificationsFragment
+import dk.shape.games.notifications.features.list.EventNotificationsFragment
 import dk.shape.games.notifications.features.types.NotificationTypesEventHandler
 import dk.shape.games.notifications.features.types.NotificationTypesFragment
 import dk.shape.games.notifications.repositories.NotificationsDataSource
@@ -56,11 +56,11 @@ object NotificationsProviderMock {
 object NotificationsRepositoryMock : NotificationsDataSource {
 
     private val subscriptionSetMock = mutableSetOf(
-        Subscription(
+        Subscription.Events(
             eventId = "event1",
             types = setOf("match_start", "match_end")
         ),
-        Subscription(
+        Subscription.Events(
             eventId = "event2",
             types = setOf("team_home_score", "team_away_score")
         )
@@ -76,16 +76,16 @@ object NotificationsRepositoryMock : NotificationsDataSource {
         }
     }
 
-    override suspend fun updateSubscriptions(
+    override suspend fun updateEventSubscriptions(
         deviceId: String,
         eventId: String,
         subscribedNotificationTypeIds: Set<String>
     ) {
         subscriptionSetMock.find { it.eventId == eventId }?.let { subscriptionSetMock.remove(it) }
         subscriptionSetMock.add(
-            Subscription(
-                eventId,
-                subscribedNotificationTypeIds.toSet()
+            Subscription.Events(
+                eventId = eventId,
+                types = subscribedNotificationTypeIds.toSet()
             )
         )
     }
@@ -110,13 +110,13 @@ val loadingViewProvider: (context: Context) -> View = { context ->
 }
 
 object notificationsEventHandlerMock : NotificationsEventHandler {
-    override fun onBackPress(notificationsFragment: NotificationsFragment) {
+    override fun onBackPress(notificationsFragment: EventNotificationsFragment) {
         notificationsFragment.parentFragmentManager.popBackStack()
     }
 
     @ExperimentalTime
     override fun onConfigurationClick(
-        notificationsFragment: NotificationsFragment,
+        notificationsFragment: EventNotificationsFragment,
         forEventId: String
     ) {
         NotificationTypesFragment().apply {

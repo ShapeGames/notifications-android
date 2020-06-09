@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="dk.shape.games.notifications.features.list.NotificationViewModel" />
+            type="dk.shape.games.notifications.features.list.EventNotificationViewModel" />
 
         <import type="android.view.View" />
 

@@ -2,9 +2,9 @@ package dk.shape.games.notifications.usecases
 
 import kotlinx.coroutines.flow.Flow
 
-internal interface NotificationUseCases {
+internal interface EventNotificationUseCases {
 
-    val state: Flow<NotificationState>
+    val state: Flow<EventNotificationState>
 
     suspend fun loadNotification()
 

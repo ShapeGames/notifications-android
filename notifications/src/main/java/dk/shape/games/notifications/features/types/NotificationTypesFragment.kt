@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dk.shape.games.notifications.actions.NotificationTypesAction
 import dk.shape.games.notifications.databinding.FragmentNotificationTypesBinding
-import dk.shape.games.notifications.usecases.NotificationTypeInteractor
-import dk.shape.games.notifications.usecases.NotificationTypesInteractor
+import dk.shape.games.notifications.usecases.EventNotificationTypeInteractor
+import dk.shape.games.notifications.usecases.EventNotificationTypesInteractor
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
@@ -27,7 +27,7 @@ class NotificationTypesFragment : Fragment() {
         ViewModelProvider(
             this@NotificationTypesFragment,
             NotificationTypesViewModelFactory(
-                NotificationTypesInteractor(
+                EventNotificationTypesInteractor(
                     action.eventId,
                     config.notificationsDataSource,
                     config.provideNotifications,
@@ -40,7 +40,7 @@ class NotificationTypesFragment : Fragment() {
                     ViewModelProvider(
                         this@NotificationTypesFragment,
                         NotificationTypeViewModelFactory(
-                            NotificationTypeInteractor(
+                            EventNotificationTypeInteractor(
                                 eventId,
                                 notificationTypeId,
                                 config.provideNotifications,

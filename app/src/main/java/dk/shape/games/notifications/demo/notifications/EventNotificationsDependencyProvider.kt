@@ -8,7 +8,7 @@ import dk.shape.games.toolbox_library.configinjection.ConfigProvider
 import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
-class NotificationsDependencyProvider : ConfigProvider<NotificationsConfig> {
+class EventNotificationsDependencyProvider : ConfigProvider<NotificationsConfig> {
     override fun config(fragment: Fragment): NotificationsConfig {
         return NotificationsConfig(
             provideDeviceId = DeviceIdProviderMock::provideDeviceIdMock,
