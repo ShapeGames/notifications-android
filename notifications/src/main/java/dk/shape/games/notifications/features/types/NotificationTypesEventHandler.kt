@@ -2,7 +2,7 @@ package dk.shape.games.notifications.features.types
 
 interface NotificationTypesEventHandler {
 
-    fun onBackPress(notificationTypesFragment: NotificationTypesFragment)
+    fun onBackPress(notificationTypesFragment: EventNotificationTypesFragment)
 
     /**
      * Called when an error occurs while toggling a notification type. By default, the Notifications

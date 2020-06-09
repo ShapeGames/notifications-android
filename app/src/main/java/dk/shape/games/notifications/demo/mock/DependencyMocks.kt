@@ -3,14 +3,14 @@ package dk.shape.games.notifications.demo.mock
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import dk.shape.games.notifications.actions.NotificationTypesAction
+import dk.shape.games.notifications.actions.EventNotificationTypesAction
 import dk.shape.games.notifications.demo.R
-import dk.shape.games.notifications.demo.notifications.NotificationTypesDependencyProvider
+import dk.shape.games.notifications.demo.notifications.EventNotificationTypesDependencyProvider
 import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.features.list.NotificationsEventHandler
 import dk.shape.games.notifications.features.list.EventNotificationsFragment
 import dk.shape.games.notifications.features.types.NotificationTypesEventHandler
-import dk.shape.games.notifications.features.types.NotificationTypesFragment
+import dk.shape.games.notifications.features.types.EventNotificationTypesFragment
 import dk.shape.games.notifications.repositories.NotificationsDataSource
 import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 import kotlinx.coroutines.flow.Flow
@@ -119,10 +119,10 @@ object notificationsEventHandlerMock : NotificationsEventHandler {
         notificationsFragment: EventNotificationsFragment,
         forEventId: String
     ) {
-        NotificationTypesFragment().apply {
-            arguments = NotificationTypesFragment.Args.create(
-                NotificationTypesAction(forEventId),
-                NotificationTypesDependencyProvider::class.java
+        EventNotificationTypesFragment().apply {
+            arguments = EventNotificationTypesFragment.Args.create(
+                EventNotificationTypesAction(forEventId),
+                EventNotificationTypesDependencyProvider::class.java
             )
         }.also {
             notificationsFragment.parentFragmentManager.beginTransaction().add(
@@ -143,7 +143,7 @@ object BetIdsProviderMock {
 }
 
 object NotificationTypesEventHandlerMock : NotificationTypesEventHandler {
-    override fun onBackPress(notificationTypesFragment: NotificationTypesFragment) {
+    override fun onBackPress(notificationTypesFragment: EventNotificationTypesFragment) {
         notificationTypesFragment.parentFragmentManager.popBackStack()
     }
 
