@@ -3,14 +3,14 @@ package dk.shape.games.notifications.usecases
 import dk.shape.games.notifications.aliases.NotificationType
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 
-internal sealed class NotificationState {
+internal sealed class EventNotificationState {
 
     data class Content(
         val eventId: String,
         val eventNameLine1: String?,
         val eventNameLine2: String?,
         val enabledNotificationTypeNames: List<String>
-    ) : NotificationState() {
+    ) : EventNotificationState() {
 
         companion object {
 
@@ -31,6 +31,6 @@ internal sealed class NotificationState {
 
     class Error(
         val lastKnownState: Content
-    ) : NotificationState()
+    ) : EventNotificationState()
 
 }

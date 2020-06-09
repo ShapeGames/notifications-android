@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 internal interface NotificationTypesUseCases {
 
-    val state: Flow<NotificationTypesState>
+    val state: Flow<EventNotificationTypesState>
 
     suspend fun loadNotificationTypes()
 

@@ -5,12 +5,12 @@ interface NotificationsEventHandler {
     /**
      * Called when user presses toolbar back button on Notification screen
      */
-    fun onBackPress(notificationsFragment: NotificationsFragment)
+    fun onBackPress(notificationsFragment: EventNotificationsFragment)
 
     /**
      * Called when user presses a configuration button displayed on a Notification
      */
-    fun onConfigurationClick(notificationsFragment: NotificationsFragment, forEventId: String)
+    fun onConfigurationClick(notificationsFragment: EventNotificationsFragment, forEventId: String)
 
     /**
      * Called when an error occurs while toggling a notification. By default, the Notifications

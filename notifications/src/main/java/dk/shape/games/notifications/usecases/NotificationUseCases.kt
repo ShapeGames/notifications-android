@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 internal interface NotificationUseCases {
 
-    val state: Flow<NotificationState>
+    val state: Flow<EventNotificationState>
 
     suspend fun loadNotification()
 

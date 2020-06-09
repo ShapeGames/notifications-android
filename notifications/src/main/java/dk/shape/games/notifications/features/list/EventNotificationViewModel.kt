@@ -1,12 +1,12 @@
 package dk.shape.games.notifications.features.list
 
 import androidx.lifecycle.*
-import dk.shape.games.notifications.usecases.NotificationState
+import dk.shape.games.notifications.usecases.EventNotificationState
 import dk.shape.games.notifications.usecases.NotificationUseCases
 import dk.shape.games.notifications.utils.ContentLiveDataEvent
 import kotlinx.coroutines.*
 
-internal data class NotificationViewModel constructor(
+internal data class EventNotificationViewModel constructor(
     val notificationUseCases: NotificationUseCases
 ) : ViewModel() {
 
@@ -53,7 +53,7 @@ internal data class NotificationViewModel constructor(
         }
     }
 
-    private fun setContentState(contentState: NotificationState.Content) {
+    private fun setContentState(contentState: EventNotificationState.Content) {
         mutableEventNameLine1.postValue(contentState.eventNameLine1)
         mutableEventNameLine2.postValue(contentState.eventNameLine2)
         mutableActiveSubscriptionsText.postValue(
@@ -62,12 +62,12 @@ internal data class NotificationViewModel constructor(
         mutableEnabled.postValue(contentState.isEnabled())
     }
 
-    private fun NotificationState.toContent(): NotificationState.Content = when(this) {
-        is NotificationState.Content -> this
-        is NotificationState.Error -> lastKnownState
+    private fun EventNotificationState.toContent(): EventNotificationState.Content = when(this) {
+        is EventNotificationState.Content -> this
+        is EventNotificationState.Error -> lastKnownState
     }
 
-    override fun equals(other: Any?): Boolean = if(other is NotificationViewModel) {
+    override fun equals(other: Any?): Boolean = if(other is EventNotificationViewModel) {
         other.state.value == this.state.value
     } else false
 

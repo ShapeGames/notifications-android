@@ -2,17 +2,17 @@ package dk.shape.games.notifications.features.list
 
 import androidx.recyclerview.widget.DiffUtil
 
-internal class NotificationDifferConfig : DiffUtil.ItemCallback<NotificationViewModel>() {
+internal class NotificationDifferConfig : DiffUtil.ItemCallback<EventNotificationViewModel>() {
     override fun areItemsTheSame(
-        oldItem: NotificationViewModel,
-        newItem: NotificationViewModel
+        oldItem: EventNotificationViewModel,
+        newItem: EventNotificationViewModel
     ): Boolean {
         return oldItem === newItem
     }
 
     override fun areContentsTheSame(
-        oldItem: NotificationViewModel,
-        newItem: NotificationViewModel
+        oldItem: EventNotificationViewModel,
+        newItem: EventNotificationViewModel
     ): Boolean {
         return oldItem == newItem
     }

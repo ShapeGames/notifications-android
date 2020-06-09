@@ -3,6 +3,7 @@ package dk.shape.games.notifications.usecases
 import dk.shape.danskespil.foundation.DSApiResponseException
 import dk.shape.danskespil.foundation.data.GamesDataResult
 import dk.shape.games.notifications.aliases.Notifications
+import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.repositories.NotificationsDataSource
 import dk.shape.games.sportsbook.offerings.generics.event.data.EventsRepository
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.withContext
 
-internal class NotificationsInteractor(
+internal class EventNotificationsInteractor(
     private val notificationsDataSource: NotificationsDataSource,
     private val eventsRepository: EventsRepository,
     private val provideDeviceId: suspend () -> String,
@@ -23,29 +24,35 @@ internal class NotificationsInteractor(
     private val provideNotifications: suspend () -> Notifications,
     private val includePlacements: Boolean,
     private val filterEventIds: List<String>?
-) : NotificationsUseCases {
+) : EventNotificationsUseCases {
 
-    private val mutableState: BroadcastChannel<NotificationsState> = BroadcastChannel(Channel.CONFLATED)
-    override val state: Flow<NotificationsState> = mutableState.asFlow()
+    private val mutableState: BroadcastChannel<EventNotificationsState> =
+        BroadcastChannel(Channel.CONFLATED)
+    override val state: Flow<EventNotificationsState> = mutableState.asFlow()
 
     override suspend fun loadNotifications() {
         try {
             withContext(Dispatchers.IO) {
-                mutableState.sendBlocking(NotificationsState.Loading)
+                mutableState.sendBlocking(EventNotificationsState.Loading)
                 val deviceId = provideDeviceId()
                 notificationsDataSource.getSubscriptions(deviceId).apply {
                     collect { subscriptions ->
-                        if(!notificationsDataSource.isUpdatingSubscriptions(deviceId)) {
-                            val subscriptionEventIds = subscriptions.map { it.eventId }
+                        if (!notificationsDataSource.isUpdatingSubscriptions(deviceId)) {
+                            val subscriptionEventIds = subscriptions
+                                .filterIsInstance<Subscription.Events>()
+                                .map { it.eventId }
+
                             val betEventIdsWithoutSubscription = if (includePlacements) {
                                 provideBetEventIds().filter { !subscriptionEventIds.contains(it) }
                             } else {
                                 emptyList()
                             }
+
                             val eventIdsToShow =
                                 (subscriptionEventIds + betEventIdsWithoutSubscription).filter {
                                     filterEventIds?.contains(it) ?: true
                                 }
+
                             val joinedEventIds = eventIdsToShow.joinToString(",")
                             val notifications = provideNotifications()
                             val events = try {
@@ -56,6 +63,7 @@ internal class NotificationsInteractor(
                                         else -> emptyList()
                                     }
                                 } else emptyList()
+
                             } catch (e: Exception) {
                                 if (e is DSApiResponseException.MissingBodyError) {
                                     emptyList<Event>()
@@ -66,17 +74,18 @@ internal class NotificationsInteractor(
                                 notifications.group
                                     .find { it.groupId == event.notificationConfigurationId } != null
                             }
+
                             if (events.isNotEmpty()) {
-                                mutableState.sendBlocking(NotificationsState.Content(events.toSet()))
+                                mutableState.sendBlocking(EventNotificationsState.Content(events.toSet()))
                             } else {
-                                mutableState.sendBlocking(NotificationsState.Empty)
+                                mutableState.sendBlocking(EventNotificationsState.Empty)
                             }
                         }
                     }
                 }
             }
         } catch (e: Exception) {
-            mutableState.sendBlocking(NotificationsState.Error)
+            mutableState.sendBlocking(EventNotificationsState.Error)
         }
     }
 

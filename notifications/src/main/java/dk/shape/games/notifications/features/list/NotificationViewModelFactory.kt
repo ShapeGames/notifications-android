@@ -9,7 +9,7 @@ internal class NotificationViewModelFactory(
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when (modelClass) {
-            NotificationViewModel::class.java -> NotificationViewModel(
+            EventNotificationViewModel::class.java -> EventNotificationViewModel(
                 notificationUseCases = notificationUseCases
             ) as T
             else -> throw IllegalStateException("Unsupported viewmodel")
