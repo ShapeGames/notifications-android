@@ -6,10 +6,9 @@ import dk.shape.games.notifications.entities.SubjectType
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class StatsNotificationsAction(
+class SubjectNotificationsAction(
     @SerializedName("sport_id") val sportId: String,
     @SerializedName("subject_id") val subjectId: String,
     @SerializedName("subject_name") val subjectName: String,
-    @SerializedName("subject_type") val subjectType: SubjectType,
-    @SerializedName("has_notifications") val hasNotifications: Boolean
+    @SerializedName("subject_type") val subjectType: SubjectType
 ) : Parcelable

@@ -1,75 +1,120 @@
 package dk.shape.games.notifications.presentation
 
-import dk.shape.games.notifications.actions.StatsNotificationsAction
+import dk.shape.games.notifications.actions.SubjectNotificationsAction
+import dk.shape.games.notifications.aliases.StatsNotificationIdentifier
 import dk.shape.games.notifications.aliases.StatsNotificationType
 import dk.shape.games.notifications.aliases.StatsNotifications
-import dk.shape.games.notifications.entities.Subscription
-import dk.shape.games.notifications.features.list.StatsNotificationsEventHandler
-import dk.shape.games.notifications.repositories.StatsNotificationsDataSource
-import dk.shape.games.notifications.usecases.EventNotificationState
-import dk.shape.games.notifications.usecases.StatsNotificationUseCases
+import dk.shape.games.notifications.features.list.SubjectNotificationsEventHandler
+import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
+import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
-class SubjectNotificationInteractor (
+class SubjectNotificationInteractor(
+    private val action: SubjectNotificationsAction,
+    private val coroutineScope: CoroutineScope,
     private val provideDeviceId: () -> String,
     private val provideNotifications: () -> StatsNotifications,
-    private val coroutineScope: CoroutineScope,
-    private val notificationsDataSource: StatsNotificationsDataSource,
-    private val notificationsEventHandler: StatsNotificationsEventHandler
-): StatsNotificationUseCases {
-
-    override suspend fun loadNotifications(action: StatsNotificationsAction, onOntificationsLoaded: suspend (
-        possibleTypes: List<StatsNotificationType>,
-        activatedTypes: List<StatsNotificationType>) -> Unit
+    private val notificationsDataSource: SubjectNotificationsDataSource,
+    private val notificationsEventHandler: SubjectNotificationsEventHandler
+) : SubjectNotificationUseCases {
+    override suspend fun loadNotifications(
+        onLoaded: (
+            activatedTypes: Set<StatsNotificationType>,
+            possibleTypes: List<StatsNotificationType>,
+            defaultTypes: Set<StatsNotificationIdentifier>
+        ) -> Unit,
+        onFailure: (error: Throwable) -> Unit
     ) {
-
         try {
-            withContext(Dispatchers.IO) {
+            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
+                notificationsEventHandler.onNotificationsLoading(true)
+            }
+            coroutineScope.launch(Dispatchers.IO) {
                 notificationsDataSource.getSubscriptions(provideDeviceId()).apply {
                     collect { subscriptions ->
+
                         val notifications = provideNotifications()
-                        val notificationsGroup = notifications.group
-                            .find { it.sportId == action.sportId }
+                        val notificationsGroup =
+                            notifications.group.find { it.sportId == action.sportId }
+
                         if (notificationsGroup != null) {
-                            val subscription = subscriptions
-                                .find { it.eventId == event.id }
+                            val subscription =
+                                subscriptions.find { it.subjectId == action.subjectId }
 
                             val enabledNotificationTypes =
                                 subscription?.types?.mapNotNull { subscriptionType ->
                                     notificationsGroup.notificationTypes.find { notificationType ->
-                                        notificationType.identifier == subscriptionType
+                                        notificationType.identifier.name.toLowerCase(Locale.getDefault()) == subscriptionType
                                     }
                                 }?.toSet() ?: emptySet()
 
-                            lastKnownNotificationTypes = enabledNotificationTypes
-                            mutableState.sendBlocking(
-                                EventNotificationState.Content.create(
-                                    event,
-                                    enabledNotificationTypes
+                            withContext(Dispatchers.Main) {
+                                if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
+                                    notificationsEventHandler.onNotificationsLoading(false)
+                                }
+                                onLoaded(
+                                    enabledNotificationTypes,
+                                    notificationsGroup.notificationTypes,
+                                    notificationsGroup.defaultNotificationTypeIdentifiers.toSet()
                                 )
-                            )
-                        } else throw IllegalArgumentException("Event " + event.id + " is missing default notifications")
+                            }
+
+                        } else throw IllegalArgumentException("Subject ${action.subjectId} is missing default notifications")
                     }
                 }
             }
         } catch (e: Exception) {
-            setErrorState()
+            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
+                notificationsEventHandler.onNotificationsLoading(false)
+                notificationsEventHandler.onPreferencesLoadedError(e)
+            }
+            onFailure(e)
         }
-
     }
 
-    override suspend fun toggleMasterForSubject(enabled: Boolean, onEnabled: suspend () -> Unit) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun saveNotificationPreferences(onSaved: suspend () -> Unit) {
-        TODO("Not yet implemented")
-    }
-
-    private fun setErrorState() {
-
+    override fun saveNotificationPreferences(
+        stateData: SubjectNotificationStateData,
+        onSuccess: () -> Unit,
+        onFailure: (error: Throwable) -> Unit
+    ) {
+        try {
+            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
+                notificationsEventHandler.onNotificationsLoading(true)
+            }
+            coroutineScope.launch(Dispatchers.IO) {
+                notificationsDataSource.updateSubjectSubscriptions(
+                    subjectId = action.subjectId,
+                    subjectType = action.subjectType,
+                    subscribedNotificationTypeIds = stateData.notificationTypeIdentifiers.map {
+                        it.name.toLowerCase(Locale.getDefault())
+                    }.toSet()
+                )
+                withContext(Dispatchers.Main) {
+                    if (stateData.notificationTypeIdentifiers.isNotEmpty()) {
+                        if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
+                            notificationsEventHandler.onNotificationsActivated(
+                                subjectId = stateData.subjectId,
+                                subjectType = stateData.subjectType
+                            )
+                        }
+                    }
+                    if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
+                        notificationsEventHandler.onNotificationsLoading(false)
+                    }
+                    onSuccess()
+                }
+            }
+        } catch (e: Exception) {
+            onFailure(e)
+            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
+                notificationsEventHandler.onNotificationsLoading(false)
+                notificationsEventHandler.onPreferencesSavedError(e)
+            }
+        }
     }
 }

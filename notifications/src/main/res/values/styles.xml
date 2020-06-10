@@ -105,4 +105,19 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+
+    <!-- BottomSheet Subject Notifications -->
+
+    <style name="Notifications.Subjects.Screen.Toolbar" parent="@style/Widget" />
+    <style name="Notifications.Subjects.Screen.Toolbar.Title" parent="Widget.AppCompat.TextView" />
+    <style name="Notifications.Subjects.Screen.Background" parent="@style/Widget" />
+    <style name="Notifications.Subjects.Screen.Subject.Name" parent="Widget.AppCompat.TextView" />
+    <style name="Notifications.Subjects.Screen.Subject.Switch" parent="Widget.AppCompat.CompoundButton.Switch" />
+    <style name="Notifications.Subjects.Screen.SaveButton" parent="Widget.MaterialComponents.Button" />
+
+    <!-- BottomSheet Subject Notification Types -->
+    <style name="Notifications.Subjects.Type.Icon" parent="@style/Widget" />
+    <style name="Notifications.Subjects.Type.Row" parent="@style/Widget" />
+    <style name="Notifications.Subjects.Type.Container" parent="@style/Widget" />
+    <style name="Notifications.Subjects.Type.Switch" parent="@style/Widget" />
 </resources>

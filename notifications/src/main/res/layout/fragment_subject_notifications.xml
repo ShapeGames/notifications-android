@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="viewModel"
-            type="dk.shape.games.notifications.presentation.SubjectNotificationViewModel" />
+            type="dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSheetViewModel" />
 
     </data>
 
@@ -14,12 +15,45 @@
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <androidx.appcompat.widget.Toolbar
+        <FrameLayout
+            android:id="@+id/notificationsToolbar"
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                style="?attr/Notifications.subject.Toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:buttonGravity="center_vertical"
+                app:elevation="4dp"
+                app:navigationIcon="@drawable/ic_backarrow"
+                app:navigationOnClickListener="@{viewModel.onClosePressedListener}"
+                tools:layout_height="match_parent" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:gravity="center"
+                android:text="@{viewModel.screenTitle}"
+                android:textAppearance="?attr/stats.Fragment.Toolbar.Light"
+                tools:layout_height="56dp"
+                tools:text="Tilföj" />
+        </FrameLayout>
+
+        <dk.shape.viewswitcher.BindingViewSwitcher
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/notificationsToolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:item="@{viewModel.notificationSwitcherViewModel.item}"
+            app:itemBinding="@{viewModel.notificationSwitcherViewModel.itemBinding}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

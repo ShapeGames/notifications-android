@@ -2,7 +2,6 @@ package dk.shape.games.notifications.usecases
 
 import dk.shape.games.notifications.aliases.NotificationType
 import dk.shape.games.notifications.aliases.Notifications
-import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.repositories.EventNotificationsDataSource
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 import kotlinx.coroutines.Dispatchers

@@ -4,6 +4,7 @@ import dk.shape.danskespil.foundation.DSApiResponseException
 import dk.shape.danskespil.foundation.data.GamesDataResult
 import dk.shape.games.notifications.aliases.Notifications
 import dk.shape.games.notifications.entities.Subscription
+import dk.shape.games.notifications.repositories.EventNotificationsDataSource
 import dk.shape.games.notifications.repositories.NotificationsDataSource
 import dk.shape.games.sportsbook.offerings.generics.event.data.EventsRepository
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
@@ -17,7 +18,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.withContext
 
 internal class EventNotificationsInteractor(
-    private val notificationsDataSource: NotificationsDataSource,
+    private val notificationsDataSource: EventNotificationsDataSource,
     private val eventsRepository: EventsRepository,
     private val provideDeviceId: suspend () -> String,
     private val provideBetEventIds: suspend () -> List<String>,

@@ -14,8 +14,6 @@ interface NotificationsDataSource {
         environment: String,
         notificationToken: String
     )
-
-    fun isUpdatingSubscriptions(deviceId: String): Boolean
 }
 
 interface EventNotificationsDataSource: NotificationsDataSource {
@@ -25,12 +23,13 @@ interface EventNotificationsDataSource: NotificationsDataSource {
         eventId: String,
         subscribedNotificationTypeIds: Set<String>
     )
+
+    fun isUpdatingSubscriptions(deviceId: String): Boolean
 }
 
-interface StatsNotificationsDataSource: NotificationsDataSource {
+interface SubjectNotificationsDataSource: NotificationsDataSource {
 
-    suspend fun updateEventSubscriptions(
-        deviceId: String,
+    suspend fun updateSubjectSubscriptions(
         subjectId: String,
         subjectType: SubjectType,
         subscribedNotificationTypeIds: Set<String>

@@ -5,49 +5,108 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.whenResumed
+import androidx.lifecycle.whenStarted
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import dk.shape.danskespil.foundation.entities.PolyIcon
-import dk.shape.games.notifications.actions.StatsNotificationsAction
-import dk.shape.games.notifications.aliases.StatsNotificationGroup
-import dk.shape.games.notifications.aliases.StatsNotificationIdentifier
-import dk.shape.games.notifications.aliases.StatsNotificationType
+import dk.shape.games.notifications.actions.SubjectNotificationsAction
 import dk.shape.games.notifications.databinding.FragmentSubjectNotificationsBinding
-import dk.shape.games.notifications.features.list.StatsNotificationsConfig
+import dk.shape.games.notifications.features.list.SubjectNotificationsConfig
+import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSheetViewModel
+import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSwitcherViewModel
+import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationViewModel
+import dk.shape.games.notifications.presentation.viewmodels.notifications.toNotificationTypeViewModel
+import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
-import dk.shape.games.uikit.databinding.UIImage
+import kotlinx.coroutines.launch
 
 class SubjectNotificationsFragment : BottomSheetDialogFragment() {
 
-    object SubjectsNotificationsFragmentArgs : ConfigFragmentArgs<StatsNotificationsAction, StatsNotificationsConfig>()
+    object SubjectsNotificationsFragmentArgs :
+        ConfigFragmentArgs<SubjectNotificationsAction, SubjectNotificationsConfig>()
 
-    private val config: StatsNotificationsConfig by config()
-    private val action: StatsNotificationsAction by action()
+    private val config: SubjectNotificationsConfig by config()
+    private val action: SubjectNotificationsAction by action()
 
-    private val interactor: SubjectNotificationInteractor by lazy {
+    private val interactor: SubjectNotificationUseCases by lazy {
         SubjectNotificationInteractor(
+            action = action,
             coroutineScope = lifecycleScope,
+            provideDeviceId = config.provideDeviceId,
+            provideNotifications = config.provideNotifications,
             notificationsDataSource = config.notificationsDataSource,
             notificationsEventHandler = config.eventHandler
         )
     }
 
-    private val subjectNotificationsViewModel by lazy {
+    private val viewSwitcherViewModel: SubjectNotificationSwitcherViewModel by lazy {
+        SubjectNotificationSwitcherViewModel()
+    }
+
+    private val notificationViewModel: SubjectNotificationViewModel by lazy {
+
         SubjectNotificationViewModel(
             subjectId = action.subjectId,
             subjectType = action.subjectType,
             subjectName = action.subjectName,
-            subjectInitialNotificationState = action.hasNotifications,
-            notificationTypes = config.provideNotifications().group.toNotificationTypes(
-                sportId = action.sportId,
-                hasNotifications = action.hasNotifications
-            ),
             onClosedPressed = {
                 config.eventHandler.onClosed(action)
             },
-            onPreferencesSaved = { stateSubject, onFailed, onSuccess ->
+            onPreferencesSaved = { stateData, onSuccess, onFailure ->
+                interactor.saveNotificationPreferences(
+                    stateData = stateData,
+                    onSuccess = onSuccess,
+                    onFailure = { onFailure() }
+                )
+            }
+        )
+    }
 
+    private val notificationsSheetViewModel: SubjectNotificationSheetViewModel by lazy {
+        SubjectNotificationSheetViewModel(
+            screenTitle = config.screenTitle(),
+            notificationViewModel = notificationViewModel,
+            notificationSwitcherViewModel = viewSwitcherViewModel,
+            onClosedPressed = {
+                config.eventHandler.onClosed(action)
+            }
+        )
+    }
+
+    private suspend fun loadNotifications() {
+        interactor.loadNotifications(
+            onLoaded = { activatedTypes, possibleTypes, defaultTypes ->
+                val activeIdentifiers = activatedTypes.map { it.identifier }
+                val notifications = possibleTypes.map {
+                    it.toNotificationTypeViewModel(
+                        activatedNotifications = activatedTypes,
+                        defaultNofification = defaultTypes,
+                        selectionStateNotifier = { isSelected, identifier ->
+                            if (isSelected) {
+                                notificationViewModel.selectedIdentifiers.add(identifier)
+                            } else {
+                                notificationViewModel.selectedIdentifiers.remove(identifier)
+                            }
+                            notificationViewModel.notifySelection()
+                        }
+                    )
+                }
+
+                notificationViewModel.defaultIdentifiers.addAll(defaultTypes)
+                notificationViewModel.initialIdentifiers.addAll(activeIdentifiers)
+                notificationViewModel.selectedIdentifiers.addAll(activeIdentifiers)
+                notificationViewModel.activeNotificationState.set(activatedTypes.isNotEmpty())
+                notificationViewModel.notificationTypes.set(notifications)
+
+                viewSwitcherViewModel.showContent(notificationViewModel)
+            },
+            onFailure = {
+                viewSwitcherViewModel.showError {
+                    lifecycleScope.launch {
+                        loadNotifications()
+                    }
+                }
             }
         )
     }
@@ -57,38 +116,15 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        lifecycleScope.launchWhenResumed {
 
+        lifecycleScope.launch {
+            whenStarted { viewSwitcherViewModel.showLoading() }
+            whenResumed { loadNotifications() }
         }
         return FragmentSubjectNotificationsBinding
             .inflate(layoutInflater)
             .apply {
-                viewModel = subjectNotificationsViewModel
+                viewModel = notificationsSheetViewModel
             }.root
     }
-
-
-    private fun List<StatsNotificationGroup>.toNotificationTypes(sportId: String, hasNotifications: Boolean): List<SubjectNotificationTypeViewModel> {
-        val notificationGroup = firstOrNull { it.sportId == sportId } ?: return emptyList()
-
-        return notificationGroup.notificationTypes.map { it.toNotificationTypeViewModel(
-            hasNotifications = hasNotifications,
-            defaultTypeIdentifiers = notificationGroup.defaultNotificationTypeIdentifiers
-        ) }
-    }
-
-    private fun StatsNotificationType.toNotificationTypeViewModel(
-        hasNotifications: Boolean,
-        defaultTypeIdentifiers: List<StatsNotificationIdentifier>
-    ) = SubjectNotificationTypeViewModel(
-        icon = icon.toLocalUIImage(),
-        identifier = identifier,
-        initialState = defaultTypeIdentifiers.any { it == identifier } && hasNotifications,
-        notificationName = name
-    )
-
-    private fun PolyIcon.Resource?.toLocalUIImage() = UIImage.byResourceName(underscoreName)
-
-    private val PolyIcon.Resource?.underscoreName: String
-        get() = (this?.name ?: "").replace('-', '_')
 }
