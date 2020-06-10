@@ -70,7 +70,7 @@ class NotificationsRepository(
                 }.toSet() + Subscription(
                     eventId = eventId,
                     subjectId = eventId,
-                    subjectType = SubjectType.EVENTS,
+                    subjectType = "events",
                     types = subscribedNotificationTypeIds
                 )).sortSubscriptions()
 
