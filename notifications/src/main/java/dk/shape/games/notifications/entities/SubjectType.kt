@@ -1,21 +1,22 @@
 package dk.shape.games.notifications.entities
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Entity representing all subject types that can be used for stats notifications.
  */
-
+@Serializable
 enum class SubjectType {
-    @SerializedName("events")
+    @SerialName("events")
     EVENTS,
 
-    @SerializedName("teams")
+    @SerialName("teams")
     TEAMS,
 
-    @SerializedName("leagues")
+    @SerialName("leagues")
     LEAGUES,
 
-    @SerializedName("athletes")
+    @SerialName("athletes")
     ATHLETES
 }

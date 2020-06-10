@@ -12,7 +12,7 @@ internal class NotificationTypesViewModelFactory(
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when (modelClass) {
-            NotificationTypesViewModel::class.java -> NotificationTypesViewModel(
+            EventNotificationTypesViewModel::class.java -> EventNotificationTypesViewModel(
                 notificationTypesUseCases,
                 loadingViewProvider,
                 createNotificationTypeViewModel

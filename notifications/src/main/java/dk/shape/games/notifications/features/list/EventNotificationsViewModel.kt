@@ -44,7 +44,7 @@ internal class EventNotificationsViewModel(
 
     val notificationsBinding: OnItemBind<EventNotificationViewModel> =
         OnItemBind { itemBinding, position, item ->
-            itemBinding.set(BR.viewModel, R.layout.view_notification)
+            itemBinding.set(BR.viewModel, R.layout.view_event_notification)
         }
 
     val notificationsDiffConfig =

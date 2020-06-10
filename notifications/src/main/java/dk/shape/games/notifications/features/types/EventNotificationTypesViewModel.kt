@@ -16,7 +16,7 @@ import dk.shape.games.uikit.databinding.UIText
 import kotlinx.coroutines.*
 import me.tatarka.bindingcollectionadapter2.OnItemBind
 
-internal class NotificationTypesViewModel(
+internal class EventNotificationTypesViewModel(
     private val useCases: EventNotificationTypesUseCases,
     val loadingViewProvider: ViewProvider, // public to be accessible through data binding
     private val createNotificationTypeViewModel: (eventId: String, notificationTypeId: String) -> NotificationTypeViewModel

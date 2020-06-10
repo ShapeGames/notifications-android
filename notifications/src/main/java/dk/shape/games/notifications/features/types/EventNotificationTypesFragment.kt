@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dk.shape.games.notifications.actions.EventNotificationTypesAction
-import dk.shape.games.notifications.databinding.FragmentNotificationTypesBinding
+import dk.shape.games.notifications.databinding.FragmentEventNotificationTypesBinding
 import dk.shape.games.notifications.usecases.EventNotificationTypeInteractor
 import dk.shape.games.notifications.usecases.EventNotificationTypesInteractor
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
-import kotlinx.android.synthetic.main.fragment_notification_types.view.*
+import kotlinx.android.synthetic.main.fragment_event_notification_types.view.*
 
 class EventNotificationTypesFragment : Fragment() {
 
@@ -23,7 +23,7 @@ class EventNotificationTypesFragment : Fragment() {
 
     private val action: EventNotificationTypesAction by action()
 
-    private val notificationTypesViewModel: NotificationTypesViewModel by lazy {
+    private val notificationTypesViewModel: EventNotificationTypesViewModel by lazy {
         ViewModelProvider(
             this@EventNotificationTypesFragment,
             NotificationTypesViewModelFactory(
@@ -55,7 +55,7 @@ class EventNotificationTypesFragment : Fragment() {
                     )
                 }
             )
-        ).get(NotificationTypesViewModel::class.java)
+        ).get(EventNotificationTypesViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -63,7 +63,7 @@ class EventNotificationTypesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return FragmentNotificationTypesBinding.inflate(inflater, container, false).also {
+        return FragmentEventNotificationTypesBinding.inflate(inflater, container, false).also {
             it.viewModel = notificationTypesViewModel
             it.lifecycleOwner = this@EventNotificationTypesFragment
         }.root
