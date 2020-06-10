@@ -2,6 +2,7 @@ package dk.shape.games.notifications.repositories
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dk.shape.games.notifications.entities.Subscription
+import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -30,6 +31,8 @@ interface NotificationsService {
 
     companion object {
 
+        @UnstableDefault
+        @JvmStatic
         fun create(baseUrl: String, httpClient: OkHttpClient): NotificationsService {
             val retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -41,7 +44,5 @@ interface NotificationsService {
 
             return retrofit.create(NotificationsService::class.java)
         }
-
     }
-
 }

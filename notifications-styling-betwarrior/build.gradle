@@ -43,7 +43,7 @@ dependencies {
 
     api project(':notifications')
 
-    implementation "dk.shape.games.common.styles.betwarrior:common-styles-betwarrior:$common_styles_version"
+    implementation "dk.shape.games.common.styles.betwarrior:common-styles-betwarrior:$common_styles_version_bw"
 }
 
 apply from: '../publish.gradle'
