@@ -1,11 +1,12 @@
 package dk.shape.games.notifications.presentation
 
 import android.widget.CompoundButton
-import dk.shape.danskespil.foundation.entities.PolyIcon
+import dk.shape.games.notifications.aliases.StatsNotificationIdentifier
+import dk.shape.games.uikit.databinding.UIImage
 
 internal data class SubjectNotificationTypeViewModel(
-    val icon: PolyIcon.Resource,
-    val identifier: String,
+    val icon: UIImage,
+    val identifier: StatsNotificationIdentifier,
     val notificationName: String,
     private val initialState: Boolean
 ) {

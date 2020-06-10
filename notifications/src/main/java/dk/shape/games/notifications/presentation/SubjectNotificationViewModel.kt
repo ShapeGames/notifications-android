@@ -2,16 +2,16 @@ package dk.shape.games.notifications.presentation
 
 import android.view.View
 import android.widget.CompoundButton
-
-internal typealias PreferencesSaveAction = (stateSubject: SubjectNotificationStateData, onFailed: () -> Unit, onSuccess: () -> Unit) -> Unit
+import dk.shape.games.notifications.aliases.PreferencesSaveAction
+import dk.shape.games.notifications.entities.SubjectType
 
 internal data class SubjectNotificationViewModel(
     val subjectId: String,
     val subjectName: String,
-    val subjectType: String,
+    val subjectType: SubjectType,
     val subjectInitialNotificationState: Boolean,
     val notificationTypes: List<SubjectNotificationTypeViewModel>,
-    private val onBackPressed: () -> Unit,
+    private val onClosedPressed: () -> Unit,
     private val onPreferencesSaved: PreferencesSaveAction
 ) {
     private val stateDataSubject: () -> SubjectNotificationStateData = {
@@ -31,7 +31,7 @@ internal data class SubjectNotificationViewModel(
     }
 
     val onClosePressedListener = View.OnClickListener {
-        onBackPressed()
+        onClosedPressed()
     }
 
     val onPreferencesSavedListener = View.OnClickListener {
@@ -39,7 +39,7 @@ internal data class SubjectNotificationViewModel(
         onPreferencesSaved(stateDataSubject(), {
 
         }, {
-            onBackPressed()
+            onClosedPressed()
         })
     }
 }

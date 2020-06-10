@@ -4,12 +4,11 @@ import dk.shape.componentkit.bridge.coroutines.await
 import dk.shape.componentkit2.ComponentKit
 import dk.shape.games.notifications.aliases.Notifications
 import dk.shape.games.notifications.entities.Subscription
+import dk.shape.games.notifications.repositories.EventNotificationsDataSource
 import dk.shape.games.notifications.repositories.NotificationsDataSource
 import dk.shape.games.sportsbook.offerings.generics.event.data.EventRepository
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.sendBlocking
@@ -18,11 +17,10 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withContext
 
 internal class EventNotificationTypesInteractor(
     private val eventId: String,
-    private val notificationsDataSource: NotificationsDataSource,
+    private val notificationsDataSource: EventNotificationsDataSource,
     private val provideNotifications: suspend () -> Notifications,
     private val provideDeviceId: suspend () -> String,
     private val eventRepository: EventRepository,

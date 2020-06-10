@@ -11,6 +11,7 @@ import dk.shape.games.notifications.features.list.NotificationsEventHandler
 import dk.shape.games.notifications.features.list.EventNotificationsFragment
 import dk.shape.games.notifications.features.types.NotificationTypesEventHandler
 import dk.shape.games.notifications.features.types.EventNotificationTypesFragment
+import dk.shape.games.notifications.repositories.EventNotificationsDataSource
 import dk.shape.games.notifications.repositories.NotificationsDataSource
 import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 import kotlinx.coroutines.flow.Flow
@@ -53,7 +54,7 @@ object NotificationsProviderMock {
     }
 }
 
-object NotificationsRepositoryMock : NotificationsDataSource {
+object NotificationsRepositoryMock : EventNotificationsDataSource {
 
     private val subscriptionSetMock = mutableSetOf(
         Subscription.Events(
