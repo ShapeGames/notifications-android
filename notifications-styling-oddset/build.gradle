@@ -42,7 +42,7 @@ dependencies {
 
     api project(':notifications')
 
-    implementation "dk.shape.games.common.styles.oddset:common-styles-oddset:$common_styles_version"
+    implementation "dk.shape.games.common.styles.oddset:common-styles-oddset:$common_styles_version_oddset"
 }
 
 apply from: '../publish.gradle'
