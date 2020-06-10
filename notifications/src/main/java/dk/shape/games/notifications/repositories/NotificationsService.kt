@@ -38,6 +38,7 @@ interface NotificationsService {
                 }.asConverterFactory("application/json".toMediaType()))
                 .client(httpClient)
                 .build()
+
             return retrofit.create(NotificationsService::class.java)
         }
 

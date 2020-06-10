@@ -8,18 +8,18 @@ import dk.shape.games.notifications.R
 import dk.shape.games.notifications.aliases.ViewProvider
 import dk.shape.games.notifications.extensions.ItemsCreator
 import dk.shape.games.notifications.extensions.updateSources
-import dk.shape.games.notifications.usecases.NotificationsState
-import dk.shape.games.notifications.usecases.NotificationsUseCases
+import dk.shape.games.notifications.usecases.EventNotificationsState
+import dk.shape.games.notifications.usecases.EventNotificationsUseCases
 import dk.shape.games.notifications.utils.ContentLiveDataEvent
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import me.tatarka.bindingcollectionadapter2.OnItemBind
 
-internal class NotificationsViewModel(
-    private val notificationsUseCases: NotificationsUseCases,
+internal class EventNotificationsViewModel(
+    private val notificationsUseCases: EventNotificationsUseCases,
     val loadingViewProvider: ViewProvider, // public to be accessible through data binding
-    private val provideNotificationViewModel: (event: Event) -> NotificationViewModel
+    private val provideNotificationViewModel: (event: Event) -> EventNotificationViewModel
 ) : ViewModel() {
 
     @ExperimentalCoroutinesApi
@@ -28,7 +28,7 @@ internal class NotificationsViewModel(
     private val mutableStateViewId = MutableLiveData<Int>()
     val stateViewId: LiveData<Int> = mutableStateViewId
 
-    private var currentNotificationViewModelSource: List<NotificationViewModel>? = null
+    private var currentNotificationViewModelSource: List<EventNotificationViewModel>? = null
         set(value) {
             mutableConfigurationEvent.updateSources(
                 field?.map { it.configurationEvent },
@@ -38,17 +38,17 @@ internal class NotificationsViewModel(
             field = value
         }
     private val mutableNotificationViewModelsCreator =
-        MutableLiveData<ItemsCreator<NotificationViewModel>>()
-    val notificationViewModelsCreator: LiveData<ItemsCreator<NotificationViewModel>> =
+        MutableLiveData<ItemsCreator<EventNotificationViewModel>>()
+    val notificationViewModelsCreator: LiveData<ItemsCreator<EventNotificationViewModel>> =
         mutableNotificationViewModelsCreator
 
-    val notificationsBinding: OnItemBind<NotificationViewModel> =
+    val notificationsBinding: OnItemBind<EventNotificationViewModel> =
         OnItemBind { itemBinding, position, item ->
-            itemBinding.set(BR.viewModel, R.layout.view_notification)
+            itemBinding.set(BR.viewModel, R.layout.view_event_notification)
         }
 
     val notificationsDiffConfig =
-        AsyncDifferConfig.Builder<NotificationViewModel>(NotificationDifferConfig()).build()
+        AsyncDifferConfig.Builder<EventNotificationViewModel>(NotificationDifferConfig()).build()
 
     private val mutableConfigurationEvent = MediatorLiveData<ContentLiveDataEvent<String>>()
     val configurationEvent: LiveData<ContentLiveDataEvent<String>> = mutableConfigurationEvent
@@ -63,8 +63,8 @@ internal class NotificationsViewModel(
         loadSubscriptions()
     }
 
-    private fun setState(state: NotificationsState) {
-        if (state is NotificationsState.Content) {
+    private fun setState(state: EventNotificationsState) {
+        if (state is EventNotificationsState.Content) {
             mutableNotificationViewModelsCreator.postValue(
                 ItemsCreator {
                     state.events.map {
@@ -77,10 +77,10 @@ internal class NotificationsViewModel(
         }
         mutableStateViewId.postValue(
             when (state) {
-                is NotificationsState.Content -> R.id.layout_content
-                is NotificationsState.Loading -> R.id.layout_loading
-                is NotificationsState.Error -> R.id.layout_error
-                is NotificationsState.Empty -> R.id.layout_empty
+                is EventNotificationsState.Content -> R.id.layout_content
+                is EventNotificationsState.Loading -> R.id.layout_loading
+                is EventNotificationsState.Error -> R.id.layout_error
+                is EventNotificationsState.Empty -> R.id.layout_empty
             }
         )
     }

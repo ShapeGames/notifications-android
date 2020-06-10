@@ -6,28 +6,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import dk.shape.games.notifications.actions.NotificationTypesAction
-import dk.shape.games.notifications.databinding.FragmentNotificationTypesBinding
-import dk.shape.games.notifications.usecases.NotificationTypeInteractor
-import dk.shape.games.notifications.usecases.NotificationTypesInteractor
+import dk.shape.games.notifications.actions.EventNotificationTypesAction
+import dk.shape.games.notifications.databinding.FragmentEventNotificationTypesBinding
+import dk.shape.games.notifications.usecases.EventNotificationTypeInteractor
+import dk.shape.games.notifications.usecases.EventNotificationTypesInteractor
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
-import kotlinx.android.synthetic.main.fragment_notification_types.view.*
+import kotlinx.android.synthetic.main.fragment_event_notification_types.view.*
 
-class NotificationTypesFragment : Fragment() {
+class EventNotificationTypesFragment : Fragment() {
 
-    object Args : ConfigFragmentArgs<NotificationTypesAction, NotificationTypesConfig>()
+    object Args : ConfigFragmentArgs<EventNotificationTypesAction, EventNotificationTypesConfig>()
 
-    private val config: NotificationTypesConfig by config()
+    private val config: EventNotificationTypesConfig by config()
 
-    private val action: NotificationTypesAction by action()
+    private val action: EventNotificationTypesAction by action()
 
-    private val notificationTypesViewModel: NotificationTypesViewModel by lazy {
+    private val notificationTypesViewModel: EventNotificationTypesViewModel by lazy {
         ViewModelProvider(
-            this@NotificationTypesFragment,
+            this@EventNotificationTypesFragment,
             NotificationTypesViewModelFactory(
-                NotificationTypesInteractor(
+                EventNotificationTypesInteractor(
                     action.eventId,
                     config.notificationsDataSource,
                     config.provideNotifications,
@@ -38,9 +38,9 @@ class NotificationTypesFragment : Fragment() {
                 config.loadingViewProvider,
                 { eventId, notificationTypeId ->
                     ViewModelProvider(
-                        this@NotificationTypesFragment,
+                        this@EventNotificationTypesFragment,
                         NotificationTypeViewModelFactory(
-                            NotificationTypeInteractor(
+                            EventNotificationTypeInteractor(
                                 eventId,
                                 notificationTypeId,
                                 config.provideNotifications,
@@ -55,7 +55,7 @@ class NotificationTypesFragment : Fragment() {
                     )
                 }
             )
-        ).get(NotificationTypesViewModel::class.java)
+        ).get(EventNotificationTypesViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -63,15 +63,15 @@ class NotificationTypesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return FragmentNotificationTypesBinding.inflate(inflater, container, false).also {
+        return FragmentEventNotificationTypesBinding.inflate(inflater, container, false).also {
             it.viewModel = notificationTypesViewModel
-            it.lifecycleOwner = this@NotificationTypesFragment
+            it.lifecycleOwner = this@EventNotificationTypesFragment
         }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.toolbar.setNavigationOnClickListener {
-            config.eventHandler.onBackPress(this@NotificationTypesFragment)
+            config.eventHandler.onBackPress(this@EventNotificationTypesFragment)
         }
 
         super.onViewCreated(view, savedInstanceState)

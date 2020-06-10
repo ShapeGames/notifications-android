@@ -7,28 +7,28 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import dk.shape.games.notifications.actions.NotificationsAction
-import dk.shape.games.notifications.databinding.FragmentNotificationsBinding
-import dk.shape.games.notifications.usecases.NotificationInteractor
-import dk.shape.games.notifications.usecases.NotificationsInteractor
+import dk.shape.games.notifications.actions.EventNotificationsAction
+import dk.shape.games.notifications.databinding.FragmentEventNotificationsBinding
+import dk.shape.games.notifications.usecases.EventNotificationInteractor
+import dk.shape.games.notifications.usecases.EventNotificationsInteractor
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
-import kotlinx.android.synthetic.main.fragment_notifications.view.*
+import kotlinx.android.synthetic.main.fragment_event_notifications.view.*
 
-class NotificationsFragment : Fragment() {
+class EventNotificationsFragment : Fragment() {
 
-    object Args : ConfigFragmentArgs<NotificationsAction, NotificationsConfig>()
+    object Args : ConfigFragmentArgs<EventNotificationsAction, EventNotificationsConfig>()
 
-    private val config: NotificationsConfig by config()
+    private val config: EventNotificationsConfig by config()
 
-    private val action: NotificationsAction by action()
+    private val action: EventNotificationsAction by action()
 
-    private val notificationsViewModel: NotificationsViewModel by lazy {
+    private val notificationsViewModel: EventNotificationsViewModel by lazy {
         ViewModelProvider(
-            this@NotificationsFragment,
+            this@EventNotificationsFragment,
             NotificationsViewModelFactory(
-                NotificationsInteractor(
+                EventNotificationsInteractor(
                     config.notificationsDataSource,
                     config.eventsRepository,
                     config.provideDeviceId,
@@ -39,9 +39,9 @@ class NotificationsFragment : Fragment() {
                 ),
                 { event ->
                     ViewModelProvider(
-                        this@NotificationsFragment,
+                        this@EventNotificationsFragment,
                         NotificationViewModelFactory(
-                            NotificationInteractor(
+                            EventNotificationInteractor(
                                 event,
                                 config.provideNotifications,
                                 config.notificationsDataSource,
@@ -51,12 +51,12 @@ class NotificationsFragment : Fragment() {
                         )
                     ).get(
                         event.id,
-                        NotificationViewModel::class.java
+                        EventNotificationViewModel::class.java
                     )
                 },
                 config.loadingViewProvider
             )
-        ).get(NotificationsViewModel::class.java)
+        ).get(EventNotificationsViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -64,20 +64,20 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return FragmentNotificationsBinding.inflate(inflater, container, false).also {
+        return FragmentEventNotificationsBinding.inflate(inflater, container, false).also {
             it.viewModel = notificationsViewModel
-            it.lifecycleOwner = this@NotificationsFragment
+            it.lifecycleOwner = this@EventNotificationsFragment
         }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.toolbar.setNavigationOnClickListener {
-            config.eventHandler.onBackPress(this@NotificationsFragment)
+            config.eventHandler.onBackPress(this@EventNotificationsFragment)
         }
 
         notificationsViewModel.configurationEvent.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { eventId ->
-                config.eventHandler.onConfigurationClick(this@NotificationsFragment, eventId)
+                config.eventHandler.onConfigurationClick(this@EventNotificationsFragment, eventId)
             }
         })
         super.onViewCreated(view, savedInstanceState)

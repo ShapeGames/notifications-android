@@ -1,6 +1,7 @@
 package dk.shape.games.notifications.repositories
 
 import dk.shape.danskespil.foundation.cache.Cache
+import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.entities.Subscription
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BroadcastChannel
@@ -32,7 +33,10 @@ class NotificationsRepository(
         val subscriptionsChannel = getChannelForDeviceId(deviceId)
         val cachedSubscriptions = cache.get(deviceId)
         if (cachedSubscriptions == null) {
-            val subscriptions = service.getSubscriptions(deviceId).toSet().sortSubscriptions()
+            val subscriptions = service.getSubscriptions(deviceId)
+                .toSet()
+                .sortSubscriptions()
+
             cacheMutex.withLock {
                 cache.put(deviceId, subscriptions, Cache.CacheDuration.Infinite)
             }
@@ -43,7 +47,7 @@ class NotificationsRepository(
         return subscriptionsChannel
     }
 
-    override suspend fun updateSubscriptions(
+    override suspend fun updateEventSubscriptions(
         deviceId: String,
         eventId: String,
         subscribedNotificationTypeIds: Set<String>
@@ -61,11 +65,15 @@ class NotificationsRepository(
             // We want to update the cache only if other subscriptions were already fetched, which
             // means we have the device ID in the cache.
             cache.get(deviceId)?.let {
-                val cachedSubscriptions =
-                    (it.filter { it.eventId != eventId }.toSet() + Subscription(
-                        eventId,
-                        subscribedNotificationTypeIds
-                    )).sortSubscriptions()
+                val cachedSubscriptions = (it.filter { subscription ->
+                    subscription.eventId != eventId
+                }.toSet() + Subscription(
+                    eventId = eventId,
+                    subjectId = eventId,
+                    subjectType = SubjectType.EVENTS,
+                    types = subscribedNotificationTypeIds
+                )).sortSubscriptions()
+
                 cache.put(deviceId, cachedSubscriptions, Cache.CacheDuration.Infinite)
                 getChannelForDeviceId(deviceId).sendBlocking(cachedSubscriptions)
             }
@@ -76,11 +84,14 @@ class NotificationsRepository(
         BroadcastChannel(Channel.CONFLATED)
     })
 
-    private fun Set<Subscription>.sortSubscriptions(): SortedSet<Subscription> = this.toSortedSet(
-        kotlin.Comparator { s1, s2 ->
-            s1.eventId.toLong().compareTo(s2.eventId.toLong())
-        }
-    )
+    private fun Set<Subscription>.sortSubscriptions(): SortedSet<Subscription> =
+        this.toSortedSet(
+            kotlin.Comparator { s1, s2 ->
+                if (s1.eventId != null && s2.eventId != null) {
+                    s1.eventId.toLong().compareTo(s2.eventId.toLong())
+                } else 0
+            }
+        )
 
     override suspend fun register(
         deviceId: String,

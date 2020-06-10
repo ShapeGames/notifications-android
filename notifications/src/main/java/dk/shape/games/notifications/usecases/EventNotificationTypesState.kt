@@ -5,7 +5,7 @@ import dk.shape.games.notifications.aliases.NotificationType
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 import java.util.*
 
-internal sealed class NotificationTypesState {
+internal sealed class EventNotificationTypesState {
 
     data class Content(
         val eventId: String,
@@ -16,7 +16,7 @@ internal sealed class NotificationTypesState {
         val level2Name: String?,
         val level3Name: String?,
         val notificationTypesIds: Set<String>
-        ) : NotificationTypesState() {
+        ) : EventNotificationTypesState() {
 
         companion object {
 
@@ -36,8 +36,8 @@ internal sealed class NotificationTypesState {
 
     }
 
-    object Loading : NotificationTypesState()
+    object Loading : EventNotificationTypesState()
 
-    object Error : NotificationTypesState()
+    object Error : EventNotificationTypesState()
 
 }

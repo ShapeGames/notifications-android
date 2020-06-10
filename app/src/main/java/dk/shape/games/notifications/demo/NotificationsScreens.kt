@@ -1,9 +1,9 @@
 package dk.shape.games.notifications.demo
 
 import dk.shape.games.demoskeleton.DemoScreen
-import dk.shape.games.notifications.actions.NotificationsAction
-import dk.shape.games.notifications.demo.notifications.NotificationsDependencyProvider
-import dk.shape.games.notifications.features.list.NotificationsFragment
+import dk.shape.games.notifications.actions.EventNotificationsAction
+import dk.shape.games.notifications.demo.notifications.EventNotificationsDependencyProvider
+import dk.shape.games.notifications.features.list.EventNotificationsFragment
 import kotlin.time.ExperimentalTime
 
 object NotificationsScreens {
@@ -11,12 +11,12 @@ object NotificationsScreens {
     @ExperimentalTime
     val screens = listOf(
         DemoScreen(
-            name = "Legacy Notifications",
+            name = "Event Notifications",
             fragmentProvider = {
-                NotificationsFragment().apply {
-                    arguments = NotificationsFragment.Args.create(
-                        NotificationsAction(true),
-                        NotificationsDependencyProvider::class.java
+                EventNotificationsFragment().apply {
+                    arguments = EventNotificationsFragment.Args.create(
+                        EventNotificationsAction(true),
+                        EventNotificationsDependencyProvider::class.java
                     )
                 }
             }

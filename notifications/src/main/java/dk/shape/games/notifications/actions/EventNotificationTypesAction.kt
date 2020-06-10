@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class NotificationsAction(
-    @SerializedName("includePlacements") val includePlacements: Boolean,
-    @SerializedName("filterEventIds") val filterEventIds: List<String>? = null
+class EventNotificationTypesAction(
+    @SerializedName("eventId") val eventId: String
 ) : Parcelable

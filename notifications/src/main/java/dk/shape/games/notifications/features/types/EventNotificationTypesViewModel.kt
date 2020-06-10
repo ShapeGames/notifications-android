@@ -8,16 +8,16 @@ import dk.shape.games.notifications.BR
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.aliases.ViewProvider
 import dk.shape.games.notifications.extensions.ItemsCreator
-import dk.shape.games.notifications.usecases.NotificationTypesState
-import dk.shape.games.notifications.usecases.NotificationTypesUseCases
+import dk.shape.games.notifications.usecases.EventNotificationTypesState
+import dk.shape.games.notifications.usecases.EventNotificationTypesUseCases
 import dk.shape.games.notifications.utils.ContentLiveDataEvent
 import dk.shape.games.toolbox_library.utils.RelativeDateUtils
 import dk.shape.games.uikit.databinding.UIText
 import kotlinx.coroutines.*
 import me.tatarka.bindingcollectionadapter2.OnItemBind
 
-internal class NotificationTypesViewModel(
-    private val useCases: NotificationTypesUseCases,
+internal class EventNotificationTypesViewModel(
+    private val useCases: EventNotificationTypesUseCases,
     val loadingViewProvider: ViewProvider, // public to be accessible through data binding
     private val createNotificationTypeViewModel: (eventId: String, notificationTypeId: String) -> NotificationTypeViewModel
 ) : ViewModel() {
@@ -99,8 +99,8 @@ internal class NotificationTypesViewModel(
         loadNotificationTypes()
     }
 
-    private fun setState(state: NotificationTypesState) = when (state) {
-        is NotificationTypesState.Content -> {
+    private fun setState(state: EventNotificationTypesState) = when (state) {
+        is EventNotificationTypesState.Content -> {
             mutableEventNameLine1.postValue(state.eventNameLine1)
             mutableEventNameLine2.postValue(state.eventNameLine2)
             mutableEventStartDate.postValue(
@@ -133,10 +133,10 @@ internal class NotificationTypesViewModel(
             )
             mutableStateViewId.postValue(R.id.layout_content)
         }
-        is NotificationTypesState.Loading -> {
+        is EventNotificationTypesState.Loading -> {
             mutableStateViewId.postValue(R.id.layout_loading)
         }
-        is NotificationTypesState.Error -> {
+        is EventNotificationTypesState.Error -> {
             mutableStateViewId.postValue(R.id.layout_error)
         }
     }

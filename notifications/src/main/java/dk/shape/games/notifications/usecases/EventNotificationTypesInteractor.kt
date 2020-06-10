@@ -3,6 +3,7 @@ package dk.shape.games.notifications.usecases
 import dk.shape.componentkit.bridge.coroutines.await
 import dk.shape.componentkit2.ComponentKit
 import dk.shape.games.notifications.aliases.Notifications
+import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.repositories.NotificationsDataSource
 import dk.shape.games.sportsbook.offerings.generics.event.data.EventRepository
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
@@ -19,17 +20,17 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
-internal class NotificationTypesInteractor(
+internal class EventNotificationTypesInteractor(
     private val eventId: String,
     private val notificationsDataSource: NotificationsDataSource,
     private val provideNotifications: suspend () -> Notifications,
     private val provideDeviceId: suspend () -> String,
     private val eventRepository: EventRepository,
     private val onMainToggleError: (e: Throwable) -> Unit
-) : NotificationTypesUseCases {
+) : EventNotificationTypesUseCases {
 
-    private val mutableState: BroadcastChannel<NotificationTypesState> = BroadcastChannel(Channel.CONFLATED)
-    override val state: Flow<NotificationTypesState> = mutableState.asFlow()
+    private val mutableState: BroadcastChannel<EventNotificationTypesState> = BroadcastChannel(Channel.CONFLATED)
+    override val state: Flow<EventNotificationTypesState> = mutableState.asFlow()
 
     private var enabledNotificationTypes: Set<String>? = null
     private val enabledNotificationTypesMutex = Mutex(false)
@@ -58,7 +59,7 @@ internal class NotificationTypesInteractor(
                 if(currentUpdateJob?.isActive == true) currentUpdateJob?.cancel()
                 currentUpdateJob = async(Dispatchers.IO) {
                     val newNotificationTypeIds = enabledNotificationTypes ?: emptySet()
-                    notificationsDataSource.updateSubscriptions(
+                    notificationsDataSource.updateEventSubscriptions(
                         provideDeviceId(),
                         eventId,
                         newNotificationTypeIds.toSet()
@@ -75,7 +76,7 @@ internal class NotificationTypesInteractor(
     }
 
     override suspend fun loadNotificationTypes() {
-        mutableState.sendBlocking(NotificationTypesState.Loading)
+        mutableState.sendBlocking(EventNotificationTypesState.Loading)
         try {
             withContext(Dispatchers.IO) {
                 val notifications = provideNotifications()
@@ -84,10 +85,10 @@ internal class NotificationTypesInteractor(
                     .find { it.groupId == event.notificationConfigurationId }
                     ?.notificationTypes?.toSet() ?: emptySet()
                 loadEnabledNotificationTypes(getEvent().notificationConfigurationId)
-                mutableState.sendBlocking(NotificationTypesState.Content.create(event, eventNotificationTypes))
+                mutableState.sendBlocking(EventNotificationTypesState.Content.create(event, eventNotificationTypes))
             }
         } catch (e: Exception) {
-            mutableState.sendBlocking(NotificationTypesState.Error)
+            mutableState.sendBlocking(EventNotificationTypesState.Error)
         }
     }
 

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="dk.shape.games.notifications.features.list.NotificationsViewModel" />
+            type="dk.shape.games.notifications.features.list.EventNotificationsViewModel" />
 
         <import type="dk.shape.games.notifications.features.list.NotificationsItemDecoration" />
 
