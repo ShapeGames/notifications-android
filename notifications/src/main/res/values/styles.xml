@@ -109,7 +109,13 @@
     <!-- BottomSheet Subject Notifications -->
 
     <style name="Notifications.Subjects.Screen.Toolbar" parent="@style/Widget" />
-    <style name="Notifications.Subjects.Screen.Toolbar.Title" parent="Widget.AppCompat.TextView" />
+    <style name="Notifications.Subjects.Screen.Toolbar.Navigation" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="tint">#1d5aaf</item>
+    </style>
+    <style name="Notifications.Subjects.Screen.Toolbar.Title" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineSpacingExtra">-2.7sp</item>
+    </style>
     <style name="Notifications.Subjects.Screen.Background" parent="@style/Widget" />
     <style name="Notifications.Subjects.Screen.Subject.Name" parent="Widget.AppCompat.TextView" />
     <style name="Notifications.Subjects.Screen.Subject.Switch" parent="Widget.AppCompat.CompoundButton.Switch" />

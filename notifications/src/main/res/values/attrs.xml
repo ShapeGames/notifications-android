@@ -24,6 +24,7 @@
         <!-- BottomSheet Subject Notifications -->
 
         <attr name="Notifications.Subjects.Screen.Toolbar" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Subjects.Screen.Toolbar.Navigationr" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Screen.Toolbar.Title" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Screen.Background" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Screen.Subject.Name" format="reference" tools:ignore="ResourceName" />

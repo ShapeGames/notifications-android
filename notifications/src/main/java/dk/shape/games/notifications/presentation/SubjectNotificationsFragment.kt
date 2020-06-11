@@ -9,10 +9,14 @@ import androidx.lifecycle.whenResumed
 import androidx.lifecycle.whenStarted
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
+import dk.shape.games.notifications.aliases.SelectionStateNotifier
+import dk.shape.games.notifications.aliases.StatsNotificationIdentifier
 import dk.shape.games.notifications.databinding.FragmentSubjectNotificationsBinding
 import dk.shape.games.notifications.features.list.SubjectNotificationsConfig
+import dk.shape.games.notifications.presentation.viewmodels.notifications.*
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSheetViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSwitcherViewModel
+import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationTypeCollectionViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.toNotificationTypeViewModel
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
@@ -77,29 +81,25 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
     private suspend fun loadNotifications() {
         interactor.loadNotifications(
             onLoaded = { activatedTypes, possibleTypes, defaultTypes ->
-                val activeIdentifiers = activatedTypes.map { it.identifier }
-                val notifications = possibleTypes.map {
-                    it.toNotificationTypeViewModel(
-                        activatedNotifications = activatedTypes,
-                        defaultNofification = defaultTypes,
-                        selectionStateNotifier = { isSelected, identifier ->
-                            if (isSelected) {
-                                notificationViewModel.selectedIdentifiers.add(identifier)
-                            } else {
-                                notificationViewModel.selectedIdentifiers.remove(identifier)
-                            }
-                            notificationViewModel.notifySelection()
-                        }
+                val activeIdentifiers = activatedTypes.map { it.identifier }.toSet()
+
+                notificationViewModel.apply {
+                    notificationTypesCollection.set(
+                        SubjectNotificationTypeCollectionViewModel(
+                            subjectId = action.subjectId,
+                            subjectType = action.subjectType,
+                            defaultIdentifiers = defaultTypes,
+                            initialIdentifiers = activeIdentifiers,
+                            selectedIdentifiers = activeIdentifiers,
+                            activatedTypes = activatedTypes,
+                            possibleTypes = possibleTypes,
+                            selectionNotifier = notificationViewModel.notifySelection
+                        )
                     )
+
+                    activeNotificationState.set(activatedTypes.isNotEmpty())
+                    viewSwitcherViewModel.showContent(notificationViewModel)
                 }
-
-                notificationViewModel.defaultIdentifiers.addAll(defaultTypes)
-                notificationViewModel.initialIdentifiers.addAll(activeIdentifiers)
-                notificationViewModel.selectedIdentifiers.addAll(activeIdentifiers)
-                notificationViewModel.activeNotificationState.set(activatedTypes.isNotEmpty())
-                notificationViewModel.notificationTypes.set(notifications)
-
-                viewSwitcherViewModel.showContent(notificationViewModel)
             },
             onFailure = {
                 viewSwitcherViewModel.showError {
