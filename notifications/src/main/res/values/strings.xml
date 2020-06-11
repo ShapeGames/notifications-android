@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="error_title">Ingen forbindelse</string>
+    <string name="error_description">Notifikationer kunne ikke hentes</string>
+    <string name="error_try_again">Forsøg igen</string>
+</resources>

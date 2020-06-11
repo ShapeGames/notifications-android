@@ -25,7 +25,7 @@
                 android:layout_gravity="center"
                 android:indeterminate="true"
                 android:indeterminateDuration="@android:integer/config_longAnimTime"
-                android:theme="?attr/stats.Module.ProgressBar" />
+                android:theme="?attr/Notifications.Subjects.Loading.ProgressBar" />
 
         </dk.shape.games.uikit.views.NativeScrollCenteredView>
     </androidx.core.widget.NestedScrollView>

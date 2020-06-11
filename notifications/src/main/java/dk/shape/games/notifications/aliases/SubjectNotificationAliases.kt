@@ -5,9 +5,7 @@ import dk.shape.games.notifications.presentation.viewmodels.notifications.Subjec
 
 internal typealias PreferencesSaveAction = (stateData: SubjectNotificationStateData, onSuccess: () -> Unit, onFailure: () -> Unit) -> Unit
 
-internal typealias MasterSwitchAction = (isActivated: Boolean, onSuccess: (notifications: List<SubjectNotificationTypeViewModel>) -> Unit, onFailure: () -> Unit) -> Unit
-
-internal typealias SelectionStateNotifier = (isSelected: Boolean, identifier: StatsNotificationIdentifier) -> Unit = {}
+internal typealias SelectionStateNotifier = (isSelected: Boolean, identifier: StatsNotificationIdentifier) -> Unit
 
 internal typealias NotifificationsLoadedListener = (
     activatedTypes: Set<StatsNotificationType>,

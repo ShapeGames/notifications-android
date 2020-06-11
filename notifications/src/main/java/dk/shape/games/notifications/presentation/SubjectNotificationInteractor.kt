@@ -53,6 +53,10 @@ class SubjectNotificationInteractor(
                                     }
                                 }?.toSet() ?: emptySet()
 
+                            val defaultIdentifiers = if (enabledNotificationTypes.isEmpty()) {
+                                notificationsGroup.defaultNotificationTypeIdentifiers.toSet()
+                            } else emptySet()
+
                             withContext(Dispatchers.Main) {
                                 if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
                                     notificationsEventHandler.onNotificationsLoading(false)
@@ -60,7 +64,7 @@ class SubjectNotificationInteractor(
                                 onLoaded(
                                     enabledNotificationTypes,
                                     notificationsGroup.notificationTypes,
-                                    notificationsGroup.defaultNotificationTypeIdentifiers.toSet()
+                                    defaultIdentifiers
                                 )
                             }
 
@@ -98,6 +102,13 @@ class SubjectNotificationInteractor(
                     if (stateData.notificationTypeIdentifiers.isNotEmpty()) {
                         if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
                             notificationsEventHandler.onNotificationsActivated(
+                                subjectId = stateData.subjectId,
+                                subjectType = stateData.subjectType
+                            )
+                        }
+                    } else {
+                        if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
+                            notificationsEventHandler.onNotificationsDeactivated(
                                 subjectId = stateData.subjectId,
                                 subjectType = stateData.subjectType
                             )

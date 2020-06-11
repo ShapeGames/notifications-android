@@ -123,4 +123,30 @@
         <item name="android:fontFamily">@font/barlow_semibold</item>
     </style>
 
+    <!-- Subject Notifications BottomSheet -->
+
+    <style name="Notifications.Subjects.Screen.Toolbar.BetWarrior" parent="@style/Notifications.Subjects.Screen.Toolbar">
+
+    </style>
+
+    <style name="Notifications.Subjects.Screen.Toolbar.Navigation.BetWarrior" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="tint">#1d5aaf</item>
+    </style>
+
+    <style name="Notifications.Subjects.Screen.Toolbar.Title.BetWarrior" parent="@style/Notifications.Subjects.Screen.Toolbar.Title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineSpacingExtra">-2.7sp</item>
+    </style>
+    <style name="Notifications.Subjects.Screen.Background.BetWarrior" parent="@style/Notifications.Subjects.Screen.Background">
+
+    </style>
+    <style name="Notifications.Subjects.Screen.Subject.Name.BetWarrior" parent="@style/Notifications.Subjects.Screen.Subject.Name">
+
+    </style>
+    <style name="Notifications.Subjects.Screen.Subject.Switch.BetWarrior" parent="@style/Notifications.Subjects.Screen.Subject.Switch">
+
+    </style>
+    <style name="Notifications.Subjects.Screen.SaveButton.BetWarrior" parent="@style/Notifications.Subjects.Screen.SaveButton">
+
+    </style>
 </resources>

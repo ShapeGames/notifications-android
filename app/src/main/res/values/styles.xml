@@ -10,6 +10,14 @@
 
     <style name="OddsetNotificationsModuleStyle" parent="AppTheme">
 
+        <!-- Subject Notifications -->
+        <item name="Notifications.Subjects.Screen.Toolbar">@style/Notifications.Subjects.Screen.Toolbar.Oddset</item>
+        <item name="Notifications.Subjects.Screen.Toolbar.Navigation">@style/Notifications.Subjects.Screen.Toolbar.Navigation.Oddset</item>
+        <item name="Notifications.Subjects.Screen.Toolbar.Title">@style/Notifications.Subjects.Screen.Toolbar.Title.Oddset</item>
+        <item name="Notifications.Subjects.Screen.Background">@style/Notifications.Subjects.Screen.Background.Oddset</item>
+        <item name="Notifications.Subjects.Screen.Subject.Name">@style/Notifications.Subjects.Screen.Subject.Name.Oddset</item>
+        <item name="Notifications.Subjects.Screen.Subject.Switch">@style/Notifications.Subjects.Screen.Subject.Switch.Oddset</item>
+        <item name="Notifications.Subjects.Screen.SaveButton">@style/Notifications.Subjects.Screen.SaveButton.Oddset</item>
     </style>
 
     <style name="BetWarriorNotificationsModuleStyle" parent="AppTheme">
@@ -72,5 +80,14 @@
         <item name="Notifications.Types.Name">
             @style/Notifications.Types.Name.BetWarrior
         </item>
+
+        <!-- Subject Notifications -->
+        <item name="Notifications.Subjects.Screen.Toolbar">@style/Notifications.Subjects.Screen.Toolbar.BetWarrior</item>
+        <item name="Notifications.Subjects.Screen.Toolbar.Navigation">@style/Notifications.Subjects.Screen.Toolbar.Navigation.BetWarrior</item>
+        <item name="Notifications.Subjects.Screen.Toolbar.Title">@style/Notifications.Subjects.Screen.Toolbar.Title.BetWarrior</item>
+        <item name="Notifications.Subjects.Screen.Background">@style/Notifications.Subjects.Screen.Background.BetWarrior</item>
+        <item name="Notifications.Subjects.Screen.Subject.Name">@style/Notifications.Subjects.Screen.Subject.Name.BetWarrior</item>
+        <item name="Notifications.Subjects.Screen.Subject.Switch">@style/Notifications.Subjects.Screen.Subject.Switch.BetWarrior</item>
+        <item name="Notifications.Subjects.Screen.SaveButton">@style/Notifications.Subjects.Screen.SaveButton.BetWarrior</item>
     </style>
 </resources>

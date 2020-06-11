@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:dither="true"
-    android:shape="rectangle"
-    android:useLevel="false"
-    android:visible="true">
-    <solid android:color="#FFFFFF" />
-    <corners android:radius="15dp" />
-    <size
-        android:width="25dp"
-        android:height="25dp" />
-    <stroke
-        android:width="2dp"
-        android:color="#14000000" />
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape
+            android:dither="true"
+            android:shape="rectangle"
+            android:useLevel="false"
+            android:visible="true">
+            <solid android:color="#00FFFFFF" />
+            <corners android:radius="15dp" />
+            <size
+                android:width="24dp"
+                android:height="24dp" />
+        </shape>
+    </item>
+    <item android:bottom="3dp" android:left="3dp" android:top="3dp" android:right="3dp">
+        <shape
+            android:dither="true"
+            android:shape="rectangle"
+            android:useLevel="false"
+            android:visible="true">
+            <solid android:color="#FFFFFF" />
+            <corners android:radius="15dp" />
+            <size
+                android:width="24dp"
+                android:height="24dp" />
+
+        </shape>
+    </item>
+</layer-list>

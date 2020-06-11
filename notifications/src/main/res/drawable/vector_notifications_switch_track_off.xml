@@ -4,12 +4,12 @@
     android:shape="rectangle"
     android:useLevel="false"
     android:visible="true">
-    <solid android:color="#f5f5f5" />
+    <solid android:color="#A9B8CE" />
     <stroke
         android:width="0.5dp"
         android:color="#d3dce7" />
-    <corners android:radius="15dp" />
+    <corners android:radius="20dp" />
     <size
-        android:width="60dp"
-        android:height="30dp" />
+        android:width="47dp"
+        android:height="28dp" />
 </shape>

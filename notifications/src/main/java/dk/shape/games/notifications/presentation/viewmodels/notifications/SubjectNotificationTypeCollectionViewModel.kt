@@ -19,15 +19,17 @@ internal data class SubjectNotificationTypeCollectionViewModel(
     private var initialIdentifiers: Set<StatsNotificationIdentifier>,
     private val activatedTypes: Set<StatsNotificationType>,
     private val possibleTypes: List<StatsNotificationType>,
-    private val selectionNotifier: () -> Unit
+    private val selectionNotifier: (hasSelections: Boolean) -> Unit
 ) {
     private val stateNotifier: SelectionStateNotifier = { isSelected, identifier ->
         if (isSelected) {
             selectedIdentifiers += identifier
+            defaultIdentifiers += identifier
         } else {
             selectedIdentifiers -= identifier
+            defaultIdentifiers -= identifier
         }
-        selectionNotifier()
+        selectionNotifier(selectedIdentifiers.isNotEmpty())
     }
 
     val itemBinding = ItemBinding.of<SubjectNotificationTypeViewModel>(
@@ -77,6 +79,8 @@ internal data class SubjectNotificationTypeCollectionViewModel(
                 notificationTypeItems.get()?.forEach { it.isActivated.set(true) }
             }
         } else {
+            selectedIdentifiers = emptySet()
+            defaultIdentifiers = emptySet()
             notificationTypeItems.get()?.forEach {
                 it.isActivated.set(false)
             }

@@ -28,8 +28,9 @@ internal data class SubjectNotificationViewModel(
         notificationTypesCollection.get()?.onMasterActive(isChecked)
     }
 
-    val notifySelection = {
+    val notifySelection: (hasSelections: Boolean) -> Unit = { hasSelections ->
         hasStateChanges.set(notificationTypesCollection.get()?.hasChanges == true)
+        activeNotificationState.set(hasSelections)
     }
 
     val onPreferencesSavedListener = View.OnClickListener {

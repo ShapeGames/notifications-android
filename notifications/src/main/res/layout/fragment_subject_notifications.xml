@@ -13,7 +13,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:background="#f5f5f5">
 
         <FrameLayout
@@ -25,22 +25,34 @@
             android:paddingHorizontal="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/notificationsViewSwitcher"
             android:elevation="3dp"
+            android:background="@drawable/vector_notification_toolbar_background"
             tools:background="@drawable/vector_notification_toolbar_background">
 
-            <androidx.appcompat.widget.Toolbar
-                style="?attr/Notifications.Subjects.Screen.Toolbar.Title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:buttonGravity="center_vertical"
-                app:elevation="4dp"
-                app:navigationIcon="@drawable/ic_close"
-                app:navigationOnClickListener="@{viewModel.onClosePressedListener}"
-                tools:layout_height="match_parent"
-                tools:tint="#1d5aaf" />
+           <androidx.cardview.widget.CardView
+               android:layout_gravity="center_vertical|start"
+               app:cardCornerRadius="44dp"
+               app:cardElevation="0dp"
+               android:layout_width="44dp"
+               android:layout_height="44dp">
+               <ImageView
+                   style="?attr/Notifications.Subjects.Screen.Toolbar.Navigation"
+                   android:layout_width="25dp"
+                   android:layout_height="25dp"
+                   android:layout_gravity="center"
+                   android:clickable="true"
+                   android:focusable="true"
+                   app:showRipple="@{true}"
+                   app:backgroundRipple="@{true}"
+                   app:borderlessRipple="@{true}"
+                   android:onClick="@{viewModel.onClosePressedListener}"
+                   android:src="@drawable/ic_bottomsheet_close"
+                   tools:backgroundTint="@color/blue_300"/>
+           </androidx.cardview.widget.CardView>
 
             <TextView
+                style="?attr/Notifications.Subjects.Screen.Toolbar.Title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
@@ -54,14 +66,14 @@
         </FrameLayout>
 
         <dk.shape.viewswitcher.BindingViewSwitcher
+            android:id="@+id/notificationsViewSwitcher"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:item="@{viewModel.notificationSwitcherViewModel.item}"
             app:itemBinding="@{viewModel.notificationSwitcherViewModel.itemBinding}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/notificationsToolbar" />
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

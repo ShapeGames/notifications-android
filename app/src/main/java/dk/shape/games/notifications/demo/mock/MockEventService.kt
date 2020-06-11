@@ -17,6 +17,7 @@ import dk.shape.games.sportsbook.offerings.modules.eventgroup.data.EventGroup
 import dk.shape.games.sportsbook.offerings.modules.table.Table
 import dk.shape.games.sportsbook.offerings.modules.virtuals.Schedule
 import okhttp3.Request
+import okio.Timeout
 import org.jetbrains.annotations.Nullable
 import retrofit2.Call
 import retrofit2.Callback
@@ -61,6 +62,10 @@ class MockEventService : DBPublishService {
             override fun execute() = Response.success(event)
 
             override fun request(): Request = Request.Builder().build()
+
+            override fun timeout(): Timeout {
+                TODO("Not yet implemented")
+            }
 
         }
     }
@@ -107,6 +112,10 @@ class MockEventService : DBPublishService {
             override fun execute() = Response.success(events.toMutableList())
 
             override fun request(): Request = Request.Builder().build()
+
+            override fun timeout(): Timeout {
+                TODO("Not yet implemented")
+            }
 
         }
     }

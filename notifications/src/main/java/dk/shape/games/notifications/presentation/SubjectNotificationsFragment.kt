@@ -1,5 +1,6 @@
 package dk.shape.games.notifications.presentation
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenResumed
 import androidx.lifecycle.whenStarted
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
 import dk.shape.games.notifications.aliases.SelectionStateNotifier
 import dk.shape.games.notifications.aliases.StatsNotificationIdentifier
@@ -27,8 +30,7 @@ import kotlinx.coroutines.launch
 
 class SubjectNotificationsFragment : BottomSheetDialogFragment() {
 
-    object SubjectsNotificationsFragmentArgs :
-        ConfigFragmentArgs<SubjectNotificationsAction, SubjectNotificationsConfig>()
+    object Args : ConfigFragmentArgs<SubjectNotificationsAction, SubjectNotificationsConfig>()
 
     private val config: SubjectNotificationsConfig by config()
     private val action: SubjectNotificationsAction by action()
@@ -55,7 +57,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             subjectType = action.subjectType,
             subjectName = action.subjectName,
             onClosedPressed = {
-                config.eventHandler.onClosed(action)
+                config.eventHandler.onClosed(this, action)
             },
             onPreferencesSaved = { stateData, onSuccess, onFailure ->
                 interactor.saveNotificationPreferences(
@@ -73,7 +75,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             notificationViewModel = notificationViewModel,
             notificationSwitcherViewModel = viewSwitcherViewModel,
             onClosedPressed = {
-                config.eventHandler.onClosed(action)
+                config.eventHandler.onClosed(this, action)
             }
         )
     }
@@ -110,6 +112,10 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             }
         )
     }
+
+    override fun getTheme(): Int = R.style.BottomSheetDialogTheme
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = BottomSheetDialog(requireContext(), theme)
 
     override fun onCreateView(
         inflater: LayoutInflater,

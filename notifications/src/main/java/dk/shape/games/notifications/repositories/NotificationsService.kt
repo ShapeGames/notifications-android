@@ -37,7 +37,8 @@ interface NotificationsService {
             val retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(Json {
-                    strictMode = false
+                    ignoreUnknownKeys = false
+                    isLenient = false
                 }.asConverterFactory("application/json".toMediaType()))
                 .client(httpClient)
                 .build()

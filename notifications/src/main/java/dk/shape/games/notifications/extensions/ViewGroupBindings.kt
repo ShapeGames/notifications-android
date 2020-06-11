@@ -22,7 +22,7 @@ internal fun <T : ModuleDiffInterface> LinearLayout.setAdapter(
     items: List<T>?,
     itemBinding: ItemBinding<T>?
 ) {
-    requireNotNull(itemBinding) { "itemBinding must not be null" }
+    if (itemBinding == null) return
 
     LinearLayoutBindingCollectionAdapter(
         linearLayout = this,
