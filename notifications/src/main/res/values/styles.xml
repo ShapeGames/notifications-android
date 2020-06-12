@@ -124,9 +124,7 @@
         <item name="elevation">3dp</item>
         <item name="backgroundColor">@color/background_white</item>
     </style>
-    <style name="Notifications.Subjects.Screen.Toolbar.Navigation" parent="@style/Widget">
-        <item name="tint">#1d5aaf</item>
-    </style>
+    <style name="Notifications.Subjects.Screen.Toolbar.Navigation" parent="@style/Widget"/>
     <style name="Notifications.Subjects.Screen.Toolbar.Title" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">20sp</item>
         <item name="android:lineSpacingExtra">-2.7sp</item>
@@ -134,20 +132,12 @@
     <style name="Notifications.Subjects.Screen.Background" parent="@style/Widget" />
     <style name="Notifications.Subjects.Screen.Subject.Name" parent="Widget.AppCompat.TextView" />
     <style name="Notifications.Subjects.Screen.Subject.Switch" parent="Widget.AppCompat.CompoundButton.Switch" />
-    <style name="Notifications.Subjects.Screen.SaveButton" parent="Widget.AppCompat.Button">
-        <item name="background">@drawable/vector_notifications_save_button</item>
-        <item name="android:button">@drawable/vector_notifications_save_button</item>
-        <item name="buttonCompat">@drawable/vector_notifications_save_button</item>
-        <item name="controlBackground">@drawable/vector_notifications_save_button</item>
-        <item name="colorControlNormal">@color/blue_300</item>
-        <item name="colorButtonNormal">@color/blue_300</item>
-    </style>
+    <style name="Notifications.Subjects.Screen.SaveButton" parent="@style/Widget"/>
 
     <!-- BottomSheet Subject Notification Types -->
     <style name="Notifications.Subjects.Type.Icon" parent="@style/Widget" />
     <style name="Notifications.Subjects.Type.Row" parent="@style/Widget" />
-    <style name="Notifications.Subjects.Type.Container" parent="@style/Widget" />
-    <style name="Notifications.Subjects.Type.Switch" parent="@style/Widget" />
+    <style name="Notifications.Subjects.Type.Switch" parent="Widget.AppCompat.CompoundButton.CheckBox" />
 
     <!-- BottomSheet Subject Notification Error -->
     <style name="Notifications.Subjects.Error.Button" parent="Widget.AppCompat.Button">

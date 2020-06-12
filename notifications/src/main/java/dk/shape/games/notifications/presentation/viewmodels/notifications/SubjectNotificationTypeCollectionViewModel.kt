@@ -70,10 +70,6 @@ internal data class SubjectNotificationTypeCollectionViewModel(
         return sequenceOne == sequenceTwo
     }
 
-    fun clearSelection() {
-        selectedIdentifiers = emptySet()
-    }
-
     fun resetAll() {
         defaultIdentifiers = initialIdentifiers.map { it }.toSet()
         selectedIdentifiers = activatedTypes.map { it.identifier }.toSet()

@@ -2,15 +2,15 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android" android:enterFadeDuration="@android:integer/config_shortAnimTime" android:exitFadeDuration="@android:integer/config_shortAnimTime">
     <item android:state_checked="true">
         <shape android:dither="true" android:shape="rectangle" android:useLevel="false" android:visible="true">
-            <solid android:color="#1d5aaf" />
+            <solid android:color="#282828" />
             <corners android:radius="20dp" />
             <size android:width="47dp" android:height="28dp" />
         </shape>
     </item>
     <item>
         <shape android:dither="true" android:shape="rectangle" android:useLevel="false" android:visible="true">
-            <solid android:color="#A9B8CE" />
-            <stroke android:width="0.5dp" android:color="#d3dce7" />
+            <solid android:color="#A9A9A9" />
+            <stroke android:width="0.5dp" android:color="#D3D3D3" />
             <corners android:radius="20dp" />
             <size android:width="47dp" android:height="28dp" />
         </shape>

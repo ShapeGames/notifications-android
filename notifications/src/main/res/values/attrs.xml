@@ -30,18 +30,11 @@
         <attr name="Notifications.Subjects.Screen.Subject.Name" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Screen.Subject.Switch" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Screen.SaveButton" format="reference" tools:ignore="ResourceName" />
-
-        <!-- BottomSheet Subject Notification Types -->
-        <attr name="Notifications.Subjects.Type.Icon" format="reference" tools:ignore="ResourceName" />
-        <attr name="Notifications.Subjects.Type.Row" format="reference" tools:ignore="ResourceName" />
-        <attr name="Notifications.Subjects.Type.Container" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Type.Switch" format="reference" tools:ignore="ResourceName" />
-
+        <attr name="Notifications.Subjects.Loading.ProgressBar" format="reference" tools:ignore="ResourceName" />
 
         <!-- BottomSheet Subject Error -->
         <attr name="Notifications.Subjects.Error.Button" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Error.Text" format="reference" tools:ignore="ResourceName" />
-
-        <attr name="Notifications.Subjects.Loading.ProgressBar" format="reference" tools:ignore="ResourceName" />
     </declare-styleable>
 </resources>

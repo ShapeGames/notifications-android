@@ -25,11 +25,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
             android:layout_marginTop="24dp"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginBottom="26dp"
             android:text="@{viewModel.subjectName}"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/notificationItems"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Manchester City"
             tools:textColor="#2d2d2d"
             tools:textSize="16sp"
@@ -49,87 +49,56 @@
             app:layout_constraintTop_toTopOf="@id/subjectName"
             app:onStateChange="@{viewModel.onStateChangeListener}"
             app:thumbTextPadding="4dp"
-            app:track="@drawable/vector_notifications_switch_track"
             tools:checked="false" />
 
         <include
-            android:id="@+id/notificationItems"
             layout="@layout/view_subject_notifications_type_container"
+            android:id="@+id/notificationItems"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:layout_marginBottom="42dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/notificationsSaveButton"
-            app:viewModel="@{viewModel.notificationTypesCollection}"
-            tools:layout_height="100dp"
-            />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/notificationsSaveButton"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:enabled="@{viewModel.hasStateChanges}"
-            android:background="@drawable/vector_notifications_save_button"
-            android:layout_marginHorizontal="23dp"
-            android:onClick="@{viewModel.onPreferencesSavedListener}"
-            android:layout_marginBottom="55dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:gravity="center"
-            android:textAlignment="gravity"
-            android:text="Save my preferences"
-            android:textColor="@color/grey_000"
-            android:textStyle="bold"
-            android:textAllCaps="false"
-            tools:padding="0dp"
-            tools:text="Save my preferences"
-            tools:textColor="@color/grey_000"
-            tools:textStyle="bold"/>
+            app:viewModel="@{viewModel.notificationTypesCollection}"
+            tools:layout_height="100dp" />
 
         <FrameLayout
-            android:visibility="gone"
+            android:id="@+id/notificationsSaveButton"
             android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:background="@drawable/vector_notifications_save_button"
-            android:layout_marginHorizontal="23dp"
-            android:clipToPadding="true"
-            android:clipChildren="true"
-            android:onClick="@{viewModel.onPreferencesSavedListener}"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="55dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:elevation="1dp"
-            android:translationZ="5dp"
-            app:addButtonBehaviour="@{true}"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintStart_toStartOf="parent">
 
-            <TextView
-                android:visibility="@{viewModel.savingPreferences ? View.INVISIBLE : View.VISIBLE}"
+            <androidx.appcompat.widget.AppCompatButton
+                style="?attr/Notifications.Subjects.Screen.SaveButton"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:enabled="@{viewModel.hasStateChanges}"
                 android:gravity="center"
+                android:onClick="@{viewModel.onPreferencesSavedListener}"
+                android:text="@{viewModel.savingPreferences ? @string/empty : @string/save_my_preferences}"
                 android:textAlignment="gravity"
-                android:text="Save my preferences"
-                android:textColor="@color/grey_000"
-                android:textStyle="bold"
-                android:textAllCaps="false"
-                tools:padding="0dp"
+                tools:background="@drawable/vector_notifications_save_button"
+                tools:layout_marginHorizontal="23dp"
+                tools:padding="6dp"
                 tools:text="Save my preferences"
+                tools:textAllCaps="false"
+                tools:layout_height="30dp"
                 tools:textColor="@color/grey_000"
-                tools:textStyle="bold"/>
+                tools:textStyle="bold" />
 
             <ProgressBar
-                style="@style/Notifications.Subjects.Loading.ProgressBar"
-                android:visibility="@{viewModel.savingPreferences ? View.VISIBLE : View.INVISIBLE}"
-                android:layout_margin="4dp"
+                style="?attr/Notifications.Subjects.Loading.ProgressBar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:visibility="invisible"/>
+                android:layout_margin="4dp"
+                android:visibility="@{viewModel.savingPreferences ? View.VISIBLE : View.INVISIBLE}"
+                tools:visibility="invisible" />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
