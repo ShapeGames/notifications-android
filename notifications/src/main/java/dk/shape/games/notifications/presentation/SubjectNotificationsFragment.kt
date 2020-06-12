@@ -53,14 +53,10 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             subjectType = action.subjectType,
             subjectName = action.subjectName,
             onClosedPressed = {
-                config.eventHandler.onClosed(
-                    fragment = this,
-                    action = action
-                )
+                config.eventHandler.onClosed(fragment = this, action = action)
             },
             onPreferencesSaved = { stateData, onSuccess, onFailure ->
                 launch(interactor, Dispatchers.IO) {
-                    whenStarted { viewSwitcherViewModel.showLoading() }
                     whenResumed {
                         saveNotificationPreferences(
                             stateData = stateData,
@@ -79,45 +75,44 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             notificationViewModel = notificationViewModel,
             notificationSwitcherViewModel = viewSwitcherViewModel,
             onClosedPressed = {
-                config.eventHandler.onClosed(
-                    fragment = this,
-                    action = action
-                )
+                config.eventHandler.onClosed(fragment = this, action = action)
             }
         )
     }
 
     private suspend fun loadNotifications(interactor: SubjectNotificationUseCases) {
-        val onLoaded: NotifificationsLoadedListener = { activatedTypes, possibleTypes, defaultTypes ->
-            val activeIdentifiers = activatedTypes.map { it.identifier }.toSet()
-            val initialIdentifiers = if (defaultTypes.isNotEmpty()) {
-                defaultTypes.toSet()
-            } else activeIdentifiers.toSet()
+        val onLoaded: NotifificationsLoadedListener =
+            { activatedTypes, possibleTypes, defaultTypes ->
+                val activeIdentifiers = activatedTypes.map { it.identifier }.toSet()
+                val initialIdentifiers = if (defaultTypes.isNotEmpty()) {
+                    defaultTypes.toSet()
+                } else activeIdentifiers.toSet()
 
-            notificationViewModel.apply {
-                notificationTypesCollection.set(
-                    SubjectNotificationTypeCollectionViewModel(
-                        subjectId = action.subjectId,
-                        subjectType = action.subjectType,
-                        defaultIdentifiers = defaultTypes,
-                        initialIdentifiers = initialIdentifiers,
-                        selectedIdentifiers = activeIdentifiers.toSet(),
-                        activatedTypes = activatedTypes,
-                        possibleTypes = possibleTypes,
-                        selectionNotifier = notificationViewModel.notifySelection,
-                        initialMasterState = activatedTypes.isNotEmpty()
+                notificationViewModel.apply {
+                    notificationTypesCollection.set(
+                        SubjectNotificationTypeCollectionViewModel(
+                            defaultIdentifiers = defaultTypes,
+                            initialIdentifiers = initialIdentifiers,
+                            selectedIdentifiers = activeIdentifiers.toSet(),
+                            activatedTypes = activatedTypes,
+                            possibleTypes = possibleTypes,
+                            selectionNotifier = notificationViewModel.notifySelection,
+                            initialMasterState = activatedTypes.isNotEmpty()
+                        )
                     )
-                )
-                activeNotificationState.awareSet(activatedTypes.isNotEmpty())
-                viewSwitcherViewModel.showContent(notificationViewModel)
+                    activeNotificationState.awareSet(activatedTypes.isNotEmpty())
+                    viewSwitcherViewModel.showContent(notificationViewModel)
+                }
             }
-        }
         interactor.loadNotifications(
             onLoaded = onLoaded,
             onFailure = {
-                viewSwitcherViewModel.showError {
-                    launch(Dispatchers.IO) {
-                        loadNotifications(interactor)
+                with(viewSwitcherViewModel) {
+                    showError {
+                        launch(Dispatchers.IO) {
+                            whenStarted { showLoading() }
+                            whenResumed { loadNotifications(interactor) }
+                        }
                     }
                 }
             }

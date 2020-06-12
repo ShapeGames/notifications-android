@@ -18,7 +18,11 @@
         <item name="Notifications.Subjects.Screen.Subject.Name">@style/Notifications.Subjects.Screen.Subject.Name.Oddset</item>
         <item name="Notifications.Subjects.Screen.Subject.Switch">@style/Notifications.Subjects.Screen.Subject.Switch.Oddset</item>
         <item name="Notifications.Subjects.Screen.SaveButton">@style/Notifications.Subjects.Screen.SaveButton.Oddset</item>
+        <item name="Notifications.Subjects.Type.Name">@style/Notifications.Subjects.Type.Name.Oddset</item>
         <item name="Notifications.Subjects.Type.Switch">@style/Notifications.Subjects.Type.Switch.Oddset</item>
+        <item name="Notifications.Subjects.Type.Saving.ProgressBar">@style/Notifications.Subjects.Type.Saving.ProgressBar.Oddset</item>
+        <item name="Notifications.Subjects.Loading.ProgressBar">@style/Notifications.Subjects.Loading.ProgressBar.Oddset</item>
+        <item name="Notifications.Subjects.Error.Button">@style/Notifications.Subjects.Error.Button.Oddset</item>
     </style>
 
     <style name="BetWarriorNotificationsModuleStyle" parent="AppTheme">
@@ -90,6 +94,10 @@
         <item name="Notifications.Subjects.Screen.Subject.Name">@style/Notifications.Subjects.Screen.Subject.Name.BetWarrior</item>
         <item name="Notifications.Subjects.Screen.Subject.Switch">@style/Notifications.Subjects.Screen.Subject.Switch.BetWarrior</item>
         <item name="Notifications.Subjects.Screen.SaveButton">@style/Notifications.Subjects.Screen.SaveButton.BetWarrior</item>
+        <item name="Notifications.Subjects.Type.Name">@style/Notifications.Subjects.Type.Name.BetWarrior</item>
         <item name="Notifications.Subjects.Type.Switch">@style/Notifications.Subjects.Type.Switch.BetWarrior</item>
+        <item name="Notifications.Subjects.Type.Saving.ProgressBar">@style/Notifications.Subjects.Type.Saving.ProgressBar.BetWarrior</item>
+        <item name="Notifications.Subjects.Loading.ProgressBar">@style/Notifications.Subjects.Loading.ProgressBar.BetWarrior</item>
+        <item name="Notifications.Subjects.Error.Button">@style/Notifications.Subjects.Error.Button.BetWarrior</item>
     </style>
 </resources>

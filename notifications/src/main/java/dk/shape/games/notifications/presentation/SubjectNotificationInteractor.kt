@@ -8,6 +8,7 @@ import dk.shape.games.notifications.features.list.SubjectNotificationsEventHandl
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -31,8 +32,11 @@ class SubjectNotificationInteractor(
             if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
                 notificationsEventHandler.onNotificationsLoading(true)
             }
+
             notificationsDataSource.getSubscriptions(provideDeviceId()).apply {
                 collect { subscriptions ->
+                    //TODO (REMOVE DELAY)
+                    delay(2000)
 
                     val notifications = provideNotifications()
                     val notificationsGroup =
@@ -94,6 +98,9 @@ class SubjectNotificationInteractor(
                     it.name.toLowerCase(Locale.getDefault())
                 }.toSet()
             )
+            //TODO (REMOVE DELAY)
+            delay(2000)
+
             withContext(Dispatchers.Main) {
                 if (stateData.notificationTypeIdentifiers.isNotEmpty()) {
                     if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {

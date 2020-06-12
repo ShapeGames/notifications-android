@@ -1,17 +1,21 @@
 package dk.shape.games.notifications.extensions
 
+import android.graphics.Typeface
 import android.os.Build
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 import android.widget.CompoundButton
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import dk.shape.games.notifications.R
 import kotlin.math.abs
+
 private const val DEBOUNCE_DELAY_MS = 300L
+
 private val BUTTON_BEHAVIOUR = "BUTTON_BEHAVIOUR".hashCode()
 private val DEBOUNCE_CLICK_TAG = "DEBOUNCE_CLICK".hashCode()
 
@@ -28,6 +32,15 @@ internal fun AppCompatCheckBox.onStateChange(onStateChange: CompoundButton.OnChe
 @BindingAdapter("onStateChange")
 internal fun SwitchCompat.onStateChange(onStateChange: CompoundButton.OnCheckedChangeListener) {
     this.setOnCheckedChangeListener(onStateChange)
+}
+
+@BindingAdapter("isBold")
+fun TextView.setBold(isBold: Boolean) {
+    typeface = if (isBold) {
+        Typeface.create("sans-serif-black", Typeface.NORMAL)
+    } else {
+        Typeface.create("sans-serif", Typeface.NORMAL)
+    }
 }
 
 @BindingAdapter(

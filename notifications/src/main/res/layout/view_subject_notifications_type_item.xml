@@ -9,12 +9,16 @@
             name="viewModel"
             type="dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationTypeViewModel" />
 
+        <import type="android.graphics.Typeface" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@{viewModel.isLastElement ? @drawable/vector_notification_type_background_no_line : @drawable/vector_notification_type_background}"
+        android:clickable="@{viewModel.isEnabled}"
+        android:focusable="true"
+        android:onClick="@{viewModel.onNotificationClicked}"
         tools:background="@drawable/vector_notification_type_background"
 
         tools:layout_height="50dp">
@@ -39,12 +43,15 @@
         </FrameLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
+            style="?attr/Notifications.Subjects.Type.Name"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="@{viewModel.notificationTypeName}"
+            android:textColor="#2d2d2d"
+            app:isBold="@{viewModel.isActivated}"
             app:layout_constraintBottom_toBottomOf="@id/notificationTypeIcon"
             app:layout_constraintEnd_toStartOf="@id/notificationTypeCheckBox"
             app:layout_constraintStart_toEndOf="@id/notificationTypeIcon"
@@ -62,6 +69,7 @@
             android:layout_height="24dp"
             android:layout_marginEnd="13dp"
             android:checked="@{viewModel.isActivated}"
+            android:clickable="@{viewModel.isEnabled}"
             app:layout_constraintBottom_toBottomOf="@id/notificationTypeIcon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/notificationTypeIcon"

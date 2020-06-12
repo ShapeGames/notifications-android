@@ -31,6 +31,8 @@
         <attr name="Notifications.Subjects.Screen.Subject.Switch" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Screen.SaveButton" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Type.Switch" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Subjects.Type.Name" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Subjects.Type.Saving.ProgressBar" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Loading.ProgressBar" format="reference" tools:ignore="ResourceName" />
 
         <!-- BottomSheet Subject Error -->

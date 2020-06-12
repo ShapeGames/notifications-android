@@ -1,5 +1,6 @@
 package dk.shape.games.notifications.presentation.viewmodels.notifications
 
+import android.view.View
 import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import dk.shape.danskespil.module.ui.ModuleDiffInterface
@@ -21,9 +22,18 @@ internal data class SubjectNotificationTypeViewModel(
 ) : ModuleDiffInterface {
     var isActivated: ObservableBoolean = ObservableBoolean(initialState)
 
+    val isEnabled: ObservableBoolean = ObservableBoolean(true)
+
     val onStateChangeListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
         isActivated.awareSet(isChecked) {
             stateNotifier(isChecked, identifier)
+        }
+    }
+
+    val onNotificationClicked = View.OnClickListener {
+        val newState = !isActivated.get()
+        isActivated.awareSet(newState) {
+            stateNotifier(newState, identifier)
         }
     }
 

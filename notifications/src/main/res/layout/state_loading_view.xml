@@ -8,26 +8,17 @@
             type="dk.shape.games.notifications.presentation.viewmodels.state.LoadingViewModel" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
-        android:foregroundGravity="center_vertical"
+    <FrameLayout
+        android:minHeight="@dimen/min_switcher_area"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-
-        <dk.shape.games.uikit.views.NativeScrollCenteredView
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:id="@+id/loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-            <ProgressBar
-                android:id="@+id/loading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:indeterminate="true"
-                android:indeterminateDuration="@android:integer/config_longAnimTime"
-                android:theme="?attr/Notifications.Subjects.Loading.ProgressBar" />
-
-        </dk.shape.games.uikit.views.NativeScrollCenteredView>
-    </androidx.core.widget.NestedScrollView>
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateDuration="@android:integer/config_longAnimTime"
+            android:theme="?attr/Notifications.Subjects.Loading.ProgressBar" />
+    </FrameLayout>
 </layout>

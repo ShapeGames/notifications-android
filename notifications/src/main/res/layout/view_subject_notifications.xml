@@ -40,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="14dp"
+            android:clickable="@{!viewModel.isSavingPreferences}"
             android:checked="@{viewModel.activeNotificationState}"
             android:padding="4dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -48,16 +49,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/subjectName"
             app:onStateChange="@{viewModel.onStateChangeListener}"
-            app:thumbTextPadding="4dp"
             tools:checked="false" />
 
         <include
-            layout="@layout/view_subject_notifications_type_container"
             android:id="@+id/notificationItems"
+            layout="@layout/view_subject_notifications_type_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
-            android:layout_marginBottom="42dp"
+            android:layout_marginBottom="38dp"
             app:layout_constraintBottom_toTopOf="@id/notificationsSaveButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,7 @@
             android:id="@+id/notificationsSaveButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="55dp"
+            android:layout_marginBottom="50dp"
             android:clipChildren="false"
             android:clipToPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -78,27 +78,30 @@
             <androidx.appcompat.widget.AppCompatButton
                 style="?attr/Notifications.Subjects.Screen.SaveButton"
                 android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:clickable="@{!viewModel.isSavingPreferences}"
                 android:enabled="@{viewModel.hasStateChanges}"
                 android:gravity="center"
                 android:onClick="@{viewModel.onPreferencesSavedListener}"
-                android:text="@{viewModel.savingPreferences ? @string/empty : @string/save_my_preferences}"
+                android:text="@{viewModel.isSavingPreferences ? @string/empty : @string/save_my_preferences}"
                 android:textAlignment="gravity"
                 tools:background="@drawable/vector_notifications_save_button"
+                tools:layout_height="30dp"
                 tools:layout_marginHorizontal="23dp"
                 tools:padding="6dp"
                 tools:text="Save my preferences"
                 tools:textAllCaps="false"
-                tools:layout_height="30dp"
                 tools:textColor="@color/grey_000"
                 tools:textStyle="bold" />
 
             <ProgressBar
-                style="?attr/Notifications.Subjects.Loading.ProgressBar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                style="?attr/Notifications.Subjects.Type.Saving.ProgressBar"
+                android:theme="?attr/Notifications.Subjects.Type.Saving.ProgressBar"
+                android:elevation="6dp"
+                android:layout_gravity="center"
                 android:layout_margin="4dp"
-                android:visibility="@{viewModel.savingPreferences ? View.VISIBLE : View.INVISIBLE}"
-                tools:visibility="invisible" />
+                android:visibility="@{viewModel.isSavingPreferences ? View.VISIBLE : View.INVISIBLE}"
+                tools:visibility="visible" />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
