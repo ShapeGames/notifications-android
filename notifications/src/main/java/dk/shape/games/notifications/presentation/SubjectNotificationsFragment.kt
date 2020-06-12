@@ -90,7 +90,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
     private suspend fun loadNotifications(interactor: SubjectNotificationUseCases) {
         val onLoaded: NotifificationsLoadedListener = { activatedTypes, possibleTypes, defaultTypes ->
             val activeIdentifiers = activatedTypes.map { it.identifier }.toSet()
-            val iniitalIdentifiers = if (defaultTypes.isNotEmpty()) {
+            val initialIdentifiers = if (defaultTypes.isNotEmpty()) {
                 defaultTypes.toSet()
             } else activeIdentifiers.toSet()
 
@@ -100,8 +100,8 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
                         subjectId = action.subjectId,
                         subjectType = action.subjectType,
                         defaultIdentifiers = defaultTypes,
-                        initialIdentifiers = iniitalIdentifiers,
-                        selectedIdentifiers = iniitalIdentifiers.toSet(),
+                        initialIdentifiers = initialIdentifiers,
+                        selectedIdentifiers = activeIdentifiers.toSet(),
                         activatedTypes = activatedTypes,
                         possibleTypes = possibleTypes,
                         selectionNotifier = notificationViewModel.notifySelection,

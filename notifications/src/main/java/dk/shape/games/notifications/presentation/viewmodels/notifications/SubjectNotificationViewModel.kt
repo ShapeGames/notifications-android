@@ -26,26 +26,24 @@ internal data class SubjectNotificationViewModel(
         ObservableField()
 
     val stateChangeHandler: (isChecked: Boolean, isMasterTrigger: Boolean) -> Unit = { isChecked, isMasterTrigger ->
-        activeNotificationState.awareSet(isChecked)
-        notificationTypesCollection.value {
-            if (isMasterTrigger) {
-                onMasterActive(isChecked)
-            }
+        if (!isMasterTrigger) {
+            activeNotificationState.awareSet(isChecked)
         }
         updateSaveState(isChecked)
     }
     val onStateChangeListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
-       if (activeNotificationState.get() != isChecked) {
-           notificationTypesCollection.value {
-               resetAll()
-           }
-           stateChangeHandler(isChecked, true)
-       }
+        activeNotificationState.awareSet(isChecked) {
+            notificationTypesCollection.value {
+                resetAll()
+                onMasterActive(isChecked)
+            }
+        }
+        stateChangeHandler(isChecked, true)
     }
 
     val notifySelection: (hasSelections: Boolean) -> Unit = { hasSelections ->
-        if (!activeNotificationState.get()) {
-            notificationTypesCollection.value { resetAll() }
+        if (hasSelections) {
+            activeNotificationState.awareSet(hasSelections)
         }
         stateChangeHandler(hasSelections, false)
     }

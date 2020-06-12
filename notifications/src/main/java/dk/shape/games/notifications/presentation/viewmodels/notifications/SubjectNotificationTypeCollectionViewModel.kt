@@ -57,7 +57,7 @@ internal data class SubjectNotificationTypeCollectionViewModel(
 
     val hasChanges: Boolean
         get() = !compareIndetifiers(
-            initialIdentifiers = initialIdentifiers,
+            initialIdentifiers = activatedTypes.map { it.identifier }.toSet(),
             currentIdentifiers = selectedIdentifiers
         )
 
@@ -76,7 +76,7 @@ internal data class SubjectNotificationTypeCollectionViewModel(
 
     fun resetAll() {
         defaultIdentifiers = initialIdentifiers.map { it }.toSet()
-        selectedIdentifiers = initialIdentifiers.map { it }.toSet()
+        selectedIdentifiers = activatedTypes.map { it.identifier }.toSet()
     }
 
     fun onMasterActive(isActive: Boolean) {
@@ -84,19 +84,24 @@ internal data class SubjectNotificationTypeCollectionViewModel(
             if (defaultIdentifiers.isNotEmpty()) {
                 notificationTypeItems.value {
                     forEach {
-                        it.isActivated.awareSet(defaultIdentifiers.contains(it.identifier))
+                        it.isActivated.awareSet(defaultIdentifiers.contains(it.identifier)) {
+                            selectedIdentifiers += it.identifier
+                        }
                     }
                 }
             } else {
                 notificationTypeItems.value {
                     forEach {
                         it.isActivated.awareSet(true)
+                        selectedIdentifiers += it.identifier
                     }
                 }
             }
         } else {
             notificationTypeItems.value {
-                forEach { it.isActivated.awareSet(false) }
+                forEach { it.isActivated.awareSet(false)
+                    selectedIdentifiers -= it.identifier
+                }
             }
         }
     }
