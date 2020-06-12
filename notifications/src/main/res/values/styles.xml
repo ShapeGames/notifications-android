@@ -120,7 +120,10 @@
 
     <!-- BottomSheet Subject Notifications -->
 
-    <style name="Notifications.Subjects.Screen.Toolbar" parent="Widget.AppCompat.Toolbar" />
+    <style name="Notifications.Subjects.Screen.Toolbar" parent="@style/Widget">
+        <item name="elevation">3dp</item>
+        <item name="backgroundColor">@color/background_white</item>
+    </style>
     <style name="Notifications.Subjects.Screen.Toolbar.Navigation" parent="@style/Widget">
         <item name="tint">#1d5aaf</item>
     </style>
@@ -131,7 +134,14 @@
     <style name="Notifications.Subjects.Screen.Background" parent="@style/Widget" />
     <style name="Notifications.Subjects.Screen.Subject.Name" parent="Widget.AppCompat.TextView" />
     <style name="Notifications.Subjects.Screen.Subject.Switch" parent="Widget.AppCompat.CompoundButton.Switch" />
-    <style name="Notifications.Subjects.Screen.SaveButton" parent="Widget.MaterialComponents.Button" />
+    <style name="Notifications.Subjects.Screen.SaveButton" parent="Widget.AppCompat.Button">
+        <item name="background">@drawable/vector_notifications_save_button</item>
+        <item name="android:button">@drawable/vector_notifications_save_button</item>
+        <item name="buttonCompat">@drawable/vector_notifications_save_button</item>
+        <item name="controlBackground">@drawable/vector_notifications_save_button</item>
+        <item name="colorControlNormal">@color/blue_300</item>
+        <item name="colorButtonNormal">@color/blue_300</item>
+    </style>
 
     <!-- BottomSheet Subject Notification Types -->
     <style name="Notifications.Subjects.Type.Icon" parent="@style/Widget" />
@@ -148,7 +158,7 @@
         <item name="android:gravity">center</item>
         <item name="android:stateListAnimator">@null</item>
         <item name="android:elevation">1dp</item>
-        <item name="android:background">@drawable/notfications_error_button_ripple</item>
+        <item name="android:background">@drawable/notifications_error_button_ripple</item>
         <item name="android:backgroundTint">@color/grey_999</item>
     </style>
 

@@ -6,6 +6,7 @@ import dk.shape.danskespil.module.ui.ModuleDiffInterface
 import dk.shape.games.notifications.aliases.SelectionStateNotifier
 import dk.shape.games.notifications.aliases.StatsNotificationIdentifier
 import dk.shape.games.notifications.aliases.StatsNotificationType
+import dk.shape.games.notifications.extensions.awareSet
 import dk.shape.games.notifications.extensions.toLocalUIImage
 import dk.shape.games.uikit.databinding.UIImage
 
@@ -17,12 +18,13 @@ internal data class SubjectNotificationTypeViewModel(
     private val isDefault: Boolean,
     private val stateNotifier: SelectionStateNotifier,
     private val initialState: Boolean
-): ModuleDiffInterface {
+) : ModuleDiffInterface {
     var isActivated: ObservableBoolean = ObservableBoolean(initialState)
 
     val onStateChangeListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
-        isActivated.set(isChecked)
-        stateNotifier(isChecked, identifier)
+        isActivated.awareSet(isChecked) {
+            stateNotifier(isChecked, identifier)
+        }
     }
 
     override fun compareContentString() = toString()
@@ -31,7 +33,7 @@ internal data class SubjectNotificationTypeViewModel(
 
 internal fun StatsNotificationType.toNotificationTypeViewModel(
     isLastElement: Boolean,
-    selectionStateNotifier: SelectionStateNotifier = { _, _ -> },
+    selectionStateNotifier: SelectionStateNotifier,
     activatedNotifications: Set<StatsNotificationType>,
     defaultNofification: Set<StatsNotificationIdentifier>
 ) =

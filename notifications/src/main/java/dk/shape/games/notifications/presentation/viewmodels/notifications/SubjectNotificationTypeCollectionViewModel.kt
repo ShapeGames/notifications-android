@@ -6,10 +6,11 @@ import dk.shape.games.notifications.aliases.SelectionStateNotifier
 import dk.shape.games.notifications.aliases.StatsNotificationIdentifier
 import dk.shape.games.notifications.aliases.StatsNotificationType
 import dk.shape.games.notifications.entities.SubjectType
+import dk.shape.games.notifications.extensions.awareSet
+import dk.shape.games.notifications.extensions.value
 import dk.shape.games.notifications.presentation.SubjectNotificationStateData
 import me.tatarka.bindingcollectionadapter2.BR
 import me.tatarka.bindingcollectionadapter2.ItemBinding
-import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
 
 internal data class SubjectNotificationTypeCollectionViewModel(
     private val subjectId: String,
@@ -19,15 +20,14 @@ internal data class SubjectNotificationTypeCollectionViewModel(
     private var initialIdentifiers: Set<StatsNotificationIdentifier>,
     private val activatedTypes: Set<StatsNotificationType>,
     private val possibleTypes: List<StatsNotificationType>,
-    private val selectionNotifier: (hasSelections: Boolean) -> Unit
+    private val selectionNotifier: (hasSelections: Boolean) -> Unit,
+    internal val initialMasterState: Boolean
 ) {
     private val stateNotifier: SelectionStateNotifier = { isSelected, identifier ->
         if (isSelected) {
             selectedIdentifiers += identifier
-            defaultIdentifiers += identifier
         } else {
             selectedIdentifiers -= identifier
-            defaultIdentifiers -= identifier
         }
         selectionNotifier(selectedIdentifiers.isNotEmpty())
     }
@@ -37,14 +37,15 @@ internal data class SubjectNotificationTypeCollectionViewModel(
         R.layout.view_subject_notifications_type_item
     )
 
-    val notificationTypeItems: ObservableField<List<SubjectNotificationTypeViewModel>> = ObservableField(possibleTypes.mapIndexed { index, element ->
-        element.toNotificationTypeViewModel(
-            isLastElement = index == possibleTypes.size - 1,
-            selectionStateNotifier = stateNotifier,
-            activatedNotifications = activatedTypes,
-            defaultNofification = defaultIdentifiers
-        )
-    })
+    val notificationTypeItems: ObservableField<List<SubjectNotificationTypeViewModel>> =
+        ObservableField(possibleTypes.mapIndexed { index, element ->
+            element.toNotificationTypeViewModel(
+                isLastElement = index == possibleTypes.size - 1,
+                selectionStateNotifier = stateNotifier,
+                activatedNotifications = activatedTypes,
+                defaultNofification = defaultIdentifiers
+            )
+        })
 
     val subjectStateData: SubjectNotificationStateData
         get() = SubjectNotificationStateData(
@@ -69,20 +70,33 @@ internal data class SubjectNotificationTypeCollectionViewModel(
         return sequenceOne == sequenceTwo
     }
 
+    fun clearSelection() {
+        selectedIdentifiers = emptySet()
+    }
+
+    fun resetAll() {
+        defaultIdentifiers = initialIdentifiers.map { it }.toSet()
+        selectedIdentifiers = initialIdentifiers.map { it }.toSet()
+    }
+
     fun onMasterActive(isActive: Boolean) {
         if (isActive) {
             if (defaultIdentifiers.isNotEmpty()) {
-                notificationTypeItems.get()?.forEach {
-                    it.isActivated.set(defaultIdentifiers.contains(it.identifier))
+                notificationTypeItems.value {
+                    forEach {
+                        it.isActivated.awareSet(defaultIdentifiers.contains(it.identifier))
+                    }
                 }
             } else {
-                notificationTypeItems.get()?.forEach { it.isActivated.set(true) }
+                notificationTypeItems.value {
+                    forEach {
+                        it.isActivated.awareSet(true)
+                    }
+                }
             }
         } else {
-            selectedIdentifiers = emptySet()
-            defaultIdentifiers = emptySet()
-            notificationTypeItems.get()?.forEach {
-                it.isActivated.set(false)
+            notificationTypeItems.value {
+                forEach { it.isActivated.awareSet(false) }
             }
         }
     }

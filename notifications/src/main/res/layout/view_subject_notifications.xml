@@ -9,11 +9,13 @@
             name="viewModel"
             type="dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationViewModel" />
 
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#f5f5f5"
         tools:background="#f5f5f5">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -37,7 +39,7 @@
             style="?attr/Notifications.Subjects.Screen.Subject.Switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="19dp"
+            android:layout_marginEnd="14dp"
             android:checked="@{viewModel.activeNotificationState}"
             android:padding="4dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -64,22 +66,71 @@
             tools:layout_height="100dp"
             />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/notificationsSaveButton"
-            style="?attr/Notifications.Subjects.Screen.SaveButton"
             android:layout_width="0dp"
             android:layout_height="30dp"
+            android:enabled="@{viewModel.hasStateChanges}"
+            android:background="@drawable/vector_notifications_save_button"
             android:layout_marginHorizontal="23dp"
             android:onClick="@{viewModel.onPreferencesSavedListener}"
+            android:layout_marginBottom="55dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="55dp"
-            tools:background="@drawable/vector_notifications_switch_track_on"
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:text="Save my preferences"
+            android:textColor="@color/grey_000"
+            android:textStyle="bold"
+            android:textAllCaps="false"
             tools:padding="0dp"
             tools:text="Save my preferences"
             tools:textColor="@color/grey_000"
-            tools:textStyle="bold" />
+            tools:textStyle="bold"/>
+
+        <FrameLayout
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:background="@drawable/vector_notifications_save_button"
+            android:layout_marginHorizontal="23dp"
+            android:clipToPadding="true"
+            android:clipChildren="true"
+            android:onClick="@{viewModel.onPreferencesSavedListener}"
+            android:layout_marginBottom="55dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:elevation="1dp"
+            android:translationZ="5dp"
+            app:addButtonBehaviour="@{true}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:visibility="@{viewModel.savingPreferences ? View.INVISIBLE : View.VISIBLE}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textAlignment="gravity"
+                android:text="Save my preferences"
+                android:textColor="@color/grey_000"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                tools:padding="0dp"
+                tools:text="Save my preferences"
+                tools:textColor="@color/grey_000"
+                tools:textStyle="bold"/>
+
+            <ProgressBar
+                style="@style/Notifications.Subjects.Loading.ProgressBar"
+                android:visibility="@{viewModel.savingPreferences ? View.VISIBLE : View.INVISIBLE}"
+                android:layout_margin="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:visibility="invisible"/>
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

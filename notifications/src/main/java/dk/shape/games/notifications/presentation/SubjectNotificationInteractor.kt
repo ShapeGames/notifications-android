@@ -7,16 +7,13 @@ import dk.shape.games.notifications.aliases.StatsNotifications
 import dk.shape.games.notifications.features.list.SubjectNotificationsEventHandler
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 
 class SubjectNotificationInteractor(
     private val action: SubjectNotificationsAction,
-    private val coroutineScope: CoroutineScope,
     private val provideDeviceId: () -> String,
     private val provideNotifications: () -> StatsNotifications,
     private val notificationsDataSource: SubjectNotificationsDataSource,
@@ -31,34 +28,34 @@ class SubjectNotificationInteractor(
         onFailure: (error: Throwable) -> Unit
     ) {
         try {
-            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
+            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
                 notificationsEventHandler.onNotificationsLoading(true)
             }
-            coroutineScope.launch(Dispatchers.IO) {
-                notificationsDataSource.getSubscriptions(provideDeviceId()).apply {
-                    collect { subscriptions ->
+            notificationsDataSource.getSubscriptions(provideDeviceId()).apply {
+                collect { subscriptions ->
 
-                        val notifications = provideNotifications()
-                        val notificationsGroup =
-                            notifications.group.find { it.sportId == action.sportId }
+                    val notifications = provideNotifications()
+                    val notificationsGroup =
+                        notifications.group.find { it.sportId == action.sportId }
 
-                        if (notificationsGroup != null) {
-                            val subscription =
-                                subscriptions.find { it.subjectId == action.subjectId }
+                    if (notificationsGroup != null) {
+                        val subscription =
+                            subscriptions.find { it.subjectId == action.subjectId }
 
+                        subscription?.let {
                             val enabledNotificationTypes =
-                                subscription?.types?.mapNotNull { subscriptionType ->
+                                subscription.types.mapNotNull { subscriptionType ->
                                     notificationsGroup.notificationTypes.find { notificationType ->
                                         notificationType.identifier.name.toLowerCase(Locale.getDefault()) == subscriptionType
                                     }
-                                }?.toSet() ?: emptySet()
+                                }.toSet()
 
                             val defaultIdentifiers = if (enabledNotificationTypes.isEmpty()) {
                                 notificationsGroup.defaultNotificationTypeIdentifiers.toSet()
                             } else emptySet()
 
                             withContext(Dispatchers.Main) {
-                                if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
+                                if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
                                     notificationsEventHandler.onNotificationsLoading(false)
                                 }
                                 onLoaded(
@@ -67,13 +64,12 @@ class SubjectNotificationInteractor(
                                     defaultIdentifiers
                                 )
                             }
-
-                        } else throw IllegalArgumentException("Subject ${action.subjectId} is missing default notifications")
-                    }
+                        }
+                    } else throw IllegalArgumentException("Subject ${action.subjectId} is missing default notifications")
                 }
             }
         } catch (e: Exception) {
-            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
+            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
                 notificationsEventHandler.onNotificationsLoading(false)
                 notificationsEventHandler.onPreferencesLoadedError(e)
             }
@@ -81,48 +77,47 @@ class SubjectNotificationInteractor(
         }
     }
 
-    override fun saveNotificationPreferences(
+    override suspend fun saveNotificationPreferences(
         stateData: SubjectNotificationStateData,
         onSuccess: () -> Unit,
         onFailure: (error: Throwable) -> Unit
     ) {
         try {
-            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
+            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
                 notificationsEventHandler.onNotificationsLoading(true)
             }
-            coroutineScope.launch(Dispatchers.IO) {
-                notificationsDataSource.updateSubjectSubscriptions(
-                    subjectId = action.subjectId,
-                    subjectType = action.subjectType,
-                    subscribedNotificationTypeIds = stateData.notificationTypeIdentifiers.map {
-                        it.name.toLowerCase(Locale.getDefault())
-                    }.toSet()
-                )
-                withContext(Dispatchers.Main) {
-                    if (stateData.notificationTypeIdentifiers.isNotEmpty()) {
-                        if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
-                            notificationsEventHandler.onNotificationsActivated(
-                                subjectId = stateData.subjectId,
-                                subjectType = stateData.subjectType
-                            )
-                        }
-                    } else {
-                        if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
-                            notificationsEventHandler.onNotificationsDeactivated(
-                                subjectId = stateData.subjectId,
-                                subjectType = stateData.subjectType
-                            )
-                        }
-                    }
+
+            notificationsDataSource.updateSubjectSubscriptions(
+                subjectId = action.subjectId,
+                subjectType = action.subjectType,
+                subscribedNotificationTypeIds = stateData.notificationTypeIdentifiers.map {
+                    it.name.toLowerCase(Locale.getDefault())
+                }.toSet()
+            )
+            withContext(Dispatchers.Main) {
+                if (stateData.notificationTypeIdentifiers.isNotEmpty()) {
                     if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
-                        notificationsEventHandler.onNotificationsLoading(false)
+                        notificationsEventHandler.onNotificationsActivated(
+                            subjectId = stateData.subjectId,
+                            subjectType = stateData.subjectType
+                        )
                     }
-                    onSuccess()
+                } else {
+                    if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
+                        notificationsEventHandler.onNotificationsDeactivated(
+                            subjectId = stateData.subjectId,
+                            subjectType = stateData.subjectType
+                        )
+                    }
                 }
+                if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
+                    notificationsEventHandler.onNotificationsLoading(false)
+                }
+                onSuccess()
             }
         } catch (e: Exception) {
             onFailure(e)
-            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
+            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
                 notificationsEventHandler.onNotificationsLoading(false)
                 notificationsEventHandler.onPreferencesSavedError(e)
             }

@@ -2,6 +2,7 @@ package dk.shape.games.notifications.extensions
 
 import android.os.Build
 import android.util.TypedValue
+import android.view.MotionEvent
 import android.view.View
 import android.widget.CompoundButton
 import androidx.appcompat.widget.AppCompatCheckBox
@@ -10,8 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import dk.shape.games.notifications.R
 import kotlin.math.abs
-
 private const val DEBOUNCE_DELAY_MS = 300L
+private val BUTTON_BEHAVIOUR = "BUTTON_BEHAVIOUR".hashCode()
 private val DEBOUNCE_CLICK_TAG = "DEBOUNCE_CLICK".hashCode()
 
 @BindingAdapter("visible")
@@ -28,7 +29,6 @@ internal fun AppCompatCheckBox.onStateChange(onStateChange: CompoundButton.OnChe
 internal fun SwitchCompat.onStateChange(onStateChange: CompoundButton.OnCheckedChangeListener) {
     this.setOnCheckedChangeListener(onStateChange)
 }
-
 
 @BindingAdapter(
     value = ["app:showRipple", "app:borderlessRipple", "app:backgroundRipple"],
@@ -54,7 +54,7 @@ internal fun View.setShowRipple(
 }
 
 @BindingAdapter("onDebounceClick")
-fun View.setOnDebounceClick(onDebounceClick: (() -> Unit)?) {
+internal fun View.setOnDebounceClick(onDebounceClick: (() -> Unit)?) {
     if (onDebounceClick == null) return
 
     if (!hasOnClickListeners()) {
@@ -67,6 +67,49 @@ fun View.setOnDebounceClick(onDebounceClick: (() -> Unit)?) {
             if (previousClickTimestamp == null || elapsedTime >= DEBOUNCE_DELAY_MS) {
                 it.setTag(DEBOUNCE_CLICK_TAG, currentTimestamp + DEBOUNCE_DELAY_MS)
                 onDebounceClick()
+            }
+        }
+    }
+}
+
+
+@BindingAdapter("addButtonBehaviour")
+internal fun View.addButtonBehaviour(addButtonBehaviour: Boolean = true) {
+    if (addButtonBehaviour && getTag(BUTTON_BEHAVIOUR) != true) {
+        setTag(BUTTON_BEHAVIOUR, true)
+        val baseElevation = translationZ
+        val baseDuration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
+        val animation: View.(duration: Long, depth: Float) -> Unit = { duration, depth ->
+            this.animate()
+                .translationZ(depth)
+                .setDuration(duration)
+                .start()
+        }
+        setOnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                view.animation(baseDuration, baseElevation + 3)
+            } else {
+                view.animation(baseDuration, baseElevation)
+            }
+        }
+        setOnTouchListener { view, motionEvent ->
+            when(motionEvent.action) {
+                MotionEvent.ACTION_BUTTON_PRESS,  MotionEvent.ACTION_DOWN -> {
+                    view.isPressed = true
+                    view.animation(baseDuration, 0f)
+                    true
+                }
+                MotionEvent.ACTION_BUTTON_RELEASE, MotionEvent.ACTION_UP ->{
+                    view.isPressed = false
+                    view.animation(baseDuration, baseElevation)
+                    this.performClick()
+                }
+                MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_OUTSIDE -> {
+                    view.isPressed = false
+                    view.animation(baseDuration, baseElevation)
+                    true
+                }
+                else -> true
             }
         }
     }

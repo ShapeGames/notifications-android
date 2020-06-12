@@ -18,7 +18,11 @@ internal class SubjectNotificationSwitcherViewModel {
         OnItemBindClass<Any>()
             .map(ErrorViewModel::class.java, BR.viewModel, R.layout.state_error_view)
             .map(LoadingViewModel::class.java, BR.viewModel, R.layout.state_loading_view)
-            .map(SubjectNotificationViewModel::class.java, BR.viewModel, R.layout.view_subject_notifications)
+            .map(
+                SubjectNotificationViewModel::class.java,
+                BR.viewModel,
+                R.layout.view_subject_notifications
+            )
     )
 
     val item: ObservableField<Any> = ObservableField(loadingViewModel)

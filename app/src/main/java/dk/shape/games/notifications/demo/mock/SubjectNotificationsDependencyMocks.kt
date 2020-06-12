@@ -31,22 +31,22 @@ object SubjectNotificationsProviderMock {
                     notificationTypes = listOf(
                         AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationType(
                             identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.EVENT_START,
-                            icon = PolyIcon.Resource("", false),
+                            icon = PolyIcon.Resource("ic-notifications", false),
                             name = "Startopstilling"
                         ),
                         AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationType(
                             identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.EVENT_REMINDER,
-                            icon = PolyIcon.Resource("", false),
+                            icon = PolyIcon.Resource("ic-notifications", false),
                             name = "Inden event starter"
                         ),
                         AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationType(
                             identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.LINEUP_READY,
-                            icon = PolyIcon.Resource("", false),
+                            icon = PolyIcon.Resource("ic-notifications", false),
                             name = "Inden event starter"
                         ),
                         AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationType(
                             identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.EVENT_END,
-                            icon = PolyIcon.Resource("", false),
+                            icon = PolyIcon.Resource("ic-notifications", false),
                             name = "Slutresultat for event"
                         )
                     )
@@ -109,8 +109,16 @@ object SubjectNotificationsRepositoryMock : SubjectNotificationsDataSource {
     }
 }
 
-object subjectNotificationsEventHandlerMock : SubjectNotificationsEventHandler {
-    override fun <T : Parcelable> onClosed(notificationsFragment: SubjectNotificationsFragment, actionData: T) {
-        notificationsFragment.parentFragmentManager.popBackStack()
+object SubjectNotificationsEventHandlerMock : SubjectNotificationsEventHandler.Full {
+    override fun onNotificationsActivated(subjectId: String, subjectType: SubjectType) {
+        val something = 0
+    }
+
+    override fun onNotificationsDeactivated(subjectId: String, subjectType: SubjectType) {
+       val something = 0
+    }
+
+    override fun <T : Parcelable> onClosed(fragment: SubjectNotificationsFragment, action: T) {
+        fragment.parentFragmentManager.popBackStack()
     }
 }

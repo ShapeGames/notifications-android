@@ -149,4 +149,6 @@
     <style name="Notifications.Subjects.Screen.SaveButton.BetWarrior" parent="@style/Notifications.Subjects.Screen.SaveButton">
 
     </style>
+
+    <style name="Notifications.Subjects.Type.Container.BetWarrior" parent="@style/Notifications.Subjects.Type.Container" />
 </resources>

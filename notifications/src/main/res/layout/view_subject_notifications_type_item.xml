@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         style="?attr/Notifications.Subjects.Type.Container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="50dp"
         android:background="@{viewModel.isLastElement ? @drawable/vector_notification_type_background_no_line : @drawable/vector_notification_type_background}"
         tools:background="@drawable/vector_notification_type_background"
        

@@ -5,8 +5,9 @@ import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import dk.shape.games.notifications.aliases.PreferencesSaveAction
-import dk.shape.games.notifications.aliases.StatsNotificationIdentifier
 import dk.shape.games.notifications.entities.SubjectType
+import dk.shape.games.notifications.extensions.awareSet
+import dk.shape.games.notifications.extensions.value
 
 internal data class SubjectNotificationViewModel(
     val subjectId: String,
@@ -21,32 +22,55 @@ internal data class SubjectNotificationViewModel(
 
     val activeNotificationState: ObservableBoolean = ObservableBoolean(false)
 
-    val notificationTypesCollection: ObservableField<SubjectNotificationTypeCollectionViewModel> = ObservableField()
+    val notificationTypesCollection: ObservableField<SubjectNotificationTypeCollectionViewModel> =
+        ObservableField()
 
+    val stateChangeHandler: (isChecked: Boolean, isMasterTrigger: Boolean) -> Unit = { isChecked, isMasterTrigger ->
+        activeNotificationState.awareSet(isChecked)
+        notificationTypesCollection.value {
+            if (isMasterTrigger) {
+                onMasterActive(isChecked)
+            }
+        }
+        updateSaveState(isChecked)
+    }
     val onStateChangeListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
-        activeNotificationState.set(isChecked)
-        notificationTypesCollection.get()?.onMasterActive(isChecked)
+       if (activeNotificationState.get() != isChecked) {
+           notificationTypesCollection.value {
+               resetAll()
+           }
+           stateChangeHandler(isChecked, true)
+       }
     }
 
     val notifySelection: (hasSelections: Boolean) -> Unit = { hasSelections ->
-        hasStateChanges.set(notificationTypesCollection.get()?.hasChanges == true)
-        activeNotificationState.set(hasSelections)
+        if (!activeNotificationState.get()) {
+            notificationTypesCollection.value { resetAll() }
+        }
+        stateChangeHandler(hasSelections, false)
     }
 
     val onPreferencesSavedListener = View.OnClickListener {
-        val hasChanges = notificationTypesCollection.get()?.hasChanges == true
+        val initialState = notificationTypesCollection.value { initialMasterState }
+        val hasChanges = notificationTypesCollection.value { hasChanges } == true
 
-        if (!hasChanges) {
-            return@OnClickListener
-        }
-        val stateData = notificationTypesCollection.get()?.subjectStateData
+        if (hasChanges || (initialState != activeNotificationState.get())) {
+            val stateData = notificationTypesCollection.value { subjectStateData }
 
-        savingPreferences.set(stateData != null)
+            savingPreferences.set(stateData != null)
 
-        stateData?.let {
-            onPreferencesSaved(it, onClosedPressed) {
-                savingPreferences.set(false)
+            stateData?.let {
+                onPreferencesSaved(it, onClosedPressed) {
+                    savingPreferences.set(false)
+                }
             }
         }
+    }
+
+    private fun updateSaveState(isChecked: Boolean) {
+        val initialState = notificationTypesCollection.value { initialMasterState }
+        val hasChanges = notificationTypesCollection.value { hasChanges } == true
+
+        hasStateChanges.awareSet(hasChanges || (initialState != isChecked))
     }
 }
