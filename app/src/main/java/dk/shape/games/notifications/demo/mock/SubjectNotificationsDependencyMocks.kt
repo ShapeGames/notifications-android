@@ -45,22 +45,22 @@ object SubjectNotificationsProviderMock {
                         notificationTypes = listOf(
                             AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationType(
                                 identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.EVENT_START,
-                                icon = PolyIcon.Resource("ic-notifications", false),
+                                icon = PolyIcon.Resource("ic-notification-icon-lineup", false),
                                 name = "Startopstilling"
                             ),
                             AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationType(
                                 identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.EVENT_REMINDER,
-                                icon = PolyIcon.Resource("ic-notifications", false),
+                                icon = PolyIcon.Resource("ic-notification-icon-before-event", false),
                                 name = "Inden event starter"
                             ),
                             AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationType(
                                 identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.LINEUP_READY,
-                                icon = PolyIcon.Resource("ic-notifications", false),
+                                icon = PolyIcon.Resource("ic-notification-icon-match-start", false),
                                 name = "Inden event starter"
                             ),
                             AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationType(
                                 identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.EVENT_END,
-                                icon = PolyIcon.Resource("ic-notifications", false),
+                                icon = PolyIcon.Resource("ic-notification-icon-match-end", false),
                                 name = "Slutresultat for event"
                             )
                         )

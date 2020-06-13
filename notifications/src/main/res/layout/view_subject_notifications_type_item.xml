@@ -20,27 +20,21 @@
         android:focusable="true"
         android:onClick="@{viewModel.onNotificationClicked}"
         tools:background="@drawable/vector_notification_type_background"
-
         tools:layout_height="50dp">
 
-        <FrameLayout
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/notificationTypeIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="13dp"
             android:background="@drawable/vector_notifications_icon_background"
+            android:src="@{viewModel.icon}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="13dp"
-                android:layout_marginBottom="13dp"
-                android:src="@{viewModel.icon}"
-                tools:srcCompat="@drawable/ic_notifications" />
-        </FrameLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/ic_notification_icon_before_event" />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="?attr/Notifications.Subjects.Type.Name"
