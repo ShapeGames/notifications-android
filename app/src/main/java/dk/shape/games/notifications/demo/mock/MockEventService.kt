@@ -56,17 +56,11 @@ class MockEventService : DBPublishService {
 
             override fun isCanceled() = false
 
-            override fun cancel() {
-            }
+            override fun cancel() {}
 
             override fun execute() = Response.success(event)
 
             override fun request(): Request = Request.Builder().build()
-
-            override fun timeout(): Timeout {
-                TODO("Not yet implemented")
-            }
-
         }
     }
 
@@ -106,17 +100,11 @@ class MockEventService : DBPublishService {
 
             override fun isCanceled() = false
 
-            override fun cancel() {
-            }
+            override fun cancel() {}
 
             override fun execute() = Response.success(events.toMutableList())
 
             override fun request(): Request = Request.Builder().build()
-
-            override fun timeout(): Timeout {
-                TODO("Not yet implemented")
-            }
-
         }
     }
 
@@ -167,7 +155,6 @@ class MockEventService : DBPublishService {
     override fun liveLevelHierarchy(): Call<MutableList<Level>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
 }
 
 fun Context.readResource(resourceId: Int): String {
