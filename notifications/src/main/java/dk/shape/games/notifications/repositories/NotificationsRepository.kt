@@ -9,6 +9,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.util.*
@@ -47,12 +48,23 @@ class NotificationsRepository(
         return subscriptionsChannel
     }
 
+    override suspend fun hasActiveSubscription(
+        deviceId: String,
+        subjectId: String
+    ): Flow<Boolean> {
+        return getSubscriptions(deviceId).map { subscritions ->
+            val subscrition = subscritions.find { it.subjectId == subjectId }
+            subscrition != null && subscrition.types.isNotEmpty()
+        }
+    }
+
     override suspend fun updateSubjectSubscriptions(
+        deviceId: String,
         subjectId: String,
         subjectType: SubjectType,
         subscribedNotificationTypeIds: Set<String>
     ) {
-        updateMutexes.getOrPut("$subjectId|${subjectType.name}", { Mutex(false) }).withLock {
+        updateMutexes.getOrPut("$deviceId|$subjectId", { Mutex(false) }).withLock {
             service.updateSubscriptions(
                 SubscribeRequest(
                     deviceId = subjectId,
@@ -66,7 +78,7 @@ class NotificationsRepository(
         cacheMutex.withLock {
             // We want to update the cache only if other subscriptions were already fetched, which
             // means we have the device ID in the cache.
-            cache.get(subjectId)?.let {
+            cache.get(deviceId)?.let {
                 val cachedSubscriptions = (it.filter { subscription ->
                     subscription.subjectId != subjectId
                 }.toSet() + Subscription(
@@ -76,8 +88,8 @@ class NotificationsRepository(
                     types = subscribedNotificationTypeIds
                 )).sortSubscriptions()
 
-                cache.put(subjectId, cachedSubscriptions, Cache.CacheDuration.Infinite)
-                getChannelForDeviceId(subjectId).sendBlocking(cachedSubscriptions)
+                cache.put(deviceId, cachedSubscriptions, Cache.CacheDuration.Infinite)
+                getChannelForDeviceId(deviceId).sendBlocking(cachedSubscriptions)
             }
         }
     }

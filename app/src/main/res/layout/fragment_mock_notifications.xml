@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.demo.mock.MockNotificationsViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:animateLayoutChanges="true"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="60dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{viewModel.onNotificationsClickedListener}"
+            app:cardBackgroundColor="#FFC107"
+            app:borderlessRipple="@{true}"
+            app:cardCornerRadius="60dp"
+            app:cardElevation="6dp"
+            android:layout_gravity="top|center_horizontal"
+            app:showRipple="@{true}">
+
+            <View
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="10dp"
+                android:backgroundTint="#FFFFFF"
+                android:layout_gravity="center"
+                android:visibility="@{viewModel.isLoadingStatus ? View.GONE : View.VISIBLE}"
+                android:background="@{viewModel.hasNotifications ? @drawable/ic_notification_filled : @drawable/ic_notification_unfilled}"
+                tools:background="@drawable/ic_notification_unfilled" />
+
+            <ProgressBar
+                style="@style/Notifications.Mock.ProgressBar"
+                android:theme="@style/Notifications.Mock.ProgressBar"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:visibility="@{viewModel.isLoadingStatus ? View.VISIBLE : View.GONE}"/>
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
+</layout>

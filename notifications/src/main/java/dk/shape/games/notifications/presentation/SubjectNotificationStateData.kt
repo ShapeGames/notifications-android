@@ -3,7 +3,7 @@ package dk.shape.games.notifications.presentation
 import dk.shape.games.notifications.aliases.StatsNotificationIdentifier
 import dk.shape.games.notifications.entities.SubjectType
 
-data class SubjectNotificationStateData (
+data class SubjectNotificationStateData(
     val subjectId: String,
     val subjectType: SubjectType,
     val notificationTypeIdentifiers: List<StatsNotificationIdentifier>

@@ -77,5 +77,4 @@
             tools:button="@drawable/vector_notifications_toggle"
             tools:checked="true" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

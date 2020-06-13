@@ -2,12 +2,12 @@ package dk.shape.games.notifications.demo.notifications
 
 import androidx.fragment.app.Fragment
 import dk.shape.games.notifications.demo.mock.*
-import dk.shape.games.notifications.features.list.SubjectNotificationsConfig
+import dk.shape.games.notifications.presentation.SubjectNotificationsConfig
 import dk.shape.games.toolbox_library.configinjection.ConfigProvider
-import kotlin.time.ExperimentalTime
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalTime
 class SubjectNotificationsDependencyProvider : ConfigProvider<SubjectNotificationsConfig> {
+    @ExperimentalCoroutinesApi
     override fun config(fragment: Fragment): SubjectNotificationsConfig {
         return SubjectNotificationsConfig(
             screenTitle = { "Notifications" },
@@ -16,5 +16,12 @@ class SubjectNotificationsDependencyProvider : ConfigProvider<SubjectNotificatio
             notificationsDataSource = SubjectNotificationsRepositoryMock,
             eventHandler = SubjectNotificationsEventHandlerMock
         )
+    }
+}
+
+class MocktNotificationsDependencyProvider: ConfigProvider<MocktNotificationsConfig> {
+    @ExperimentalCoroutinesApi
+    override fun config(fragment: Fragment): MocktNotificationsConfig {
+        return mockClientDependencies
     }
 }

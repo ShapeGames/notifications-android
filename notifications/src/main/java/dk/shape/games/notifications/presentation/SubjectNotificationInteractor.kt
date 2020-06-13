@@ -4,7 +4,6 @@ import dk.shape.games.notifications.actions.SubjectNotificationsAction
 import dk.shape.games.notifications.aliases.StatsNotificationIdentifier
 import dk.shape.games.notifications.aliases.StatsNotificationType
 import dk.shape.games.notifications.aliases.StatsNotifications
-import dk.shape.games.notifications.features.list.SubjectNotificationsEventHandler
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import kotlinx.coroutines.Dispatchers
@@ -15,11 +14,12 @@ import java.util.*
 
 class SubjectNotificationInteractor(
     private val action: SubjectNotificationsAction,
-    private val provideDeviceId: () -> String,
-    private val provideNotifications: () -> StatsNotifications,
+    private val provideDeviceId: suspend () -> String,
+    private val provideNotifications: suspend () -> StatsNotifications,
     private val notificationsDataSource: SubjectNotificationsDataSource,
     private val notificationsEventHandler: SubjectNotificationsEventHandler
 ) : SubjectNotificationUseCases {
+
     override suspend fun loadNotifications(
         onLoaded: (
             activatedTypes: Set<StatsNotificationType>,
@@ -92,14 +92,13 @@ class SubjectNotificationInteractor(
             }
 
             notificationsDataSource.updateSubjectSubscriptions(
+                deviceId = provideDeviceId(),
                 subjectId = action.subjectId,
                 subjectType = action.subjectType,
                 subscribedNotificationTypeIds = stateData.notificationTypeIdentifiers.map {
                     it.name.toLowerCase(Locale.getDefault())
                 }.toSet()
             )
-            //TODO (REMOVE DELAY)
-            delay(2000)
 
             withContext(Dispatchers.Main) {
                 if (stateData.notificationTypeIdentifiers.isNotEmpty()) {

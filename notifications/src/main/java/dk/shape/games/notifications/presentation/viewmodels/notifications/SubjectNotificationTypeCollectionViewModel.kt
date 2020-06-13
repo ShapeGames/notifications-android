@@ -12,8 +12,7 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding
 
 internal data class SubjectNotificationTypeCollectionViewModel(
     private var selectedIdentifiers: Set<StatsNotificationIdentifier>,
-    private var defaultIdentifiers: Set<StatsNotificationIdentifier>,
-    private var initialIdentifiers: Set<StatsNotificationIdentifier>,
+    private val defaultIdentifiers: Set<StatsNotificationIdentifier>,
     private val activatedTypes: Set<StatsNotificationType>,
     private val possibleTypes: List<StatsNotificationType>,
     private val selectionNotifier: (hasSelections: Boolean) -> Unit,
@@ -50,7 +49,6 @@ internal data class SubjectNotificationTypeCollectionViewModel(
         )
 
     fun resetAll() {
-        defaultIdentifiers = initialIdentifiers.map { it }.toSet()
         selectedIdentifiers = activatedTypes.map { it.identifier }.toSet()
     }
 

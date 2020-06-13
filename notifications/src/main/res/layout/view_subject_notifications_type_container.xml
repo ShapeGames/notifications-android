@@ -7,24 +7,21 @@
         <variable
             name="viewModel"
             type="dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationTypeCollectionViewModel" />
-
     </data>
 
     <androidx.cardview.widget.CardView
-        app:cardCornerRadius="6dp"
-        app:cardElevation="6dp"
-        app:cardBackgroundColor="@color/background_white"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/background_white"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="6dp">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="14dp"
+            android:orientation="vertical"
             app:itemBinding="@{viewModel.itemBinding}"
             app:items="@{viewModel.notificationTypeItems}" />
-
     </androidx.cardview.widget.CardView>
-
 </layout>

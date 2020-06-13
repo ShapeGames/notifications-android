@@ -8,6 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Notifications.Mock.ProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">#ffffff</item>
+    </style>
+
     <style name="OddsetNotificationsModuleStyle" parent="AppTheme">
 
         <!-- Subject Notifications -->

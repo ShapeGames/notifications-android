@@ -1,16 +1,15 @@
-package dk.shape.games.notifications.features.list
+package dk.shape.games.notifications.presentation
 
 import android.os.Parcelable
 import dk.shape.games.notifications.entities.SubjectType
-import dk.shape.games.notifications.presentation.SubjectNotificationsFragment
 
 interface SubjectNotificationsEventHandler {
     /**
      * Called when user presses toolbar back button on Notification screen
      */
-    fun <T: Parcelable> onClosed(fragment: SubjectNotificationsFragment, action: T)
+    fun <T : Parcelable> onClosed(fragment: SubjectNotificationsFragment, action: T)
 
-    interface Full: SubjectNotificationsEventHandler {
+    interface Full : SubjectNotificationsEventHandler {
 
         /**
          * Called when user activates notifications for a specific subject
@@ -22,7 +21,7 @@ interface SubjectNotificationsEventHandler {
          */
         fun onNotificationsDeactivated(subjectId: String, subjectType: SubjectType)
 
-        interface State: Full {
+        interface State : Full {
             /**
              * Called when user attemps to retrieve notifications data. A loading state of true
              * signifies that the notifications are loading and a loading screen should displayed.

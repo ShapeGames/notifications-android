@@ -15,7 +15,6 @@ import dk.shape.games.notifications.aliases.NotifificationsLoadedListener
 import dk.shape.games.notifications.databinding.FragmentSubjectNotificationsBinding
 import dk.shape.games.notifications.extensions.awareSet
 import dk.shape.games.notifications.extensions.launch
-import dk.shape.games.notifications.features.list.SubjectNotificationsConfig
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSheetViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSwitcherViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationTypeCollectionViewModel
@@ -91,8 +90,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
                 notificationViewModel.apply {
                     notificationTypesCollection.set(
                         SubjectNotificationTypeCollectionViewModel(
-                            defaultIdentifiers = defaultTypes,
-                            initialIdentifiers = initialIdentifiers,
+                            defaultIdentifiers = initialIdentifiers,
                             selectedIdentifiers = activeIdentifiers.toSet(),
                             activatedTypes = activatedTypes,
                             possibleTypes = possibleTypes,

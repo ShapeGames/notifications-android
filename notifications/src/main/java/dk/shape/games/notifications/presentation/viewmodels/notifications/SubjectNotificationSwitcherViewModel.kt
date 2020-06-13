@@ -4,8 +4,6 @@ import androidx.databinding.ObservableField
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.presentation.viewmodels.state.ErrorViewModel
 import dk.shape.games.notifications.presentation.viewmodels.state.LoadingViewModel
-import dk.shape.games.uikit.databinding.UIImage
-import dk.shape.games.uikit.databinding.UIText
 import me.tatarka.bindingcollectionadapter2.BR
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
