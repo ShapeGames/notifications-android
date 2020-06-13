@@ -35,9 +35,6 @@ class SubjectNotificationInteractor(
 
             notificationsDataSource.getSubscriptions(provideDeviceId()).apply {
                 collect { subscriptions ->
-                    //TODO (REMOVE DELAY)
-                    delay(2000)
-
                     val notifications = provideNotifications()
                     val notificationsGroup =
                         notifications.group.find { it.sportId == action.sportId }
