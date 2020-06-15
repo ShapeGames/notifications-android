@@ -92,7 +92,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
                         SubjectNotificationTypeCollectionViewModel(
                             defaultIdentifiers = initialIdentifiers,
                             selectedIdentifiers = activeIdentifiers.toSet(),
-                            activatedTypes = activatedTypes,
+                            activatedIdentifiers = activeIdentifiers,
                             possibleTypes = possibleTypes,
                             selectionNotifier = notificationViewModel.notifySelection,
                             initialMasterState = activatedTypes.isNotEmpty()

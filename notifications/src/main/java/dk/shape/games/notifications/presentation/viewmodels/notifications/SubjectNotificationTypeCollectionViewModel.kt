@@ -13,7 +13,7 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding
 internal data class SubjectNotificationTypeCollectionViewModel(
     private var selectedIdentifiers: Set<StatsNotificationIdentifier>,
     private val defaultIdentifiers: Set<StatsNotificationIdentifier>,
-    private val activatedTypes: Set<StatsNotificationType>,
+    private val activatedIdentifiers: Set<StatsNotificationIdentifier>,
     private val possibleTypes: List<StatsNotificationType>,
     private val selectionNotifier: (hasSelections: Boolean) -> Unit,
     internal val initialMasterState: Boolean
@@ -37,19 +37,19 @@ internal data class SubjectNotificationTypeCollectionViewModel(
             element.toNotificationTypeViewModel(
                 isLastElement = index == possibleTypes.size - 1,
                 selectionStateNotifier = stateNotifier,
-                activatedNotifications = activatedTypes,
+                activatedIdentifiers = activatedIdentifiers,
                 defaultNofification = defaultIdentifiers
             )
         })
 
     val hasChanges: Boolean
         get() = !compareIndetifiers(
-            initialIdentifiers = activatedTypes.map { it.identifier }.toSet(),
+            initialIdentifiers = activatedIdentifiers.toSet(),
             currentIdentifiers = selectedIdentifiers
         )
 
     fun resetAll() {
-        selectedIdentifiers = activatedTypes.map { it.identifier }.toSet()
+        selectedIdentifiers = activatedIdentifiers.toSet()
     }
 
     fun allowItemInput(allowInput: Boolean) {

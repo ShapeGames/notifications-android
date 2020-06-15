@@ -44,14 +44,14 @@ internal data class SubjectNotificationTypeViewModel(
 internal fun StatsNotificationType.toNotificationTypeViewModel(
     isLastElement: Boolean,
     selectionStateNotifier: SelectionStateNotifier,
-    activatedNotifications: Set<StatsNotificationType>,
+    activatedIdentifiers: Set<StatsNotificationIdentifier>,
     defaultNofification: Set<StatsNotificationIdentifier>
 ) =
     SubjectNotificationTypeViewModel(
         icon = icon.toLocalUIImage(),
         identifier = identifier,
         isDefault = defaultNofification.contains(identifier),
-        initialState = activatedNotifications.contains(this),
+        initialState = activatedIdentifiers.contains(this.identifier),
         stateNotifier = selectionStateNotifier,
         isLastElement = isLastElement,
         notificationTypeName = name

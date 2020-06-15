@@ -65,11 +65,11 @@ internal data class SubjectNotificationViewModel(
             )
 
             isSavingPreferences.set(true)
-            notificationTypesCollection.value { allowItemInput(false) }
+            notificationTypesCollection.value { allowItemInput(allowInput = false) }
 
             onPreferencesSaved(stateData, onClosedPressed) {
                 isSavingPreferences.set(false)
-                notificationTypesCollection.value { allowItemInput(true) }
+                notificationTypesCollection.value { allowItemInput(allowInput = true) }
             }
         }
     }

@@ -1,7 +1,6 @@
 package dk.shape.games.notifications.aliases
 
 import dk.shape.games.notifications.presentation.SubjectNotificationStateData
-import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationTypeViewModel
 
 internal typealias PreferencesSaveAction = (stateData: SubjectNotificationStateData, onSuccess: () -> Unit, onFailure: () -> Unit) -> Unit
 

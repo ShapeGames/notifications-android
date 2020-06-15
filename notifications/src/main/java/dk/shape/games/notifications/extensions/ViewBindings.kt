@@ -17,11 +17,6 @@ private const val DEBOUNCE_DELAY_MS = 300L
 
 private val DEBOUNCE_CLICK_TAG = "DEBOUNCE_CLICK".hashCode()
 
-@BindingAdapter("visible")
-internal fun View.setVisible(visible: Boolean?) {
-    this.visibility = if (visible == true) View.VISIBLE else View.GONE
-}
-
 @BindingAdapter("onStateChange")
 internal fun AppCompatCheckBox.onStateChange(onStateChange: CompoundButton.OnCheckedChangeListener) {
     this.setOnCheckedChangeListener(onStateChange)
