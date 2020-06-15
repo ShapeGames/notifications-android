@@ -5,11 +5,11 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenResumed
 import androidx.lifecycle.whenStarted
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.games.notifications.demo.databinding.FragmentMockNotificationsBinding
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
@@ -21,19 +21,32 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-typealias NotificationsFragmentProvider = (fragment: Fragment, sportId: String, subjectId: String, subjectName: String, subjectType: SubjectType) -> DialogFragment
-
 data class MocktNotificationsConfig(
-    val isNotificationsSupported: suspend (deviceId: String, subjectId: String) -> Flow<Boolean>,
-    val showNotificationsFragment: NotificationsFragmentProvider,
+    val hasSportNotificationsSupport: suspend (sportId: String) -> Boolean,
+    val hasNotificationsSupport: suspend (subjectId: String) -> Flow<Boolean>,
+    val showNotificationsFragment: (Fragment, MockData) -> BottomSheetDialogFragment,
     var notificationEventListener: (hasNotifications: Boolean) -> Unit,
-    var notificationsClosedListener: (DialogFragment) -> Unit
+    var notificationsClosedListener: (BottomSheetDialogFragment) -> Unit = {}
+)
+
+data class MockData(
+    val sportId: String,
+    val subjectId: String,
+    val subjectName: String,
+    val subjectType: SubjectType
 )
 
 @Parcelize
 object MocktNotificationsAction : Parcelable
 
 class MockNotificationsFragment : Fragment() {
+
+    private val mockData = MockData(
+        sportId = "football:0000",
+        subjectId = "team:0000",
+        subjectName = "Manchester United",
+        subjectType =  SubjectType.TEAMS
+    )
 
     object Args : ConfigFragmentArgs<MocktNotificationsAction, MocktNotificationsConfig>()
 
@@ -43,13 +56,7 @@ class MockNotificationsFragment : Fragment() {
 
         MockNotificationsViewModel(
             showNotifications = {
-                config.showNotificationsFragment(
-                    this,
-                    "football:0000",
-                    "team:0000",
-                    "Manchester United",
-                    SubjectType.TEAMS
-                )
+                config.showNotificationsFragment(this, mockData)
             }
         )
     }
@@ -62,10 +69,13 @@ class MockNotificationsFragment : Fragment() {
         lifecycleScope.launch {
             whenStarted { mockViewModel.isLoadingStatus.set(true) }
             whenResumed {
-                config.isNotificationsSupported("team:0000", "team:0000").collect {
-                    withContext(Dispatchers.Main) {
-                        mockViewModel.isLoadingStatus.set(false)
-                        mockViewModel.hasNotifications.set(it)
+                if (config.hasSportNotificationsSupport(mockData.sportId)) {
+                    mockViewModel.hasNotificationsSupport.set(true)
+                    config.hasNotificationsSupport(mockData.subjectId).collect {
+                        withContext(Dispatchers.Main) {
+                            mockViewModel.isLoadingStatus.set(false)
+                            mockViewModel.hasNotifications.set(it)
+                        }
                     }
                 }
                 config.notificationEventListener = {

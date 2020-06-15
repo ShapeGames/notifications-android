@@ -8,6 +8,7 @@ internal data class MockNotificationsViewModel(
 ) {
     val isLoadingStatus: ObservableBoolean = ObservableBoolean(false)
     val hasNotifications: ObservableBoolean = ObservableBoolean(false)
+    val hasNotificationsSupport: ObservableBoolean = ObservableBoolean(false)
 
     val onNotificationsClickedListener = View.OnClickListener {
         showNotifications()

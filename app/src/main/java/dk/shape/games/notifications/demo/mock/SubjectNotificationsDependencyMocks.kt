@@ -1,8 +1,8 @@
 package dk.shape.games.notifications.demo.mock
 
 import android.os.Parcelable
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.danskespil.foundation.entities.PolyIcon
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
 import dk.shape.games.notifications.demo.notifications.SubjectNotificationsDependencyProvider
@@ -26,6 +26,15 @@ object SubjectDeviceIdProviderMock {
     suspend fun provideDeviceIdMock(): String {
         return withContext(Dispatchers.IO) {
            "1db655ee-48ea-11ea-b77f-2e728ce88125"
+        }
+    }
+}
+
+object SportNotificationsSupportMock {
+    suspend fun hasNotificationsSupport(sportId: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            val notifications = SubjectNotificationsProviderMock.provideNotificationsMock()
+            notifications.group.any { it.sportId == sportId }
         }
     }
 }
@@ -139,7 +148,7 @@ object SubjectNotificationsRepositoryMock : SubjectNotificationsDataSource {
 fun <T : Fragment> launchBottomSheetNotificationsFragment(
     fragment: T,
     action: SubjectNotificationsAction
-): DialogFragment {
+): BottomSheetDialogFragment {
     return SubjectNotificationsFragment().apply {
         arguments = SubjectNotificationsFragment.Args.create(
             action = action,
@@ -151,17 +160,23 @@ fun <T : Fragment> launchBottomSheetNotificationsFragment(
 
 @ExperimentalCoroutinesApi
 val mockClientDependencies: MocktNotificationsConfig = MocktNotificationsConfig(
-    isNotificationsSupported = SubjectNotificationsRepositoryMock::hasActiveSubscription,
+    hasSportNotificationsSupport = { sportId ->
+        SportNotificationsSupportMock.hasNotificationsSupport(sportId)
+    },
+    hasNotificationsSupport = {
+        val deviceId = SubjectDeviceIdProviderMock.provideDeviceIdMock()
+        SubjectNotificationsRepositoryMock.hasActiveSubscription(deviceId, it)
+    },
     notificationEventListener = { },
     notificationsClosedListener = { },
-    showNotificationsFragment = { fragment, sportId, subjectId, subjectName, subjectType ->
+    showNotificationsFragment = { fragment, mockData ->
         launchBottomSheetNotificationsFragment(
             fragment = fragment,
             action = SubjectNotificationsAction(
-                sportId = sportId,
-                subjectId = subjectId,
-                subjectName = subjectName,
-                subjectType = subjectType
+                sportId = mockData.sportId,
+                subjectId = mockData.subjectId,
+                subjectName = mockData.subjectName,
+                subjectType = mockData.subjectType
             )
         )
     }

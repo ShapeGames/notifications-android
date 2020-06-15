@@ -20,6 +20,7 @@
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
+            android:visibility="@{viewModel.hasNotificationsSupport ? View.VISIBLE : View.INVISIBLE}"
             android:animateLayoutChanges="true"
             android:layout_width="60dp"
             android:layout_height="60dp"
