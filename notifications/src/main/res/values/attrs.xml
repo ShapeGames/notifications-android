@@ -39,4 +39,9 @@
         <attr name="Notifications.Subjects.Error.Button" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Error.Text" format="reference" tools:ignore="ResourceName" />
     </declare-styleable>
+    
+    <declare-styleable name="StylableTextView">
+        <attr name="normal_state_font" format="string" />
+        <attr name="active_state_font" format="string" />
+    </declare-styleable>
 </resources>

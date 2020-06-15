@@ -1,4 +1,4 @@
-package dk.shape.games.notifications.extensions
+package dk.shape.games.notifications.bindings
 
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -13,22 +13,5 @@ internal fun ViewGroup.bindViewProvider(viewProvider: ViewProvider?) {
     removeAllViews()
     if (viewProvider != null) {
         addView(viewProvider(context))
-    }
-}
-
-@Suppress("UNCHECKED_CAST")
-@BindingAdapter(value = ["items", "itemBinding"], requireAll = false)
-internal fun <T : ModuleDiffInterface> LinearLayout.setAdapter(
-    items: List<T>?,
-    itemBinding: ItemBinding<T>?
-) {
-    if (itemBinding == null) return
-
-    LinearLayoutBindingCollectionAdapter(
-        linearLayout = this,
-        bindings = itemBinding
-    ).apply {
-        setItemBinding(itemBinding)
-        setItems(items)
     }
 }

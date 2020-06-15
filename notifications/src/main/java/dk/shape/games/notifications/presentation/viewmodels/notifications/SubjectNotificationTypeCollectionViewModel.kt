@@ -5,8 +5,8 @@ import dk.shape.games.notifications.R
 import dk.shape.games.notifications.aliases.SelectionStateNotifier
 import dk.shape.games.notifications.aliases.StatsNotificationIdentifier
 import dk.shape.games.notifications.aliases.StatsNotificationType
-import dk.shape.games.notifications.extensions.awareSet
-import dk.shape.games.notifications.extensions.value
+import dk.shape.games.notifications.bindings.awareSet
+import dk.shape.games.notifications.bindings.value
 import me.tatarka.bindingcollectionadapter2.BR
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 
@@ -14,7 +14,7 @@ internal data class SubjectNotificationTypeCollectionViewModel(
     private var selectedIdentifiers: Set<StatsNotificationIdentifier>,
     private val defaultIdentifiers: Set<StatsNotificationIdentifier>,
     private val activatedIdentifiers: Set<StatsNotificationIdentifier>,
-    private val possibleTypes: List<StatsNotificationType>,
+    private val possibleTypes: Set<StatsNotificationType>,
     private val selectionNotifier: (hasSelections: Boolean) -> Unit,
     internal val initialMasterState: Boolean
 ) {

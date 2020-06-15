@@ -10,7 +10,6 @@ class SubjectNotificationsDependencyProvider : ConfigProvider<SubjectNotificatio
     @ExperimentalCoroutinesApi
     override fun config(fragment: Fragment): SubjectNotificationsConfig {
         return SubjectNotificationsConfig(
-            screenTitle = { "Beskeder" },
             provideDeviceId = SubjectDeviceIdProviderMock::provideDeviceIdMock,
             provideNotifications = SubjectNotificationsProviderMock::provideNotificationsMock,
             notificationsDataSource = SubjectNotificationsRepositoryMock,
@@ -19,7 +18,7 @@ class SubjectNotificationsDependencyProvider : ConfigProvider<SubjectNotificatio
     }
 }
 
-class MocktNotificationsDependencyProvider: ConfigProvider<MocktNotificationsConfig> {
+class MocktNotificationsDependencyProvider : ConfigProvider<MocktNotificationsConfig> {
     @ExperimentalCoroutinesApi
     override fun config(fragment: Fragment): MocktNotificationsConfig {
         return mockClientDependencies

@@ -1,4 +1,4 @@
-package dk.shape.games.notifications.extensions
+package dk.shape.games.notifications.bindings
 
 import android.view.View
 import android.widget.ViewAnimator

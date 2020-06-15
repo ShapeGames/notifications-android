@@ -1,4 +1,4 @@
-package dk.shape.games.notifications.extensions
+package dk.shape.games.notifications.bindings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData

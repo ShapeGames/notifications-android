@@ -5,10 +5,10 @@ import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import dk.shape.games.notifications.aliases.PreferencesSaveAction
+import dk.shape.games.notifications.bindings.awareSet
+import dk.shape.games.notifications.bindings.requireValue
+import dk.shape.games.notifications.bindings.value
 import dk.shape.games.notifications.entities.SubjectType
-import dk.shape.games.notifications.extensions.awareSet
-import dk.shape.games.notifications.extensions.requireValue
-import dk.shape.games.notifications.extensions.value
 import dk.shape.games.notifications.presentation.SubjectNotificationStateData
 
 internal data class SubjectNotificationViewModel(

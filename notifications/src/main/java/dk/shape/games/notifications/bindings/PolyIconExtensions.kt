@@ -1,4 +1,4 @@
-package dk.shape.games.notifications.extensions
+package dk.shape.games.notifications.bindings
 
 import dk.shape.danskespil.foundation.entities.PolyIcon
 import dk.shape.games.uikit.databinding.UIImage

@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.AsyncDifferConfig
 import dk.shape.games.notifications.BR
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.aliases.ViewProvider
-import dk.shape.games.notifications.extensions.ItemsCreator
-import dk.shape.games.notifications.extensions.updateSources
+import dk.shape.games.notifications.bindings.ItemsCreator
+import dk.shape.games.notifications.bindings.updateSources
 import dk.shape.games.notifications.usecases.EventNotificationsState
 import dk.shape.games.notifications.usecases.EventNotificationsUseCases
 import dk.shape.games.notifications.utils.ContentLiveDataEvent

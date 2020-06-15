@@ -12,9 +12,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
 import dk.shape.games.notifications.aliases.NotifificationsLoadedListener
+import dk.shape.games.notifications.bindings.awareSet
+import dk.shape.games.notifications.bindings.launch
 import dk.shape.games.notifications.databinding.FragmentSubjectNotificationsBinding
-import dk.shape.games.notifications.extensions.awareSet
-import dk.shape.games.notifications.extensions.launch
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSheetViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSwitcherViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationTypeCollectionViewModel
@@ -33,18 +33,17 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
     private val action: SubjectNotificationsAction by action()
 
     private val interactor: SubjectNotificationUseCases by lazy {
-        SubjectNotificationInteractor(
+        SubjectNotificationsInteractor(
             action = action,
             provideDeviceId = config.provideDeviceId,
-            provideNotifications = config.provideNotifications,
+            notificationsProvider = config.provideNotifications,
             notificationsDataSource = config.notificationsDataSource,
             notificationsEventHandler = config.eventHandler
         )
     }
 
-    private val viewSwitcherViewModel: SubjectNotificationSwitcherViewModel by lazy {
+    private val viewSwitcherViewModel: SubjectNotificationSwitcherViewModel =
         SubjectNotificationSwitcherViewModel()
-    }
 
     private val notificationViewModel: SubjectNotificationViewModel by lazy {
         SubjectNotificationViewModel(
@@ -70,7 +69,6 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
 
     private val notificationsSheetViewModel: SubjectNotificationSheetViewModel by lazy {
         SubjectNotificationSheetViewModel(
-            screenTitle = config.screenTitle(),
             notificationViewModel = notificationViewModel,
             notificationSwitcherViewModel = viewSwitcherViewModel,
             onClosedPressed = {

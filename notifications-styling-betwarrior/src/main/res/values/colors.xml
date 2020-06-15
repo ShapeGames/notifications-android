@@ -2,4 +2,5 @@
 <resources>
     <color name="notifications_bw_error_button">#821C30</color>
     <color name="notifications_bw_progress_bar">#821C30</color>
+    <color name="notifications_bw_main_color">#f26940</color>
 </resources>

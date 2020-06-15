@@ -1,40 +1,36 @@
 package dk.shape.games.notifications.presentation
 
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
-import dk.shape.games.notifications.aliases.StatsNotificationIdentifier
-import dk.shape.games.notifications.aliases.StatsNotificationType
+import dk.shape.games.notifications.aliases.NotifificationsLoadedListener
 import dk.shape.games.notifications.aliases.StatsNotifications
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.withContext
+import java.io.IOException
 import java.util.*
 
-class SubjectNotificationInteractor(
+class SubjectNotificationsInteractor(
     private val action: SubjectNotificationsAction,
     private val provideDeviceId: suspend () -> String,
-    private val provideNotifications: suspend () -> StatsNotifications,
+    private val notificationsProvider: suspend () -> StatsNotifications,
     private val notificationsDataSource: SubjectNotificationsDataSource,
     private val notificationsEventHandler: SubjectNotificationsEventHandler
 ) : SubjectNotificationUseCases {
 
     override suspend fun loadNotifications(
-        onLoaded: (
-            activatedTypes: Set<StatsNotificationType>,
-            possibleTypes: List<StatsNotificationType>,
-            defaultTypes: Set<StatsNotificationIdentifier>
-        ) -> Unit,
+        onLoaded: NotifificationsLoadedListener,
         onFailure: (error: Throwable) -> Unit
     ) {
-        try {
-            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
-                notificationsEventHandler.onNotificationsLoading(true)
-            }
+        if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
+            notificationsEventHandler.onNotificationsLoading(true)
+        }
 
+        try {
             notificationsDataSource.getSubscriptions(provideDeviceId()).apply {
                 collect { subscriptions ->
-                    val notifications = provideNotifications()
+                    val notifications = notificationsProvider()
                     val notificationsGroup =
                         notifications.group.find { it.sportId == action.sportId }
 
@@ -46,7 +42,7 @@ class SubjectNotificationInteractor(
                             val enabledNotificationTypes =
                                 subscription.types.mapNotNull { subscriptionType ->
                                     notificationsGroup.notificationTypes.find { notificationType ->
-                                        notificationType.identifier.name.toLowerCase(Locale.getDefault()) == subscriptionType
+                                        notificationType.identifier.name.toLowerCase(Locale.ROOT) == subscriptionType
                                     }
                                 }.toSet()
 
@@ -54,21 +50,24 @@ class SubjectNotificationInteractor(
                                 notificationsGroup.defaultNotificationTypeIdentifiers.toSet()
                             } else emptySet()
 
+                            val possibleNotificationTypes =
+                                notificationsGroup.notificationTypes.toSet()
+
                             withContext(Dispatchers.Main) {
                                 if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
                                     notificationsEventHandler.onNotificationsLoading(false)
                                 }
                                 onLoaded(
                                     enabledNotificationTypes,
-                                    notificationsGroup.notificationTypes,
+                                    possibleNotificationTypes,
                                     defaultIdentifiers
                                 )
                             }
                         }
-                    } else throw IllegalArgumentException("Subject ${action.subjectId} is missing default notifications")
+                    } else onFailure(IllegalArgumentException("Subject ${action.subjectId} is missing default notifications"))
                 }
             }
-        } catch (e: Exception) {
+        } catch (e: IOException) {
             if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
                 notificationsEventHandler.onNotificationsLoading(false)
                 notificationsEventHandler.onPreferencesLoadedError(e)
@@ -82,17 +81,17 @@ class SubjectNotificationInteractor(
         onSuccess: () -> Unit,
         onFailure: (error: Throwable) -> Unit
     ) {
-        try {
-            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
-                notificationsEventHandler.onNotificationsLoading(true)
-            }
+        if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
+            notificationsEventHandler.onNotificationsLoading(true)
+        }
 
+        try {
             notificationsDataSource.updateSubjectSubscriptions(
                 deviceId = provideDeviceId(),
                 subjectId = action.subjectId,
                 subjectType = action.subjectType,
                 subscribedNotificationTypeIds = stateData.notificationTypeIdentifiers.map {
-                    it.name.toLowerCase(Locale.getDefault())
+                    it.name.toLowerCase(Locale.ROOT)
                 }.toSet()
             )
 
@@ -117,7 +116,7 @@ class SubjectNotificationInteractor(
                 }
                 onSuccess()
             }
-        } catch (e: Exception) {
+        } catch (e: IOException) {
             onFailure(e)
             if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
                 notificationsEventHandler.onNotificationsLoading(false)

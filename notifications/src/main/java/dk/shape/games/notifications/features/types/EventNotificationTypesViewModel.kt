@@ -7,7 +7,7 @@ import dk.shape.danskespil.module.data.entities.Icon
 import dk.shape.games.notifications.BR
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.aliases.ViewProvider
-import dk.shape.games.notifications.extensions.ItemsCreator
+import dk.shape.games.notifications.bindings.ItemsCreator
 import dk.shape.games.notifications.usecases.EventNotificationTypesState
 import dk.shape.games.notifications.usecases.EventNotificationTypesUseCases
 import dk.shape.games.notifications.utils.ContentLiveDataEvent

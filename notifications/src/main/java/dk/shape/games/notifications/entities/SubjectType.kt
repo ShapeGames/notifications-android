@@ -13,7 +13,7 @@ enum class SubjectType {
 
     @SerialName("teams")
     TEAMS,
-
+    
     @SerialName("leagues")
     LEAGUES,
 

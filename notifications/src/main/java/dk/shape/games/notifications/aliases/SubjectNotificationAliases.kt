@@ -8,6 +8,6 @@ internal typealias SelectionStateNotifier = (isSelected: Boolean, identifier: St
 
 internal typealias NotifificationsLoadedListener = (
     activatedTypes: Set<StatsNotificationType>,
-    possibleTypes: List<StatsNotificationType>,
+    possibleTypes: Set<StatsNotificationType>,
     defaultTypes: Set<StatsNotificationIdentifier>
 ) -> Unit

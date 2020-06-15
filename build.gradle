@@ -9,7 +9,6 @@ buildscript {
     ext.androidx_lifecycle_version = "2.2.0"
     ext.sportsbook_offerings_version = '2.8.0-beta.0.336+3bbd805'
     ext.dsfoundation_version = "2.3.0"
-    ext.common_styles_version = '1.0.0'
     ext.common_styles_version_bw = '1.0.0'
     ext.common_styles_version_oddset = '1.1.0'
 

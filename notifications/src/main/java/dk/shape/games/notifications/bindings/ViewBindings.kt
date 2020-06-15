@@ -1,13 +1,8 @@
-package dk.shape.games.notifications.extensions
+package dk.shape.games.notifications.bindings
 
-import android.graphics.Typeface
 import android.os.Build
 import android.util.TypedValue
 import android.view.View
-import android.widget.CompoundButton
-import android.widget.TextView
-import androidx.appcompat.widget.AppCompatCheckBox
-import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import dk.shape.games.notifications.R
@@ -16,26 +11,6 @@ import kotlin.math.abs
 private const val DEBOUNCE_DELAY_MS = 300L
 
 private val DEBOUNCE_CLICK_TAG = "DEBOUNCE_CLICK".hashCode()
-
-@BindingAdapter("onStateChange")
-internal fun AppCompatCheckBox.onStateChange(onStateChange: CompoundButton.OnCheckedChangeListener) {
-    this.setOnCheckedChangeListener(onStateChange)
-}
-
-@BindingAdapter("onStateChange")
-internal fun SwitchCompat.onStateChange(onStateChange: CompoundButton.OnCheckedChangeListener) {
-    this.setOnCheckedChangeListener(onStateChange)
-}
-
-//TODO(Find better way a better way to change text style in a style aware way)
-@BindingAdapter("isBold")
-fun TextView.setBold(isBold: Boolean) {
-    typeface = if (isBold) {
-        Typeface.create("sans-serif-black", Typeface.NORMAL)
-    } else {
-        Typeface.create("sans-serif", Typeface.NORMAL)
-    }
-}
 
 @BindingAdapter(
     value = ["app:showRipple", "app:borderlessRipple", "app:backgroundRipple"],

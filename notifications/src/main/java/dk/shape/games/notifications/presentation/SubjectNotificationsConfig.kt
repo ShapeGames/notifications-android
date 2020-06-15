@@ -5,8 +5,6 @@ import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
 
 data class SubjectNotificationsConfig(
 
-    val screenTitle: () -> String,
-
     val provideDeviceId: suspend () -> String,
 
     val provideNotifications: suspend () -> StatsNotifications,

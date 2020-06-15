@@ -25,7 +25,7 @@ private const val REQUEST_DELAY = 1000L
 object SubjectDeviceIdProviderMock {
     suspend fun provideDeviceIdMock(): String {
         return withContext(Dispatchers.IO) {
-           "1db655ee-48ea-11ea-b77f-2e728ce88125"
+            "1db655ee-48ea-11ea-b77f-2e728ce88125"
         }
     }
 }
@@ -53,23 +53,23 @@ object SubjectNotificationsProviderMock {
                         ),
                         notificationTypes = listOf(
                             AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationType(
-                                identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.EVENT_START,
-                                icon = PolyIcon.Resource("ic-notification-icon-lineup", false),
+                                identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.LINEUP_READY,
+                                icon = PolyIcon.Resource("icon-notification-lineup-ready", false),
                                 name = "Startopstilling"
                             ),
                             AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationType(
                                 identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.EVENT_REMINDER,
-                                icon = PolyIcon.Resource("ic-notification-icon-before-event", false),
+                                icon = PolyIcon.Resource("icon-notification-event-reminder", false),
                                 name = "Inden event starter"
                             ),
                             AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationType(
-                                identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.LINEUP_READY,
-                                icon = PolyIcon.Resource("ic-notification-icon-match-start", false),
+                                identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.EVENT_START,
+                                icon = PolyIcon.Resource("icon-notification-event-start", false),
                                 name = "Inden event starter"
                             ),
                             AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationType(
                                 identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.EVENT_END,
-                                icon = PolyIcon.Resource("ic-notification-icon-match-end", false),
+                                icon = PolyIcon.Resource("icon-notification-event-end", false),
                                 name = "Slutresultat for event"
                             )
                         )
@@ -109,9 +109,9 @@ object SubjectNotificationsRepositoryMock : SubjectNotificationsDataSource {
         deviceId: String,
         subjectId: String
     ): Flow<Boolean> {
-        return getSubscriptions(deviceId).map { subscritions ->
-            val subscrition = subscritions.find { it.subjectId == subjectId }
-            subscrition != null && subscrition.types.isNotEmpty()
+        return getSubscriptions(deviceId).map { subscriptions ->
+            val subscription = subscriptions.find { it.subjectId == subjectId }
+            subscription != null && subscription.types.isNotEmpty()
         }
     }
 
@@ -167,8 +167,7 @@ val mockClientDependencies: MocktNotificationsConfig = MocktNotificationsConfig(
         val deviceId = SubjectDeviceIdProviderMock.provideDeviceIdMock()
         SubjectNotificationsRepositoryMock.hasActiveSubscription(deviceId, it)
     },
-    notificationEventListener = { },
-    notificationsClosedListener = { },
+    notificationsEventListener = { },
     showNotificationsFragment = { fragment, mockData ->
         launchBottomSheetNotificationsFragment(
             fragment = fragment,
@@ -185,14 +184,14 @@ val mockClientDependencies: MocktNotificationsConfig = MocktNotificationsConfig(
 @ExperimentalCoroutinesApi
 object SubjectNotificationsEventHandlerMock : SubjectNotificationsEventHandler.Full {
     override fun onNotificationsActivated(subjectId: String, subjectType: SubjectType) {
-        mockClientDependencies.notificationEventListener(true)
+        mockClientDependencies.notificationsEventListener(true)
     }
 
     override fun onNotificationsDeactivated(subjectId: String, subjectType: SubjectType) {
-        mockClientDependencies.notificationEventListener(false)
+        mockClientDependencies.notificationsEventListener(false)
     }
 
     override fun <T : Parcelable> onClosed(fragment: SubjectNotificationsFragment, action: T) {
-        mockClientDependencies.notificationsClosedListener(fragment)
+        fragment.dismiss()
     }
 }

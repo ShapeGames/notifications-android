@@ -7,8 +7,8 @@ import dk.shape.danskespil.module.ui.ModuleDiffInterface
 import dk.shape.games.notifications.aliases.SelectionStateNotifier
 import dk.shape.games.notifications.aliases.StatsNotificationIdentifier
 import dk.shape.games.notifications.aliases.StatsNotificationType
-import dk.shape.games.notifications.extensions.awareSet
-import dk.shape.games.notifications.extensions.toLocalUIImage
+import dk.shape.games.notifications.bindings.awareSet
+import dk.shape.games.notifications.bindings.toLocalUIImage
 import dk.shape.games.uikit.databinding.UIImage
 
 internal data class SubjectNotificationTypeViewModel(

@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenResumed
 import androidx.lifecycle.whenStarted
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.games.notifications.demo.databinding.FragmentMockNotificationsBinding
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
@@ -24,9 +23,8 @@ import kotlinx.coroutines.withContext
 data class MocktNotificationsConfig(
     val hasSportNotificationsSupport: suspend (sportId: String) -> Boolean,
     val hasNotificationsSupport: suspend (subjectId: String) -> Flow<Boolean>,
-    val showNotificationsFragment: (Fragment, MockData) -> BottomSheetDialogFragment,
-    var notificationEventListener: (hasNotifications: Boolean) -> Unit,
-    var notificationsClosedListener: (BottomSheetDialogFragment) -> Unit = {}
+    val showNotificationsFragment: (Fragment, MockData) -> Unit,
+    var notificationsEventListener: (hasNotifications: Boolean) -> Unit
 )
 
 data class MockData(
@@ -37,7 +35,7 @@ data class MockData(
 )
 
 @Parcelize
-object MocktNotificationsAction : Parcelable
+object MockNotificationsAction : Parcelable
 
 class MockNotificationsFragment : Fragment() {
 
@@ -45,10 +43,10 @@ class MockNotificationsFragment : Fragment() {
         sportId = "football:0000",
         subjectId = "team:0000",
         subjectName = "Manchester United",
-        subjectType =  SubjectType.TEAMS
+        subjectType = SubjectType.TEAMS
     )
 
-    object Args : ConfigFragmentArgs<MocktNotificationsAction, MocktNotificationsConfig>()
+    object Args : ConfigFragmentArgs<MockNotificationsAction, MocktNotificationsConfig>()
 
     private val config: MocktNotificationsConfig by config()
 
@@ -78,11 +76,8 @@ class MockNotificationsFragment : Fragment() {
                         }
                     }
                 }
-                config.notificationEventListener = {
+                config.notificationsEventListener = {
                     mockViewModel.hasNotifications.set(it)
-                }
-                config.notificationsClosedListener = {
-                    it.dismiss()
                 }
             }
         }

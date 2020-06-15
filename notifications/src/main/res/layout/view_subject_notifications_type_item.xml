@@ -15,11 +15,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@{viewModel.isLastElement ? @drawable/vector_notification_type_background_no_line : @drawable/vector_notification_type_background}"
+        android:background="@{viewModel.isLastElement ? @drawable/notification_type_background_no_line : @drawable/notification_type_background}"
         android:clickable="@{viewModel.isEnabled}"
         android:focusable="true"
         android:onClick="@{viewModel.onNotificationClicked}"
-        tools:background="@drawable/vector_notification_type_background"
+        tools:background="@drawable/notification_type_background"
         tools:layout_height="50dp">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -29,14 +29,14 @@
             android:layout_gravity="center"
             android:layout_marginTop="13dp"
             android:layout_marginBottom="13dp"
-            android:background="@drawable/vector_notifications_icon_background"
+            android:background="@drawable/notifications_icon_background"
             android:src="@{viewModel.icon}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/ic_notification_icon_before_event" />
+            tools:srcCompat="@drawable/icon_notification_event_reminder" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <dk.shape.games.notifications.presentation.customViews.StylableTextView
             style="?attr/Notifications.Subjects.Type.Name"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -45,7 +45,7 @@
             android:singleLine="true"
             android:text="@{viewModel.notificationTypeName}"
             android:textColor="#2d2d2d"
-            app:isBold="@{viewModel.isActivated}"
+            app:isActive="@{viewModel.isActivated}"
             app:layout_constraintBottom_toBottomOf="@id/notificationTypeIcon"
             app:layout_constraintEnd_toStartOf="@id/notificationTypeCheckBox"
             app:layout_constraintStart_toEndOf="@id/notificationTypeIcon"
@@ -68,7 +68,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/notificationTypeIcon"
             app:onStateChange="@{viewModel.onStateChangeListener}"
-            tools:button="@drawable/vector_notifications_toggle"
+            tools:button="@drawable/notifications_toggle"
             tools:checked="true" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
