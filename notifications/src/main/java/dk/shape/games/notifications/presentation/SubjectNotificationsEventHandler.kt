@@ -1,13 +1,12 @@
 package dk.shape.games.notifications.presentation
 
-import android.os.Parcelable
 import dk.shape.games.notifications.entities.SubjectType
 
 interface SubjectNotificationsEventHandler {
     /**
      * Called when user presses toolbar back button on Notification screen
      */
-    fun <T : Parcelable> onClosed(fragment: SubjectNotificationsFragment, action: T)
+    fun onDismissed()
 
     interface Full : SubjectNotificationsEventHandler {
 

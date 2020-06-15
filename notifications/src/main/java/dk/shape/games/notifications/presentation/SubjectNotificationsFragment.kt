@@ -1,6 +1,7 @@
 package dk.shape.games.notifications.presentation
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -50,9 +51,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             subjectId = action.subjectId,
             subjectType = action.subjectType,
             subjectName = action.subjectName,
-            onClosedPressed = {
-                config.eventHandler.onClosed(fragment = this, action = action)
-            },
+            onClosedPressed = { dismiss() },
             onPreferencesSaved = { stateData, onSuccess, onFailure ->
                 launch(interactor, Dispatchers.IO) {
                     whenResumed {
@@ -71,9 +70,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         SubjectNotificationSheetViewModel(
             notificationViewModel = notificationViewModel,
             notificationSwitcherViewModel = viewSwitcherViewModel,
-            onClosedPressed = {
-                config.eventHandler.onClosed(fragment = this, action = action)
-            }
+            onClosedPressed = { dismiss() }
         )
     }
 
@@ -115,6 +112,16 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         )
     }
 
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        config.eventHandler.onDismissed()
+    }
+
+    override fun dismiss() {
+        super.dismiss()
+        config.eventHandler.onDismissed()
+    }
+
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
@@ -125,6 +132,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         launch(viewSwitcherViewModel, Dispatchers.IO) {
             whenStarted { showLoading() }
             whenResumed { loadNotifications(interactor) }

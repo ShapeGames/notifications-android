@@ -34,27 +34,22 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/icon_notification_event_reminder" />
+            tools:srcCompat="@drawable/icon_event_reminder" />
 
-        <dk.shape.games.notifications.presentation.customViews.StylableTextView
-            style="?attr/Notifications.Subjects.Type.Name"
+        <dk.shape.viewswitcher.BindingViewSwitcher
+            android:id="@+id/notificationsViewSwitcher"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="@{viewModel.notificationTypeName}"
-            android:textColor="#2d2d2d"
-            app:isActive="@{viewModel.isActivated}"
+            android:layout_marginEnd="10dp"
+            android:inAnimation="@anim/switcher_fade_in_anim"
+            android:outAnimation="@anim/switcher_fade_out_anim"
+            app:item="@{viewModel.nameItem}"
+            app:itemBinding="@{viewModel.nameItemBinding}"
             app:layout_constraintBottom_toBottomOf="@id/notificationTypeIcon"
             app:layout_constraintEnd_toStartOf="@id/notificationTypeCheckBox"
             app:layout_constraintStart_toEndOf="@id/notificationTypeIcon"
-            app:layout_constraintTop_toTopOf="@id/notificationTypeIcon"
-            tools:lineSpacingExtra="0sp"
-            tools:text="Inden Event Starter"
-            tools:textColor="#2d2d2d"
-            tools:textSize="15sp"
-            tools:textStyle="bold" />
+            app:layout_constraintTop_toTopOf="@id/notificationTypeIcon" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/notificationTypeCheckBox"

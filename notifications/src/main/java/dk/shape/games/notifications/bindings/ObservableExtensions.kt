@@ -1,5 +1,6 @@
 package dk.shape.games.notifications.bindings
 
+import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 
@@ -21,4 +22,13 @@ fun ObservableBoolean.awareSet(value: Boolean, onChange: (() -> Unit)? = null) {
         set(value)
         onChange?.invoke()
     }
+}
+
+fun ObservableBoolean.onChange(listener: (value: Boolean) -> Unit): ObservableBoolean {
+    this.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
+        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+            listener(get())
+        }
+    })
+    return this
 }

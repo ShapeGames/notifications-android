@@ -174,8 +174,11 @@
 
     <style name="Notifications.Subjects.Type.Name.BetWarrior" parent="@style/Notifications.Subjects.Type.Name">
         <item name="android:textSize">15sp</item>
-        <item name="normal_state_font">sans-serif</item>
-        <item name="active_state_font">sans-serif-black</item>
+        <item name="fontFamily">@font/barlow_medium</item>
+    </style>
+
+    <style name="Notifications.Subjects.Type.Name.Active.BetWarrior" parent="Notifications.Subjects.Type.Name.BetWarrior">
+        <item name="fontFamily">@font/barlow_bold</item>
     </style>
 
     <style name="Notifications.Subjects.Type.Switch.BetWarrior" parent="@style/Notifications.Subjects.Type.Switch">

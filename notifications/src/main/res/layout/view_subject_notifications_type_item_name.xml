@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationTypeNameViewModel.Normal" />
+
+        <import type="android.graphics.Typeface" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="?attr/Notifications.Subjects.Type.Name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@{viewModel.name}"
+            android:textColor="#2d2d2d"
+            tools:lineSpacingExtra="0sp"
+            tools:text="Inden Event Starter"
+            tools:textColor="#2d2d2d"
+            tools:textSize="15sp"
+            tools:textStyle="bold" />
+    </FrameLayout>
+</layout>

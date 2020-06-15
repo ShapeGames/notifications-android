@@ -3,26 +3,62 @@ package dk.shape.games.notifications.presentation.viewmodels.notifications
 import android.view.View
 import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import dk.shape.danskespil.module.ui.ModuleDiffInterface
+import dk.shape.games.notifications.R
 import dk.shape.games.notifications.aliases.SelectionStateNotifier
-import dk.shape.games.notifications.aliases.StatsNotificationIdentifier
-import dk.shape.games.notifications.aliases.StatsNotificationType
+import dk.shape.games.notifications.aliases.SubjectNotificationIdentifier
+import dk.shape.games.notifications.aliases.SubjectNotificationType
 import dk.shape.games.notifications.bindings.awareSet
+import dk.shape.games.notifications.bindings.onChange
 import dk.shape.games.notifications.bindings.toLocalUIImage
 import dk.shape.games.uikit.databinding.UIImage
+import me.tatarka.bindingcollectionadapter2.BR
+import me.tatarka.bindingcollectionadapter2.ItemBinding
+import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
 
 internal data class SubjectNotificationTypeViewModel(
     val icon: UIImage,
-    val identifier: StatsNotificationIdentifier,
+    val identifier: SubjectNotificationIdentifier,
     val notificationTypeName: String,
     val isLastElement: Boolean,
     private val isDefault: Boolean,
     private val stateNotifier: SelectionStateNotifier,
     private val initialState: Boolean
 ) : ModuleDiffInterface {
-    var isActivated: ObservableBoolean = ObservableBoolean(initialState)
 
     val isEnabled: ObservableBoolean = ObservableBoolean(true)
+
+    val nameItem: ObservableField<SubjectNotificationTypeNameViewModel> =
+        ObservableField(
+            when (initialState) {
+                true -> SubjectNotificationTypeNameViewModel.Active(notificationTypeName)
+                false -> SubjectNotificationTypeNameViewModel.Normal(notificationTypeName)
+            }
+        )
+
+    val isActivated: ObservableBoolean = ObservableBoolean(initialState).onChange { value ->
+        nameItem.set(
+            when (value) {
+                true -> SubjectNotificationTypeNameViewModel.Active(notificationTypeName)
+                false -> SubjectNotificationTypeNameViewModel.Normal(notificationTypeName)
+            }
+        )
+    }
+
+    val nameItemBinding: ItemBinding<Any> = ItemBinding.of(
+        OnItemBindClass<Any>()
+            .map(
+                SubjectNotificationTypeNameViewModel.Normal::class.java,
+                BR.viewModel,
+                R.layout.view_subject_notifications_type_item_name
+            )
+            .map(
+                SubjectNotificationTypeNameViewModel.Active::class.java,
+                BR.viewModel,
+                R.layout.view_subject_notifications_type_item_name_active
+            )
+    )
 
     val onStateChangeListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
         isActivated.awareSet(isChecked) {
@@ -41,18 +77,17 @@ internal data class SubjectNotificationTypeViewModel(
     override fun compareString() = identifier.name
 }
 
-internal fun StatsNotificationType.toNotificationTypeViewModel(
+internal fun SubjectNotificationType.toNotificationTypeViewModel(
     isLastElement: Boolean,
     selectionStateNotifier: SelectionStateNotifier,
-    activatedIdentifiers: Set<StatsNotificationIdentifier>,
-    defaultNofification: Set<StatsNotificationIdentifier>
-) =
-    SubjectNotificationTypeViewModel(
-        icon = icon.toLocalUIImage(),
-        identifier = identifier,
-        isDefault = defaultNofification.contains(identifier),
-        initialState = activatedIdentifiers.contains(this.identifier),
-        stateNotifier = selectionStateNotifier,
-        isLastElement = isLastElement,
-        notificationTypeName = name
-    )
+    activatedIdentifiers: Set<SubjectNotificationIdentifier>,
+    defaultNofification: Set<SubjectNotificationIdentifier>
+) = SubjectNotificationTypeViewModel(
+    icon = icon.toLocalUIImage(),
+    identifier = identifier,
+    isDefault = defaultNofification.contains(identifier),
+    initialState = activatedIdentifiers.contains(this.identifier),
+    stateNotifier = selectionStateNotifier,
+    isLastElement = isLastElement,
+    notificationTypeName = name
+)

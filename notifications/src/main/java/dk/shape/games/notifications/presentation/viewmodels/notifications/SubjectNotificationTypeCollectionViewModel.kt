@@ -3,18 +3,18 @@ package dk.shape.games.notifications.presentation.viewmodels.notifications
 import androidx.databinding.ObservableField
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.aliases.SelectionStateNotifier
-import dk.shape.games.notifications.aliases.StatsNotificationIdentifier
-import dk.shape.games.notifications.aliases.StatsNotificationType
+import dk.shape.games.notifications.aliases.SubjectNotificationIdentifier
+import dk.shape.games.notifications.aliases.SubjectNotificationType
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.value
 import me.tatarka.bindingcollectionadapter2.BR
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 
 internal data class SubjectNotificationTypeCollectionViewModel(
-    private var selectedIdentifiers: Set<StatsNotificationIdentifier>,
-    private val defaultIdentifiers: Set<StatsNotificationIdentifier>,
-    private val activatedIdentifiers: Set<StatsNotificationIdentifier>,
-    private val possibleTypes: Set<StatsNotificationType>,
+    private var selectedIdentifiers: Set<SubjectNotificationIdentifier>,
+    private val defaultIdentifiers: Set<SubjectNotificationIdentifier>,
+    private val activatedIdentifiers: Set<SubjectNotificationIdentifier>,
+    private val possibleTypes: Set<SubjectNotificationType>,
     private val selectionNotifier: (hasSelections: Boolean) -> Unit,
     internal val initialMasterState: Boolean
 ) {
@@ -81,8 +81,8 @@ internal data class SubjectNotificationTypeCollectionViewModel(
     }
 
     private fun compareIndetifiers(
-        initialIdentifiers: Set<StatsNotificationIdentifier>,
-        currentIdentifiers: Set<StatsNotificationIdentifier>
+        initialIdentifiers: Set<SubjectNotificationIdentifier>,
+        currentIdentifiers: Set<SubjectNotificationIdentifier>
     ): Boolean {
         val sequenceOne = initialIdentifiers.sorted().map { it.name }.joinToString { it }
         val sequenceTwo = currentIdentifiers.sorted().map { it.name }.joinToString { it }

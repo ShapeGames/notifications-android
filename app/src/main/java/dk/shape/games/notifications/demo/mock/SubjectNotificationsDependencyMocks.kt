@@ -1,6 +1,5 @@
 package dk.shape.games.notifications.demo.mock
 
-import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.danskespil.foundation.entities.PolyIcon
@@ -40,36 +39,36 @@ object SportNotificationsSupportMock {
 }
 
 object SubjectNotificationsProviderMock {
-    suspend fun provideNotificationsMock(): AppConfig.StatsNotifications {
+    suspend fun provideNotificationsMock(): AppConfig.SubjectNotifications {
         return withContext(Dispatchers.IO) {
-            AppConfig.StatsNotifications(
+            AppConfig.SubjectNotifications(
                 group = listOf(
-                    AppConfig.StatsNotifications.StatsNotificationGroup(
+                    AppConfig.SubjectNotifications.SubjectNotificationGroup(
                         sportId = "football:0000",
                         sportName = "Football",
                         defaultNotificationTypeIdentifiers = listOf(
-                            AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.EVENT_REMINDER,
-                            AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.EVENT_END
+                            AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_REMINDER,
+                            AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_END
                         ),
                         notificationTypes = listOf(
-                            AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationType(
-                                identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.LINEUP_READY,
-                                icon = PolyIcon.Resource("icon-notification-lineup-ready", false),
+                            AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationType(
+                                identifier = AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationIdentifier.LINEUP_READY,
+                                icon = PolyIcon.Resource("icon-lineup-ready", false),
                                 name = "Startopstilling"
                             ),
-                            AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationType(
-                                identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.EVENT_REMINDER,
-                                icon = PolyIcon.Resource("icon-notification-event-reminder", false),
+                            AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationType(
+                                identifier = AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_REMINDER,
+                                icon = PolyIcon.Resource("icon-event-reminder", false),
                                 name = "Inden event starter"
                             ),
-                            AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationType(
-                                identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.EVENT_START,
-                                icon = PolyIcon.Resource("icon-notification-event-start", false),
+                            AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationType(
+                                identifier = AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_START,
+                                icon = PolyIcon.Resource("icon-event-start", false),
                                 name = "Inden event starter"
                             ),
-                            AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationType(
-                                identifier = AppConfig.StatsNotifications.StatsNotificationGroup.StatsNotificationIdentifier.EVENT_END,
-                                icon = PolyIcon.Resource("icon-notification-event-end", false),
+                            AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationType(
+                                identifier = AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_END,
+                                icon = PolyIcon.Resource("icon-event-end", false),
                                 name = "Slutresultat for event"
                             )
                         )
@@ -191,7 +190,5 @@ object SubjectNotificationsEventHandlerMock : SubjectNotificationsEventHandler.F
         mockClientDependencies.notificationsEventListener(false)
     }
 
-    override fun <T : Parcelable> onClosed(fragment: SubjectNotificationsFragment, action: T) {
-        fragment.dismiss()
-    }
+    override fun onDismissed() {}
 }

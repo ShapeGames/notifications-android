@@ -52,8 +52,11 @@
 
     <style name="Notifications.Subjects.Type.Name.Oddset" parent="@style/Notifications.Subjects.Type.Name">
         <item name="android:textSize">15sp</item>
-        <item name="normal_state_font">sans-serif</item>
-        <item name="active_state_font">sans-serif-black</item>
+        <item name="fontFamily">sans-serif</item>
+    </style>
+
+    <style name="Notifications.Subjects.Type.Name.Active.Oddset" parent="Notifications.Subjects.Type.Name.Oddset">
+        <item name="fontFamily">sans-serif-black</item>
     </style>
 
     <style name="Notifications.Subjects.Type.Switch.Oddset" parent="@style/Notifications.Subjects.Type.Switch">

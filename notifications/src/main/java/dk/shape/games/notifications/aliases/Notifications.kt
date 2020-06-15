@@ -2,5 +2,5 @@ package dk.shape.games.notifications.aliases
 
 import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 
-internal typealias Notifications = AppConfig.Notifications
-internal typealias StatsNotifications = AppConfig.StatsNotifications
+typealias Notifications = AppConfig.Notifications
+typealias SubjectNotifications = AppConfig.SubjectNotifications
