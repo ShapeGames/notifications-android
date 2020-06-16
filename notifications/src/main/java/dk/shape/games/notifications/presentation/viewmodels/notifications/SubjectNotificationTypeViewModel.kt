@@ -29,21 +29,10 @@ internal data class SubjectNotificationTypeViewModel(
 
     val isEnabled: ObservableBoolean = ObservableBoolean(true)
 
-    val nameItem: ObservableField<SubjectNotificationTypeNameViewModel> =
-        ObservableField(
-            when (initialState) {
-                true -> SubjectNotificationTypeNameViewModel.Active(notificationTypeName)
-                false -> SubjectNotificationTypeNameViewModel.Normal(notificationTypeName)
-            }
-        )
+    val nameItem = ObservableField(initialState.toTypeNameViewModel(notificationTypeName))
 
     val isActivated: ObservableBoolean = ObservableBoolean(initialState).onChange { value ->
-        nameItem.set(
-            when (value) {
-                true -> SubjectNotificationTypeNameViewModel.Active(notificationTypeName)
-                false -> SubjectNotificationTypeNameViewModel.Normal(notificationTypeName)
-            }
-        )
+        nameItem.set(value.toTypeNameViewModel(notificationTypeName))
     }
 
     val nameItemBinding: ItemBinding<Any> = ItemBinding.of(
@@ -70,6 +59,13 @@ internal data class SubjectNotificationTypeViewModel(
         val newState = !isActivated.get()
         isActivated.awareSet(newState) {
             stateNotifier(newState, identifier)
+        }
+    }
+
+    private fun Boolean.toTypeNameViewModel(name: String): SubjectNotificationTypeNameViewModel {
+        return when (this) {
+            true -> SubjectNotificationTypeNameViewModel.Active(name)
+            false -> SubjectNotificationTypeNameViewModel.Normal(name)
         }
     }
 
