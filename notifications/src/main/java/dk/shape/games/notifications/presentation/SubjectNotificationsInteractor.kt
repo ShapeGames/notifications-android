@@ -2,7 +2,7 @@ package dk.shape.games.notifications.presentation
 
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
 import dk.shape.games.notifications.aliases.NotifificationsLoadedListener
-import dk.shape.games.notifications.aliases.SubjectNotifications
+import dk.shape.games.notifications.aliases.SubjectNotificationGroup
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +14,7 @@ import java.util.*
 class SubjectNotificationsInteractor(
     private val action: SubjectNotificationsAction,
     private val provideDeviceId: suspend () -> String,
-    private val notificationsProvider: suspend () -> SubjectNotifications,
+    private val notificationsProvider: suspend () -> List<SubjectNotificationGroup>,
     private val notificationsDataSource: SubjectNotificationsDataSource,
     private val notificationsEventHandler: SubjectNotificationsEventHandler
 ) : SubjectNotificationUseCases {
@@ -32,7 +32,7 @@ class SubjectNotificationsInteractor(
                 collect { subscriptions ->
                     val notifications = notificationsProvider()
                     val notificationsGroup =
-                        notifications.group.find { it.sportId == action.sportId }
+                        notifications.find { it.sportId == action.sportId }
 
                     if (notificationsGroup != null) {
                         val subscription =
