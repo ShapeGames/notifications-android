@@ -4,7 +4,7 @@ buildscript {
     ext.kotlin_version = '1.3.61'
     ext.mocking_version = '1.0.6'
     ext.uikit_version = '1.10.0'
-    ext.sportsbook_offerings_version = '2.8.0-beta.0.336+3bbd805'
+    ext.sportsbook_offerings_version = '2.8.0-beta.0.352+531da10'
     ext.common_styles_version_bw = '1.0.0'
     ext.common_styles_version_oddset = '1.1.0'
 
