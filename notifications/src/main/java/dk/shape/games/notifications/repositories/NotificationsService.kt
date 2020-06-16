@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import dk.shape.games.notifications.entities.Subscription
 import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -31,14 +32,18 @@ interface NotificationsService {
 
     companion object {
 
+        private val contentType = "application/json".toMediaType()
+
         @UnstableDefault
         @JvmStatic
         fun create(baseUrl: String, httpClient: OkHttpClient): NotificationsService {
             val retrofit = Retrofit.Builder()
+                .addConverterFactory(
+                    Json(
+                        JsonConfiguration(strictMode = false)
+                    ).asConverterFactory(contentType)
+                )
                 .baseUrl(baseUrl)
-                .addConverterFactory(Json {
-                    strictMode = false
-                }.asConverterFactory("application/json".toMediaType()))
                 .client(httpClient)
                 .build()
 

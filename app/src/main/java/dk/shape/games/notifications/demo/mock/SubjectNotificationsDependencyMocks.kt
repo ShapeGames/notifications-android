@@ -39,34 +39,34 @@ object SportNotificationsSupportMock {
 }
 
 object SubjectNotificationsProviderMock {
-    suspend fun provideNotificationsMock(): List<AppConfig.SubjectNotifications.SubjectNotificationGroup> {
+    suspend fun provideNotificationsMock(): List<AppConfig.SubjectNotificationGroup> {
         return withContext(Dispatchers.IO) {
             listOf(
-                AppConfig.SubjectNotifications.SubjectNotificationGroup(
+                AppConfig.SubjectNotificationGroup(
                     sportId = "football:0000",
                     sportName = "Football",
                     defaultNotificationTypeIdentifiers = listOf(
-                        AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_REMINDER,
-                        AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_END
+                        AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_REMINDER,
+                        AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_END
                     ),
                     notificationTypes = listOf(
-                        AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationType(
-                            identifier = AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationIdentifier.LINEUP_READY,
+                        AppConfig.SubjectNotificationGroup.SubjectNotificationType(
+                            identifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.LINEUP_READY,
                             icon = PolyIcon.Resource("icon-lineup-ready", false),
                             name = "Startopstilling"
                         ),
-                        AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationType(
-                            identifier = AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_REMINDER,
+                        AppConfig.SubjectNotificationGroup.SubjectNotificationType(
+                            identifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_REMINDER,
                             icon = PolyIcon.Resource("icon-event-reminder", false),
                             name = "Inden event starter"
                         ),
-                        AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationType(
-                            identifier = AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_START,
+                        AppConfig.SubjectNotificationGroup.SubjectNotificationType(
+                            identifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_START,
                             icon = PolyIcon.Resource("icon-event-start", false),
                             name = "Inden event starter"
                         ),
-                        AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationType(
-                            identifier = AppConfig.SubjectNotifications.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_END,
+                        AppConfig.SubjectNotificationGroup.SubjectNotificationType(
+                            identifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_END,
                             icon = PolyIcon.Resource("icon-event-end", false),
                             name = "Slutresultat for event"
                         )

@@ -67,7 +67,7 @@ class NotificationsRepository(
         updateMutexes.getOrPut("$deviceId|$subjectId", { Mutex(false) }).withLock {
             service.updateSubscriptions(
                 SubscribeRequest(
-                    deviceId = subjectId,
+                    deviceId = deviceId,
                     eventId = subjectId,
                     subjectId = subjectId,
                     subjetType = subjectType,
@@ -86,7 +86,7 @@ class NotificationsRepository(
                     subjectId = subjectId,
                     subjectType = subjectType,
                     types = subscribedNotificationTypeIds
-                )).sortSubscriptions()
+                )).sortSubjectSubscriptions()
 
                 cache.put(deviceId, cachedSubscriptions, Cache.CacheDuration.Infinite)
                 getChannelForDeviceId(deviceId).sendBlocking(cachedSubscriptions)
@@ -133,6 +133,13 @@ class NotificationsRepository(
         BroadcastChannel(Channel.CONFLATED)
     })
 
+    private fun Set<Subscription>.sortSubjectSubscriptions(): SortedSet<Subscription> =
+        this.toSortedSet(
+            kotlin.Comparator { s1, s2 ->
+                s1.subjectId.compareTo(s2.subjectId)
+            }
+        )
+
     private fun Set<Subscription>.sortSubscriptions(): SortedSet<Subscription> =
         this.toSortedSet(
             kotlin.Comparator { s1, s2 ->
@@ -160,5 +167,4 @@ class NotificationsRepository(
             it.key.startsWith(deviceId) && it.value.isLocked
         } != null
     }
-
 }

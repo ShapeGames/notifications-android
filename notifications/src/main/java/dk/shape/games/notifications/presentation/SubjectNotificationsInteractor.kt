@@ -8,6 +8,7 @@ import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 import java.io.IOException
 import java.util.*
 
@@ -38,41 +39,44 @@ class SubjectNotificationsInteractor(
                         val subscription =
                             subscriptions.find { it.subjectId == action.subjectId }
 
-                        subscription?.let {
-                            val enabledNotificationTypes =
-                                subscription.types.mapNotNull { subscriptionType ->
-                                    notificationsGroup.notificationTypes.find { notificationType ->
-                                        notificationType.identifier.name.toLowerCase(Locale.ROOT) == subscriptionType
-                                    }
-                                }.toSet()
-
-                            val defaultIdentifiers = if (enabledNotificationTypes.isEmpty()) {
-                                notificationsGroup.defaultNotificationTypeIdentifiers.toSet()
-                            } else emptySet()
-
-                            val possibleNotificationTypes =
-                                notificationsGroup.notificationTypes.toSet()
-
-                            withContext(Dispatchers.Main) {
-                                if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
-                                    notificationsEventHandler.onNotificationsLoading(false)
+                        val enabledNotificationTypes =
+                            subscription?.types?.mapNotNull { subscriptionType ->
+                                notificationsGroup.notificationTypes.find { notificationType ->
+                                    notificationType.identifier.name.toLowerCase(Locale.ROOT) == subscriptionType
                                 }
-                                onLoaded(
-                                    enabledNotificationTypes,
-                                    possibleNotificationTypes,
-                                    defaultIdentifiers
-                                )
+                            }?.toSet() ?: emptySet()
+
+                        val defaultIdentifiers = if (enabledNotificationTypes.isEmpty()) {
+                            notificationsGroup.defaultNotificationTypeIdentifiers.toSet()
+                        } else emptySet()
+
+                        val possibleNotificationTypes =
+                            notificationsGroup.notificationTypes.toSet()
+
+                        withContext(Dispatchers.Main) {
+                            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
+                                notificationsEventHandler.onNotificationsLoading(false)
                             }
+                            onLoaded(
+                                enabledNotificationTypes,
+                                possibleNotificationTypes,
+                                defaultIdentifiers
+                            )
                         }
-                    } else onFailure(IllegalArgumentException("Subject ${action.subjectId} is missing default notifications"))
+                    } else {
+                        val message = "Sport: ${action.sportId} is missing subject notifications"
+                        onFailure(IllegalArgumentException(message))
+                    }
                 }
             }
-        } catch (e: IOException) {
-            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
-                notificationsEventHandler.onNotificationsLoading(false)
-                notificationsEventHandler.onPreferencesLoadedError(e)
-            }
-            onFailure(e)
+        } catch (e: Exception) {
+            if (e is IOException || e is HttpException) {
+                if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
+                    notificationsEventHandler.onNotificationsLoading(false)
+                    notificationsEventHandler.onPreferencesLoadedError(e)
+                }
+                onFailure(e)
+            } else throw e
         }
     }
 
@@ -86,13 +90,15 @@ class SubjectNotificationsInteractor(
         }
 
         try {
+            val indetifers = stateData.notificationTypeIdentifiers.map {
+                it.name.toLowerCase(Locale.ROOT)
+            }.toSet()
+
             notificationsDataSource.updateSubjectSubscriptions(
                 deviceId = provideDeviceId(),
                 subjectId = action.subjectId,
                 subjectType = action.subjectType,
-                subscribedNotificationTypeIds = stateData.notificationTypeIdentifiers.map {
-                    it.name.toLowerCase(Locale.ROOT)
-                }.toSet()
+                subscribedNotificationTypeIds = indetifers
             )
 
             withContext(Dispatchers.Main) {
@@ -116,12 +122,14 @@ class SubjectNotificationsInteractor(
                 }
                 onSuccess()
             }
-        } catch (e: IOException) {
-            onFailure(e)
-            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
-                notificationsEventHandler.onNotificationsLoading(false)
-                notificationsEventHandler.onPreferencesSavedError(e)
-            }
+        } catch (e: Exception) {
+            if (e is IOException || e is HttpException) {
+                if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
+                    notificationsEventHandler.onNotificationsLoading(false)
+                    notificationsEventHandler.onPreferencesSavedError(e)
+                }
+                onFailure(e)
+            } else throw e
         }
     }
 }
