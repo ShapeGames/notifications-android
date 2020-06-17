@@ -12,8 +12,7 @@
         <import type="android.view.View" />
     </data>
 
-    <LinearLayout
-        style="?attr/Notifications.Subjects.Screen.Background"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -21,13 +20,16 @@
         tools:elevation="4dp">
 
         <FrameLayout
-            android:id="@+id/notificationsToolbar"
+            android:id="@+id/toolbar"
             style="?attr/Notifications.Subjects.Screen.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="3dp"
-            android:orientation="vertical"
             android:paddingHorizontal="8dp"
+            app:layout_constraintBottom_toTopOf="@id/viewSwitcher"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:background="@color/background_white">
 
             <androidx.cardview.widget.CardView
@@ -66,12 +68,17 @@
         </FrameLayout>
 
         <dk.shape.viewswitcher.BindingViewSwitcher
+            android:id="@+id/viewSwitcher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inAnimation="@anim/switcher_fade_in_anim"
             android:outAnimation="@anim/switcher_fade_out_anim"
             app:item="@{viewModel.notificationSwitcherViewModel.item}"
-            app:itemBinding="@{viewModel.notificationSwitcherViewModel.itemBinding}" />
+            app:itemBinding="@{viewModel.notificationSwitcherViewModel.itemBinding}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

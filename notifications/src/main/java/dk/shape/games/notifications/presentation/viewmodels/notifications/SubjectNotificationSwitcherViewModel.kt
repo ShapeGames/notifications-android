@@ -1,11 +1,6 @@
 package dk.shape.games.notifications.presentation.viewmodels.notifications
 
-import android.view.ViewGroup
-import androidx.databinding.Observable
 import androidx.databinding.ObservableField
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.bindings.onChange
 import dk.shape.games.notifications.presentation.viewmodels.state.ErrorViewModel
@@ -14,10 +9,11 @@ import me.tatarka.bindingcollectionadapter2.BR
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
 
-internal class SubjectNotificationSwitcherViewModel {
+internal class SubjectNotificationSwitcherViewModel(
+    val onItemChanged: () -> Unit
+) {
 
     private val loadingViewModel = LoadingViewModel()
-    var bottomSheet: ViewGroup? = null
 
     val itemBinding: ItemBinding<Any> = ItemBinding.of(
         OnItemBindClass<Any>()
@@ -34,12 +30,7 @@ internal class SubjectNotificationSwitcherViewModel {
 
     init {
         item.onChange {
-            bottomSheet?.let {
-                TransitionManager.beginDelayedTransition(
-                    it,
-                    AutoTransition().setInterpolator(FastOutSlowInInterpolator())
-                )
-            }
+            onItemChanged()
         }
     }
 
