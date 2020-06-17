@@ -8,15 +8,12 @@
         <variable
             name="viewModel"
             type="dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSheetViewModel" />
-
-        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="?attr/Notifications.Subjects.Screen.Background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         tools:background="#f5f5f5"
         tools:elevation="4dp">
 
