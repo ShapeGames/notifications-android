@@ -95,6 +95,10 @@ object SubjectNotificationsRepositoryMock : SubjectNotificationsDataSource {
     )
 
     override suspend fun getSubscriptions(deviceId: String): Flow<Set<Subscription>> {
+        return getAllSubscriptions(deviceId)
+    }
+
+    override suspend fun getAllSubscriptions(deviceId: String): Flow<Set<Subscription>> {
         return flow {
             delay(REQUEST_DELAY)
             emit(subscriptionSetMock.sortedBy { it.eventId }.toSet())

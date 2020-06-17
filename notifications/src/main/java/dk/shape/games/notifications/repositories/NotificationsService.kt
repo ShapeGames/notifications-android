@@ -1,6 +1,7 @@
 package dk.shape.games.notifications.repositories
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.entities.Subscription
 import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
@@ -15,6 +16,19 @@ interface NotificationsService {
     @Headers("Content-Type: application/json")
     @GET("/api/v1/subscriptions/{deviceId}")
     suspend fun getSubscriptions(
+        @Path("deviceId") deviceId: String
+    ): List<Subscription>
+
+    @Headers("Content-Type: application/json")
+    @GET("/api/v1/subscriptions/{deviceId}?subject_type={subject_type}")
+    suspend fun getSubscriptionsForType(
+        @Path("deviceId") deviceId: String,
+        @Query("subject_type") subjectType: SubjectType
+    ): List<Subscription>
+
+    @Headers("Content-Type: application/json")
+    @GET("/api/v1/subscriptions/{deviceId}?showAll=true")
+    suspend fun getAllSubscriptions(
         @Path("deviceId") deviceId: String
     ): List<Subscription>
 

@@ -73,6 +73,10 @@ object NotificationsRepositoryMock : EventNotificationsDataSource {
     )
 
     override suspend fun getSubscriptions(deviceId: String): Flow<Set<Subscription>> {
+        return getAllSubscriptions(deviceId)
+    }
+
+    override suspend fun getAllSubscriptions(deviceId: String): Flow<Set<Subscription>> {
         return flow {
             emit(
                 subscriptionSetMock.sortedBy {
