@@ -12,72 +12,65 @@
         <import type="android.view.View" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
-        android:minHeight="@dimen/min_switcher_area"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        android:minHeight="250dp">
 
-        <dk.shape.games.uikit.views.NativeScrollCenteredView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:alpha=".7"
+                android:scaleType="fitXY"
+                android:src="@{viewModel.icon}"
+                android:visibility="@{viewModel.icon != null ? View.VISIBLE : View.GONE}"
+                tools:srcCompat="@drawable/ic_signal_icon" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="70dp"
+                android:alpha=".8"
+                android:fontFamily="sans-serif-medium"
+                android:text="@{viewModel.title}"
+                android:textColor="@color/grey_400"
+                android:textSize="14sp"
+                tools:text="@string/error_title" />
 
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:alpha=".7"
-                    android:scaleType="fitXY"
-                    android:src="@{viewModel.icon}"
-                    android:visibility="@{viewModel.icon != null ? View.VISIBLE : View.GONE}"
-                    tools:srcCompat="@drawable/ic_signal_icon" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:alpha=".8"
+                android:fontFamily="sans-serif-medium"
+                android:paddingTop="10dp"
+                android:text="@{viewModel.description}"
+                android:textColor="@color/grey_400"
+                android:textSize="13sp"
+                android:visibility="@{viewModel.description != null ? View.VISIBLE : View.GONE}"
+                tools:text="@string/error_description" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="70dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="70dp"
-                    android:alpha=".8"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@{viewModel.title}"
-                    android:textColor="@color/grey_400"
-                    android:textSize="14sp"
-                    tools:text="@string/error_title" />
+            <Button
+                style="?attr/Notifications.Subjects.Error.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
+                android:text="@{viewModel.buttonText}"
+                app:onDebounceClick="@{viewModel.onRetryClick}"
+                tools:text="Button" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="70dp"
-                    android:layout_marginRight="70dp"
-                    android:alpha=".8"
-                    android:fontFamily="sans-serif-medium"
-                    android:paddingTop="10dp"
-                    android:text="@{viewModel.description}"
-                    android:textColor="@color/grey_400"
-                    android:textSize="13sp"
-                    android:visibility="@{viewModel.description != null ? View.VISIBLE : View.GONE}"
-                    tools:text="@string/error_description" />
-
-                <Button
-                    style="?attr/Notifications.Subjects.Error.Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:paddingStart="32dp"
-                    android:paddingEnd="32dp"
-                    android:text="@{viewModel.buttonText}"
-                    app:onDebounceClick="@{viewModel.onRetryClick}"
-                    tools:text="Button" />
-
-            </LinearLayout>
-        </dk.shape.games.uikit.views.NativeScrollCenteredView>
-    </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+    </FrameLayout>
 </layout>

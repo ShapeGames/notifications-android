@@ -1,13 +1,16 @@
 package dk.shape.games.notifications.presentation
 
-import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.lifecycle.whenResumed
 import androidx.lifecycle.whenStarted
+import androidx.transition.TransitionManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.games.notifications.R
@@ -25,6 +28,7 @@ import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import kotlinx.coroutines.Dispatchers
+
 
 class SubjectNotificationsFragment : BottomSheetDialogFragment() {
 
@@ -124,15 +128,20 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
 
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        BottomSheetDialog(requireContext(), theme)
+    override fun onCreateDialog(savedInstanceState: Bundle?) =
+        BottomSheetDialog(requireContext(), theme).apply {
+            setOnShowListener {
+                (findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as ViewGroup?)?.let { bottomSheet ->
+                    viewSwitcherViewModel.bottomSheet = bottomSheet
+                }
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         launch(viewSwitcherViewModel, Dispatchers.IO) {
             whenStarted { showLoading() }
             whenResumed { loadNotifications(interactor) }
