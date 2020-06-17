@@ -8,6 +8,8 @@ interface NotificationsDataSource {
 
     suspend fun getSubscriptions(deviceId: String): Flow<Set<Subscription>>
 
+    suspend fun getAllSubscriptions(deviceId: String): Flow<Set<Subscription>>
+
     suspend fun register(
         deviceId: String,
         platform: String,
@@ -16,7 +18,7 @@ interface NotificationsDataSource {
     )
 }
 
-interface EventNotificationsDataSource: NotificationsDataSource {
+interface EventNotificationsDataSource : NotificationsDataSource {
 
     suspend fun updateEventSubscriptions(
         deviceId: String,
@@ -27,7 +29,7 @@ interface EventNotificationsDataSource: NotificationsDataSource {
     fun isUpdatingSubscriptions(deviceId: String): Boolean
 }
 
-interface SubjectNotificationsDataSource: NotificationsDataSource {
+interface SubjectNotificationsDataSource : NotificationsDataSource {
 
     suspend fun hasActiveSubscription(
         deviceId: String,

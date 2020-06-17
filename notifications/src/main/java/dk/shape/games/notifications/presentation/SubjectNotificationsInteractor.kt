@@ -3,6 +3,7 @@ package dk.shape.games.notifications.presentation
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
 import dk.shape.games.notifications.aliases.NotifificationsLoadedListener
 import dk.shape.games.notifications.aliases.SubjectNotificationGroup
+import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,10 @@ class SubjectNotificationsInteractor(
     private val notificationsEventHandler: SubjectNotificationsEventHandler
 ) : SubjectNotificationUseCases {
 
+    private val subscriptionsFilter: (subscription: Subscription) -> Boolean = {
+        it.subjectId == action.subjectId && it.subjectType == action.subjectType
+    }
+
     override suspend fun loadNotifications(
         onLoaded: NotifificationsLoadedListener,
         onFailure: (error: Throwable) -> Unit
@@ -29,7 +34,7 @@ class SubjectNotificationsInteractor(
         }
 
         try {
-            notificationsDataSource.getSubscriptions(provideDeviceId()).apply {
+            notificationsDataSource.getAllSubscriptions(provideDeviceId()).apply {
                 collect { subscriptions ->
                     val notifications = notificationsProvider()
                     val notificationsGroup =
@@ -37,7 +42,7 @@ class SubjectNotificationsInteractor(
 
                     if (notificationsGroup != null) {
                         val subscription =
-                            subscriptions.find { it.subjectId == action.subjectId }
+                            subscriptions.find(subscriptionsFilter)
 
                         val enabledNotificationTypes =
                             subscription?.types?.mapNotNull { subscriptionType ->
@@ -70,13 +75,7 @@ class SubjectNotificationsInteractor(
                 }
             }
         } catch (e: Exception) {
-            if (e is IOException || e is HttpException) {
-                if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
-                    notificationsEventHandler.onNotificationsLoading(false)
-                    notificationsEventHandler.onPreferencesLoadedError(e)
-                }
-                onFailure(e)
-            } else throw e
+            handleException(e, notificationsEventHandler, onFailure)
         }
     }
 
@@ -90,7 +89,7 @@ class SubjectNotificationsInteractor(
         }
 
         try {
-            val indetifers = stateData.notificationTypeIdentifiers.map {
+            val notificationTypeIds = stateData.notificationTypeIdentifiers.map {
                 it.name.toLowerCase(Locale.ROOT)
             }.toSet()
 
@@ -98,7 +97,7 @@ class SubjectNotificationsInteractor(
                 deviceId = provideDeviceId(),
                 subjectId = action.subjectId,
                 subjectType = action.subjectType,
-                subscribedNotificationTypeIds = indetifers
+                subscribedNotificationTypeIds = notificationTypeIds
             )
 
             withContext(Dispatchers.Main) {
@@ -123,13 +122,21 @@ class SubjectNotificationsInteractor(
                 onSuccess()
             }
         } catch (e: Exception) {
-            if (e is IOException || e is HttpException) {
-                if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
-                    notificationsEventHandler.onNotificationsLoading(false)
-                    notificationsEventHandler.onPreferencesSavedError(e)
-                }
-                onFailure(e)
-            } else throw e
+            handleException(e, notificationsEventHandler, onFailure)
         }
+    }
+
+    private fun handleException(
+        e: Exception,
+        notificationsEventHandler: SubjectNotificationsEventHandler,
+        onFailure: (error: Throwable) -> Unit
+    ) {
+        if (e is IOException || e is HttpException) {
+            if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
+                notificationsEventHandler.onNotificationsLoading(false)
+                notificationsEventHandler.onPreferencesSavedError(e)
+            }
+            onFailure(e)
+        } else throw e
     }
 }

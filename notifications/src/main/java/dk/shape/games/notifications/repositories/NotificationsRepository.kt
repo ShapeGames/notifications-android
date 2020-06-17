@@ -4,6 +4,7 @@ import dk.shape.danskespil.foundation.cache.Cache
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.entities.Subscription
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.sendBlocking
@@ -14,6 +15,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.util.concurrent.ConcurrentHashMap
 
+@ExperimentalCoroutinesApi
 class NotificationsRepository(
     private val service: NotificationsService,
     private val cache: Cache<Set<Subscription>>
@@ -26,14 +28,26 @@ class NotificationsRepository(
     private val subscriptionsChannels =
         ConcurrentHashMap<String, BroadcastChannel<Set<Subscription>>>()
 
-    override suspend fun getSubscriptions(deviceId: String): Flow<Set<Subscription>> =
-        updateSubscriptionsCache(deviceId).asFlow()
+    @FlowPreview
+    override suspend fun getAllSubscriptions(deviceId: String): Flow<Set<Subscription>> =
+        updateSubscriptionsCache(deviceId, suspend {
+            service.getAllSubscriptions(deviceId)
+        }).asFlow()
 
-    private suspend fun updateSubscriptionsCache(deviceId: String): BroadcastChannel<Set<Subscription>> {
+    @FlowPreview
+    override suspend fun getSubscriptions(deviceId: String): Flow<Set<Subscription>> =
+        updateSubscriptionsCache(deviceId, suspend {
+            service.getSubscriptions(deviceId)
+        }).asFlow()
+
+    private suspend fun updateSubscriptionsCache(
+        deviceId: String,
+        subscriptionsProvider: suspend () -> List<Subscription>
+    ): BroadcastChannel<Set<Subscription>> {
         val subscriptionsChannel = getChannelForDeviceId(deviceId)
         val cachedSubscriptions = cache.get(deviceId)
         if (cachedSubscriptions == null) {
-            val subscriptions = service.getSubscriptions(deviceId).toSet()
+            val subscriptions = subscriptionsProvider().toSet()
 
             cacheMutex.withLock {
                 cache.put(deviceId, subscriptions, Cache.CacheDuration.Infinite)
@@ -45,11 +59,12 @@ class NotificationsRepository(
         return subscriptionsChannel
     }
 
+    @FlowPreview
     override suspend fun hasActiveSubscription(
         deviceId: String,
         subjectId: String
     ): Flow<Boolean> {
-        return getSubscriptions(deviceId).map { subscritions ->
+        return getAllSubscriptions(deviceId).map { subscritions ->
             val subscrition = subscritions.find { it.subjectId == subjectId }
             subscrition != null && subscrition.types.isNotEmpty()
         }
@@ -65,10 +80,9 @@ class NotificationsRepository(
             service.updateSubscriptions(
                 SubscribeRequest(
                     deviceId = deviceId,
-                    eventId = subjectId,
                     subjectId = subjectId,
                     subjetType = subjectType,
-                    types = subscribedNotificationTypeIds.toList()
+                    types = subscribedNotificationTypeIds
                 )
             )
         }
@@ -79,7 +93,6 @@ class NotificationsRepository(
                 val cachedSubscriptions = (it.filter { subscription ->
                     subscription.subjectId != subjectId
                 }.toSet() + Subscription(
-                    eventId = subjectId,
                     subjectId = subjectId,
                     subjectType = subjectType,
                     types = subscribedNotificationTypeIds
@@ -99,11 +112,9 @@ class NotificationsRepository(
         updateMutexes.getOrPut("$deviceId|$eventId", { Mutex(false) }).withLock {
             service.updateSubscriptions(
                 SubscribeRequest(
-                    deviceId = deviceId,
                     eventId = eventId,
-                    subjectId = eventId,
-                    subjetType = SubjectType.EVENTS,
-                    types = subscribedNotificationTypeIds.toList()
+                    deviceId = deviceId,
+                    types = subscribedNotificationTypeIds
                 )
             )
         }
@@ -114,7 +125,6 @@ class NotificationsRepository(
                 val cachedSubscriptions = (it.filter { subscription ->
                     subscription.eventId != eventId
                 }.toSet() + Subscription(
-                    eventId = eventId,
                     subjectId = eventId,
                     subjectType = SubjectType.EVENTS,
                     types = subscribedNotificationTypeIds
