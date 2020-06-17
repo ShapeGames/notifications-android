@@ -2,8 +2,7 @@ package dk.shape.games.notifications.usecases
 
 import dk.shape.games.notifications.aliases.NotificationType
 import dk.shape.games.notifications.aliases.Notifications
-import dk.shape.games.notifications.entities.Subscription
-import dk.shape.games.notifications.repositories.NotificationsDataSource
+import dk.shape.games.notifications.repositories.EventNotificationsDataSource
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BroadcastChannel
@@ -17,7 +16,7 @@ import kotlinx.coroutines.withContext
 internal class EventNotificationInteractor(
     private val event: Event,
     private val provideNotifications: suspend () -> Notifications,
-    private val notificationsDataSource: NotificationsDataSource,
+    private val notificationsDataSource: EventNotificationsDataSource,
     private val provideDeviceId: suspend () -> String,
     private val onMainToggleError: (e: Throwable) -> Unit
 ) : EventNotificationUseCases {

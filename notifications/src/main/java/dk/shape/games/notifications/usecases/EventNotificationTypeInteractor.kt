@@ -4,6 +4,7 @@ import dk.shape.componentkit.bridge.coroutines.await
 import dk.shape.componentkit2.ComponentKit
 import dk.shape.games.notifications.aliases.Notifications
 import dk.shape.games.notifications.entities.Subscription
+import dk.shape.games.notifications.repositories.EventNotificationsDataSource
 import dk.shape.games.notifications.repositories.NotificationsDataSource
 import dk.shape.games.sportsbook.offerings.generics.event.data.EventRepository
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +22,7 @@ internal class EventNotificationTypeInteractor(
     private val provideNotifications: suspend () -> Notifications,
     private val provideDeviceId: suspend () -> String,
     private val eventRepository: EventRepository,
-    private val notificationsDataSource: NotificationsDataSource
+    private val notificationsDataSource: EventNotificationsDataSource
 ) : NotificationTypeUseCases {
 
     private val mutableState: BroadcastChannel<NotificationTypeState> =

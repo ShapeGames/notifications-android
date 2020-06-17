@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-
+    <color name="notifications_error_button">#BC5818</color>
+    <color name="notifications_progress_bar">#DA662C</color>
+    <color name="notifications_sheet_main_color">#1d5aaf</color>
 </resources>

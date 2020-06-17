@@ -105,4 +105,67 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <!-- BottomSheet -->
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_bottom_sheet</item>
+    </style>
+
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">true</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
+
+    <!-- BottomSheet Subject Notifications -->
+
+    <style name="Notifications.Subjects.Screen.Toolbar" parent="@style/Widget">
+        <item name="elevation">3dp</item>
+        <item name="backgroundColor">@color/background_white</item>
+    </style>
+
+    <style name="Notifications.Subjects.Screen.Toolbar.Navigation" parent="@style/Widget" />
+
+    <style name="Notifications.Subjects.Screen.Toolbar.Title" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineSpacingExtra">-2.7sp</item>
+    </style>
+
+    <style name="Notifications.Subjects.Screen.Background" parent="@style/Widget" />
+
+    <style name="Notifications.Subjects.Screen.Subject.Name" parent="Widget.AppCompat.TextView" />
+
+    <style name="Notifications.Subjects.Screen.Subject.Switch" parent="Widget.AppCompat.CompoundButton.Switch" />
+
+    <style name="Notifications.Subjects.Screen.SaveButton" parent="@style/Widget" />
+
+    <!-- BottomSheet Subject Notification Types -->
+    <style name="Notifications.Subjects.Type.Icon" parent="@style/Widget" />
+
+    <style name="Notifications.Subjects.Type.Row" parent="@style/Widget" />
+
+    <style name="Notifications.Subjects.Type.Switch" parent="Widget.AppCompat.CompoundButton.CheckBox" />
+
+    <!-- BottomSheet Subject Notification Error -->
+    <style name="Notifications.Subjects.Error.Button" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="Notifications.Subjects.Type.Name" parent="Widget.AppCompat.TextView" />
+
+    <style name="Notifications.Subjects.Type.Name.Active" parent="Notifications.Subjects.Type.Name" />
+
+    <style name="Notifications.Subjects.Error.Text" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">#000</item>
+    </style>
+
+    <style name="Notifications.Subjects.Loading.ProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">@color/background_white</item>
+    </style>
+
+    <style name="Notifications.Subjects.Type.Saving.ProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">@color/background_white</item>
+    </style>
 </resources>

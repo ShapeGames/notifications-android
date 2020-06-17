@@ -20,5 +20,24 @@
         <attr name="Notifications.Types.EventTime" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Types.EventName" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Types.Name" format="reference" tools:ignore="ResourceName" />
+
+        <!-- BottomSheet Subject Notifications -->
+
+        <attr name="Notifications.Subjects.Screen.Toolbar" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Subjects.Screen.Toolbar.Navigation" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Subjects.Screen.Toolbar.Title" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Subjects.Screen.Background" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Subjects.Screen.Subject.Name" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Subjects.Screen.Subject.Switch" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Subjects.Screen.SaveButton" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Subjects.Type.Switch" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Subjects.Type.Name" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Subjects.Type.Name.Active" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Subjects.Type.Saving.ProgressBar" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Subjects.Loading.ProgressBar" format="reference" tools:ignore="ResourceName" />
+
+        <!-- BottomSheet Subject Error -->
+        <attr name="Notifications.Subjects.Error.Button" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Subjects.Error.Text" format="reference" tools:ignore="ResourceName" />
     </declare-styleable>
 </resources>

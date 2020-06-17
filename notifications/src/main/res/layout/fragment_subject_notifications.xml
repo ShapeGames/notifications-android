@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="bottom"
+    app:layout_anchorGravity="bottom"
+    app:layout_constraintBottom_toBottomOf="parent">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSheetViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="?attr/Notifications.Subjects.Screen.Background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="#f5f5f5"
+        tools:elevation="4dp">
+
+        <FrameLayout
+            android:id="@+id/notificationsToolbar"
+            style="?attr/Notifications.Subjects.Screen.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="3dp"
+            android:orientation="vertical"
+            android:paddingHorizontal="8dp"
+            app:layout_constraintBottom_toTopOf="@id/notificationsViewSwitcher"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:background="@color/background_white">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center_vertical|start"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{viewModel.onClosePressedListener}"
+                app:borderlessRipple="@{false}"
+                app:cardCornerRadius="44dp"
+                app:cardElevation="0dp"
+                app:showRipple="@{true}">
+
+                <ImageView
+                    style="?attr/Notifications.Subjects.Screen.Toolbar.Navigation"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/close_icon_white"
+                    tools:tint="#1d5aaf" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                style="?attr/Notifications.Subjects.Screen.Toolbar.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textAppearance="?attr/Notifications.Subjects.Screen.Toolbar.Title"
+                tools:layout_marginVertical="12dp"
+                tools:text="Notifications"
+                tools:textColor="#1d5aaf"
+                tools:textSize="16sp"
+                tools:textStyle="bold" />
+        </FrameLayout>
+
+        <dk.shape.viewswitcher.BindingViewSwitcher
+            android:id="@+id/notificationsViewSwitcher"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inAnimation="@anim/switcher_fade_in_anim"
+            android:outAnimation="@anim/switcher_fade_out_anim"
+            app:item="@{viewModel.notificationSwitcherViewModel.item}"
+            app:itemBinding="@{viewModel.notificationSwitcherViewModel.itemBinding}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

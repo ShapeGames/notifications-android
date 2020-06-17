@@ -1,4 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Subject Notifications BottomSheet -->
+
+    <style name="Notifications.Subjects.Screen.Toolbar.Oddset" parent="@style/Notifications.Subjects.Screen.Toolbar">
+        <item name="elevation">3dp</item>
+        <item name="height">44dp</item>
+        <item name="android:background">@drawable/notifications_toolbar_background</item>
+    </style>
+
+    <style name="Notifications.Subjects.Screen.Toolbar.Navigation.Oddset" parent="@style/Notifications.Subjects.Screen.Toolbar.Navigation">
+        <item name="tint">@color/notifications_sheet_main_color</item>
+    </style>
+
+    <style name="Notifications.Subjects.Screen.Toolbar.Title.Oddset" parent="@style/Notifications.Subjects.Screen.Toolbar.Title">
+        <item name="android:textColor">@color/notifications_sheet_main_color</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:text">Beskeder</item>
+        <item name="fontFamily">@font/avenir_next_demi_bold</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+    </style>
+
+    <style name="Notifications.Subjects.Screen.Background.Oddset" parent="@style/Notifications.Subjects.Screen.Background">
+        <item name="android:clipChildren">true</item>
+        <item name="android:clipToPadding">true</item>
+        <item name="background">@drawable/notifications_bottomsheet_background</item>
+    </style>
+
+    <style name="Notifications.Subjects.Screen.Subject.Name.Oddset" parent="@style/Notifications.Subjects.Screen.Subject.Name">
+        <item name="android:textColor">#2d2d2d</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Notifications.Subjects.Screen.Subject.Switch.Oddset" parent="@style/Notifications.Subjects.Screen.Subject.Switch">
+        <item name="track">@drawable/selector_notifications_switch_track</item>
+    </style>
+
+    <style name="Notifications.Subjects.Screen.SaveButton.Oddset" parent="@style/Notifications.Subjects.Screen.SaveButton">
+        <item name="android:layout_marginStart">23dp</item>
+        <item name="android:layout_marginEnd">23dp</item>
+        <item name="android:background">@drawable/selector_notifications_save_button</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="Notifications.Subjects.Type.Name.Oddset" parent="@style/Notifications.Subjects.Type.Name">
+        <item name="android:textSize">15sp</item>
+        <item name="fontFamily">sans-serif</item>
+    </style>
+
+    <style name="Notifications.Subjects.Type.Name.Active.Oddset" parent="Notifications.Subjects.Type.Name.Oddset">
+        <item name="fontFamily">sans-serif-black</item>
+    </style>
+
+    <style name="Notifications.Subjects.Type.Switch.Oddset" parent="@style/Notifications.Subjects.Type.Switch">
+        <item name="android:button">@drawable/selector_notifications_toggle</item>
+    </style>
+
+    <style name="Notifications.Subjects.Loading.ProgressBar.Oddset" parent="@style/Notifications.Subjects.Loading.ProgressBar">
+        <item name="colorAccent">@color/notifications_progress_bar</item>
+    </style>
+
+    <style name="Notifications.Subjects.Error.Button.Oddset" parent="@style/Notifications.Subjects.Error.Button">
+        <item name="backgroundTint">@color/notifications_error_button</item>
+    </style>
+
+    <style name="Notifications.Subjects.Type.Saving.ProgressBar.Oddset" parent="@style/Notifications.Subjects.Type.Saving.ProgressBar">
+        <item name="colorAccent">@android:color/white</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_width">20dp</item>
+    </style>
 </resources>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationTypeViewModel" />
+
+        <import type="android.graphics.Typeface" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@{viewModel.isLastElement ? @drawable/notification_type_background_no_line : @drawable/notification_type_background}"
+        android:clickable="@{viewModel.isEnabled}"
+        android:focusable="true"
+        android:onClick="@{viewModel.onNotificationClicked}"
+        tools:background="@drawable/notification_type_background"
+        tools:layout_height="50dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/notificationTypeIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="13dp"
+            android:background="@drawable/notifications_icon_background"
+            android:src="@{viewModel.icon}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/icon_event_reminder" />
+
+        <dk.shape.viewswitcher.BindingViewSwitcher
+            android:id="@+id/notificationsViewSwitcher"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:inAnimation="@anim/switcher_fade_in_anim"
+            android:outAnimation="@anim/switcher_fade_out_anim"
+            app:item="@{viewModel.nameItem}"
+            app:itemBinding="@{viewModel.nameItemBinding}"
+            app:layout_constraintBottom_toBottomOf="@id/notificationTypeIcon"
+            app:layout_constraintEnd_toStartOf="@id/notificationTypeCheckBox"
+            app:layout_constraintStart_toEndOf="@id/notificationTypeIcon"
+            app:layout_constraintTop_toTopOf="@id/notificationTypeIcon" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/notificationTypeCheckBox"
+            style="?attr/Notifications.Subjects.Type.Switch"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="13dp"
+            android:checked="@{viewModel.isActivated}"
+            android:clickable="@{viewModel.isEnabled}"
+            app:layout_constraintBottom_toBottomOf="@id/notificationTypeIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/notificationTypeIcon"
+            app:onStateChange="@{viewModel.onStateChangeListener}"
+            tools:button="@drawable/notifications_toggle"
+            tools:checked="true" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
