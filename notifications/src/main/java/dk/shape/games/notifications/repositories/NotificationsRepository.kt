@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 class NotificationsRepository(
@@ -34,9 +33,7 @@ class NotificationsRepository(
         val subscriptionsChannel = getChannelForDeviceId(deviceId)
         val cachedSubscriptions = cache.get(deviceId)
         if (cachedSubscriptions == null) {
-            val subscriptions = service.getSubscriptions(deviceId)
-                .toSet()
-                .sortSubscriptions()
+            val subscriptions = service.getSubscriptions(deviceId).toSet()
 
             cacheMutex.withLock {
                 cache.put(deviceId, subscriptions, Cache.CacheDuration.Infinite)
@@ -86,7 +83,7 @@ class NotificationsRepository(
                     subjectId = subjectId,
                     subjectType = subjectType,
                     types = subscribedNotificationTypeIds
-                )).sortSubjectSubscriptions()
+                ))
 
                 cache.put(deviceId, cachedSubscriptions, Cache.CacheDuration.Infinite)
                 getChannelForDeviceId(deviceId).sendBlocking(cachedSubscriptions)
@@ -121,7 +118,7 @@ class NotificationsRepository(
                     subjectId = eventId,
                     subjectType = SubjectType.EVENTS,
                     types = subscribedNotificationTypeIds
-                )).sortSubscriptions()
+                ))
 
                 cache.put(deviceId, cachedSubscriptions, Cache.CacheDuration.Infinite)
                 getChannelForDeviceId(deviceId).sendBlocking(cachedSubscriptions)
@@ -132,22 +129,6 @@ class NotificationsRepository(
     private fun getChannelForDeviceId(deviceId: String) = subscriptionsChannels.getOrPut(deviceId, {
         BroadcastChannel(Channel.CONFLATED)
     })
-
-    private fun Set<Subscription>.sortSubjectSubscriptions(): SortedSet<Subscription> =
-        this.toSortedSet(
-            kotlin.Comparator { s1, s2 ->
-                s1.subjectId.compareTo(s2.subjectId)
-            }
-        )
-
-    private fun Set<Subscription>.sortSubscriptions(): SortedSet<Subscription> =
-        this.toSortedSet(
-            kotlin.Comparator { s1, s2 ->
-                if (s1.eventId != null && s2.eventId != null) {
-                    s1.eventId.toLong().compareTo(s2.eventId.toLong())
-                } else 0
-            }
-        )
 
     override suspend fun register(
         deviceId: String,
