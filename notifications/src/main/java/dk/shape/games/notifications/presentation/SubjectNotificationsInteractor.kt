@@ -25,6 +25,25 @@ class SubjectNotificationsInteractor(
         it.subjectId == action.subjectId && it.subjectType == action.subjectType
     }
 
+    override suspend fun hasSubscriptions(): Boolean {
+        return notificationsProvider().any { it.sportId == action.sportId }
+    }
+
+    override suspend fun loadNotificationsSkeleton(
+        onLoaded: NotifificationsLoadedListener
+    ) {
+        val notifications = notificationsProvider()
+        val notificationsGroup = notifications.find { it.sportId == action.sportId }
+
+        if (notificationsGroup != null) {
+            val possibleNotificationTypes = notificationsGroup.notificationTypes.toSet()
+
+            withContext(Dispatchers.Main) {
+                onLoaded(emptySet(), possibleNotificationTypes, emptySet())
+            }
+        }
+    }
+
     override suspend fun loadNotifications(
         onLoaded: NotifificationsLoadedListener,
         onFailure: (error: Throwable) -> Unit
@@ -37,12 +56,10 @@ class SubjectNotificationsInteractor(
             notificationsDataSource.getAllSubscriptions(provideDeviceId()).apply {
                 collect { subscriptions ->
                     val notifications = notificationsProvider()
-                    val notificationsGroup =
-                        notifications.find { it.sportId == action.sportId }
+                    val notificationsGroup = notifications.find { it.sportId == action.sportId }
 
                     if (notificationsGroup != null) {
-                        val subscription =
-                            subscriptions.find(subscriptionsFilter)
+                        val subscription = subscriptions.find(subscriptionsFilter)
 
                         val enabledNotificationTypes =
                             subscription?.types?.mapNotNull { subscriptionType ->

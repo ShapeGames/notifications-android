@@ -83,37 +83,37 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         )
     }
 
-    private suspend fun loadNotifications(interactor: SubjectNotificationUseCases) {
-        val onLoaded: NotifificationsLoadedListener =
-            { activatedTypes, possibleTypes, defaultTypes ->
-                val activeIdentifiers = activatedTypes.map { it.identifier }.toSet()
-                val initialIdentifiers = if (defaultTypes.isNotEmpty()) {
-                    defaultTypes.toSet()
-                } else activeIdentifiers.toSet()
+    private val onNotificationsLoaded: NotifificationsLoadedListener =
+        { activatedTypes, possibleTypes, defaultTypes ->
+            val activeIdentifiers = activatedTypes.map { it.identifier }.toSet()
+            val initialIdentifiers = if (defaultTypes.isNotEmpty()) {
+                defaultTypes.toSet()
+            } else activeIdentifiers.toSet()
 
-                notificationViewModel.apply {
-                    notificationTypesCollection.set(
-                        SubjectNotificationTypeCollectionViewModel(
-                            defaultIdentifiers = initialIdentifiers,
-                            selectedIdentifiers = activeIdentifiers.toSet(),
-                            activatedIdentifiers = activeIdentifiers,
-                            possibleTypes = possibleTypes,
-                            selectionNotifier = notificationViewModel.notifySelection,
-                            initialMasterState = activatedTypes.isNotEmpty()
-                        )
+            notificationViewModel.apply {
+                notificationTypesCollection.set(
+                    SubjectNotificationTypeCollectionViewModel(
+                        defaultIdentifiers = initialIdentifiers,
+                        selectedIdentifiers = activeIdentifiers.toSet(),
+                        activatedIdentifiers = activeIdentifiers,
+                        possibleTypes = possibleTypes,
+                        selectionNotifier = notificationViewModel.notifySelection,
+                        initialMasterState = activatedTypes.isNotEmpty()
                     )
-                    activeNotificationState.awareSet(activatedTypes.isNotEmpty())
-                    viewSwitcherViewModel.showContent(notificationViewModel)
-                }
+                )
+                activeNotificationState.awareSet(activatedTypes.isNotEmpty())
+                viewSwitcherViewModel.showContent(notificationViewModel)
             }
+        }
+
+    private suspend fun loadNotifications(interactor: SubjectNotificationUseCases) {
         interactor.loadNotifications(
-            onLoaded = onLoaded,
+            onLoaded = onNotificationsLoaded,
             onFailure = {
                 with(viewSwitcherViewModel) {
                     showError {
                         launch(Dispatchers.IO) {
-                            whenStarted { showLoading() }
-                            whenResumed { loadNotifications(interactor) }
+                            processData(interactor)
                         }
                     }
                 }
@@ -142,12 +142,23 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         launch(viewSwitcherViewModel, Dispatchers.IO) {
-            whenStarted { showLoading() }
-            whenResumed { loadNotifications(interactor) }
+            processData(interactor)
         }
         return FragmentSubjectNotificationsBinding
             .inflate(layoutInflater)
             .apply { viewModel = notificationsSheetViewModel }.root
+    }
+
+    private suspend fun SubjectNotificationSwitcherViewModel.processData(interactor: SubjectNotificationUseCases) {
+        with(interactor) {
+            if (hasSubscriptions()) {
+                whenStarted { loadNotificationsSkeleton(onLoaded = onNotificationsLoaded) }
+                whenResumed { loadNotifications(this@with) }
+            } else {
+                whenStarted { showLoading() }
+                whenResumed { loadNotifications(this@with) }
+            }
+        }
     }
 
     private fun BottomSheetDialogFragment.requireBottomSheetView(): ViewGroup? =
