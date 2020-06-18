@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
-import dk.shape.games.notifications.aliases.NotifificationsLoadedListener
+import dk.shape.games.notifications.aliases.NotificationsLoadedListener
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.launch
 import dk.shape.games.notifications.databinding.FragmentSubjectNotificationsBinding
@@ -40,6 +40,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             action = action,
             provideDeviceId = config.provideDeviceId,
             notificationsProvider = config.provideNotifications,
+            hasCachedConfigData = config.hasCachedNotificationsData,
             notificationsDataSource = config.notificationsDataSource,
             notificationsEventHandler = config.eventHandler
         )
@@ -83,7 +84,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         )
     }
 
-    private val onNotificationsLoaded: NotifificationsLoadedListener =
+    private val onNotificationsLoaded: NotificationsLoadedListener =
         { activatedTypes, possibleTypes, defaultTypes ->
             val activeIdentifiers = activatedTypes.map { it.identifier }.toSet()
             val initialIdentifiers = if (defaultTypes.isNotEmpty()) {
@@ -151,7 +152,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
 
     private suspend fun SubjectNotificationSwitcherViewModel.processData(interactor: SubjectNotificationUseCases) {
         with(interactor) {
-            if (hasSubscriptions()) {
+            if (hasSupportForSport()) {
                 whenStarted { loadNotificationsSkeleton(onLoaded = onNotificationsLoaded) }
                 whenResumed { loadNotifications(this@with) }
             } else {
