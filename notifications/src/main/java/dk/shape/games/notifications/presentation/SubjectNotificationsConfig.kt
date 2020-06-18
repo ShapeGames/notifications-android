@@ -9,7 +9,7 @@ data class SubjectNotificationsConfig(
 
     val provideNotifications: suspend () -> List<SubjectNotificationGroup>,
 
-    val hasCachedNotificationsData: () -> Boolean,
+    val hasCachedConfigData: () -> Boolean,
 
     val notificationsDataSource: SubjectNotificationsDataSource,
 

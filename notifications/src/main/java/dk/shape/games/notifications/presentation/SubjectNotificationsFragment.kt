@@ -39,8 +39,8 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         SubjectNotificationsInteractor(
             action = action,
             provideDeviceId = config.provideDeviceId,
+            hasCachedConfigData = config.hasCachedConfigData,
             notificationsProvider = config.provideNotifications,
-            hasCachedConfigData = config.hasCachedNotificationsData,
             notificationsDataSource = config.notificationsDataSource,
             notificationsEventHandler = config.eventHandler
         )
