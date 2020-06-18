@@ -7,9 +7,6 @@ import dk.shape.games.notifications.presentation.SubjectNotificationStateData
 internal interface SubjectNotificationUseCases {
 
     @WorkerThread
-    suspend fun hasSupportForSport(): Boolean
-
-    @WorkerThread
     suspend fun loadNotifications(
         onLoaded: NotificationsLoadedListener,
         onFailure: (error: Throwable) -> Unit  = { }

@@ -11,12 +11,12 @@ import dk.shape.games.notifications.bindings.value
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.presentation.SubjectNotificationStateData
 
-internal data class SubjectNotificationViewModel(
-    val subjectId: String,
-    val subjectName: String,
-    val subjectType: SubjectType,
-    private val onClosedPressed: () -> Unit,
-    private val onPreferencesSaved: PreferencesSaveAction
+internal sealed class SubjectNotificationViewModel(
+    open val subjectId: String,
+    open val subjectName: String,
+    open val subjectType: SubjectType,
+    protected open val onClosedPressed: () -> Unit,
+    protected open val onPreferencesSaved: PreferencesSaveAction
 ) {
     val hasStateChanges: ObservableBoolean = ObservableBoolean(false)
     val isSavingPreferences: ObservableBoolean = ObservableBoolean(false)
@@ -81,4 +81,24 @@ internal data class SubjectNotificationViewModel(
 
         hasStateChanges.awareSet(hasChanges)
     }
+
+    class Content(
+        subjectId: String,
+        subjectName: String,
+        subjectType: SubjectType,
+        onClosedPressed: () -> Unit,
+        onPreferencesSaved: PreferencesSaveAction
+    ): SubjectNotificationViewModel(
+        subjectId, subjectName, subjectType, onClosedPressed, onPreferencesSaved
+    )
+
+    class Skeleton(
+        subjectId: String,
+        subjectName: String,
+        subjectType: SubjectType,
+        onClosedPressed: () -> Unit,
+        onPreferencesSaved: PreferencesSaveAction
+    ): SubjectNotificationViewModel(
+        subjectId, subjectName, subjectType, onClosedPressed, onPreferencesSaved
+    )
 }

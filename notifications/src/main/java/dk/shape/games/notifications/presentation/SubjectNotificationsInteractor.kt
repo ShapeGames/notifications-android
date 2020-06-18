@@ -15,7 +15,6 @@ import java.util.*
 
 class SubjectNotificationsInteractor(
     private val action: SubjectNotificationsAction,
-    private val hasCachedConfigData: () -> Boolean,
     private val provideDeviceId: suspend () -> String,
     private val notificationsProvider: suspend () -> List<SubjectNotificationGroup>,
     private val notificationsDataSource: SubjectNotificationsDataSource,
@@ -30,10 +29,6 @@ class SubjectNotificationsInteractor(
         it.sportId == action.sportId
     }
 
-    override suspend fun hasSupportForSport(): Boolean {
-        return if (hasCachedConfigData()) notificationsProvider().any(sportsIdFilter) else false
-    }
-
     override suspend fun loadNotificationsSkeleton(
         onLoaded: NotificationsLoadedListener
     ) {
@@ -44,7 +39,7 @@ class SubjectNotificationsInteractor(
             val possibleNotificationTypes = notificationsGroup.notificationTypes.toSet()
 
             withContext(Dispatchers.Main) {
-                onLoaded(emptySet(), possibleNotificationTypes, emptySet())
+                onLoaded(emptySet(), possibleNotificationTypes, emptySet(), true)
             }
         }
     }
@@ -87,7 +82,8 @@ class SubjectNotificationsInteractor(
                             onLoaded(
                                 enabledNotificationTypes,
                                 possibleNotificationTypes,
-                                defaultIdentifiers
+                                defaultIdentifiers,
+                                false
                             )
                         }
                     } else {

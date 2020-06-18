@@ -11,10 +11,6 @@ import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
  * @param provideNotifications Lambda function which returns a list containing notification
  * information for differnt sports.
  *
- * @param hasCachedConfigData Lambda function which returns a boolean indicating whether or not
- * the app configuration data from which the notifications data is retrieved is currrently cahced
- * and readily available. If the data is must be fetch this should return false.
- *
  * @param notificationsDataSource The data source (repository) used for interfacing with the
  * subscriptions data.
  *
@@ -30,8 +26,6 @@ data class SubjectNotificationsConfig(
     val provideDeviceId: suspend () -> String,
 
     val provideNotifications: suspend () -> List<SubjectNotificationGroup>,
-
-    val hasCachedConfigData: () -> Boolean,
 
     val notificationsDataSource: SubjectNotificationsDataSource,
 
