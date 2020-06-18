@@ -8,6 +8,7 @@ import androidx.databinding.BindingAdapter
 import dk.shape.games.notifications.R
 import kotlin.math.abs
 
+
 private const val DEBOUNCE_DELAY_MS = 300L
 
 private val DEBOUNCE_CLICK_TAG = "DEBOUNCE_CLICK".hashCode()
@@ -23,7 +24,8 @@ internal fun View.setShowRipple(
 ) {
     if (showRipple && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         val outValue = TypedValue()
-        val attribute = if (borderless) R.attr.selectableItemBackgroundBorderless else R.attr.selectableItemBackground
+        val attribute =
+            if (borderless) R.attr.selectableItemBackgroundBorderless else R.attr.selectableItemBackground
 
         context.theme.resolveAttribute(attribute, outValue, true)
 

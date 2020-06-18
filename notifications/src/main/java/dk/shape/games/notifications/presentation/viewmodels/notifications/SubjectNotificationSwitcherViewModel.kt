@@ -2,13 +2,16 @@ package dk.shape.games.notifications.presentation.viewmodels.notifications
 
 import androidx.databinding.ObservableField
 import dk.shape.games.notifications.R
+import dk.shape.games.notifications.bindings.onChange
 import dk.shape.games.notifications.presentation.viewmodels.state.ErrorViewModel
 import dk.shape.games.notifications.presentation.viewmodels.state.LoadingViewModel
 import me.tatarka.bindingcollectionadapter2.BR
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
 
-internal class SubjectNotificationSwitcherViewModel {
+internal class SubjectNotificationSwitcherViewModel(
+    val onItemChanged: () -> Unit
+) {
 
     private val loadingViewModel = LoadingViewModel()
 
@@ -23,7 +26,9 @@ internal class SubjectNotificationSwitcherViewModel {
             )
     )
 
-    val item: ObservableField<Any> = ObservableField(loadingViewModel)
+    val item: ObservableField<Any> = ObservableField<Any>(loadingViewModel).onChange {
+        onItemChanged()
+    }
 
     fun showContent(viewModel: SubjectNotificationViewModel) {
         item.set(viewModel)
