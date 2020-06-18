@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_gravity="bottom"
-    app:layout_anchorGravity="bottom"
-    app:layout_constraintBottom_toBottomOf="parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -21,16 +18,16 @@
         tools:elevation="4dp">
 
         <FrameLayout
-            android:id="@+id/notificationsToolbar"
+            android:id="@+id/toolbar"
             style="?attr/Notifications.Subjects.Screen.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="3dp"
-            android:orientation="vertical"
             android:paddingHorizontal="8dp"
-            app:layout_constraintBottom_toTopOf="@id/notificationsViewSwitcher"
+            app:layout_constraintBottom_toTopOf="@id/viewSwitcher"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:background="@color/background_white">
 
             <androidx.cardview.widget.CardView
@@ -69,8 +66,8 @@
         </FrameLayout>
 
         <dk.shape.viewswitcher.BindingViewSwitcher
-            android:id="@+id/notificationsViewSwitcher"
-            android:layout_width="0dp"
+            android:id="@+id/viewSwitcher"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inAnimation="@anim/switcher_fade_in_anim"
             android:outAnimation="@anim/switcher_fade_out_anim"
@@ -78,6 +75,8 @@
             app:itemBinding="@{viewModel.notificationSwitcherViewModel.itemBinding}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -25,9 +25,18 @@ fun ObservableBoolean.awareSet(value: Boolean, onChange: (() -> Unit)? = null) {
 }
 
 fun ObservableBoolean.onChange(listener: (value: Boolean) -> Unit): ObservableBoolean {
-    this.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
+    this.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
             listener(get())
+        }
+    })
+    return this
+}
+
+inline fun <reified T> ObservableField<T>.onChange(crossinline listener: (value: T) -> Unit): ObservableField<T> {
+    this.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+            listener(get() as T)
         }
     })
     return this

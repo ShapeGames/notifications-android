@@ -1,13 +1,15 @@
 package dk.shape.games.notifications.presentation
 
-import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.whenResumed
 import androidx.lifecycle.whenStarted
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.games.notifications.R
@@ -44,7 +46,14 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
     }
 
     private val viewSwitcherViewModel: SubjectNotificationSwitcherViewModel =
-        SubjectNotificationSwitcherViewModel()
+        SubjectNotificationSwitcherViewModel {
+            requireBottomSheetView()?.let { bottomSheetView ->
+                TransitionManager.beginDelayedTransition(
+                    bottomSheetView,
+                    AutoTransition().setInterpolator(FastOutSlowInInterpolator())
+                )
+            }
+        }
 
     private val notificationViewModel: SubjectNotificationViewModel by lazy {
         SubjectNotificationViewModel(
@@ -124,7 +133,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
 
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
+    override fun onCreateDialog(savedInstanceState: Bundle?) =
         BottomSheetDialog(requireContext(), theme)
 
     override fun onCreateView(
@@ -132,7 +141,6 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         launch(viewSwitcherViewModel, Dispatchers.IO) {
             whenStarted { showLoading() }
             whenResumed { loadNotifications(interactor) }
@@ -141,4 +149,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             .inflate(layoutInflater)
             .apply { viewModel = notificationsSheetViewModel }.root
     }
+
+    private fun BottomSheetDialogFragment.requireBottomSheetView(): ViewGroup? =
+        (dialog as? BottomSheetDialog)?.findViewById<View>(R.id.design_bottom_sheet) as? ViewGroup
 }
