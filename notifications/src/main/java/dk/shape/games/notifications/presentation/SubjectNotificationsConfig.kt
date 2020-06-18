@@ -9,6 +9,8 @@ data class SubjectNotificationsConfig(
 
     val provideNotifications: suspend () -> List<SubjectNotificationGroup>,
 
+    val hasCachedConfigData: () -> Boolean,
+
     val notificationsDataSource: SubjectNotificationsDataSource,
 
     val eventHandler: SubjectNotificationsEventHandler

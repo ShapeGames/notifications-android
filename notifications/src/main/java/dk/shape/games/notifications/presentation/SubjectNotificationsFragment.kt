@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
-import dk.shape.games.notifications.aliases.NotifificationsLoadedListener
+import dk.shape.games.notifications.aliases.NotificationsLoadedListener
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.launch
 import dk.shape.games.notifications.databinding.FragmentSubjectNotificationsBinding
@@ -39,6 +39,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         SubjectNotificationsInteractor(
             action = action,
             provideDeviceId = config.provideDeviceId,
+            hasCachedConfigData = config.hasCachedConfigData,
             notificationsProvider = config.provideNotifications,
             notificationsDataSource = config.notificationsDataSource,
             notificationsEventHandler = config.eventHandler
@@ -83,37 +84,37 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         )
     }
 
-    private suspend fun loadNotifications(interactor: SubjectNotificationUseCases) {
-        val onLoaded: NotifificationsLoadedListener =
-            { activatedTypes, possibleTypes, defaultTypes ->
-                val activeIdentifiers = activatedTypes.map { it.identifier }.toSet()
-                val initialIdentifiers = if (defaultTypes.isNotEmpty()) {
-                    defaultTypes.toSet()
-                } else activeIdentifiers.toSet()
+    private val onNotificationsLoaded: NotificationsLoadedListener =
+        { activatedTypes, possibleTypes, defaultTypes ->
+            val activeIdentifiers = activatedTypes.map { it.identifier }.toSet()
+            val initialIdentifiers = if (defaultTypes.isNotEmpty()) {
+                defaultTypes.toSet()
+            } else activeIdentifiers.toSet()
 
-                notificationViewModel.apply {
-                    notificationTypesCollection.set(
-                        SubjectNotificationTypeCollectionViewModel(
-                            defaultIdentifiers = initialIdentifiers,
-                            selectedIdentifiers = activeIdentifiers.toSet(),
-                            activatedIdentifiers = activeIdentifiers,
-                            possibleTypes = possibleTypes,
-                            selectionNotifier = notificationViewModel.notifySelection,
-                            initialMasterState = activatedTypes.isNotEmpty()
-                        )
+            notificationViewModel.apply {
+                notificationTypesCollection.set(
+                    SubjectNotificationTypeCollectionViewModel(
+                        defaultIdentifiers = initialIdentifiers,
+                        selectedIdentifiers = activeIdentifiers.toSet(),
+                        activatedIdentifiers = activeIdentifiers,
+                        possibleTypes = possibleTypes,
+                        selectionNotifier = notificationViewModel.notifySelection,
+                        initialMasterState = activatedTypes.isNotEmpty()
                     )
-                    activeNotificationState.awareSet(activatedTypes.isNotEmpty())
-                    viewSwitcherViewModel.showContent(notificationViewModel)
-                }
+                )
+                activeNotificationState.awareSet(activatedTypes.isNotEmpty())
+                viewSwitcherViewModel.showContent(notificationViewModel)
             }
+        }
+
+    private suspend fun loadNotifications(interactor: SubjectNotificationUseCases) {
         interactor.loadNotifications(
-            onLoaded = onLoaded,
+            onLoaded = onNotificationsLoaded,
             onFailure = {
                 with(viewSwitcherViewModel) {
                     showError {
                         launch(Dispatchers.IO) {
-                            whenStarted { showLoading() }
-                            whenResumed { loadNotifications(interactor) }
+                            processData(interactor)
                         }
                     }
                 }
@@ -142,12 +143,23 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         launch(viewSwitcherViewModel, Dispatchers.IO) {
-            whenStarted { showLoading() }
-            whenResumed { loadNotifications(interactor) }
+            processData(interactor)
         }
         return FragmentSubjectNotificationsBinding
             .inflate(layoutInflater)
             .apply { viewModel = notificationsSheetViewModel }.root
+    }
+
+    private suspend fun SubjectNotificationSwitcherViewModel.processData(interactor: SubjectNotificationUseCases) {
+        with(interactor) {
+            if (hasSupportForSport()) {
+                whenStarted { loadNotificationsSkeleton(onLoaded = onNotificationsLoaded) }
+                whenResumed { loadNotifications(this@with) }
+            } else {
+                whenStarted { showLoading() }
+                whenResumed { loadNotifications(this@with) }
+            }
+        }
     }
 
     private fun BottomSheetDialogFragment.requireBottomSheetView(): ViewGroup? =

@@ -26,7 +26,7 @@ internal class SubjectNotificationSwitcherViewModel(
             )
     )
 
-    val item: ObservableField<Any> = ObservableField<Any>(loadingViewModel).onChange {
+    val item: ObservableField<Any> = ObservableField<Any>().onChange {
         onItemChanged()
     }
 

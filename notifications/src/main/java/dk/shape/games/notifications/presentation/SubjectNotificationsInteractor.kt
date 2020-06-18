@@ -1,7 +1,7 @@
 package dk.shape.games.notifications.presentation
 
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
-import dk.shape.games.notifications.aliases.NotifificationsLoadedListener
+import dk.shape.games.notifications.aliases.NotificationsLoadedListener
 import dk.shape.games.notifications.aliases.SubjectNotificationGroup
 import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
@@ -15,6 +15,7 @@ import java.util.*
 
 class SubjectNotificationsInteractor(
     private val action: SubjectNotificationsAction,
+    private val hasCachedConfigData: () -> Boolean,
     private val provideDeviceId: suspend () -> String,
     private val notificationsProvider: suspend () -> List<SubjectNotificationGroup>,
     private val notificationsDataSource: SubjectNotificationsDataSource,
@@ -25,8 +26,31 @@ class SubjectNotificationsInteractor(
         it.subjectId == action.subjectId && it.subjectType == action.subjectType
     }
 
+    private val sportsIdFilter: (subscription: SubjectNotificationGroup) -> Boolean = {
+        it.sportId == action.sportId
+    }
+
+    override suspend fun hasSupportForSport(): Boolean {
+        return if (hasCachedConfigData()) notificationsProvider().any(sportsIdFilter) else false
+    }
+
+    override suspend fun loadNotificationsSkeleton(
+        onLoaded: NotificationsLoadedListener
+    ) {
+        val notifications = notificationsProvider()
+        val notificationsGroup = notifications.find(sportsIdFilter)
+
+        if (notificationsGroup != null) {
+            val possibleNotificationTypes = notificationsGroup.notificationTypes.toSet()
+
+            withContext(Dispatchers.Main) {
+                onLoaded(emptySet(), possibleNotificationTypes, emptySet())
+            }
+        }
+    }
+
     override suspend fun loadNotifications(
-        onLoaded: NotifificationsLoadedListener,
+        onLoaded: NotificationsLoadedListener,
         onFailure: (error: Throwable) -> Unit
     ) {
         if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {
@@ -37,12 +61,10 @@ class SubjectNotificationsInteractor(
             notificationsDataSource.getAllSubscriptions(provideDeviceId()).apply {
                 collect { subscriptions ->
                     val notifications = notificationsProvider()
-                    val notificationsGroup =
-                        notifications.find { it.sportId == action.sportId }
+                    val notificationsGroup = notifications.find(sportsIdFilter)
 
                     if (notificationsGroup != null) {
-                        val subscription =
-                            subscriptions.find(subscriptionsFilter)
+                        val subscription = subscriptions.find(subscriptionsFilter)
 
                         val enabledNotificationTypes =
                             subscription?.types?.mapNotNull { subscriptionType ->

@@ -6,7 +6,7 @@ internal typealias PreferencesSaveAction = (stateData: SubjectNotificationStateD
 
 internal typealias SelectionStateNotifier = (isSelected: Boolean, identifier: SubjectNotificationIdentifier) -> Unit
 
-internal typealias NotifificationsLoadedListener = (
+internal typealias NotificationsLoadedListener = (
     activatedTypes: Set<SubjectNotificationType>,
     possibleTypes: Set<SubjectNotificationType>,
     defaultTypes: Set<SubjectNotificationIdentifier>
