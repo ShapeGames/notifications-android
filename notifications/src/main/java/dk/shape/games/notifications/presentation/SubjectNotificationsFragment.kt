@@ -45,13 +45,11 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         )
     }
 
-    private var bottomSheet: ViewGroup? = null
-
     private val viewSwitcherViewModel: SubjectNotificationSwitcherViewModel =
         SubjectNotificationSwitcherViewModel {
-            bottomSheet?.let {
+            requireBottomSheetView()?.let { bottomSheetView ->
                 TransitionManager.beginDelayedTransition(
-                    it,
+                    bottomSheetView,
                     AutoTransition().setInterpolator(FastOutSlowInInterpolator())
                 )
             }
@@ -136,11 +134,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 
     override fun onCreateDialog(savedInstanceState: Bundle?) =
-        BottomSheetDialog(requireContext(), theme).apply {
-            setOnShowListener {
-                bottomSheet = toBottomSheetView()
-            }
-        }
+        BottomSheetDialog(requireContext(), theme)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -156,6 +150,6 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             .apply { viewModel = notificationsSheetViewModel }.root
     }
 
-    private fun BottomSheetDialog.toBottomSheetView(): ViewGroup? =
-        findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as? ViewGroup
+    private fun BottomSheetDialogFragment.requireBottomSheetView(): ViewGroup? =
+        (dialog as? BottomSheetDialog)?.findViewById<View>(R.id.design_bottom_sheet) as? ViewGroup
 }
