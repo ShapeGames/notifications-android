@@ -9,5 +9,6 @@ internal typealias SelectionStateNotifier = (isSelected: Boolean, identifier: Su
 internal typealias NotificationsLoadedListener = (
     activatedTypes: Set<SubjectNotificationType>,
     possibleTypes: Set<SubjectNotificationType>,
-    defaultTypes: Set<SubjectNotificationIdentifier>
+    defaultTypes: Set<SubjectNotificationIdentifier>,
+    isSkeleton: Boolean
 ) -> Unit

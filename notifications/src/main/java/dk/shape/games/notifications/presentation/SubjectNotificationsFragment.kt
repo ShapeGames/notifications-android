@@ -39,7 +39,6 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         SubjectNotificationsInteractor(
             action = action,
             provideDeviceId = config.provideDeviceId,
-            hasCachedConfigData = config.hasCachedConfigData,
             notificationsProvider = config.provideNotifications,
             notificationsDataSource = config.notificationsDataSource,
             notificationsEventHandler = config.eventHandler
@@ -56,8 +55,28 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             }
         }
 
+    private val notificationSkeletonViewModel: SubjectNotificationViewModel by lazy {
+        SubjectNotificationViewModel.Skeleton(
+            subjectId = action.subjectId,
+            subjectType = action.subjectType,
+            subjectName = action.subjectName,
+            onClosedPressed = { dismiss() },
+            onPreferencesSaved = { stateData, onSuccess, onFailure ->
+                launch(interactor, Dispatchers.IO) {
+                    whenResumed {
+                        saveNotificationPreferences(
+                            stateData = stateData,
+                            onSuccess = onSuccess,
+                            onFailure = { onFailure() }
+                        )
+                    }
+                }
+            }
+        )
+    }
+
     private val notificationViewModel: SubjectNotificationViewModel by lazy {
-        SubjectNotificationViewModel(
+        SubjectNotificationViewModel.Content(
             subjectId = action.subjectId,
             subjectType = action.subjectType,
             subjectName = action.subjectName,
@@ -85,13 +104,13 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
     }
 
     private val onNotificationsLoaded: NotificationsLoadedListener =
-        { activatedTypes, possibleTypes, defaultTypes ->
+        { activatedTypes, possibleTypes, defaultTypes, isSkeleton ->
             val activeIdentifiers = activatedTypes.map { it.identifier }.toSet()
             val initialIdentifiers = if (defaultTypes.isNotEmpty()) {
                 defaultTypes.toSet()
             } else activeIdentifiers.toSet()
 
-            notificationViewModel.apply {
+            with (if (isSkeleton) notificationSkeletonViewModel else notificationViewModel) {
                 notificationTypesCollection.set(
                     SubjectNotificationTypeCollectionViewModel(
                         defaultIdentifiers = initialIdentifiers,
@@ -103,7 +122,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
                     )
                 )
                 activeNotificationState.awareSet(activatedTypes.isNotEmpty())
-                viewSwitcherViewModel.showContent(notificationViewModel)
+                viewSwitcherViewModel.showContent(this)
             }
         }
 
@@ -114,7 +133,8 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
                 with(viewSwitcherViewModel) {
                     showError {
                         launch(Dispatchers.IO) {
-                            processData(interactor)
+                            whenStarted { showLoading() }
+                            whenResumed { loadNotifications(interactor) }
                         }
                     }
                 }
@@ -137,29 +157,24 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?) =
         BottomSheetDialog(requireContext(), theme)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        launch(interactor, Dispatchers.IO) {
+            loadNotificationsSkeleton(onLoaded = onNotificationsLoaded)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        launch(viewSwitcherViewModel, Dispatchers.IO) {
-            processData(interactor)
+        launch(Dispatchers.IO) {
+            whenResumed { loadNotifications(interactor) }
         }
         return FragmentSubjectNotificationsBinding
             .inflate(layoutInflater)
             .apply { viewModel = notificationsSheetViewModel }.root
-    }
-
-    private suspend fun SubjectNotificationSwitcherViewModel.processData(interactor: SubjectNotificationUseCases) {
-        with(interactor) {
-            if (hasSupportForSport()) {
-                whenStarted { loadNotificationsSkeleton(onLoaded = onNotificationsLoaded) }
-                whenResumed { loadNotifications(this@with) }
-            } else {
-                whenStarted { showLoading() }
-                whenResumed { loadNotifications(this@with) }
-            }
-        }
     }
 
     private fun BottomSheetDialogFragment.requireBottomSheetView(): ViewGroup? =

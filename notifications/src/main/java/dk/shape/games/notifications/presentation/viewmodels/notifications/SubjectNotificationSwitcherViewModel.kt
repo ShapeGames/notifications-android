@@ -12,8 +12,9 @@ import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
 internal class SubjectNotificationSwitcherViewModel(
     val onItemChanged: () -> Unit
 ) {
-
     private val loadingViewModel = LoadingViewModel()
+
+    private var lastViewModel: Any = loadingViewModel
 
     val itemBinding: ItemBinding<Any> = ItemBinding.of(
         OnItemBindClass<Any>()
@@ -26,12 +27,21 @@ internal class SubjectNotificationSwitcherViewModel(
             )
     )
 
-    val item: ObservableField<Any> = ObservableField<Any>().onChange {
-        onItemChanged()
+    val item: ObservableField<Any> = ObservableField<Any>(loadingViewModel).onChange {
+        if (it is SubjectNotificationViewModel.Content && lastViewModel !is SubjectNotificationViewModel.Skeleton) {
+            onItemChanged()
+        }
+        lastViewModel = it
     }
 
     fun showContent(viewModel: SubjectNotificationViewModel) {
-        item.set(viewModel)
+        if (viewModel is SubjectNotificationViewModel.Skeleton) {
+            if (item.get() !is SubjectNotificationViewModel.Content) {
+                item.set(viewModel)
+            }
+        } else {
+            item.set(viewModel)
+        }
     }
 
     fun showLoading() {

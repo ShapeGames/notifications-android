@@ -11,7 +11,6 @@ class SubjectNotificationsDependencyProvider : ConfigProvider<SubjectNotificatio
     override fun config(fragment: Fragment): SubjectNotificationsConfig {
         return SubjectNotificationsConfig(
             provideDeviceId = SubjectDeviceIdProviderMock::provideDeviceIdMock,
-            hasCachedConfigData = { false },
             provideNotifications = SubjectNotificationsProviderMock::provideNotificationsMock,
             notificationsDataSource = SubjectNotificationsRepositoryMock,
             eventHandler = SubjectNotificationsEventHandlerMock
