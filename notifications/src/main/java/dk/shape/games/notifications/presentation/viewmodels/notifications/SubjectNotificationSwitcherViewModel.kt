@@ -14,8 +14,6 @@ internal class SubjectNotificationSwitcherViewModel(
 ) {
     private val loadingViewModel = LoadingViewModel()
 
-    private var lastViewModel: Any = loadingViewModel
-
     val itemBinding: ItemBinding<Any> = ItemBinding.of(
         OnItemBindClass<Any>()
             .map(ErrorViewModel::class.java, BR.viewModel, R.layout.state_error_view)
@@ -28,20 +26,11 @@ internal class SubjectNotificationSwitcherViewModel(
     )
 
     val item: ObservableField<Any> = ObservableField<Any>(loadingViewModel).onChange {
-        if (it is SubjectNotificationViewModel.Content && lastViewModel !is SubjectNotificationViewModel.Skeleton) {
-            onItemChanged()
-        }
-        lastViewModel = it
+        onItemChanged()
     }
 
     fun showContent(viewModel: SubjectNotificationViewModel) {
-        if (viewModel is SubjectNotificationViewModel.Skeleton) {
-            if (item.get() !is SubjectNotificationViewModel.Content) {
-                item.set(viewModel)
-            }
-        } else {
-            item.set(viewModel)
-        }
+        item.set(viewModel)
     }
 
     fun showLoading() {
