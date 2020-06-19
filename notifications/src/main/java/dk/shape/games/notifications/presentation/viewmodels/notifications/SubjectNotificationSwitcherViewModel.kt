@@ -35,8 +35,10 @@ internal class SubjectNotificationSwitcherViewModel(
     }
 
     fun showContent(viewModel: SubjectNotificationViewModel) {
-        if (viewModel is SubjectNotificationViewModel.Skeleton && item.get() !is SubjectNotificationViewModel.Content) {
-            item.set(viewModel)
+        if (viewModel is SubjectNotificationViewModel.Skeleton) {
+            if (item.get() !is SubjectNotificationViewModel.Content) {
+                item.set(viewModel)
+            }
         } else {
             item.set(viewModel)
         }
