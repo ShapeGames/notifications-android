@@ -9,7 +9,7 @@ import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
  * @param provideDeviceId Lambda function which returns an UUID (device ID) for the device.
  *
  * @param provideNotifications Lambda function which returns a list containing notification
- * information for differnt sports.
+ * information for different sports.
  *
  * @param notificationsDataSource The data source (repository) used for interfacing with the
  * subscriptions data.
