@@ -9,12 +9,7 @@ internal interface SubjectNotificationUseCases {
     @WorkerThread
     suspend fun loadNotifications(
         onLoaded: NotificationsLoadedListener,
-        onFailure: (error: Throwable) -> Unit  = { }
-    )
-
-    @WorkerThread
-    suspend fun loadNotificationsSkeleton(
-        onLoaded: NotificationsLoadedListener
+        onFailure: (error: Throwable) -> Unit = { }
     )
 
     @WorkerThread

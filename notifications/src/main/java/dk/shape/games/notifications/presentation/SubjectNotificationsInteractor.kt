@@ -29,21 +29,6 @@ class SubjectNotificationsInteractor(
         it.sportId == action.sportId
     }
 
-    override suspend fun loadNotificationsSkeleton(
-        onLoaded: NotificationsLoadedListener
-    ) {
-        val notifications = notificationsProvider()
-        val notificationsGroup = notifications.find(sportsIdFilter)
-
-        if (notificationsGroup != null) {
-            val possibleNotificationTypes = notificationsGroup.notificationTypes.toSet()
-
-            withContext(Dispatchers.Main) {
-                onLoaded(emptySet(), possibleNotificationTypes, emptySet(), true)
-            }
-        }
-    }
-
     override suspend fun loadNotifications(
         onLoaded: NotificationsLoadedListener,
         onFailure: (error: Throwable) -> Unit
@@ -82,8 +67,7 @@ class SubjectNotificationsInteractor(
                             onLoaded(
                                 enabledNotificationTypes,
                                 possibleNotificationTypes,
-                                defaultIdentifiers,
-                                false
+                                defaultIdentifiers
                             )
                         }
                     } else {

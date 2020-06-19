@@ -10,6 +10,7 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding
 import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
 
 internal class SubjectNotificationSwitcherViewModel(
+    initialContentItem: SubjectNotificationViewModel?,
     val onItemChanged: () -> Unit
 ) {
     private val loadingViewModel = LoadingViewModel()
@@ -25,7 +26,9 @@ internal class SubjectNotificationSwitcherViewModel(
             )
     )
 
-    val item: ObservableField<Any> = ObservableField<Any>(loadingViewModel).onChange {
+    val item: ObservableField<Any> = ObservableField<Any>(
+        initialContentItem ?: loadingViewModel
+    ).onChange {
         onItemChanged()
     }
 

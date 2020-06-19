@@ -45,38 +45,40 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         )
     }
 
-    private val viewSwitcherViewModel: SubjectNotificationSwitcherViewModel =
-        SubjectNotificationSwitcherViewModel {
-            requireBottomSheetView()?.let { bottomSheetView ->
-                TransitionManager.beginDelayedTransition(
-                    bottomSheetView,
-                    AutoTransition().setInterpolator(FastOutSlowInInterpolator())
+    private val viewSwitcherViewModel: SubjectNotificationSwitcherViewModel by lazy {
+        SubjectNotificationSwitcherViewModel(
+            initialContentItem = getInitialSubjectViewModel(),
+            onItemChanged = {
+                requireBottomSheetView()?.let { bottomSheetView ->
+                    TransitionManager.beginDelayedTransition(
+                        bottomSheetView,
+                        AutoTransition().setInterpolator(FastOutSlowInInterpolator())
+                    )
+                }
+            })
+    }
+
+    private fun getInitialSubjectViewModel(): SubjectNotificationViewModel? =
+        config.provideNotificationsNow()?.find {
+            it.sportId == action.sportId
+        }?.notificationTypes?.let { notificationTypesForSport ->
+            notificationViewModel.apply {
+                notificationTypesCollection.set(
+                    SubjectNotificationTypeCollectionViewModel(
+                        defaultIdentifiers = emptySet(),
+                        selectedIdentifiers = emptySet(),
+                        activatedIdentifiers = emptySet(),
+                        possibleTypes = notificationTypesForSport.toSet(),
+                        selectionNotifier = notifySelection,
+                        initialMasterState = false
+                    )
                 )
+                activeNotificationState.awareSet(false)
             }
         }
 
-    private val notificationSkeletonViewModel: SubjectNotificationViewModel by lazy {
-        SubjectNotificationViewModel.Skeleton(
-            subjectId = action.subjectId,
-            subjectType = action.subjectType,
-            subjectName = action.subjectName,
-            onClosedPressed = { dismiss() },
-            onPreferencesSaved = { stateData, onSuccess, onFailure ->
-                launch(interactor, Dispatchers.IO) {
-                    whenResumed {
-                        saveNotificationPreferences(
-                            stateData = stateData,
-                            onSuccess = onSuccess,
-                            onFailure = { onFailure() }
-                        )
-                    }
-                }
-            }
-        )
-    }
-
     private val notificationViewModel: SubjectNotificationViewModel by lazy {
-        SubjectNotificationViewModel.Content(
+        SubjectNotificationViewModel(
             subjectId = action.subjectId,
             subjectType = action.subjectType,
             subjectName = action.subjectName,
@@ -104,13 +106,13 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
     }
 
     private val onNotificationsLoaded: NotificationsLoadedListener =
-        { activatedTypes, possibleTypes, defaultTypes, isSkeleton ->
+        { activatedTypes, possibleTypes, defaultTypes ->
             val activeIdentifiers = activatedTypes.map { it.identifier }.toSet()
             val initialIdentifiers = if (defaultTypes.isNotEmpty()) {
                 defaultTypes.toSet()
             } else activeIdentifiers.toSet()
 
-            with (if (isSkeleton) notificationSkeletonViewModel else notificationViewModel) {
+            with(notificationViewModel) {
                 notificationTypesCollection.set(
                     SubjectNotificationTypeCollectionViewModel(
                         defaultIdentifiers = initialIdentifiers,
@@ -130,16 +132,22 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         interactor.loadNotifications(
             onLoaded = onNotificationsLoaded,
             onFailure = {
-                with(viewSwitcherViewModel) {
-                    showError {
-                        launch(Dispatchers.IO) {
-                            whenStarted { showLoading() }
-                            whenResumed { loadNotifications(interactor) }
-                        }
-                    }
+                viewSwitcherViewModel.showError {
+                    onRetry()
                 }
             }
         )
+    }
+
+    private fun onRetry() {
+        launch(Dispatchers.IO) {
+            whenStarted {
+                viewSwitcherViewModel.showLoading()
+            }
+            whenResumed {
+                loadNotifications(interactor)
+            }
+        }
     }
 
     override fun onCancel(dialog: DialogInterface) {
@@ -157,24 +165,23 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?) =
         BottomSheetDialog(requireContext(), theme)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        launch(interactor, Dispatchers.IO) {
-            loadNotificationsSkeleton(onLoaded = onNotificationsLoaded)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ) = FragmentSubjectNotificationsBinding
+        .inflate(layoutInflater)
+        .apply {
+            viewModel = notificationsSheetViewModel
+        }.root
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         launch(Dispatchers.IO) {
-            whenResumed { loadNotifications(interactor) }
+            whenResumed {
+                loadNotifications(interactor)
+            }
         }
-        return FragmentSubjectNotificationsBinding
-            .inflate(layoutInflater)
-            .apply { viewModel = notificationsSheetViewModel }.root
     }
 
     private fun BottomSheetDialogFragment.requireBottomSheetView(): ViewGroup? =

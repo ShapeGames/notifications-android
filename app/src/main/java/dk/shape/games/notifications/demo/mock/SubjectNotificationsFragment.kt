@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-data class MocktNotificationsConfig(
+data class MockNotificationsConfig(
     val hasSportNotificationsSupport: suspend (sportId: String) -> Boolean,
     val hasNotificationsSupport: suspend (subjectId: String) -> Flow<Boolean>,
     val showNotificationsFragment: (Fragment, MockData) -> Unit,
@@ -35,9 +35,9 @@ data class MockData(
 )
 
 @Parcelize
-object MockNotificationsAction : Parcelable
+object SubjectNotificationsAction : Parcelable
 
-class MockNotificationsFragment : Fragment() {
+class SubjectNotificationsFragment : Fragment() {
 
     private val mockData = MockData(
         sportId = "football:0000",
@@ -46,9 +46,9 @@ class MockNotificationsFragment : Fragment() {
         subjectType = SubjectType.TEAMS
     )
 
-    object Args : ConfigFragmentArgs<MockNotificationsAction, MocktNotificationsConfig>()
+    object Args : ConfigFragmentArgs<SubjectNotificationsAction, MockNotificationsConfig>()
 
-    private val config: MocktNotificationsConfig by config()
+    private val config: MockNotificationsConfig by config()
 
     private val mockViewModel: MockNotificationsViewModel by lazy {
 

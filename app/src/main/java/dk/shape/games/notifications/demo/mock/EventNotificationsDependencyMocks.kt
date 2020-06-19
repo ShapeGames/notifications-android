@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import dk.shape.games.notifications.actions.EventNotificationTypesAction
 import dk.shape.games.notifications.demo.R
-import dk.shape.games.notifications.demo.notifications.EventNotificationTypesDependencyProvider
+import dk.shape.games.notifications.demo.dependency.MockEventNotificationTypesDependencyProvider
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.features.list.NotificationsEventHandler
@@ -13,7 +13,6 @@ import dk.shape.games.notifications.features.list.EventNotificationsFragment
 import dk.shape.games.notifications.features.types.NotificationTypesEventHandler
 import dk.shape.games.notifications.features.types.EventNotificationTypesFragment
 import dk.shape.games.notifications.repositories.EventNotificationsDataSource
-import dk.shape.games.notifications.repositories.NotificationsDataSource
 import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -134,7 +133,7 @@ object notificationsEventHandlerMock : NotificationsEventHandler {
         EventNotificationTypesFragment().apply {
             arguments = EventNotificationTypesFragment.Args.create(
                 EventNotificationTypesAction(forEventId),
-                EventNotificationTypesDependencyProvider::class.java
+                MockEventNotificationTypesDependencyProvider::class.java
             )
         }.also {
             notificationsFragment.parentFragmentManager.beginTransaction().add(

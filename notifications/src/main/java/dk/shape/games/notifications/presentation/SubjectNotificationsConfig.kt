@@ -11,6 +11,10 @@ import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
  * @param provideNotifications Lambda function which returns a list containing notification
  * information for different sports.
  *
+ * @param provideNotificationsNow An optional lambda function which returns a list containing
+ * cached notification information for different sports. The list can be null if the cache
+ * hasn't been populated yet.
+ *
  * @param notificationsDataSource The data source (repository) used for interfacing with the
  * subscriptions data.
  *
@@ -26,6 +30,8 @@ data class SubjectNotificationsConfig(
     val provideDeviceId: suspend () -> String,
 
     val provideNotifications: suspend () -> List<SubjectNotificationGroup>,
+
+    val provideNotificationsNow: () -> List<SubjectNotificationGroup>? = { null },
 
     val notificationsDataSource: SubjectNotificationsDataSource,
 

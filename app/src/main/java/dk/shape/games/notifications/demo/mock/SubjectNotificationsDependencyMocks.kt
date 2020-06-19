@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.danskespil.foundation.entities.PolyIcon
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
-import dk.shape.games.notifications.demo.notifications.SubjectNotificationsDependencyProvider
+import dk.shape.games.notifications.demo.dependency.MockSubjectNotificationsDependencyProvider
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.presentation.SubjectNotificationsEventHandler
@@ -41,41 +41,43 @@ object SportNotificationsSupportMock {
 object SubjectNotificationsProviderMock {
     suspend fun provideNotificationsMock(): List<AppConfig.SubjectNotificationGroup> {
         return withContext(Dispatchers.IO) {
-            listOf(
-                AppConfig.SubjectNotificationGroup(
-                    sportId = "football:0000",
-                    sportName = "Football",
-                    defaultNotificationTypeIdentifiers = listOf(
-                        AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_REMINDER,
-                        AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_END
-                    ),
-                    notificationTypes = listOf(
-                        AppConfig.SubjectNotificationGroup.SubjectNotificationType(
-                            identifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.LINEUP_READY,
-                            icon = PolyIcon.Resource("icon-lineup-ready", false),
-                            name = "Startopstilling"
-                        ),
-                        AppConfig.SubjectNotificationGroup.SubjectNotificationType(
-                            identifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_REMINDER,
-                            icon = PolyIcon.Resource("icon-event-reminder", false),
-                            name = "Inden event starter"
-                        ),
-                        AppConfig.SubjectNotificationGroup.SubjectNotificationType(
-                            identifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_START,
-                            icon = PolyIcon.Resource("icon-event-start", false),
-                            name = "Inden event starter"
-                        ),
-                        AppConfig.SubjectNotificationGroup.SubjectNotificationType(
-                            identifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_END,
-                            icon = PolyIcon.Resource("icon-event-end", false),
-                            name = "Slutresultat for event"
-                        )
-                    )
-                )
-            )
+            subjectNotifications
         }
     }
 }
+
+val subjectNotifications = listOf(
+    AppConfig.SubjectNotificationGroup(
+        sportId = "football:0000",
+        sportName = "Football",
+        defaultNotificationTypeIdentifiers = listOf(
+            AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_REMINDER,
+            AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_END
+        ),
+        notificationTypes = listOf(
+            AppConfig.SubjectNotificationGroup.SubjectNotificationType(
+                identifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.LINEUP_READY,
+                icon = PolyIcon.Resource("icon-lineup-ready", false),
+                name = "Startopstilling"
+            ),
+            AppConfig.SubjectNotificationGroup.SubjectNotificationType(
+                identifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_REMINDER,
+                icon = PolyIcon.Resource("icon-event-reminder", false),
+                name = "Inden event starter"
+            ),
+            AppConfig.SubjectNotificationGroup.SubjectNotificationType(
+                identifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_START,
+                icon = PolyIcon.Resource("icon-event-start", false),
+                name = "Inden event starter"
+            ),
+            AppConfig.SubjectNotificationGroup.SubjectNotificationType(
+                identifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_END,
+                icon = PolyIcon.Resource("icon-event-end", false),
+                name = "Slutresultat for event"
+            )
+        )
+    )
+)
 
 object SubjectNotificationsRepositoryMock : SubjectNotificationsDataSource {
 
@@ -153,14 +155,14 @@ fun <T : Fragment> launchBottomSheetNotificationsFragment(
     return SubjectNotificationsFragment().apply {
         arguments = SubjectNotificationsFragment.Args.create(
             action = action,
-            configProvider = SubjectNotificationsDependencyProvider::class.java
+            configProvider = MockSubjectNotificationsDependencyProvider::class.java
         )
         show(fragment.childFragmentManager, SubjectNotificationsFragment::class.java.simpleName)
     }
 }
 
 @ExperimentalCoroutinesApi
-val mockClientDependencies: MocktNotificationsConfig = MocktNotificationsConfig(
+val mockClientDependencies: MockNotificationsConfig = MockNotificationsConfig(
     hasSportNotificationsSupport = { sportId ->
         SportNotificationsSupportMock.hasNotificationsSupport(sportId)
     },
