@@ -15,7 +15,7 @@ import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
  * subscriptions data.
  *
  * @param eventHandler An event handler used for listening to events propagated directly from the
- * noticications component/interactor. The event handle will notifiy upon various events.
+ * notifications component/interactor. The event handle will notifiy upon various events.
  *
  * @see SubjectNotificationsDataSource
  * @see SubjectNotificationsEventHandler
