@@ -22,7 +22,7 @@ internal class SubjectNotificationSwitcherViewModel(
             .map(
                 SubjectNotificationViewModel::class.java,
                 BR.viewModel,
-                R.layout.view_subject_notifications
+                R.layout. view_subject_notifications
             )
     )
 

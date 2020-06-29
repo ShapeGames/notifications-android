@@ -52,7 +52,7 @@
 
     <style name="Notifications.Subjects.Type.Name.Oddset" parent="@style/Notifications.Subjects.Type.Name">
         <item name="android:textSize">15sp</item>
-        <item name="fontFamily">sans-serif</item>
+        <item name="fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="Notifications.Subjects.Type.Name.Active.Oddset" parent="Notifications.Subjects.Type.Name.Oddset">

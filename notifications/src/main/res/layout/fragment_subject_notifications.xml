@@ -22,7 +22,7 @@
             style="?attr/Notifications.Subjects.Screen.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="3dp"
+            android:elevation="2dp"
             android:paddingHorizontal="8dp"
             app:layout_constraintBottom_toTopOf="@id/viewSwitcher"
             app:layout_constraintEnd_toEndOf="parent"
