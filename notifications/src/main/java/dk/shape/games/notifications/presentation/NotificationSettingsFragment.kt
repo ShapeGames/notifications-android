@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenResumed
 import dk.shape.games.notifications.R
-import dk.shape.games.notifications.actions.NotificationsSettingsAction
+import dk.shape.games.notifications.actions.NotificationSettingsAction
 import dk.shape.games.notifications.databinding.FragmentNotificationSettingsBinding
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.extensions.toTypeIds
@@ -26,9 +26,9 @@ import kotlin.time.ExperimentalTime
 @ExperimentalCoroutinesApi
 class NotificationSettingsFragment : Fragment() {
 
-    object Args : ConfigFragmentArgs<NotificationsSettingsAction, NotificationSettingsConfig>()
+    object Args : ConfigFragmentArgs<NotificationSettingsAction, NotificationSettingsConfig>()
 
-    private val action: NotificationsSettingsAction by action()
+    private val action: NotificationSettingsAction by action()
     private val config: NotificationSettingsConfig by config()
 
     private var savedEventIds: List<String>? = null
@@ -36,10 +36,11 @@ class NotificationSettingsFragment : Fragment() {
     private val switcherViewModel: NotificationsSettingsSwitcherViewModel =
         NotificationsSettingsSwitcherViewModel.Loading
 
-    private val toolbarViewModel: NotificationsToolbarViewModel =
+    private val toolbarViewModel: NotificationsToolbarViewModel by lazy {
         NotificationsToolbarViewModel.Settings(
             onBackPressed = config.onBackPressed
         )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -156,7 +157,6 @@ class NotificationSettingsFragment : Fragment() {
         }
     }
 
-
     @ExperimentalCoroutinesApi
     @FlowPreview
     @ExperimentalTime
@@ -165,7 +165,7 @@ class NotificationSettingsFragment : Fragment() {
         appConfig: AppConfig
     ): List<NotificationsSettingsSubjectViewModel> {
         return config.subjectSettingUseCasesProvider().getAllSubscriptions(deviceId)
-            ?.let { subscriptions ->
+            .let { subscriptions ->
 
                 config.provideSubjectInfo(subscriptions)?.sortedBy { subjectInfo ->
                     subjectInfo.subjectName
@@ -211,7 +211,7 @@ class NotificationSettingsFragment : Fragment() {
             } ?: listOf()
     }
 
-    private fun NotificationsSettingsAction.getEventIds(onResult: (List<String>?) -> Unit) {
+    private fun NotificationSettingsAction.getEventIds(onResult: (List<String>?) -> Unit) {
         when {
             betslipComponentUUID != null -> {
                 onResult(config.provideEventIdsForBetSlip())

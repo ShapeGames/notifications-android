@@ -12,19 +12,3 @@ internal fun Subscription.toActiveNotificationTypes(
         notificationType.identifier.name.toLowerCase(Locale.ROOT) == subscriptionType
     }
 }.toSet()
-
-/*
-internal fun Set<Subscription>.toSubjects(): List<Subject> = map { subscription ->
-    subscription.toSubject()
-}
-
-private fun Subscription.toSubject(): Subject = Subject(
-        subjectId = subjectId,
-        subjectType = subjectType.toStatsSubjectType()
-)
-
-private fun SubjectType.toStatsSubjectType(): dk.shape.games.stats.favorites.SubjectType = when (this) {
-    SubjectType.TEAMS -> dk.shape.games.stats.favorites.SubjectType.TEAMS
-    SubjectType.ATHLETES -> dk.shape.games.stats.favorites.SubjectType.ATHLETES
-    else -> throw IOException("Notifications are only supported for teams and athletes at the moment.")
-}*/
