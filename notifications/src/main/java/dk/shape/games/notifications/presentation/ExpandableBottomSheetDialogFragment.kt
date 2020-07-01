@@ -7,16 +7,10 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import dk.shape.games.notifications.R
 
 abstract class ExpandableBottomSheetDialogFragment(
     private val topOffset: Int = 0
 ) : BottomSheetDialogFragment() {
-
-    override fun getTheme(): Int = R.style.BottomSheetDialogTheme
-
-    protected fun BottomSheetDialogFragment.requireBottomSheetView(): ViewGroup? =
-        requireView().parent as? ViewGroup?
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return BottomSheetDialog(requireContext(), theme).apply {
@@ -27,7 +21,7 @@ abstract class ExpandableBottomSheetDialogFragment(
     }
 
     private fun setFullyExpanded() {
-        val bottomSheet = requireBottomSheetView()
+        val bottomSheet = requireView().parent as? ViewGroup?
         bottomSheet?.let {
             val behavior = BottomSheetBehavior.from(bottomSheet)
             bottomSheet.layoutParams?.let {
