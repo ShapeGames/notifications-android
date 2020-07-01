@@ -10,23 +10,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.games.notifications.R
 
 abstract class ExpandableBottomSheetDialogFragment(
-    shouldFillScreen: Boolean = true
+    shouldFillScreen: Boolean = true,
+    val topOffset: Int = 0
 ): BottomSheetDialogFragment() {
 
-    private var isVisisble: Boolean = false
+    private var originalHeight: Int = -1
 
     protected var fillsScreen: Boolean = shouldFillScreen
         private set
-
-    protected var topOffset: Int = 0
-        set(value) {
-            field = value
-            if (isVisisble) {
-                setFullyExpanded(fillsScreen, value)
-            }
-        }
-
-    private var originalHeight: Int = -1
 
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 
@@ -36,13 +27,12 @@ abstract class ExpandableBottomSheetDialogFragment(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return BottomSheetDialog(requireContext(), theme).apply {
             setOnShowListener {
-                isVisisble = true
-                setFullyExpanded(fillsScreen, topOffset)
+                setFullyExpanded(fillsScreen)
             }
         }
     }
 
-    protected fun setFullyExpanded(fillsScreen: Boolean, topOffset: Int = 0) {
+    protected fun setFullyExpanded(fillsScreen: Boolean) {
         val bottomSheet = requireBottomSheetView()
         bottomSheet?.let {
             val behavior = BottomSheetBehavior.from(bottomSheet)

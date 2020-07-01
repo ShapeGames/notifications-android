@@ -25,7 +25,7 @@ import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import kotlinx.coroutines.Dispatchers
 
-class SubjectNotificationsFragment : ExpandableBottomSheetDialogFragment(shouldFillScreen = true) {
+class SubjectNotificationsFragment : ExpandableBottomSheetDialogFragment(shouldFillScreen = false) {
 
     object Args : ConfigFragmentArgs<SubjectNotificationsAction, SubjectNotificationsConfig>()
 
