@@ -10,6 +10,7 @@ import androidx.lifecycle.whenResumed
 import androidx.lifecycle.whenStarted
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
 import dk.shape.games.notifications.aliases.NotificationsLoadedListener
 import dk.shape.games.notifications.bindings.awareSet
@@ -25,7 +26,7 @@ import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import kotlinx.coroutines.Dispatchers
 
-class SubjectNotificationsFragment : ExpandableBottomSheetDialogFragment(shouldFillScreen = false) {
+class SubjectNotificationsFragment : BottomSheetDialogFragment() {
 
     object Args : ConfigFragmentArgs<SubjectNotificationsAction, SubjectNotificationsConfig>()
 
@@ -146,6 +147,9 @@ class SubjectNotificationsFragment : ExpandableBottomSheetDialogFragment(shouldF
             }
         }
     }
+
+    private fun BottomSheetDialogFragment.requireBottomSheetView(): ViewGroup? =
+        requireView().parent as? ViewGroup?
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
