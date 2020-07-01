@@ -5,5 +5,5 @@
     <string name="error_title">Ingen forbindelse</string>
     <string name="error_description">Notifikationer kunne ikke hentes</string>
     <string name="error_try_again">Forsøg igen</string>
-    <string name="save_my_preferences">Save my preferences</string>
+    <string name="save_my_preferences">Gem mine valg</string>
 </resources>

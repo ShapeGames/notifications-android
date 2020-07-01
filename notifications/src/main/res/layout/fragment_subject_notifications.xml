@@ -59,9 +59,10 @@
                 android:gravity="center"
                 android:textAppearance="?attr/Notifications.Subjects.Screen.Toolbar.Title"
                 tools:layout_marginVertical="12dp"
-                tools:text="Notifications"
+                tools:text="Notifikationstyper"
                 tools:textColor="#1d5aaf"
-                tools:textSize="16sp"
+                tools:textSize="17sp"
+                tools:textAllCaps="true"
                 tools:textStyle="bold" />
         </FrameLayout>
 
