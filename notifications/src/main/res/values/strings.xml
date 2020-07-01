@@ -6,4 +6,11 @@
     <string name="error_description">Notifikationer kunne ikke hentes</string>
     <string name="error_try_again">Forsøg igen</string>
     <string name="save_my_preferences">Save my preferences</string>
+    <string name="notifications_none_selected">Ingen notifikationer valgt</string>
+    <string name="notification_settings_title">Notifikationer</string>
+    <string name="notification_settings_empty_title">INGEN NOTIFIKATIONER</string>
+    <string name="notification_settings_empty_description">Når du aktiverer notifikationer, kan du konfigurere dem her.</string>
+    <string name="notification_types_title">Notifikationstyper</string>
+    <string name="notification_type_event">EVENT Notifikationer</string>
+    <string name="notification_type_stats">FAVORIT NOTIFIKATIONER</string>
 </resources>

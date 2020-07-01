@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.presentation.viewmodels.settings.NotificationsSettingsSubjectViewModel" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:minHeight="80dp"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="6dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:animateLayoutChanges="true"
+            android:paddingStart="13dp"
+            android:paddingTop="9dp"
+            android:paddingEnd="13dp"
+            android:paddingBottom="9dp">
+
+            <TextView
+                android:id="@+id/subjectName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:maxLines="2"
+                android:paddingTop="8dp"
+                android:text="@{viewModel.name}"
+                android:textColor="@color/grey_825"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@id/switchButton"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/switchButton"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Team 1 Tm 1 Team 1 Team 1" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@{viewModel.isSwitchToggled}"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:thumb="@drawable/notifications_switch_thumb"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:onStateChange="@{viewModel.onSwitchStateChanged}"
+                app:track="@drawable/notifications_switch_track"
+                tools:checked="false" />
+
+            <include
+                android:id="@+id/notificationInfoText"
+                layout="@layout/view_notification_info_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.hasIcons ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@id/settingsButton"
+                app:layout_constraintEnd_toStartOf="@id/settingsButton"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/settingsButton"
+                app:viewModel="@{viewModel.emptyTextViewModel}" />
+
+            <include
+                android:id="@+id/notificationInfoIcons"
+                layout="@layout/view_notification_info_icons"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.hasIcons ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@id/settingsButton"
+                app:layout_constraintEnd_toStartOf="@id/settingsButton"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/settingsButton"
+                app:viewModel="@{viewModel.infoIconsViewModel}" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/settingsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:onClick="@{viewModel.onSettingsClicked}"
+                android:src="@drawable/ic_notifications_settings"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/switchButton" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

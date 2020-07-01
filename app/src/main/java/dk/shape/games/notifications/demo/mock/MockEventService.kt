@@ -123,10 +123,6 @@ class MockEventService : DBPublishService {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getStatsEventsByIds(eventIds: String?): Call<MutableList<Event>> {
-        TODO("Not yet implemented")
-    }
-
     override fun getActionFromPossibleBet(betLevel: String?, betId: String?): Call<Action> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

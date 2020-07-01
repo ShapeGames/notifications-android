@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.presentation.viewmodels.settings.NotificationsToolbarViewModel" />
+
+    </data>
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:elevation="3dp"
+        app:backgroundResource="@{viewModel.backgroundRes}"
+        tools:background="@drawable/notifications_toolbar_background_black"
+        tools:backgroundTint="@color/blue_500"
+        tools:backgroundTintMode="add">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center_vertical|start"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{viewModel.backListener}"
+            app:borderlessRipple="@{false}"
+            app:cardCornerRadius="44dp"
+            app:cardElevation="0dp"
+            app:showRipple="@{true}">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_close_black"
+                tools:tint="@color/blue_500" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-black"
+            android:text="@{viewModel.title}"
+            android:textColor="@color/blue_500"
+            android:textSize="20sp"
+            tools:text="Notifikationer" />
+
+    </androidx.appcompat.widget.Toolbar>
+</layout>
