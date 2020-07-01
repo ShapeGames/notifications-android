@@ -10,9 +10,6 @@ import androidx.lifecycle.whenResumed
 import androidx.lifecycle.whenStarted
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
 import dk.shape.games.notifications.aliases.NotificationsLoadedListener
 import dk.shape.games.notifications.bindings.awareSet
@@ -28,7 +25,7 @@ import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import kotlinx.coroutines.Dispatchers
 
-class SubjectNotificationsFragment : BottomSheetDialogFragment() {
+class SubjectNotificationsFragment : ExpandableBottomSheetDialogFragment(shouldFillScreen = true) {
 
     object Args : ConfigFragmentArgs<SubjectNotificationsAction, SubjectNotificationsConfig>()
 
@@ -101,7 +98,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         SubjectNotificationSheetViewModel(
             notificationViewModel = notificationViewModel,
             notificationSwitcherViewModel = viewSwitcherViewModel,
-            onClosedPressed = { dismiss() }
+            onClosedPressed = {  setFullyExpanded(!fillsScreen) }
         )
     }
 
@@ -160,11 +157,6 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         config.eventHandler.onDismissed()
     }
 
-    override fun getTheme(): Int = R.style.BottomSheetDialogTheme
-
-    override fun onCreateDialog(savedInstanceState: Bundle?) =
-        BottomSheetDialog(requireContext(), theme)
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -183,7 +175,4 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             }
         }
     }
-
-    private fun BottomSheetDialogFragment.requireBottomSheetView(): ViewGroup? =
-        (dialog as? BottomSheetDialog)?.findViewById<View>(R.id.design_bottom_sheet) as? ViewGroup
 }
