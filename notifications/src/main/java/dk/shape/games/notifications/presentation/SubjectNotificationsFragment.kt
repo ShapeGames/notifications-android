@@ -98,7 +98,7 @@ class SubjectNotificationsFragment : ExpandableBottomSheetDialogFragment(shouldF
         SubjectNotificationSheetViewModel(
             notificationViewModel = notificationViewModel,
             notificationSwitcherViewModel = viewSwitcherViewModel,
-            onClosedPressed = {  setFullyExpanded(!fillsScreen) }
+            onClosedPressed = { dismiss() }
         )
     }
 
