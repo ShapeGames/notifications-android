@@ -11,6 +11,7 @@ import androidx.lifecycle.whenStarted
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
 import dk.shape.games.notifications.aliases.NotificationsLoadedListener
 import dk.shape.games.notifications.bindings.awareSet
@@ -147,6 +148,8 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             }
         }
     }
+
+    override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 
     private fun BottomSheetDialogFragment.requireBottomSheetView(): ViewGroup? =
         requireView().parent as? ViewGroup?
