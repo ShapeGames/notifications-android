@@ -33,6 +33,11 @@ val mockSubjectSubscriptions: Set<SubjectSubscription> = listOf(
         subjectId = "subject:1234",
         subjectType = SubjectType.TEAMS,
         types = listOf("event_start").toSet()
+    ),
+    SubjectSubscription(
+        subjectId = "subject:1235",
+        subjectType = SubjectType.TEAMS,
+        types = listOf("event_end","lineup_ready").toSet()
     )
 ).toSet()
 
@@ -41,6 +46,12 @@ val mockSubjectInfos = listOf(
         subjectId = "subject:1234",
         subjectType = SubjectType.TEAMS,
         subjectName = "Manchester",
+        sportId = "sport:football"
+    ),
+    SubjectInfo(
+        subjectId = "subject:1235",
+        subjectType = SubjectType.TEAMS,
+        subjectName = "Liverpool",
         sportId = "sport:football"
     )
 )
@@ -131,17 +142,6 @@ val mockAppConfig: AppConfig = AppConfig(
     notifications = Notifications(mockEventNotificationGroups),
     teamSubjectNotifications = mockTeamSubjectNotificationGroups
 )
-
-val mockLegacyEventNotificationsUseCases = object : LegacyEventNotificationsUseCases {
-    override fun getAllSubscriptions(): List<Subscription> = mockLegacySubscriptions
-
-    override fun updateNotifications(
-        eventId: String,
-        notificationTypeIds: Set<String>,
-        onError: () -> Unit
-    ) {
-    }
-}
 
 val mockLegacyNotificationsComponent = object : NotificationsComponentInterface {
     override fun register(token: String?, environment: String?): Promise<Any, Throwable, Void> {
