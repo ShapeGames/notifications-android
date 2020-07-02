@@ -1,6 +1,5 @@
 package dk.shape.games.notifications.presentation.viewmodels.settings
 
-import androidx.databinding.ObservableField
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.BR
 import dk.shape.games.uikit.databinding.UIText
@@ -15,8 +14,7 @@ sealed class NotificationInfoViewModel {
         val itemBinding: ItemBinding<NotificationTypeIconViewModel> =
             ItemBinding.of(BR.viewModel, R.layout.view_notifications_type_icon)
 
-        val items: ObservableField<List<NotificationTypeIconViewModel>> =
-            ObservableField(iconViewModels)
+        val items: List<NotificationTypeIconViewModel> = iconViewModels
     }
 
     open class Text(

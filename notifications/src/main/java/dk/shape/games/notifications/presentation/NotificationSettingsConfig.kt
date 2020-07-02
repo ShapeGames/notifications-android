@@ -4,19 +4,21 @@ import androidx.fragment.app.Fragment
 import dk.shape.games.notifications.actions.LegacyEventNotificationTypesAction
 import dk.shape.games.notifications.actions.SubjectNotificationTypesAction
 import dk.shape.games.notifications.entities.Subscription
+import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsUseCases
 import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsUseCases
+import dk.shape.games.sportsbook.offerings.modules.notification.NotificationsComponentInterface
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 // TODO: add documentation once API is stable
 
 @ExperimentalCoroutinesApi
 data class NotificationSettingsConfig(
-    val legacyEventNotificationsUseCasesProvider: () -> LegacyEventNotificationsUseCases,
+    val legacyNotificationsComponentProvider: () -> NotificationsComponentInterface,
 
-    val subjectSettingUseCasesProvider: () -> SubjectSettingsNotificationsUseCases,
+    val subjectNotificationsDataSourceProvider: () -> SubjectNotificationsDataSource,
 
     val provideEventIdsForUserBetsAsync: ((List<String>?) -> Unit) -> Unit,
 

@@ -13,6 +13,10 @@ import dk.shape.games.notifications.databinding.FragmentNotificationSettingsBind
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.extensions.toTypeIds
 import dk.shape.games.notifications.presentation.viewmodels.settings.*
+import dk.shape.games.notifications.usecases.LegacyEventNotificationsInteractor
+import dk.shape.games.notifications.usecases.LegacyEventNotificationsUseCases
+import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsInteractor
+import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsUseCases
 import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
@@ -32,6 +36,18 @@ class NotificationSettingsFragment : Fragment() {
     private val config: NotificationSettingsConfig by config()
 
     private var savedEventIds: List<String>? = null
+
+    private val legacyNotificationsInteractor: LegacyEventNotificationsUseCases by lazy {
+        LegacyEventNotificationsInteractor(
+            config.legacyNotificationsComponentProvider()
+        )
+    }
+
+    private val subjectNotificationsInteractor: SubjectSettingsNotificationsUseCases by lazy {
+        SubjectSettingsNotificationsInteractor(
+            config.subjectNotificationsDataSourceProvider()
+        )
+    }
 
     private val switcherViewModel: NotificationsSettingsSwitcherViewModel =
         NotificationsSettingsSwitcherViewModel.Loading
@@ -122,7 +138,7 @@ class NotificationSettingsFragment : Fragment() {
         eventIds: List<String>?,
         appConfig: AppConfig
     ): List<NotificationsSettingsEventViewModel> {
-        val subscriptions = config.legacyEventNotificationsUseCasesProvider().getAllSubscriptions()
+        val subscriptions = legacyNotificationsInteractor.getAllSubscriptions()
         val subscribedEventIds = eventIds ?: subscriptions.map { it.eventId }
         savedEventIds = subscribedEventIds
 
@@ -145,7 +161,7 @@ class NotificationSettingsFragment : Fragment() {
                             config.onEventNotificationTypesClicked(this, action)
                         },
                         onSetNotifications = { notificationIds, onError ->
-                            config.legacyEventNotificationsUseCasesProvider().updateNotifications(
+                            legacyNotificationsInteractor.updateNotifications(
                                 eventId = event.id,
                                 notificationTypeIds = notificationIds,
                                 onError = onError
@@ -164,7 +180,7 @@ class NotificationSettingsFragment : Fragment() {
         deviceId: String,
         appConfig: AppConfig
     ): List<NotificationsSettingsSubjectViewModel> {
-        return config.subjectSettingUseCasesProvider().getAllSubscriptions(deviceId)
+        return subjectNotificationsInteractor.getAllSubscriptions(deviceId)
             .let { subscriptions ->
 
                 config.provideSubjectInfo(subscriptions)?.sortedBy { subjectInfo ->
@@ -192,14 +208,13 @@ class NotificationSettingsFragment : Fragment() {
                                     lifecycleScope.launch {
                                         whenResumed {
                                             withContext(Dispatchers.IO) {
-                                                config.subjectSettingUseCasesProvider()
-                                                    .updateNotifications(
-                                                        deviceId = deviceId,
-                                                        subjectId = matchingSubscription.subjectId,
-                                                        subjectType = matchingSubscription.subjectType,
-                                                        notificationTypeIds = notificationTypes.toTypeIds(),
-                                                        onError = onError
-                                                    )
+                                                subjectNotificationsInteractor.updateNotifications(
+                                                    deviceId = deviceId,
+                                                    subjectId = matchingSubscription.subjectId,
+                                                    subjectType = matchingSubscription.subjectType,
+                                                    notificationTypeIds = notificationTypes.toTypeIds(),
+                                                    onError = onError
+                                                )
                                             }
                                         }
                                     }

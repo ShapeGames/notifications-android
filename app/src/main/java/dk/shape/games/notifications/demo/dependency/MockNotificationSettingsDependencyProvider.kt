@@ -12,11 +12,11 @@ class MockNotificationSettingsDependencyProvider : ConfigProvider<NotificationSe
     @ExperimentalCoroutinesApi
     override fun config(fragment: Fragment): NotificationSettingsConfig {
         return NotificationSettingsConfig(
-            legacyEventNotificationsUseCasesProvider = {
-                mockLegacyEventNotificationsUseCases
+            legacyNotificationsComponentProvider = {
+                mockLegacyNotificationsComponent
             },
-            subjectSettingUseCasesProvider = {
-                mockSubjectSettingsNotificationsUseCases
+            subjectNotificationsDataSourceProvider = {
+                mockSubjectNotificationsDataSource
             },
             provideEventIdsForUserBetsAsync = {},
             provideEventIdsForBetSlip = { null },
@@ -30,7 +30,7 @@ class MockNotificationSettingsDependencyProvider : ConfigProvider<NotificationSe
                 mockEvents
             },
             provideDeviceId = {
-                "1234"
+                "device:1234"
             },
             onBackPressed = {},
             onSubjectNotificationTypesClicked = { fragment, subjectNotificationTypesAction -> },

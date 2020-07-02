@@ -1,21 +1,27 @@
 package dk.shape.games.notifications.demo.mock
 
+import dk.shape.componentkit2.Promise
 import dk.shape.danskespil.foundation.entities.PolyIcon
 import dk.shape.games.notifications.aliases.Notifications
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.presentation.SubjectInfo
+import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsUseCases
 import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsUseCases
 import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 import dk.shape.games.sportsbook.offerings.common.appconfig.BetSlipConfig
 import dk.shape.games.sportsbook.offerings.common.appconfig.EventConfig
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
+import dk.shape.games.sportsbook.offerings.modules.notification.NotificationsComponentInterface
 import dk.shape.games.sportsbook.offerings.modules.notification.Subscription
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import java.io.IOException
 import java.util.*
 
 typealias SubjectSubscription = dk.shape.games.notifications.entities.Subscription
 
-val mockLegacySubscriptions: List<Subscription> = listOf(
+val mockLegacySubscriptions: MutableList<Subscription> = mutableListOf(
     Subscription(
         eventId = "event:1234",
         commaSeparatedTypes = ",event_start"
@@ -137,16 +143,64 @@ val mockLegacyEventNotificationsUseCases = object : LegacyEventNotificationsUseC
     }
 }
 
-val mockSubjectSettingsNotificationsUseCases = object : SubjectSettingsNotificationsUseCases {
-    override suspend fun getAllSubscriptions(deviceId: String): Set<SubjectSubscription> =
-        mockSubjectSubscriptions
+val mockLegacyNotificationsComponent = object : NotificationsComponentInterface {
+    override fun register(token: String?, environment: String?): Promise<Any, Throwable, Void> {
+        val promise: Promise<Any, Throwable, Void> = Promise()
+        promise.returnValue(null)
+        return promise
+    }
 
-    override suspend fun updateNotifications(
+    override fun observeSubscriptions(): Promise<Void, IOException, MutableList<Subscription>> {
+        val promise: Promise<Void, IOException, MutableList<Subscription>> = Promise()
+        promise.returnValue(null)
+        return promise
+    }
+
+    override fun getSubscriptions(): Promise<MutableList<Subscription>, IOException, Void> {
+        val promise: Promise<MutableList<Subscription>, IOException, Void> = Promise()
+        promise.returnValue(mockLegacySubscriptions)
+        return promise
+    }
+
+    override fun subscribe(
+        eventId: String?,
+        commaSeperatedTypes: String?
+    ): Promise<Boolean, IOException, Void> {
+        val promise: Promise<Boolean, IOException, Void> = Promise()
+        promise.returnValue(true)
+        return promise
+    }
+
+    override fun unsubscribe(eventId: String?): Promise<Boolean, IOException, Void> {
+        val promise: Promise<Boolean, IOException, Void> = Promise()
+        promise.returnValue(true)
+        return promise
+    }
+}
+
+val mockSubjectNotificationsDataSource = object : SubjectNotificationsDataSource {
+    override suspend fun hasActiveSubscription(deviceId: String, subjectId: String): Flow<Boolean> =
+        flowOf(true)
+
+    override suspend fun updateSubjectSubscriptions(
         deviceId: String,
         subjectId: String,
         subjectType: SubjectType,
-        notificationTypeIds: Set<String>,
-        onError: () -> Unit
+        subscribedNotificationTypeIds: Set<String>
+    ) {
+    }
+
+    override suspend fun getSubscriptions(deviceId: String): Flow<Set<dk.shape.games.notifications.entities.Subscription>> =
+        flowOf(mockSubjectSubscriptions)
+
+    override suspend fun getAllSubscriptions(deviceId: String): Flow<Set<dk.shape.games.notifications.entities.Subscription>> =
+        flowOf(mockSubjectSubscriptions)
+
+    override suspend fun register(
+        deviceId: String,
+        platform: String,
+        environment: String,
+        notificationToken: String
     ) {
     }
 
