@@ -4,7 +4,7 @@ import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
@@ -16,7 +16,7 @@ data class SubjectSettingsNotificationsInteractor(
 
     override suspend fun getAllSubscriptions(
         deviceId: String
-    ): Set<Subscription> = notificationsComponent.getAllSubscriptions(deviceId).first()
+    ): Flow<Set<Subscription>> = notificationsComponent.getAllSubscriptions(deviceId)
 
     override suspend fun updateNotifications(
         deviceId: String,

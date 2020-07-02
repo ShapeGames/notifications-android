@@ -23,6 +23,9 @@ import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import dk.shape.games.uikit.databinding.UIText
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.singleOrNull
 import retrofit2.HttpException
 import java.io.IOException
 import kotlin.time.ExperimentalTime
@@ -180,50 +183,52 @@ class NotificationSettingsFragment : Fragment() {
         deviceId: String,
         appConfig: AppConfig
     ): List<NotificationsSettingsSubjectViewModel> {
-        return subjectNotificationsInteractor.getAllSubscriptions(deviceId)
-            .let { subscriptions ->
+        val subjectSubscriptions =
+            subjectNotificationsInteractor.getAllSubscriptions(deviceId).singleOrNull()
 
-                config.provideSubjectInfo(subscriptions)?.sortedBy { subjectInfo ->
-                    subjectInfo.subjectName
-                }?.mapNotNull { subjectInfo ->
+        return subjectSubscriptions?.let { subscriptions ->
 
-                    subscriptions.find { subscription ->
-                        subscription.subjectId == subjectInfo.subjectId
-                    }?.takeIf { subscription ->
-                        subscription.types.isNotEmpty()
-                    }?.let { matchingSubscription ->
-                        val statsNotificationGroups = appConfig.toStatsNotifications(subjectInfo)
+            config.provideSubjectInfo(subscriptions)?.sortedBy { subjectInfo ->
+                subjectInfo.subjectName
+            }?.mapNotNull { subjectInfo ->
 
-                        statsNotificationGroups.find { notificationGroup ->
-                            notificationGroup.sportId == subjectInfo.sportId
-                        }?.let { matchingGroup ->
-                            NotificationsSettingsSubjectViewModel(
-                                name = subjectInfo.subjectName,
-                                subscription = matchingSubscription,
-                                notificationGroup = matchingGroup,
-                                onSubjectNotificationTypesClicked = { action ->
-                                    config.onSubjectNotificationTypesClicked(this, action)
-                                },
-                                onSetNotifications = { notificationTypes, onError ->
-                                    lifecycleScope.launch {
-                                        whenResumed {
-                                            withContext(Dispatchers.IO) {
-                                                subjectNotificationsInteractor.updateNotifications(
-                                                    deviceId = deviceId,
-                                                    subjectId = matchingSubscription.subjectId,
-                                                    subjectType = matchingSubscription.subjectType,
-                                                    notificationTypeIds = notificationTypes.toTypeIds(),
-                                                    onError = onError
-                                                )
-                                            }
+                subscriptions.find { subscription ->
+                    subscription.subjectId == subjectInfo.subjectId
+                }?.takeIf { subscription ->
+                    subscription.types.isNotEmpty()
+                }?.let { matchingSubscription ->
+                    val statsNotificationGroups = appConfig.toStatsNotifications(subjectInfo)
+
+                    statsNotificationGroups.find { notificationGroup ->
+                        notificationGroup.sportId == subjectInfo.sportId
+                    }?.let { matchingGroup ->
+                        NotificationsSettingsSubjectViewModel(
+                            name = subjectInfo.subjectName,
+                            subscription = matchingSubscription,
+                            notificationGroup = matchingGroup,
+                            onSubjectNotificationTypesClicked = { action ->
+                                config.onSubjectNotificationTypesClicked(this, action)
+                            },
+                            onSetNotifications = { notificationTypes, onError ->
+                                lifecycleScope.launch {
+                                    whenResumed {
+                                        withContext(Dispatchers.IO) {
+                                            subjectNotificationsInteractor.updateNotifications(
+                                                deviceId = deviceId,
+                                                subjectId = matchingSubscription.subjectId,
+                                                subjectType = matchingSubscription.subjectType,
+                                                notificationTypeIds = notificationTypes.toTypeIds(),
+                                                onError = onError
+                                            )
                                         }
                                     }
                                 }
-                            )
-                        }
+                            }
+                        )
                     }
                 }
-            } ?: listOf()
+            }
+        } ?: listOf()
     }
 
     private fun NotificationSettingsAction.getEventIds(onResult: (List<String>?) -> Unit) {
