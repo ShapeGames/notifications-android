@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.singleOrNull
 import java.io.IOException
 import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @ExperimentalCoroutinesApi
 class NotificationSettingsFragment : Fragment() {
 
@@ -76,7 +77,7 @@ class NotificationSettingsFragment : Fragment() {
         }
     }
 
-    @OptIn(ExperimentalTime::class, FlowPreview::class, ExperimentalCoroutinesApi::class)
+    @ExperimentalTime
     private fun fetchNotifications(eventIds: List<String>?) {
         switcherViewModel.setLoading()
 
