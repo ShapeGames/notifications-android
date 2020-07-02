@@ -93,7 +93,7 @@ class NotificationSettingsFragment : Fragment() {
                         val eventNotificationViewModels =
                             getEventNotificationsViewModels(eventIds, appConfig)
 
-                        val subscriptions = config.subjectNotificationsDataSourceProvider().getAllSubscriptions("device:1234")
+                        val subscriptions = config.subjectNotificationsDataSourceProvider().getAllSubscriptions(deviceId)
 
                         val statsNotificationViewModels =
                             getSubjectNotificationsViewModels(deviceId, appConfig)
