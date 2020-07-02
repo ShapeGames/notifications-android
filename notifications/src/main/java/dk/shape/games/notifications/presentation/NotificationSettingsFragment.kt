@@ -11,7 +11,6 @@ import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.NotificationSettingsAction
 import dk.shape.games.notifications.databinding.FragmentNotificationSettingsBinding
 import dk.shape.games.notifications.entities.SubjectType
-import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.extensions.toTypeIds
 import dk.shape.games.notifications.presentation.viewmodels.settings.*
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsInteractor
@@ -24,7 +23,7 @@ import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import dk.shape.games.uikit.databinding.UIText
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.singleOrNull
+import kotlinx.coroutines.flow.first
 import java.io.IOException
 import kotlin.time.ExperimentalTime
 
@@ -90,12 +89,6 @@ class NotificationSettingsFragment : Fragment() {
 
                         val eventNotificationViewModels =
                             getEventNotificationsViewModels(eventIds, appConfig)
-
-                        with(config.subjectNotificationsDataSource) {
-                            val hasActive = hasActiveSubscription(deviceId, "manchester")
-                            val subscription = getSubscriptions(deviceId)
-                            val subscriptions = getAllSubscriptions(deviceId)
-                        }
 
                         val statsNotificationViewModels =
                             getSubjectNotificationsViewModels(deviceId, appConfig)
@@ -188,12 +181,8 @@ class NotificationSettingsFragment : Fragment() {
     private suspend fun getSubjectNotificationsViewModels(
         deviceId: String,
         appConfig: AppConfig
-    ): List<NotificationsSettingsSubjectViewModel> {
-        val subjectSubscriptions: Set<Subscription>? =
-            subjectNotificationsInteractor.getAllSubscriptions(deviceId).singleOrNull()
-
-        return subjectSubscriptions?.let { subscriptions ->
-
+    ): List<NotificationsSettingsSubjectViewModel> =
+        subjectNotificationsInteractor.getAllSubscriptions(deviceId).first().let { subscriptions ->
             config.provideSubjectInfo(subscriptions)?.sortedBy { subjectInfo ->
                 subjectInfo.subjectName
             }?.mapNotNull { subjectInfo ->
@@ -235,7 +224,6 @@ class NotificationSettingsFragment : Fragment() {
                 }
             }
         } ?: listOf()
-    }
 
     private fun NotificationSettingsAction.getEventIds(onResult: (List<String>?) -> Unit) {
         when {
