@@ -24,6 +24,7 @@ import dk.shape.games.toolbox_library.configinjection.config
 import dk.shape.games.uikit.databinding.UIText
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
+import retrofit2.HttpException
 import java.io.IOException
 import kotlin.time.ExperimentalTime
 
@@ -123,13 +124,13 @@ class NotificationSettingsFragment : Fragment() {
                         }
 
                     } catch (e: Exception) {
-                        //if (e is IOException || e is HttpException) {
-                        withContext(Dispatchers.Main) {
-                            switcherViewModel.setError {
-                                fetchNotifications(savedEventIds)
+                        if (e is IOException || e is HttpException) {
+                            withContext(Dispatchers.Main) {
+                                switcherViewModel.setError {
+                                    fetchNotifications(savedEventIds)
+                                }
                             }
-                        }
-                        //} else throw e
+                        } else throw e
                     }
                 }
             }
