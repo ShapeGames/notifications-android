@@ -1,9 +1,6 @@
 package dk.shape.games.notifications.extensions
 
-import dk.shape.danskespil.foundation.data.DataFlow
-import dk.shape.danskespil.foundation.data.GamesDataResult
 import dk.shape.games.notifications.actions.LegacyEventNotificationTypesAction
-import dk.shape.games.sportsbook.offerings.generics.event.data.joinIds
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 
 internal fun Event.toTeamNamesPair(): Pair<String, String?> = home?.let { homeTeam ->
@@ -38,13 +35,3 @@ internal fun Event.toEventInfo(): LegacyEventNotificationTypesAction.EventInfo {
         level3Name = level3Name
     )
 }
-
-internal suspend fun DataFlow<String, List<Event>>.getEvents(eventIds: List<String>): List<Event> =
-    if (eventIds.isNotEmpty()) {
-        getData(this.joinIds(eventIds)).let { result ->
-            when (result) {
-                is GamesDataResult.Success -> result.value
-                is GamesDataResult.Error -> throw result.error
-            }
-        }
-    } else listOf()
