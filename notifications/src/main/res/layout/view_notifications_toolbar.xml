@@ -12,44 +12,35 @@
     </data>
 
     <androidx.appcompat.widget.Toolbar
+        style="?attr/Notifications.Settings.Toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:elevation="3dp"
         app:backgroundResource="@{viewModel.backgroundRes}"
-        tools:background="@drawable/notifications_toolbar_background_black"
-        tools:backgroundTint="@color/blue_500"
-        tools:backgroundTintMode="add">
+        tools:background="@drawable/notifications_toolbar_background_blue"
+        tools:tint="@color/blue_500">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_gravity="center_vertical|start"
-            android:clickable="true"
-            android:focusable="true"
+        <androidx.appcompat.widget.AppCompatImageView
+            style="?attr/Notifications.Settings.Toolbar.Icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:onClick="@{viewModel.backListener}"
-            app:borderlessRipple="@{false}"
-            app:cardCornerRadius="44dp"
-            app:cardElevation="0dp"
-            app:showRipple="@{true}">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_close_black"
-                tools:tint="@color/blue_500" />
-
-        </androidx.cardview.widget.CardView>
+            android:padding="4dp"
+            android:src="@drawable/ic_close_black"
+            tools:tint="@color/blue_500" />
 
         <TextView
+            style="?attr/Notifications.Settings.Toolbar.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="sans-serif-black"
             android:text="@{viewModel.title}"
-            android:textColor="@color/blue_500"
-            android:textSize="20sp"
-            tools:text="Notifikationer" />
+            tools:fontFamily="sans-serif-black"
+            tools:text="Notifikationer"
+            tools:textColor="@color/blue_500"
+            tools:textSize="17sp" />
 
     </androidx.appcompat.widget.Toolbar>
 </layout>

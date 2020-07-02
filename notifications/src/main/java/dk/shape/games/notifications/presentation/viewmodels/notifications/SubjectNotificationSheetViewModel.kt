@@ -1,13 +1,14 @@
 package dk.shape.games.notifications.presentation.viewmodels.notifications
 
-import android.view.View
+import dk.shape.games.notifications.presentation.viewmodels.settings.NotificationsToolbarViewModel
 
 internal data class SubjectNotificationSheetViewModel(
     val notificationViewModel: SubjectNotificationViewModel,
     val notificationSwitcherViewModel: SubjectNotificationSwitcherViewModel,
-    private val onClosedPressed: () -> Unit
+    private val onBackPressed: () -> Unit
 ) {
-    val onClosePressedListener = View.OnClickListener {
-        onClosedPressed()
-    }
+    val toolbarViewModel: NotificationsToolbarViewModel =
+        NotificationsToolbarViewModel.NotificationTypes(
+            onBackPressed
+        )
 }

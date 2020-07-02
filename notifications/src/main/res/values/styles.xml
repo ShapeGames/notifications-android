@@ -117,20 +117,19 @@
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
 
-    <!-- BottomSheet Subject Notifications -->
-
-    <style name="Notifications.Subjects.Screen.Toolbar" parent="@style/Widget">
+    <!-- Notification Settings -->
+    <style name="Notifications.Settings.Toolbar" parent="@style/Widget">
         <item name="elevation">3dp</item>
-        <item name="backgroundColor">@color/background_white</item>
     </style>
 
-    <style name="Notifications.Subjects.Screen.Toolbar.Navigation" parent="@style/Widget" />
+    <style name="Notifications.Settings.Toolbar.Icon" parent="@style/Widget" />
 
-    <style name="Notifications.Subjects.Screen.Toolbar.Title" parent="Widget.AppCompat.TextView">
-        <item name="android:textSize">20sp</item>
-        <item name="android:lineSpacingExtra">-2.7sp</item>
+    <style name="Notifications.Settings.Toolbar.Title" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">17sp</item>
+        <item name="textAllCaps">true</item>
     </style>
 
+    <!-- BottomSheet Subject Notifications -->
     <style name="Notifications.Subjects.Screen.Background" parent="@style/Widget" />
 
     <style name="Notifications.Subjects.Screen.Subject.Name" parent="Widget.AppCompat.TextView" />

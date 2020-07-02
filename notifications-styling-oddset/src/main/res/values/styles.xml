@@ -1,29 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Notification Settings -->
+    <style name="Notifications.Settings.Toolbar.Icon.Oddset" parent="@style/Notifications.Settings.Toolbar.Icon">
+        <item name="android:tint">#1d5aaf</item>
+    </style>
+
+    <style name="Notifications.Settings.Toolbar.Title.Oddset" parent="@style/Notifications.Settings.Toolbar.Title">
+        <item name="fontFamily">@font/avenir_next_heavy_italic</item>
+        <item name="android:textColor">#1d5aaf</item>
+    </style>
+
     <!-- Subject Notifications BottomSheet -->
-
-    <style name="Notifications.Subjects.Screen.Toolbar.Oddset" parent="@style/Notifications.Subjects.Screen.Toolbar">
-        <item name="elevation">3dp</item>
-        <item name="height">60dp</item>
-        <item name="android:background">@drawable/notifications_toolbar_background</item>
-    </style>
-
-    <style name="Notifications.Subjects.Screen.Toolbar.Navigation.Oddset" parent="@style/Notifications.Subjects.Screen.Toolbar.Navigation">
-        <item name="tint">@color/notifications_sheet_main_color</item>
-    </style>
-
-    <style name="Notifications.Subjects.Screen.Toolbar.Title.Oddset" parent="@style/Notifications.Subjects.Screen.Toolbar.Title">
-        <item name="android:textColor">@color/notifications_sheet_main_color</item>
-        <item name="android:textSize">17sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:text">Notifikationstyper</item>
-        <item name="textAllCaps">true</item>
-        <item name="fontFamily">@font/avenir_next_demi_bold</item>
-        <item name="android:layout_marginTop">12dp</item>
-        <item name="android:layout_marginBottom">12dp</item>
-    </style>
-
     <style name="Notifications.Subjects.Screen.Background.Oddset" parent="@style/Notifications.Subjects.Screen.Background">
         <item name="android:clipChildren">true</item>
         <item name="android:clipToPadding">true</item>
