@@ -124,13 +124,13 @@ class NotificationSettingsFragment : Fragment() {
                         }
 
                     } catch (e: Exception) {
-                        if (e is IOException || e is HttpException) {
+                        //if (e is IOException || e is HttpException) {
                             withContext(Dispatchers.Main) {
                                 switcherViewModel.setError {
                                     fetchNotifications(savedEventIds)
                                 }
                             }
-                        } else throw e
+                        //} else throw e
                     }
                 }
             }
