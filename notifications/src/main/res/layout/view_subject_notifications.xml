@@ -54,12 +54,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
-            android:layout_marginBottom="16dp"
             android:layout_marginTop="26dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/notificationsSaveButton"
-            app:layout_constraintTop_toBottomOf="@id/subjectName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subjectName"
             app:viewModel="@{viewModel.notificationTypesCollection}"
             tools:layout_height="100dp" />
 
@@ -89,10 +89,10 @@
                 tools:layout_height="40dp"
                 tools:layout_marginHorizontal="23dp"
                 tools:padding="6dp"
-                tools:textSize="13sp"
                 tools:text="Save my preferences"
                 tools:textAllCaps="true"
                 tools:textColor="@color/grey_000"
+                tools:textSize="13sp"
                 tools:textStyle="bold" />
 
             <ProgressBar
