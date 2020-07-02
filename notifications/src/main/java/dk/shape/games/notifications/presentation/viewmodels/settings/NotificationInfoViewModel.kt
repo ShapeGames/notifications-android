@@ -9,12 +9,10 @@ private val EMPTY_UI_TEXT = UIText.Raw.Resource(R.string.notifications_none_sele
 
 sealed class NotificationInfoViewModel {
     data class Icons(
-        private val iconViewModels: List<NotificationTypeIconViewModel>
+        val items: List<NotificationTypeIconViewModel>
     ) : NotificationInfoViewModel() {
         val itemBinding: ItemBinding<NotificationTypeIconViewModel> =
             ItemBinding.of(BR.viewModel, R.layout.view_notifications_type_icon)
-
-        val items: List<NotificationTypeIconViewModel> = iconViewModels
     }
 
     open class Text(
