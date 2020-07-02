@@ -11,6 +11,7 @@ import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.NotificationSettingsAction
 import dk.shape.games.notifications.databinding.FragmentNotificationSettingsBinding
 import dk.shape.games.notifications.entities.SubjectType
+import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.extensions.toTypeIds
 import dk.shape.games.notifications.presentation.viewmodels.settings.*
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsInteractor
@@ -91,6 +92,9 @@ class NotificationSettingsFragment : Fragment() {
 
                         val eventNotificationViewModels =
                             getEventNotificationsViewModels(eventIds, appConfig)
+
+                        val subscriptions = config.subjectNotificationsDataSourceProvider().getAllSubscriptions("device:1234")
+
                         val statsNotificationViewModels =
                             getSubjectNotificationsViewModels(deviceId, appConfig)
 
@@ -183,7 +187,7 @@ class NotificationSettingsFragment : Fragment() {
         deviceId: String,
         appConfig: AppConfig
     ): List<NotificationsSettingsSubjectViewModel> {
-        val subjectSubscriptions =
+        val subjectSubscriptions: Set<Subscription>? =
             subjectNotificationsInteractor.getAllSubscriptions(deviceId).singleOrNull()
 
         return subjectSubscriptions?.let { subscriptions ->
