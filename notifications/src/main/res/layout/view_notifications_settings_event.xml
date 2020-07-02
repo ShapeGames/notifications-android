@@ -66,7 +66,7 @@
                 android:textColor="@color/grey_825"
                 android:textSize="14sp"
                 android:visibility="@{viewModel.awayTeam != null ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toTopOf="@id/settingsButton"
+                app:layout_constraintBottom_toTopOf="@id/notificationInfo"
                 app:layout_constraintEnd_toStartOf="@id/switchButton"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -88,6 +88,13 @@
                 app:track="@drawable/notifications_switch_track"
                 tools:checked="false" />
 
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="awayTeam,switchButton" />
+
             <include
                 android:id="@+id/notificationInfo"
                 layout="@layout/view_notification_info_text"
@@ -97,7 +104,7 @@
                 app:layout_constraintEnd_toStartOf="@id/settingsButton"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/settingsButton"
+                app:layout_constraintTop_toBottomOf="@id/barrier"
                 app:viewModel="@{viewModel.infoTextViewModel}" />
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -107,9 +114,10 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:onClick="@{viewModel.onSettingsClicked}"
                 android:src="@drawable/ic_notifications_settings_blue"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/switchButton" />
+                app:layout_constraintStart_toEndOf="@id/notificationInfo"
+                app:layout_constraintTop_toTopOf="@id/notificationInfo"
+                app:layout_constraintVertical_bias="0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

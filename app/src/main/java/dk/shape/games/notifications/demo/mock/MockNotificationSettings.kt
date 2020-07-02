@@ -25,6 +25,10 @@ val mockLegacySubscriptions: MutableList<Subscription> = mutableListOf(
     Subscription(
         eventId = "event:1234",
         commaSeparatedTypes = ",event_start"
+    ),
+    Subscription(
+        eventId = "event:1235",
+        commaSeparatedTypes = ",yellow_card,red_card,event_end,event_start,corner,replacement,penalty,extra_time"
     )
 )
 
@@ -37,7 +41,7 @@ val mockSubjectSubscriptions: Set<SubjectSubscription> = listOf(
     SubjectSubscription(
         subjectId = "subject:1235",
         subjectType = SubjectType.TEAMS,
-        types = listOf("event_end","lineup_ready").toSet()
+        types = listOf("event_start", "event_end","lineup_ready").toSet()
     )
 ).toSet()
 
@@ -65,6 +69,36 @@ val mockEvents: List<Event> = listOf(
         scheduledStartTime = Date(),
         markets = listOf(),
         name = "Manchester - Liverpool",
+        levelPath = listOf(),
+        hasLiveVideoStream = false,
+        isInRunning = true,
+        hasBetInRun = false,
+        hasLiveStatisticsStream = false,
+        hasTVCoverage = false,
+        hasStatistics = false,
+        hasBetBuilder = false,
+        marketCollections = listOf(),
+        notificationConfigurationId = "sport:football",
+        numberOfMarkets = 0,
+        channels = listOf(),
+        eventType = Event.EventType.DEFAULT,
+        isSuspended = false,
+        commentary = null,
+        homeImageUrl = null,
+        icon = null,
+        lastUpdate = null,
+        mainMarketId = "",
+        streamId = null,
+        tvChannels = null
+    ),
+    Event(
+        id = "event:1235",
+        home = "Barcelona",
+        away = "Roma",
+        awayImageUrl = null,
+        scheduledStartTime = Date(),
+        markets = listOf(),
+        name = "Barcelona - Roma",
         levelPath = listOf(),
         hasLiveVideoStream = false,
         isInRunning = true,
@@ -130,6 +164,34 @@ val mockEventNotificationGroups: List<AppConfig.Notifications.NotificationGroup>
             AppConfig.Notifications.NotificationGroup.NotificationType(
                 identifier = "event_start",
                 name = "Event starts"
+            ),
+            AppConfig.Notifications.NotificationGroup.NotificationType(
+                identifier = "event_end",
+                name = "Event ends"
+            ),
+            AppConfig.Notifications.NotificationGroup.NotificationType(
+                identifier = "yellow_card",
+                name = "Yellow card"
+            ),
+            AppConfig.Notifications.NotificationGroup.NotificationType(
+                identifier = "red_card",
+                name = "Red card"
+            ),
+            AppConfig.Notifications.NotificationGroup.NotificationType(
+                identifier = "corner",
+                name = "Corner"
+            ),
+            AppConfig.Notifications.NotificationGroup.NotificationType(
+                identifier = "penalty",
+                name = "Penalty"
+            ),
+            AppConfig.Notifications.NotificationGroup.NotificationType(
+                identifier = "replacement",
+                name = "Replacement"
+            ),
+            AppConfig.Notifications.NotificationGroup.NotificationType(
+                identifier = "extra_time",
+                name = "Extra time"
             )
         )
 

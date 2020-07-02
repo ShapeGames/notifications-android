@@ -21,9 +21,11 @@
             android:layout_height="11dp"
             android:src="@drawable/ic_notifications_bell_black"
             android:tint="#252525"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="3.5dp"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintBottom_toBottomOf="@id/notificationTypes"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/notificationTypes" />
 
         <TextView
             android:id="@+id/notificationTypes"
@@ -31,18 +33,17 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
-            android:lineSpacingExtra="1.5sp"
+            android:lineSpacingMultiplier="1.1"
             android:maxLines="2"
             android:paddingHorizontal="5dp"
             android:text="@{viewModel.text}"
             android:textColor="#7d7d7d"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/bellIcon"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@id/bellIcon"
-            app:layout_constraintTop_toTopOf="@id/bellIcon"
-            tools:text="End Resusult, Goals, Game start, Pensult, Goals, Game start, Penlt, Goals, Game start, Penalty" />
+            tools:text="So end Reals, GaReals, Game s, Ganlt, Goals, Game start, PenaReals, Game s, Ganlt, Goals, Game start, PenaReals, Game s, Ganlt, Goals, Game start, Pename s, Ganlt, Goals, Game start, Penalty" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
