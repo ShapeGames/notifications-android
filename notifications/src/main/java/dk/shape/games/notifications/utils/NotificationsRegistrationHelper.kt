@@ -22,6 +22,7 @@ import kotlin.time.toDuration
  */
 @ExperimentalTime
 class NotificationsRegistrationHelper(
+    private val deviceIdKey: String,
     private val sharedPrefs: SharedPreferences,
     private val notificationsDataSource: NotificationsDataSource,
     private val provideDeviceId: suspend () -> String,
@@ -31,7 +32,6 @@ class NotificationsRegistrationHelper(
 
     companion object {
         const val PREFS_NOTIFICATION_TOKEN = "notificationToken"
-        const val PREFS_DEVICE_ID = "deviceID"
     }
 
     private val registrationAttemptScope =
@@ -87,7 +87,7 @@ class NotificationsRegistrationHelper(
             }.await()
             sharedPrefs.edit()
                 .putString(PREFS_NOTIFICATION_TOKEN, notificationsToken)
-                .putString(PREFS_DEVICE_ID, deviceId)
+                .putString(deviceIdKey, deviceId)
                 .apply()
         }
     }
@@ -112,7 +112,7 @@ class NotificationsRegistrationHelper(
     }
 
     private fun getLastRegisteredDeviceId(): String? {
-        return registeredDeviceId ?: sharedPrefs.getString(PREFS_DEVICE_ID, null)
+        return registeredDeviceId ?: sharedPrefs.getString(deviceIdKey, null)
     }
 
 }

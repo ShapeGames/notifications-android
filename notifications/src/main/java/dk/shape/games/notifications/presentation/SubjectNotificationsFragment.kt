@@ -10,7 +10,6 @@ import androidx.lifecycle.whenResumed
 import androidx.lifecycle.whenStarted
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
@@ -150,6 +149,11 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         }
     }
 
+    override fun getTheme(): Int = R.style.BottomSheetDialogTheme
+
+    private fun BottomSheetDialogFragment.requireBottomSheetView(): ViewGroup? =
+        requireView().parent as? ViewGroup?
+
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
         config.eventHandler.onDismissed()
@@ -159,11 +163,6 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         super.dismiss()
         config.eventHandler.onDismissed()
     }
-
-    override fun getTheme(): Int = R.style.BottomSheetDialogTheme
-
-    override fun onCreateDialog(savedInstanceState: Bundle?) =
-        BottomSheetDialog(requireContext(), theme)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -183,7 +182,4 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             }
         }
     }
-
-    private fun BottomSheetDialogFragment.requireBottomSheetView(): ViewGroup? =
-        (dialog as? BottomSheetDialog)?.findViewById<View>(R.id.design_bottom_sheet) as? ViewGroup
 }
