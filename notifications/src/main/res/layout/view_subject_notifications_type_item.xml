@@ -14,7 +14,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:minHeight="52dp"
         android:clickable="@{viewModel.isEnabled}"
         android:focusable="true"
         android:onClick="@{viewModel.onNotificationClicked}"
@@ -26,8 +27,6 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
-            android:layout_marginTop="13dp"
-            android:layout_marginBottom="13dp"
             android:background="@drawable/notifications_icon_background"
             android:src="@{viewModel.icon}"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -53,13 +52,15 @@
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/notificationTypeCheckBox"
             style="?attr/Notifications.Subjects.Type.Switch"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:foregroundGravity="center_vertical|right"
+            android:gravity="center_vertical|right"
             android:checked="@{viewModel.isActivated}"
             android:clickable="@{viewModel.isEnabled}"
-            app:layout_constraintBottom_toBottomOf="@id/notificationTypeIcon"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/notificationTypeIcon"
+            app:layout_constraintTop_toTopOf="parent"
             app:onStateChange="@{viewModel.onStateChangeListener}"
             tools:button="@drawable/notifications_toggle"
             tools:checked="true" />
