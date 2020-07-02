@@ -24,10 +24,7 @@ import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import dk.shape.games.uikit.databinding.UIText
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.singleOrNull
-import retrofit2.HttpException
 import java.io.IOException
 import kotlin.time.ExperimentalTime
 
@@ -43,13 +40,13 @@ class NotificationSettingsFragment : Fragment() {
 
     private val legacyNotificationsInteractor: LegacyEventNotificationsUseCases by lazy {
         LegacyEventNotificationsInteractor(
-            config.legacyNotificationsComponentProvider()
+            config.legacyNotificationsComponent
         )
     }
 
     private val subjectNotificationsInteractor: SubjectSettingsNotificationsUseCases by lazy {
         SubjectSettingsNotificationsInteractor(
-            config.subjectNotificationsDataSourceProvider()
+            config.subjectNotificationsDataSource
         )
     }
 
@@ -93,7 +90,11 @@ class NotificationSettingsFragment : Fragment() {
                         val eventNotificationViewModels =
                             getEventNotificationsViewModels(eventIds, appConfig)
 
-                        val subscriptions = config.subjectNotificationsDataSourceProvider().getAllSubscriptions(deviceId)
+                        with(config.subjectNotificationsDataSource) {
+                            val hasActive = hasActiveSubscription(deviceId, "manchester")
+                            val subscription = getSubscriptions(deviceId)
+                            val subscriptions = getAllSubscriptions(deviceId)
+                        }
 
                         val statsNotificationViewModels =
                             getSubjectNotificationsViewModels(deviceId, appConfig)
@@ -129,11 +130,11 @@ class NotificationSettingsFragment : Fragment() {
 
                     } catch (e: Exception) {
                         //if (e is IOException || e is HttpException) {
-                            withContext(Dispatchers.Main) {
-                                switcherViewModel.setError {
-                                    fetchNotifications(savedEventIds)
-                                }
+                        withContext(Dispatchers.Main) {
+                            switcherViewModel.setError {
+                                fetchNotifications(savedEventIds)
                             }
+                        }
                         //} else throw e
                     }
                 }

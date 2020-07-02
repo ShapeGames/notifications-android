@@ -16,9 +16,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 data class NotificationSettingsConfig(
-    val legacyNotificationsComponentProvider: () -> NotificationsComponentInterface,
+    val legacyNotificationsComponent: NotificationsComponentInterface,
 
-    val subjectNotificationsDataSourceProvider: () -> SubjectNotificationsDataSource,
+    val subjectNotificationsDataSource: SubjectNotificationsDataSource,
 
     val provideEventIdsForUserBetsAsync: ((List<String>?) -> Unit) -> Unit,
 

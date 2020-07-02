@@ -12,12 +12,8 @@ class MockNotificationSettingsDependencyProvider : ConfigProvider<NotificationSe
     @ExperimentalCoroutinesApi
     override fun config(fragment: Fragment): NotificationSettingsConfig {
         return NotificationSettingsConfig(
-            legacyNotificationsComponentProvider = {
-                mockLegacyNotificationsComponent
-            },
-            subjectNotificationsDataSourceProvider = {
-                mockSubjectNotificationsDataSource
-            },
+            legacyNotificationsComponent = mockLegacyNotificationsComponent,
+            subjectNotificationsDataSource = mockSubjectNotificationsDataSource,
             provideEventIdsForUserBetsAsync = {},
             provideEventIdsForBetSlip = { null },
             provideSubjectInfo = {
