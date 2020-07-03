@@ -41,7 +41,8 @@ class NotificationSettingsFragment : Fragment() {
 
     private val legacyNotificationsInteractor: LegacyEventNotificationsUseCases by lazy {
         LegacyEventNotificationsInteractor(
-            config.legacyNotificationsComponent
+            config.legacyNotificationsComponent,
+            config.provideEvents
         )
     }
 
@@ -140,41 +141,30 @@ class NotificationSettingsFragment : Fragment() {
     private suspend fun getEventNotificationsViewModels(
         eventIds: List<String>?,
         appConfig: AppConfig
-    ): List<NotificationsSettingsEventViewModel> {
-        val subscriptions = legacyNotificationsInteractor.getAllSubscriptions()
-        val subscribedEventIds = eventIds ?: subscriptions.map { it.eventId }
-        savedEventIds = subscribedEventIds
-
-        return config.provideEvents(subscribedEventIds).mapNotNull { event ->
-
-            appConfig.notifications.group.find { notificationGroup ->
-                notificationGroup.groupId == event.notificationConfigurationId
-            }?.let { matchingGroup ->
-
-                subscriptions.find { subscription ->
-                    subscription.eventId == event.id
-                }?.takeIf { subscription ->
-                    subscription.commaSeparatedTypes.isNotEmpty()
-                }?.let { matchingSubscription ->
-                    NotificationsSettingsEventViewModel(
-                        event = event,
-                        subscription = matchingSubscription,
-                        notificationGroup = matchingGroup,
-                        onEventNotificationTypesClicked = { action ->
-                            config.onEventNotificationTypesClicked(this, action)
-                        },
-                        onSetNotifications = { notificationIds, onError ->
-                            legacyNotificationsInteractor.updateNotifications(
-                                eventId = event.id,
-                                notificationTypeIds = notificationIds,
-                                onError = onError
-                            )
-                        }
+    ): List<NotificationsSettingsEventViewModel> =
+        legacyNotificationsInteractor.loadAllSubscriptions(
+            eventIds = eventIds,
+            appConfig = appConfig,
+            onSaveEventIds = { subscribedEventIds ->
+                savedEventIds = subscribedEventIds
+            }
+        ).map { loadedSubscription ->
+            loadedSubscription.toNotificationsSettingsEventViewModel(
+                onEventNotificationTypesClicked = { action ->
+                    config.onEventNotificationTypesClicked(
+                        this@NotificationSettingsFragment,
+                        action
+                    )
+                },
+                onSetNotifications = { eventId, notificationIds, onError ->
+                    legacyNotificationsInteractor.updateNotifications(
+                        eventId = eventId,
+                        notificationTypeIds = notificationIds,
+                        onError = onError
                     )
                 }
-            }
+            )
         }
-    }
 
     @ExperimentalCoroutinesApi
     @FlowPreview
