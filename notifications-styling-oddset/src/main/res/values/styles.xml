@@ -3,7 +3,7 @@
 
     <!-- Notification Settings -->
     <style name="Notifications.Settings.Toolbar.Container.Oddset" parent="@style/Notifications.Settings.Toolbar.Container">
-        <item name="android:background">@color/blue_500</item>
+        <item name="android:background">@color/blue_800</item>
     </style>
 
     <style name="Notifications.Settings.Toolbar.Icon.Oddset" parent="@style/Notifications.Settings.Toolbar.Icon">
