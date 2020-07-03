@@ -22,7 +22,7 @@ import kotlin.time.toDuration
  */
 @ExperimentalTime
 class NotificationsRegistrationHelper(
-    private val deviceIdKey: String,
+    private val deviceIdKey: String = PREFS_DEVICE_ID,
     private val sharedPrefs: SharedPreferences,
     private val notificationsDataSource: NotificationsDataSource,
     private val provideDeviceId: suspend () -> String,
@@ -31,6 +31,7 @@ class NotificationsRegistrationHelper(
 ) {
 
     companion object {
+        const val PREFS_DEVICE_ID = "deviceID"
         const val PREFS_NOTIFICATION_TOKEN = "notificationToken"
     }
 
