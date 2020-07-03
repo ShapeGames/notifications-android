@@ -31,6 +31,9 @@
         <attr name="Notifications.Settings.Entry.Settings" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Info.Text" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Info.Icon" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Settings.Empty.Icon" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Settings.Empty.Title" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Settings.Empty.Description" format="reference" tools:ignore="ResourceName" />
 
         <!-- BottomSheet Subject Notifications -->
         <attr name="Notifications.Subjects.Screen.Background" format="reference" tools:ignore="ResourceName" />

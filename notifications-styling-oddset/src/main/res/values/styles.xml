@@ -33,6 +33,20 @@
         <item name="android:tint">#252525</item>
     </style>
 
+    <style name="Notifications.Settings.Empty.Icon.Oddset" parent="@style/Notifications.Settings.Empty.Icon" >
+        <item name="android:tint">#b7b7b7</item>
+    </style>
+
+    <style name="Notifications.Settings.Empty.Title.Oddset" parent="@style/Notifications.Settings.Empty.Title" >
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textColor">#154194</item>
+    </style>
+
+    <style name="Notifications.Settings.Empty.Description.Oddset" parent="@style/Notifications.Settings.Empty.Description" >
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">#252525</item>
+    </style>
+
     <!-- Subject Notifications BottomSheet -->
     <style name="Notifications.Subjects.Screen.Background.Oddset" parent="@style/Notifications.Subjects.Screen.Background">
         <item name="android:clipChildren">true</item>
