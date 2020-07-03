@@ -14,44 +14,29 @@
     </data>
 
     <androidx.cardview.widget.CardView
+        style="@style/Notifications.Settings.Entry.Card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
-        android:minHeight="80dp"
-        app:cardCornerRadius="6dp"
-        app:cardElevation="6dp">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/Notifications.Settings.Entry.Container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:animateLayoutChanges="true"
-            android:paddingStart="13dp"
-            android:paddingTop="9dp"
-            android:paddingEnd="13dp"
-            android:paddingBottom="9dp">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/subjectName"
+                android:id="@+id/name"
+                style="?attr/Notifications.Settings.Entry.Name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
-                android:ellipsize="end"
-                android:fontFamily="sans-serif-medium"
-                android:maxLines="2"
-                android:paddingTop="8dp"
                 android:text="@{viewModel.name}"
-                android:textColor="@color/grey_825"
-                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/barrier"
                 app:layout_constraintEnd_toStartOf="@id/switchButton"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/switchButton"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
-                tools:text="Team 1 Tm 1 Team 1 Team 1" />
+                tools:text="Team 1 Team 1 Tm 1 Team 1 Team 1 Team 1" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchButton"
@@ -61,18 +46,27 @@
                 android:checked="@{viewModel.isSwitchToggled}"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:thumb="@drawable/notifications_switch_thumb"
+                app:layout_constraintBottom_toBottomOf="@id/name"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@id/name"
                 app:onStateChange="@{viewModel.onSwitchStateChanged}"
                 tools:checked="false" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="name, switchButton" />
 
             <include
                 android:id="@+id/notificationInfoText"
                 layout="@layout/view_notification_info_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop=".5dp"
                 android:visibility="@{viewModel.hasIcons ? View.GONE : View.VISIBLE}"
-                app:layout_constraintBottom_toBottomOf="@id/settingsButton"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/settingsButton"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +79,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:visibility="@{viewModel.hasIcons ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="@id/settingsButton"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/settingsButton"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -94,14 +88,15 @@
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/settingsButton"
-                android:layout_width="20dp"
                 style="?attr/Notifications.Settings.Entry.Settings"
+                android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_marginTop="5dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:onClick="@{viewModel.onSettingsClicked}"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/switchButton" />
+                app:layout_constraintTop_toBottomOf="@id/barrier"
+                app:layout_constraintVertical_bias="0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

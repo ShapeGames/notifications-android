@@ -138,7 +138,7 @@
 
     <style name="Notifications.Settings.Entry.Container" parent="@style/Widget" >
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingHorizontal">13dp</item>
         <item name="android:paddingTop">5dp</item>
     </style>
