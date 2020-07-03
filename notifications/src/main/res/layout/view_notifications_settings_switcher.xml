@@ -13,11 +13,11 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <dk.shape.viewswitcher.BindingViewSwitcher
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@color/background"
             android:inAnimation="@anim/switcher_fade_in_anim"

@@ -5,22 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.whenResumed
-import androidx.lifecycle.whenStarted
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
 import dk.shape.games.notifications.aliases.NotificationsLoadedListener
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.launch
-import dk.shape.games.notifications.databinding.FragmentSubjectNotificationsBinding
-import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSheetViewModel
-import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSwitcherViewModel
+import dk.shape.games.notifications.databinding.FragmentNotificationSettingsSubjectBinding
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationTypeCollectionViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationViewModel
+import dk.shape.games.notifications.presentation.viewmodels.settings.NotificationSettingsSubjectMainViewModel
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import dk.shape.games.notifications.utils.ExpandableBottomSheetDialogFragment
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
@@ -45,17 +40,13 @@ class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
         )
     }
 
-    private val viewSwitcherViewModel: SubjectNotificationSwitcherViewModel by lazy {
-        SubjectNotificationSwitcherViewModel(
-            initialContentItem = getInitialSubjectViewModel(),
-            onItemChanged = {
-                requireBottomSheetView()?.let { bottomSheetView ->
-                    TransitionManager.beginDelayedTransition(
-                        bottomSheetView,
-                        AutoTransition().setInterpolator(FastOutSlowInInterpolator())
-                    )
-                }
-            })
+    private val notificationSubjectViewModel: NotificationSettingsSubjectMainViewModel by lazy {
+        NotificationSettingsSubjectMainViewModel(
+            notificationViewModel = getInitialSubjectViewModel()!!,
+            onBackPressed = {
+                dismiss()
+            }
+        )
     }
 
     private fun getInitialSubjectViewModel(): SubjectNotificationViewModel? =
@@ -97,14 +88,6 @@ class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
         )
     }
 
-    private val notificationsSheetViewModel: SubjectNotificationSheetViewModel by lazy {
-        SubjectNotificationSheetViewModel(
-            notificationViewModel = notificationViewModel,
-            notificationSwitcherViewModel = viewSwitcherViewModel,
-            onBackPressed = { dismiss() }
-        )
-    }
-
     private val onNotificationsLoaded: NotificationsLoadedListener =
         { activatedTypes, possibleTypes, defaultTypes ->
             val activeIdentifiers = activatedTypes.map { it.identifier }.toSet()
@@ -124,26 +107,37 @@ class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
                     )
                 )
                 activeNotificationState.awareSet(activatedTypes.isNotEmpty())
-                viewSwitcherViewModel.showContent(this)
             }
         }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) = FragmentNotificationSettingsSubjectBinding
+        .inflate(layoutInflater)
+        .apply {
+            viewModel = notificationSubjectViewModel
+        }.root
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        launch(Dispatchers.IO) {
+            whenResumed {
+                loadNotifications(interactor)
+            }
+        }
+    }
 
     private suspend fun loadNotifications(interactor: SubjectNotificationUseCases) {
         interactor.loadNotifications(
             onLoaded = onNotificationsLoaded,
-            onFailure = {
-                viewSwitcherViewModel.showError {
-                    onRetry()
-                }
-            }
+            onFailure = {}
         )
     }
 
     private fun onRetry() {
         launch(Dispatchers.IO) {
-            whenStarted {
-                viewSwitcherViewModel.showLoading()
-            }
             whenResumed {
                 loadNotifications(interactor)
             }
@@ -163,24 +157,5 @@ class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
     override fun dismiss() {
         super.dismiss()
         config.eventHandler.onDismissed()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ) = FragmentSubjectNotificationsBinding
-        .inflate(layoutInflater)
-        .apply {
-            viewModel = notificationsSheetViewModel
-        }.root
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        launch(Dispatchers.IO) {
-            whenResumed {
-                loadNotifications(interactor)
-            }
-        }
     }
 }
