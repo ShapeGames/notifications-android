@@ -24,16 +24,14 @@ abstract class ExpandableBottomSheetDialogFragment(
     }
 
     private fun setFullyExpanded() {
-        val bottomSheet = requireView().parent as? ViewGroup?
-        bottomSheet?.let { sheet ->
-            bottomSheet.layoutParams?.let {
-                val windowHeight = Resources.getSystem().displayMetrics.heightPixels - topOffset
-                it.height = windowHeight
-                sheet.layoutParams = it
-                BottomSheetBehavior.from(bottomSheet).apply {
-                    peekHeight = windowHeight
-                    state = BottomSheetBehavior.STATE_EXPANDED
-                }
+        (requireView().parent as? ViewGroup)?.let { bottomSheet ->
+            val windowHeight = Resources.getSystem().displayMetrics.heightPixels - topOffset
+            bottomSheet.layoutParams?.apply {
+                height = windowHeight
+            }
+            BottomSheetBehavior.from(bottomSheet).apply {
+                peekHeight = windowHeight
+                state = BottomSheetBehavior.STATE_EXPANDED
             }
         }
     }

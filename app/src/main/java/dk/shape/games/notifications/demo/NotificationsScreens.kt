@@ -37,7 +37,7 @@ object NotificationsScreens {
             fragmentProvider = {
                 MockSubjectNotificationsParentFragment().apply {
                     arguments = MockSubjectNotificationsParentFragment.Args.create(
-                        SubjectNotificationsAction,
+                        SubjectNotificationsAction(),
                         MockNotificationsDependencyProvider::class.java
                     )
                 }
@@ -61,6 +61,17 @@ object NotificationsScreens {
                     arguments = NotificationSettingsFragment.Args.create(
                         NotificationSettingsAction(),
                         MockNotificationSettingsEmptyDependencyProvider::class.java
+                    )
+                }
+            }
+        ),
+        DemoScreen(
+            name = "Notification Settings (subject notification types)",
+            fragmentProvider = {
+                MockSubjectNotificationsParentFragment().apply {
+                    arguments = MockSubjectNotificationsParentFragment.Args.create(
+                        SubjectNotificationsAction(true),
+                        MockNotificationsDependencyProvider::class.java
                     )
                 }
             }

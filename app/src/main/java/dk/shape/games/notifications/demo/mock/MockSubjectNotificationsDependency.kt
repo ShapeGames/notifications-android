@@ -7,6 +7,8 @@ import dk.shape.games.notifications.actions.SubjectNotificationsAction
 import dk.shape.games.notifications.demo.dependency.MockSubjectNotificationsDependencyProvider
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.entities.Subscription
+import dk.shape.games.notifications.presentation.NotificationSettingsFragment
+import dk.shape.games.notifications.presentation.NotificationSettingsSubjectFragment
 import dk.shape.games.notifications.presentation.SubjectNotificationsEventHandler
 import dk.shape.games.notifications.presentation.SubjectNotificationsFragment
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
@@ -150,9 +152,18 @@ object SubjectNotificationsRepositoryMock : SubjectNotificationsDataSource {
 
 fun <T : Fragment> launchBottomSheetNotificationsFragment(
     fragment: T,
-    action: SubjectNotificationsAction
+    action: SubjectNotificationsAction,
+    isFullscreen: Boolean
 ): BottomSheetDialogFragment {
-    return SubjectNotificationsFragment().apply {
+    return if (isFullscreen) {
+        NotificationSettingsSubjectFragment().apply {
+            arguments = SubjectNotificationsFragment.Args.create(
+                action = action,
+                configProvider = MockSubjectNotificationsDependencyProvider::class.java
+            )
+            show(fragment.childFragmentManager, NotificationSettingsSubjectFragment::class.java.simpleName)
+        }
+    } else SubjectNotificationsFragment().apply {
         arguments = SubjectNotificationsFragment.Args.create(
             action = action,
             configProvider = MockSubjectNotificationsDependencyProvider::class.java
@@ -171,7 +182,7 @@ val mockClientDependencies: MockNotificationsConfig = MockNotificationsConfig(
         SubjectNotificationsRepositoryMock.hasActiveSubscription(deviceId, it)
     },
     notificationsEventListener = { },
-    showNotificationsFragment = { fragment, mockData ->
+    showNotificationsFragment = { fragment, mockData, isFullscreen ->
         launchBottomSheetNotificationsFragment(
             fragment = fragment,
             action = SubjectNotificationsAction(
@@ -179,7 +190,8 @@ val mockClientDependencies: MockNotificationsConfig = MockNotificationsConfig(
                 subjectId = mockData.subjectId,
                 subjectName = mockData.subjectName,
                 subjectType = mockData.subjectType
-            )
+            ),
+            isFullscreen = isFullscreen
         )
     }
 )

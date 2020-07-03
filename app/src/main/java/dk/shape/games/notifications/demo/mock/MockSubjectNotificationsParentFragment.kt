@@ -12,6 +12,7 @@ import androidx.lifecycle.whenStarted
 import dk.shape.games.notifications.demo.databinding.FragmentMockNotificationsBinding
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
+import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +24,7 @@ import kotlinx.coroutines.withContext
 data class MockNotificationsConfig(
     val hasSportNotificationsSupport: suspend (sportId: String) -> Boolean,
     val hasNotificationsSupport: suspend (subjectId: String) -> Flow<Boolean>,
-    val showNotificationsFragment: (Fragment, MockData) -> Unit,
+    val showNotificationsFragment: (Fragment, MockData, Boolean) -> Unit,
     var notificationsEventListener: (hasNotifications: Boolean) -> Unit
 )
 
@@ -35,7 +36,9 @@ data class MockData(
 )
 
 @Parcelize
-object SubjectNotificationsAction : Parcelable
+data class SubjectNotificationsAction(
+    val isFullscreen: Boolean = false
+) : Parcelable
 
 class MockSubjectNotificationsParentFragment : Fragment() {
 
@@ -50,11 +53,13 @@ class MockSubjectNotificationsParentFragment : Fragment() {
 
     private val config: MockNotificationsConfig by config()
 
+    private val action: SubjectNotificationsAction by action()
+
     private val mockViewModel: MockNotificationsViewModel by lazy {
 
         MockNotificationsViewModel(
             showNotifications = {
-                config.showNotificationsFragment(this, mockData)
+                config.showNotificationsFragment(this, mockData, action.isFullscreen)
             }
         )
     }
