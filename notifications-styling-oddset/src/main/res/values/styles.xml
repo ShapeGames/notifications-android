@@ -2,6 +2,10 @@
 <resources>
 
     <!-- Notification Settings -->
+    <style name="Notifications.Settings.Toolbar.Container.Oddset" parent="@style/Notifications.Settings.Toolbar.Container">
+        <item name="android:background">#1d5aaf</item>
+    </style>
+
     <style name="Notifications.Settings.Toolbar.Icon.Oddset" parent="@style/Notifications.Settings.Toolbar.Icon">
         <item name="android:tint">#1d5aaf</item>
     </style>

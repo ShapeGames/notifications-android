@@ -15,6 +15,7 @@
     <style name="OddsetNotificationsModuleStyle" parent="AppTheme">
 
         <!-- Notification Settings -->
+        <item name="Notifications.Settings.Toolbar.Container">@style/Notifications.Settings.Toolbar.Container.Oddset</item>
         <item name="Notifications.Settings.Toolbar.Icon">@style/Notifications.Settings.Toolbar.Icon.Oddset</item>
         <item name="Notifications.Settings.Toolbar.Title">@style/Notifications.Settings.Toolbar.Title.Oddset</item>
         <item name="Notifications.Settings.Entry.Name">@style/Notifications.Settings.Entry.Name.Oddset</item>

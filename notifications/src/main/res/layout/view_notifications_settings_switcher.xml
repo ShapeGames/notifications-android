@@ -11,13 +11,23 @@
 
     </data>
 
-    <dk.shape.viewswitcher.BindingViewSwitcher
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:background="@color/background"
-        android:inAnimation="@anim/switcher_fade_in_anim"
-        android:outAnimation="@anim/switcher_fade_out_anim"
-        app:item="@{viewModel.item}"
-        app:itemBinding="@{viewModel.itemBinding}" />
+        android:layout_height="match_parent">
+
+        <dk.shape.viewswitcher.BindingViewSwitcher
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/background"
+            android:inAnimation="@anim/switcher_fade_in_anim"
+            android:outAnimation="@anim/switcher_fade_out_anim"
+            app:item="@{viewModel.item}"
+            app:itemBinding="@{viewModel.itemBinding}" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/top_shadow_light" />
+    </FrameLayout>
 </layout>

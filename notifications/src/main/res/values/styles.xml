@@ -118,9 +118,7 @@
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
 
     <!-- Notification Settings -->
-    <style name="Notifications.Settings.Toolbar" parent="@style/Widget">
-        <item name="elevation">3dp</item>
-    </style>
+    <style name="Notifications.Settings.Toolbar.Container" parent="@style/Widget" />
 
     <style name="Notifications.Settings.Toolbar.Icon" parent="@style/Widget" />
 

@@ -5,14 +5,13 @@ import dk.shape.games.notifications.R
 import dk.shape.games.uikit.databinding.UIText
 
 sealed class NotificationsToolbarViewModel(
-    val backgroundRes: Int,
+    val hasTransparentBackground: Boolean = false,
     private val titleRes: Int,
     open val onBackPressed: () -> Unit
 ) {
     data class Settings(
         override val onBackPressed: () -> Unit
     ) : NotificationsToolbarViewModel(
-        backgroundRes = R.drawable.notification_toolbar_background,
         titleRes = R.string.notification_settings_title,
         onBackPressed = onBackPressed
     )
@@ -20,7 +19,7 @@ sealed class NotificationsToolbarViewModel(
     data class NotificationTypes(
         override val onBackPressed: () -> Unit
     ) : NotificationsToolbarViewModel(
-        backgroundRes = R.drawable.notification_toolbar_background,
+        hasTransparentBackground = true,
         titleRes = R.string.notification_types_title,
         onBackPressed = onBackPressed
     )
