@@ -13,14 +13,14 @@ import dk.shape.games.notifications.extensions.toTeamNamesPair
 import dk.shape.games.notifications.usecases.LoadedLegacySubscription
 
 typealias OnEventNotificationTypesClicked = (LegacyEventNotificationTypesAction) -> Unit
-typealias OnSetNotifications = (eventId: String, notificationIds: Set<String>, onError: () -> Unit) -> Unit
+typealias OnSetEventNotifications = (notificationIds: Set<String>, onError: () -> Unit) -> Unit
 
 data class NotificationsSettingsEventViewModel(
     private val event: Event,
     private val subscription: Subscription,
     private val notificationGroup: LegacyNotificationGroup,
     private val onEventNotificationTypesClicked: OnEventNotificationTypesClicked,
-    private val onSetNotifications: OnSetNotifications
+    private val onSetNotifications: OnSetEventNotifications
 ) {
     private val eventId = event.id
 
@@ -79,7 +79,7 @@ data class NotificationsSettingsEventViewModel(
         val previousNotificationIds = activeNotificationIds
         activeNotificationIds = notificationTypeIds
 
-        onSetNotifications(eventId, notificationTypeIds) {
+        onSetNotifications(notificationTypeIds) {
             activeNotificationIds = previousNotificationIds
         }
     }
@@ -95,7 +95,7 @@ data class NotificationsSettingsEventViewModel(
 
 internal fun LoadedLegacySubscription.toNotificationsSettingsEventViewModel(
     onEventNotificationTypesClicked: OnEventNotificationTypesClicked,
-    onSetNotifications: OnSetNotifications
+    onSetNotifications: OnSetEventNotifications
 ) = NotificationsSettingsEventViewModel(
     event = event,
     subscription = subscription,

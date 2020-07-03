@@ -1,14 +1,16 @@
 package dk.shape.games.notifications.usecases
 
+import dk.shape.games.notifications.aliases.SubjectNotificationGroup
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.entities.Subscription
-import kotlinx.coroutines.flow.Flow
+import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 
 interface SubjectSettingsNotificationsUseCases {
 
-    suspend fun getAllSubscriptions(
-        deviceId: String
-    ): Flow<Set<Subscription>>
+    suspend fun loadAllSubscriptions(
+        deviceId: String,
+        appConfig: AppConfig
+    ): List<LoadedSubscription>
 
     suspend fun updateNotifications(
         deviceId: String,
@@ -18,3 +20,9 @@ interface SubjectSettingsNotificationsUseCases {
         onError: () -> Unit
     )
 }
+
+data class LoadedSubscription(
+    val name: String,
+    val subscription: Subscription,
+    val notificationGroup: SubjectNotificationGroup
+)

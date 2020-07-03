@@ -10,14 +10,20 @@ import dk.shape.games.notifications.aliases.SubjectNotificationType
 import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.extensions.toActiveNotificationTypes
 import dk.shape.games.notifications.extensions.toDefaultNotificationTypes
+import dk.shape.games.notifications.usecases.LoadedSubscription
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlin.time.ExperimentalTime
+
+typealias OnSubjectNotificationTypesClicked = (SubjectNotificationTypesAction) -> Unit
+typealias OnSetSubjectNotifications = (notificationTypes: Set<SubjectNotificationType>, onError: () -> Unit) -> Unit
 
 data class NotificationsSettingsSubjectViewModel(
     val name: String,
     private val subscription: Subscription,
     private val notificationGroup: SubjectNotificationGroup,
-    private val onSubjectNotificationTypesClicked: (SubjectNotificationTypesAction) -> Unit,
-    private val onSetNotifications: (notificationTypes: Set<SubjectNotificationType>, onError: () -> Unit) -> Unit
+    private val onSubjectNotificationTypesClicked: OnSubjectNotificationTypesClicked,
+    private val onSetNotifications: OnSetSubjectNotifications
 ) {
     private val subjectId = subscription.subjectId
     private val initialActiveNotifications: Set<SubjectNotificationType> =
@@ -81,3 +87,14 @@ data class NotificationsSettingsSubjectViewModel(
         }
     }
 }
+
+internal fun LoadedSubscription.toNotificationsSettingsSubjectViewModel(
+    onSubjectNotificationTypesClicked: OnSubjectNotificationTypesClicked,
+    onSetNotifications: OnSetSubjectNotifications
+) = NotificationsSettingsSubjectViewModel(
+    name = name,
+    subscription = subscription,
+    notificationGroup = notificationGroup,
+    onSubjectNotificationTypesClicked = onSubjectNotificationTypesClicked,
+    onSetNotifications = onSetNotifications
+)
