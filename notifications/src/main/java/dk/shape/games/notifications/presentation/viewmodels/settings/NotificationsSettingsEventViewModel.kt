@@ -5,7 +5,7 @@ import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import dk.shape.games.notifications.actions.LegacyEventNotificationTypesAction
-import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
+import dk.shape.games.notifications.aliases.LegacyNotificationGroup
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 import dk.shape.games.sportsbook.offerings.modules.notification.Subscription
 import dk.shape.games.notifications.extensions.toEventInfo
@@ -14,7 +14,7 @@ import dk.shape.games.notifications.extensions.toTeamNamesPair
 data class NotificationsSettingsEventViewModel(
     private val event: Event,
     private val subscription: Subscription,
-    private val notificationGroup: AppConfig.Notifications.NotificationGroup,
+    private val notificationGroup: LegacyNotificationGroup,
     private val onEventNotificationTypesClicked: (LegacyEventNotificationTypesAction) -> Unit,
     private val onSetNotifications: (notificationIds: Set<String>, onError: () -> Unit) -> Unit
 ) {
@@ -78,7 +78,6 @@ data class NotificationsSettingsEventViewModel(
         onSetNotifications(notificationTypeIds) {
             activeNotificationIds = previousNotificationIds
         }
-
     }
 
     private fun Set<String>.toFormattedString(): String = mapNotNull { typeId ->

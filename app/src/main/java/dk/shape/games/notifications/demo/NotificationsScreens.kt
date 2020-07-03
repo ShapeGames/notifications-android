@@ -53,7 +53,7 @@ object NotificationsScreens {
             }
         ),
         DemoScreen(
-            name = "Notifications Settings Empty",
+            name = "Notifications Settings (empty state)",
             fragmentProvider = {
                 NotificationSettingsFragment().apply {
                     arguments = NotificationSettingsFragment.Args.create(

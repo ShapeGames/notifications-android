@@ -18,7 +18,6 @@ sealed class NotificationInfoViewModel {
     open class Text(
         val text: UIText
     ) : NotificationInfoViewModel() {
-
         object Empty : Text(EMPTY_UI_TEXT)
     }
 }

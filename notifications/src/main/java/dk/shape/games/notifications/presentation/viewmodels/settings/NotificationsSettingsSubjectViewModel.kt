@@ -5,17 +5,17 @@ import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import dk.shape.games.notifications.actions.SubjectNotificationTypesAction
+import dk.shape.games.notifications.aliases.SubjectNotificationGroup
 import dk.shape.games.notifications.aliases.SubjectNotificationType
 import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.extensions.toActiveNotificationTypes
 import dk.shape.games.notifications.extensions.toDefaultNotificationTypes
-import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 import kotlin.time.ExperimentalTime
 
 data class NotificationsSettingsSubjectViewModel(
     val name: String,
     private val subscription: Subscription,
-    private val notificationGroup: AppConfig.SubjectNotificationGroup,
+    private val notificationGroup: SubjectNotificationGroup,
     private val onSubjectNotificationTypesClicked: (SubjectNotificationTypesAction) -> Unit,
     private val onSetNotifications: (notificationTypes: Set<SubjectNotificationType>, onError: () -> Unit) -> Unit
 ) {

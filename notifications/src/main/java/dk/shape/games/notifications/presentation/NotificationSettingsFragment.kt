@@ -37,7 +37,7 @@ class NotificationSettingsFragment : Fragment() {
     private val action: NotificationSettingsAction by action()
     private val config: NotificationSettingsConfig by config()
 
-    private var savedEventIds: List<String>? = null
+    private lateinit var savedEventIds: List<String>
 
     private val legacyNotificationsInteractor: LegacyEventNotificationsUseCases by lazy {
         LegacyEventNotificationsInteractor(
@@ -124,7 +124,7 @@ class NotificationSettingsFragment : Fragment() {
                         }
 
                     } catch (e: Exception) {
-                        if (e is IOException || e is HttpException) {
+                        if (e is IOException || e is HttpException || e is IllegalArgumentException) {
                             withContext(Dispatchers.Main) {
                                 switcherViewModel.setError {
                                     fetchNotifications(savedEventIds)
@@ -242,7 +242,7 @@ class NotificationSettingsFragment : Fragment() {
         when (info.subjectType) {
             SubjectType.TEAMS -> teamSubjectNotifications
             SubjectType.ATHLETES -> athleteSubjectNotifications
-            else -> throw IOException("Notifications are only supported for teams and athletes at the moment.")
+            else -> throw IllegalArgumentException("Notifications are only supported for teams and athletes at the moment.")
         }
 }
 

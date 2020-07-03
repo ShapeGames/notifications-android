@@ -252,10 +252,10 @@ val mockSubjectNotificationsDataSource = object : SubjectNotificationsDataSource
     ) {
     }
 
-    override suspend fun getSubscriptions(deviceId: String): Flow<Set<dk.shape.games.notifications.entities.Subscription>> =
+    override suspend fun getSubscriptions(deviceId: String): Flow<Set<SubjectSubscription>> =
         flowOf(mockSubjectSubscriptions)
 
-    override suspend fun getAllSubscriptions(deviceId: String): Flow<Set<dk.shape.games.notifications.entities.Subscription>> =
+    override suspend fun getAllSubscriptions(deviceId: String): Flow<Set<SubjectSubscription>> =
         flowOf(mockSubjectSubscriptions)
 
     override suspend fun register(
