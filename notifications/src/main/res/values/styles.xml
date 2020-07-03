@@ -151,10 +151,14 @@
 
     <style name="Notifications.Settings.Entry.Settings" parent="@style/Widget" />
 
-    <style name="Notifications.Settings.Info.Text" parent="Widget.AppCompat.TextView" />
+    <style name="Notifications.Settings.Info.Text" parent="Widget.AppCompat.TextView" >
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+    </style>
 
     <style name="Notifications.Settings.Info.Icon" parent="@style/Widget" />
-
 
     <!-- BottomSheet Subject Notifications -->
     <style name="Notifications.Subjects.Screen.Background" parent="@style/Widget" />

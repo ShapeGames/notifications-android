@@ -17,6 +17,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/bellIcon"
+            style="?attr/Notifications.Settings.Info.Icon"
             android:layout_width="11dp"
             android:layout_height="11dp"
             android:layout_marginTop="3.5dp"
@@ -29,6 +30,7 @@
 
         <TextView
             android:id="@+id/notificationTypes"
+            style="?attr/Notifications.Settings.Info.Text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingHorizontal="5dp"
@@ -37,13 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@id/bellIcon"
-            tools:ellipsize="end"
-            tools:fontFamily="sans-serif-medium"
-            tools:lineSpacingMultiplier="1.1"
-            tools:maxLines="2"
-            tools:text="So end Reals, GaReals, Game s, Ganl, GaReals, Game sdsy S"
-            tools:textColor="#7d7d7d"
-            tools:textSize="12sp" />
+            tools:text="So end Reals, GaReals, Game s, Ganl, GaReals, Game sdsy S" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

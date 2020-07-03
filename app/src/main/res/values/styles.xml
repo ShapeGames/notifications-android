@@ -20,6 +20,8 @@
         <item name="Notifications.Settings.Toolbar.Title">@style/Notifications.Settings.Toolbar.Title.Oddset</item>
         <item name="Notifications.Settings.Entry.Name">@style/Notifications.Settings.Entry.Name.Oddset</item>
         <item name="Notifications.Settings.Entry.Settings">@style/Notifications.Settings.Entry.Settings.Oddset</item>
+        <item name="Notifications.Settings.Info.Icon">@style/Notifications.Settings.Info.Icon.Oddset</item>
+        <item name="Notifications.Settings.Info.Text">@style/Notifications.Settings.Info.Text.Oddset</item>
 
         <!-- Subject Notifications -->
         <item name="Notifications.Subjects.Screen.Background">@style/Notifications.Subjects.Screen.Background.Oddset</item>

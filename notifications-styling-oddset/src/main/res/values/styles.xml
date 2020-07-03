@@ -3,16 +3,16 @@
 
     <!-- Notification Settings -->
     <style name="Notifications.Settings.Toolbar.Container.Oddset" parent="@style/Notifications.Settings.Toolbar.Container">
-        <item name="android:background">#1d5aaf</item>
+        <item name="android:background">@color/blue_500</item>
     </style>
 
     <style name="Notifications.Settings.Toolbar.Icon.Oddset" parent="@style/Notifications.Settings.Toolbar.Icon">
-        <item name="android:tint">#1d5aaf</item>
+        <item name="android:tint">@color/blue_500</item>
     </style>
 
     <style name="Notifications.Settings.Toolbar.Title.Oddset" parent="@style/Notifications.Settings.Toolbar.Title">
         <item name="fontFamily">@font/avenir_next_heavy_italic</item>
-        <item name="android:textColor">#1d5aaf</item>
+        <item name="android:textColor">@color/blue_500</item>
     </style>
 
     <style name="Notifications.Settings.Entry.Name.Oddset" parent="@style/Notifications.Settings.Entry.Name">
@@ -22,6 +22,15 @@
 
     <style name="Notifications.Settings.Entry.Settings.Oddset" parent="@style/Notifications.Settings.Entry.Settings">
         <item name="android:src">@drawable/ic_notifications_settings_blue</item>
+    </style>
+
+    <style name="Notifications.Settings.Info.Text.Oddset" parent="@style/Notifications.Settings.Info.Text">
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">#7d7d7d</item>
+    </style>
+
+    <style name="Notifications.Settings.Info.Icon.Oddset" parent="@style/Notifications.Settings.Info.Icon">
+        <item name="android:tint">#252525</item>
     </style>
 
     <!-- Subject Notifications BottomSheet -->

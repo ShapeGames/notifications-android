@@ -36,7 +36,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
-                tools:text="Team 1 Team 1 Team 1 Team 1 Team 1 Team 1 Team 1 Team 1 Team 1" />
+                tools:text="Team 1 Team 1 Tm 1 Team 1 Team 1 Team 1" />
 
             <TextView
                 android:id="@+id/awayTeam"
@@ -51,7 +51,7 @@
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/homeTeam"
-                tools:text="Team 2Team 2 Team 2Team 2Team 2 Team 2Team 2Team 2 Team 2Team 2Team 2 Team 2Team 2Team 2 Team 2Team 2Team 2 Team 2Team 2 Team 2Team 2"
+                tools:text="Team 2Team 2Team 2 Team 2Team 2"
                 tools:visibility="visible" />
 
             <androidx.appcompat.widget.SwitchCompat
@@ -93,7 +93,7 @@
                 style="?attr/Notifications.Settings.Entry.Settings"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:onClick="@{viewModel.onSettingsClicked}"
                 app:layout_constraintEnd_toEndOf="parent"
