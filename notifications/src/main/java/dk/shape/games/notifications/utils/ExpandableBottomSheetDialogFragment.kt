@@ -1,4 +1,4 @@
-package dk.shape.games.notifications.presentation
+package dk.shape.games.notifications.utils
 
 import android.app.Dialog
 import android.content.res.Resources

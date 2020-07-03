@@ -37,7 +37,7 @@ data class MockData(
 @Parcelize
 object SubjectNotificationsAction : Parcelable
 
-class SubjectNotificationsFragment : Fragment() {
+class MockSubjectNotificationsParentFragment : Fragment() {
 
     private val mockData = MockData(
         sportId = "football:0000",
