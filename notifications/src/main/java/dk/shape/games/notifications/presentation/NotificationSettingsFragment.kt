@@ -27,6 +27,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import kotlin.time.ExperimentalTime
 
+@FlowPreview
 @ExperimentalTime
 @ExperimentalCoroutinesApi
 class NotificationSettingsFragment : Fragment() {
@@ -78,7 +79,6 @@ class NotificationSettingsFragment : Fragment() {
         }
     }
 
-    @ExperimentalTime
     private fun fetchNotifications(eventIds: List<String>?) {
         switcherViewModel.setLoading()
 
@@ -166,9 +166,6 @@ class NotificationSettingsFragment : Fragment() {
             )
         }
 
-    @ExperimentalCoroutinesApi
-    @FlowPreview
-    @ExperimentalTime
     private suspend fun getSubjectNotificationsViewModels(
         deviceId: String,
         appConfig: AppConfig

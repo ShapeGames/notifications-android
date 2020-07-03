@@ -12,10 +12,12 @@ import dk.shape.games.notifications.demo.dependency.MockNotificationsDependencyP
 import dk.shape.games.notifications.features.list.EventNotificationsFragment
 import dk.shape.games.notifications.presentation.NotificationSettingsFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlin.time.ExperimentalTime
 
 object NotificationsScreens {
 
+    @FlowPreview
     @ExperimentalCoroutinesApi
     @ExperimentalTime
     val screens = listOf(
