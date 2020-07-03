@@ -55,6 +55,7 @@
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchButton"
+                style="?attr/Notifications.Subjects.Screen.Subject.Switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="@{viewModel.isSwitchToggled}"
@@ -63,7 +64,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:onStateChange="@{viewModel.onSwitchStateChanged}"
-                app:track="@drawable/notifications_switch_track"
                 tools:checked="false" />
 
             <include
@@ -95,10 +95,10 @@
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/settingsButton"
                 android:layout_width="20dp"
+                style="?attr/Notifications.Settings.Entry.Settings"
                 android:layout_height="20dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:onClick="@{viewModel.onSettingsClicked}"
-                android:src="@drawable/ic_notifications_settings_blue"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/switchButton" />

@@ -12,7 +12,7 @@ sealed class NotificationsToolbarViewModel(
     data class Settings(
         override val onBackPressed: () -> Unit
     ) : NotificationsToolbarViewModel(
-        backgroundRes = R.drawable.notifications_toolbar_background_blue,
+        backgroundRes = R.drawable.notification_toolbar_background,
         titleRes = R.string.notification_settings_title,
         onBackPressed = onBackPressed
     )

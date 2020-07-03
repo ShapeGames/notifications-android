@@ -123,6 +123,11 @@
         <item name="android:fontFamily">@font/barlow_semibold</item>
     </style>
 
+    <!-- Notification Settings -->
+    <style name="Notifications.Settings.Entry.Settings.BetWarrior" parent="@style/Notifications.Settings.Entry.Settings">
+        <item name="android:src">@drawable/ic_notifications_settings_bw</item>
+    </style>
+
     <!-- Subject Notifications BottomSheet -->
     <style name="Notifications.Subjects.Screen.Background.BetWarrior" parent="@style/Notifications.Subjects.Screen.Background">
         <item name="android:clipChildren">true</item>

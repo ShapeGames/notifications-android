@@ -64,7 +64,7 @@ val mockEvents: List<Event> = listOf(
     Event(
         id = "event:1234",
         home = "Manchester",
-        away = "Liverpool",
+        away = null,
         awayImageUrl = null,
         scheduledStartTime = Date(),
         markets = listOf(),

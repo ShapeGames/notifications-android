@@ -19,31 +19,31 @@
             android:id="@+id/bellIcon"
             android:layout_width="11dp"
             android:layout_height="11dp"
-            android:src="@drawable/ic_notifications_bell_black"
-            android:tint="#252525"
             android:layout_marginTop="3.5dp"
-            app:layout_constraintVertical_bias="0"
+            android:src="@drawable/ic_notifications_bell_black"
             app:layout_constraintBottom_toBottomOf="@id/notificationTypes"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/notificationTypes" />
+            app:layout_constraintTop_toTopOf="@id/notificationTypes"
+            app:layout_constraintVertical_bias="0"
+            tools:tint="#252525" />
 
         <TextView
             android:id="@+id/notificationTypes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
-            android:lineSpacingMultiplier="1.1"
-            android:maxLines="2"
             android:paddingHorizontal="5dp"
             android:text="@{viewModel.text}"
-            android:textColor="#7d7d7d"
-            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@id/bellIcon"
-            tools:text="So end Reals, GaReals, Game s, Ganlt, Goals, Game start, PenaReals, Game s, Ganlt, Goals, Game start, PenaReals, Game s, Ganlt, Goals, Game start, Pename s, Ganlt, Goals, Game start, Penalty" />
+            tools:ellipsize="end"
+            tools:fontFamily="sans-serif-medium"
+            tools:lineSpacingMultiplier="1.1"
+            tools:maxLines="2"
+            tools:text="So end Reals, GaReals, Game s, Ganl, GaReals, Game sdsy S"
+            tools:textColor="#7d7d7d"
+            tools:textSize="12sp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
