@@ -170,6 +170,7 @@
     <style name="Notifications.Settings.Empty.Description" parent="Widget.AppCompat.TextView" >
         <item name="android:gravity">center</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:paddingHorizontal">60dp</item>
         <item name="android:textSize">14sp</item>
     </style>
 

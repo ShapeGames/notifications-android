@@ -14,13 +14,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_empty"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="60dp">
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/icon"
             style="?attr/Notifications.Settings.Empty.Icon"
-            android:layout_width="72dp"
+            android:layout_width="74dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="35dp"
             android:scaleType="centerInside"
@@ -45,7 +44,7 @@
             style="?attr/Notifications.Settings.Empty.Description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:text="@string/notification_settings_empty_description"
             app:layout_constraintEnd_toEndOf="@id/title"
             app:layout_constraintStart_toStartOf="@id/title"
