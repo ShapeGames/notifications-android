@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="dk.shape.games.notifications.presentation.viewmodels.settings.NotificationSettingsSubjectMainViewModel" />
+            type="dk.shape.games.notifications.presentation.viewmodels.settings.NotificationSettingsSubjectViewModel" />
     </data>
 
     <LinearLayout

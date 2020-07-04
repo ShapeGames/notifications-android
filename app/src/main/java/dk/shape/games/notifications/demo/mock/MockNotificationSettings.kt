@@ -2,12 +2,11 @@ package dk.shape.games.notifications.demo.mock
 
 import dk.shape.componentkit2.Promise
 import dk.shape.danskespil.foundation.entities.PolyIcon
+import dk.shape.games.notifications.actions.NotificationSettingsSubjectAction
 import dk.shape.games.notifications.aliases.Notifications
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.presentation.SubjectInfo
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
-import dk.shape.games.notifications.usecases.LegacyEventNotificationsUseCases
-import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsUseCases
 import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 import dk.shape.games.sportsbook.offerings.common.appconfig.BetSlipConfig
 import dk.shape.games.sportsbook.offerings.common.appconfig.EventConfig
@@ -20,6 +19,8 @@ import java.io.IOException
 import java.util.*
 
 typealias SubjectSubscription = dk.shape.games.notifications.entities.Subscription
+typealias SubjectNotificationType = AppConfig.SubjectNotificationGroup.SubjectNotificationType
+typealias SubjectNotificationIdentifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier
 
 val mockLegacySubscriptions: MutableList<Subscription> = mutableListOf(
     Subscription(
@@ -44,6 +45,68 @@ val mockSubjectSubscriptions: Set<SubjectSubscription> = listOf(
         types = listOf("event_start", "event_end","lineup_ready").toSet()
     )
 ).toSet()
+
+val mockPossibleNotifications = setOf(
+    SubjectNotificationType(
+        identifier = SubjectNotificationIdentifier.EVENT_START,
+        name = "Event starts",
+        icon = PolyIcon.Resource(
+            name = "icon-event-start",
+            showBackground = false
+        )
+    ),
+    SubjectNotificationType(
+        identifier = SubjectNotificationIdentifier.EVENT_END,
+        name = "Event ends",
+        icon = PolyIcon.Resource(
+            name = "icon-event-end",
+            showBackground = false
+        )
+    ),
+    SubjectNotificationType(
+        identifier = SubjectNotificationIdentifier.LINEUP_READY,
+        name = "Lineup ready",
+        icon = PolyIcon.Resource(
+            name = "icon-lineup-ready",
+            showBackground = false
+        )
+    ),
+    SubjectNotificationType(
+        identifier = SubjectNotificationIdentifier.EVENT_REMINDER,
+        name = "Event reminder",
+        icon = PolyIcon.Resource(
+            name = "icon-event-reminder",
+            showBackground = false
+        )
+    )
+)
+
+val mockInitialActiveNotifications = setOf(
+    SubjectNotificationType(
+        identifier = SubjectNotificationIdentifier.LINEUP_READY,
+        name = "Lineup ready",
+        icon = PolyIcon.Resource(
+            name = "icon-lineup-ready",
+            showBackground = false
+        )
+    ),
+    SubjectNotificationType(
+        identifier = SubjectNotificationIdentifier.EVENT_REMINDER,
+        name = "Event reminder",
+        icon = PolyIcon.Resource(
+            name = "icon-event-reminder",
+            showBackground = false
+        )
+    )
+)
+
+val mockNotificationSettingsSubjectAction = NotificationSettingsSubjectAction(
+    subjectName = "Manchester",
+    subjectId = "team:1234",
+    subjectType = SubjectType.TEAMS,
+    possibleNotifications = mockPossibleNotifications,
+    initialActiveNotifications = mockInitialActiveNotifications
+)
 
 val mockSubjectInfos = listOf(
     SubjectInfo(

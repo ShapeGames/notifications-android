@@ -1,14 +1,12 @@
 package dk.shape.games.notifications.presentation
 
 import androidx.fragment.app.Fragment
-import dk.shape.games.notifications.actions.LegacyEventNotificationTypesAction
-import dk.shape.games.notifications.actions.SubjectNotificationTypesAction
+import dk.shape.games.notifications.actions.LegacyNotificationSettingsEventAction
+import dk.shape.games.notifications.actions.NotificationSettingsSubjectAction
 import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
-import dk.shape.games.notifications.usecases.LegacyEventNotificationsUseCases
 import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
-import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsUseCases
 import dk.shape.games.sportsbook.offerings.modules.notification.NotificationsComponentInterface
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -34,7 +32,7 @@ data class NotificationSettingsConfig(
 
     val onBackPressed: () -> Unit,
 
-    val onSubjectNotificationTypesClicked: (Fragment, SubjectNotificationTypesAction) -> Unit,
+    val onSubjectNotificationTypesClicked: (Fragment, NotificationSettingsSubjectAction) -> Unit,
 
-    val onEventNotificationTypesClicked: (Fragment, LegacyEventNotificationTypesAction) -> Unit
+    val onEventNotificationTypesClicked: (Fragment, LegacyNotificationSettingsEventAction) -> Unit
 )

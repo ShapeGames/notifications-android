@@ -3,14 +3,13 @@ package dk.shape.games.notifications.demo
 import dk.shape.games.demoskeleton.DemoScreen
 import dk.shape.games.notifications.actions.EventNotificationsAction
 import dk.shape.games.notifications.actions.NotificationSettingsAction
+import dk.shape.games.notifications.demo.dependency.*
 import dk.shape.games.notifications.demo.mock.SubjectNotificationsAction
 import dk.shape.games.notifications.demo.mock.MockSubjectNotificationsParentFragment
-import dk.shape.games.notifications.demo.dependency.MockEventNotificationsDependencyProvider
-import dk.shape.games.notifications.demo.dependency.MockNotificationSettingsDependencyProvider
-import dk.shape.games.notifications.demo.dependency.MockNotificationSettingsEmptyDependencyProvider
-import dk.shape.games.notifications.demo.dependency.MockNotificationsDependencyProvider
+import dk.shape.games.notifications.demo.mock.mockNotificationSettingsSubjectAction
 import dk.shape.games.notifications.features.list.EventNotificationsFragment
 import dk.shape.games.notifications.presentation.NotificationSettingsFragment
+import dk.shape.games.notifications.presentation.NotificationSettingsSubjectFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlin.time.ExperimentalTime
@@ -37,7 +36,7 @@ object NotificationsScreens {
             fragmentProvider = {
                 MockSubjectNotificationsParentFragment().apply {
                     arguments = MockSubjectNotificationsParentFragment.Args.create(
-                        SubjectNotificationsAction(),
+                        SubjectNotificationsAction,
                         MockNotificationsDependencyProvider::class.java
                     )
                 }
@@ -66,12 +65,12 @@ object NotificationsScreens {
             }
         ),
         DemoScreen(
-            name = "Notification Settings (subject notification types)",
+            name = "Notification Settings Subject",
             fragmentProvider = {
-                MockSubjectNotificationsParentFragment().apply {
-                    arguments = MockSubjectNotificationsParentFragment.Args.create(
-                        SubjectNotificationsAction(true),
-                        MockNotificationsDependencyProvider::class.java
+                NotificationSettingsSubjectFragment().apply {
+                    arguments = NotificationSettingsSubjectFragment.Args.create(
+                        mockNotificationSettingsSubjectAction,
+                        MockNotificationSettingsSubjectDependencyProvider::class.java
                     )
                 }
             }

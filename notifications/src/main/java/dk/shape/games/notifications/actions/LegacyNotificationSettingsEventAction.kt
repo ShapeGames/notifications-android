@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Parcelize
-data class LegacyEventNotificationTypesAction(
+data class LegacyNotificationSettingsEventAction(
     val eventId: String,
     val eventInfo: EventInfo,
     val possibleNotifications: List<LegacyNotificationType>,

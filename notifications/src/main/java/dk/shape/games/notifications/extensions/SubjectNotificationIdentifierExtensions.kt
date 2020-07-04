@@ -12,7 +12,7 @@ internal fun List<SubjectNotificationIdentifier>.toNotificationTypes(
     }
 }.toSet()
 
-internal fun List<SubjectNotificationIdentifier>.toTypeIds(): Set<String> = map { notificationId ->
+internal fun Set<SubjectNotificationIdentifier>.toTypeIds(): Set<String> = map { notificationId ->
     notificationId.toTypeId()
 }.toSet()
 

@@ -11,6 +11,7 @@ import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.NotificationSettingsAction
 import dk.shape.games.notifications.databinding.FragmentNotificationSettingsBinding
 import dk.shape.games.notifications.entities.SubjectType
+import dk.shape.games.notifications.extensions.toIds
 import dk.shape.games.notifications.extensions.toTypeIds
 import dk.shape.games.notifications.presentation.viewmodels.settings.*
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsInteractor
@@ -48,8 +49,7 @@ class NotificationSettingsFragment : Fragment() {
 
     private val subjectNotificationsInteractor: SubjectSettingsNotificationsUseCases by lazy {
         SubjectSettingsNotificationsInteractor(
-            config.subjectNotificationsDataSource,
-            config.provideSubjectInfo
+            config.subjectNotificationsDataSource
         )
     }
 
@@ -172,7 +172,8 @@ class NotificationSettingsFragment : Fragment() {
     ): List<NotificationsSettingsSubjectViewModel> =
         subjectNotificationsInteractor.loadAllSubscriptions(
             deviceId,
-            appConfig
+            appConfig,
+            config.provideSubjectInfo
         ).map { loadedSubscription ->
             loadedSubscription.toNotificationsSettingsSubjectViewModel(
                 onSubjectNotificationTypesClicked = { action ->
@@ -186,7 +187,8 @@ class NotificationSettingsFragment : Fragment() {
                                     deviceId = deviceId,
                                     subjectId = loadedSubscription.subscription.subjectId,
                                     subjectType = loadedSubscription.subscription.subjectType,
-                                    notificationTypeIds = notificationTypes.toTypeIds(),
+                                    notificationTypeIds = notificationTypes.toIds(),
+                                    onSuccess = {},
                                     onError = onError
                                 )
                             }

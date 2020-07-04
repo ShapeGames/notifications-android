@@ -24,7 +24,7 @@ import kotlinx.coroutines.withContext
 data class MockNotificationsConfig(
     val hasSportNotificationsSupport: suspend (sportId: String) -> Boolean,
     val hasNotificationsSupport: suspend (subjectId: String) -> Flow<Boolean>,
-    val showNotificationsFragment: (Fragment, MockData, Boolean) -> Unit,
+    val showNotificationsFragment: (Fragment, MockData) -> Unit,
     var notificationsEventListener: (hasNotifications: Boolean) -> Unit
 )
 
@@ -36,9 +36,7 @@ data class MockData(
 )
 
 @Parcelize
-data class SubjectNotificationsAction(
-    val isFullscreen: Boolean = false
-) : Parcelable
+object SubjectNotificationsAction: Parcelable
 
 class MockSubjectNotificationsParentFragment : Fragment() {
 
@@ -59,7 +57,7 @@ class MockSubjectNotificationsParentFragment : Fragment() {
 
         MockNotificationsViewModel(
             showNotifications = {
-                config.showNotificationsFragment(this, mockData, action.isFullscreen)
+                config.showNotificationsFragment(this, mockData)
             }
         )
     }

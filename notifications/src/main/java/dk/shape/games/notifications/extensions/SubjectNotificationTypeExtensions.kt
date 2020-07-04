@@ -1,6 +1,11 @@
 package dk.shape.games.notifications.extensions
 
+import dk.shape.games.notifications.aliases.SubjectNotificationIdentifier
 import dk.shape.games.notifications.aliases.SubjectNotificationType
+
+internal fun Set<SubjectNotificationType>.toIds(): Set<SubjectNotificationIdentifier> = map { notificationType ->
+    notificationType.identifier
+}.toSet()
 
 internal fun Set<SubjectNotificationType>.toTypeIds(): Set<String> = map { notificationType ->
     notificationType.identifier.toTypeId()
