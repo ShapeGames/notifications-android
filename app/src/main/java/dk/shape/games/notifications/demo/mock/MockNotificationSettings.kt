@@ -13,6 +13,7 @@ import dk.shape.games.sportsbook.offerings.common.appconfig.EventConfig
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 import dk.shape.games.sportsbook.offerings.modules.notification.NotificationsComponentInterface
 import dk.shape.games.sportsbook.offerings.modules.notification.Subscription
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import java.io.IOException
@@ -313,6 +314,7 @@ val mockSubjectNotificationsDataSource = object : SubjectNotificationsDataSource
         subjectType: SubjectType,
         subscribedNotificationTypeIds: Set<String>
     ) {
+        delay(1500)
     }
 
     override suspend fun getSubscriptions(deviceId: String): Flow<Set<SubjectSubscription>> =

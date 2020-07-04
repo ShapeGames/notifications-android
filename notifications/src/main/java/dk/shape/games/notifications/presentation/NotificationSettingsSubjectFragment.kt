@@ -59,17 +59,20 @@ class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
                 }
             }
         ).apply {
+            val isActivated = action.initialActiveNotifications.isNotEmpty()
+            val initialNotificationIds = action.initialActiveNotifications.toIds()
+
             notificationTypesCollection.set(
                 SubjectNotificationTypeCollectionViewModel(
-                    defaultIdentifiers = emptySet(),
-                    selectedIdentifiers = emptySet(),
-                    activatedIdentifiers = action.initialActiveNotifications.toIds(),
+                    defaultIdentifiers = initialNotificationIds,
+                    selectedIdentifiers = initialNotificationIds,
+                    activatedIdentifiers = initialNotificationIds,
                     possibleTypes = action.possibleNotifications,
                     selectionNotifier = notifySelection,
-                    initialMasterState = false
+                    initialMasterState = isActivated
                 )
             )
-            activeNotificationState.awareSet(false)
+            activeNotificationState.awareSet(isActivated)
         }
     }
 
