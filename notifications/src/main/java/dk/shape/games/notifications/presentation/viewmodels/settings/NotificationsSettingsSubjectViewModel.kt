@@ -10,6 +10,8 @@ import dk.shape.games.notifications.aliases.SubjectNotificationType
 import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.extensions.toActiveNotificationTypes
 import dk.shape.games.notifications.extensions.toDefaultNotificationTypes
+import dk.shape.games.notifications.extensions.toNotificationTypes
+import dk.shape.games.notifications.presentation.SubjectNotificationStateData
 import dk.shape.games.notifications.usecases.LoadedSubscription
 import kotlin.time.ExperimentalTime
 
@@ -18,7 +20,7 @@ typealias OnSetSubjectNotifications = (notificationTypes: Set<SubjectNotificatio
 
 data class NotificationsSettingsSubjectViewModel(
     val name: String,
-    private val subscription: Subscription,
+    val subscription: Subscription,
     private val notificationGroup: SubjectNotificationGroup,
     private val onSubjectNotificationTypesClicked: OnSubjectNotificationTypesClicked,
     private val onSetNotifications: OnSetSubjectNotifications
@@ -83,6 +85,12 @@ data class NotificationsSettingsSubjectViewModel(
         onSetNotifications(notificationTypes) {
             activeNotifications = previousNotifications
         }
+    }
+
+    fun update(stateData: SubjectNotificationStateData) {
+        activeNotifications = stateData.notificationTypeIdentifiers.toNotificationTypes(
+            notificationGroupTypes = notificationGroup.notificationTypes
+        )
     }
 }
 

@@ -180,8 +180,9 @@ class NotificationSettingsFragment : Fragment() {
                         this,
                         action
                     ) { stateData ->
-                        val tot = stateData
-                        val ids = tot.notificationTypeIdentifiers
+                        with(stateData) {
+                            switcherViewModel.findSubjectViewModel(subjectId)?.update(this)
+                        }
                     }
                 },
                 onSetNotifications = { notificationTypes, onError ->

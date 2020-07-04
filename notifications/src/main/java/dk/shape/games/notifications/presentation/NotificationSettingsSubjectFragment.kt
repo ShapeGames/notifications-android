@@ -26,7 +26,6 @@ import kotlinx.coroutines.withContext
 class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
     paddingTopRes = R.dimen.expandable_sheet_padding_top
 ) {
-
     object Args :
         ConfigFragmentArgs<NotificationSettingsSubjectAction, NotificationSettingsSubjectConfig>()
 
