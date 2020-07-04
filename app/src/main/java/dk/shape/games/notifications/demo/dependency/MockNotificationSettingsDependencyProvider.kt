@@ -3,11 +3,12 @@ package dk.shape.games.notifications.demo.dependency
 import androidx.fragment.app.Fragment
 import dk.shape.games.notifications.demo.mock.*
 import dk.shape.games.notifications.presentation.NotificationSettingsConfig
-import dk.shape.games.notifications.presentation.SubjectInfo
+import dk.shape.games.notifications.presentation.NotificationSettingsSubjectFragment
 import dk.shape.games.toolbox_library.configinjection.ConfigProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlin.time.ExperimentalTime
 
+@ExperimentalCoroutinesApi
 @ExperimentalTime
 class MockNotificationSettingsDependencyProvider : ConfigProvider<NotificationSettingsConfig> {
     @ExperimentalCoroutinesApi
@@ -30,12 +31,24 @@ class MockNotificationSettingsDependencyProvider : ConfigProvider<NotificationSe
                 "device:1234"
             },
             onBackPressed = {},
-            onSubjectNotificationTypesClicked = { fragment, subjectNotificationTypesAction -> },
+            onSubjectNotificationTypesClicked = { fragment, subjectNotificationTypesAction ->
+                NotificationSettingsSubjectFragment().apply {
+                    arguments = NotificationSettingsSubjectFragment.Args.create(
+                        mockNotificationSettingsSubjectAction,
+                        MockNotificationSettingsSubjectDependencyProvider::class.java
+                    )
+                    show(
+                        fragment.childFragmentManager,
+                        NotificationSettingsSubjectFragment::class.java.simpleName
+                    )
+                }
+            },
             onEventNotificationTypesClicked = { fragment, legacyEventNotificationTypesAction -> }
         )
     }
 }
 
+@ExperimentalCoroutinesApi
 @ExperimentalTime
 class MockNotificationSettingsEmptyDependencyProvider : ConfigProvider<NotificationSettingsConfig> {
     @ExperimentalCoroutinesApi
