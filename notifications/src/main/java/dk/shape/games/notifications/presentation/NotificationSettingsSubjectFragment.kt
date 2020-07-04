@@ -54,8 +54,8 @@ class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
                                 subjectType = stateData.subjectType,
                                 notificationTypeIds = stateData.notificationTypeIdentifiers.toSet(),
                                 onSuccess = {
-                                    onSuccess()
                                     config.eventListener.onNotificationTypesChanged(stateData)
+                                    onSuccess()
                                 },
                                 onError = onFailure
                             )

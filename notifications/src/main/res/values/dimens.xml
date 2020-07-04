@@ -3,5 +3,5 @@
     <dimen name="min_switcher_area">250dp</dimen>
     <dimen name="notifications_vertical_padding">20dp</dimen>
     <dimen name="empty_padding">0dp</dimen>
-    <dimen name="expandable_sheet_padding_top">45dp</dimen>
+    <dimen name="expandable_sheet_padding_top">50dp</dimen>
 </resources>
