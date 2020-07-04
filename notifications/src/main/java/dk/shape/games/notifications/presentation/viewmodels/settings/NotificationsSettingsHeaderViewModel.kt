@@ -8,6 +8,6 @@ data class NotificationsSettingsHeaderViewModel(
     private val isFirst: Boolean = false
 ) {
     val marginTopRes: Int = if (isFirst) {
-        R.dimen.empty_padding
-    } else R.dimen.notifications_vertical_padding
+        R.dimen.notifications_header_margin_top_first
+    } else R.dimen.notifications_header_margin_top
 }
