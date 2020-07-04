@@ -32,7 +32,7 @@ data class NotificationSettingsConfig(
 
     val onBackPressed: () -> Unit,
 
-    val onSubjectNotificationTypesClicked: (Fragment, NotificationSettingsSubjectAction) -> Unit,
+    val onSubjectNotificationTypesClicked: (Fragment, NotificationSettingsSubjectAction, (SubjectNotificationStateData) -> Unit) -> Unit,
 
     val onEventNotificationTypesClicked: (Fragment, LegacyNotificationSettingsEventAction) -> Unit
 )

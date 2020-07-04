@@ -12,7 +12,6 @@ import dk.shape.games.notifications.actions.NotificationSettingsAction
 import dk.shape.games.notifications.databinding.FragmentNotificationSettingsBinding
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.extensions.toIds
-import dk.shape.games.notifications.extensions.toTypeIds
 import dk.shape.games.notifications.presentation.viewmodels.settings.*
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsInteractor
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsUseCases
@@ -177,7 +176,13 @@ class NotificationSettingsFragment : Fragment() {
         ).map { loadedSubscription ->
             loadedSubscription.toNotificationsSettingsSubjectViewModel(
                 onSubjectNotificationTypesClicked = { action ->
-                    config.onSubjectNotificationTypesClicked(this, action)
+                    config.onSubjectNotificationTypesClicked(
+                        this,
+                        action
+                    ) { stateData ->
+                        val tot = stateData
+                        val ids = tot.notificationTypeIdentifiers
+                    }
                 },
                 onSetNotifications = { notificationTypes, onError ->
                     lifecycleScope.launch {
