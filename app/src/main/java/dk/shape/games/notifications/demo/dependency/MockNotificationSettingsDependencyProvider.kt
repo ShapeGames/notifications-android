@@ -8,6 +8,7 @@ import dk.shape.games.notifications.presentation.NotificationSettingsSubjectFrag
 import dk.shape.games.notifications.presentation.SubjectNotificationStateData
 import dk.shape.games.toolbox_library.configinjection.ConfigProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlin.time.ExperimentalTime
 
 @ExperimentalCoroutinesApi
@@ -36,6 +37,7 @@ private val mockNotificationSettingsConfig = NotificationSettingsConfig(
         mockEvents
     },
     provideDeviceId = {
+        delay(1500)
         "device:1234"
     },
     onBackPressed = {},
