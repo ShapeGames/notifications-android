@@ -10,5 +10,12 @@ data class NotificationSettingsSubjectConfig(
 
     val provideDeviceId: suspend () -> String,
 
-    val onNotificationTypesChanged: (SubjectNotificationStateData) -> Unit
+    val eventListener: NotificationSettingsSubjectEventListener
 )
+
+interface NotificationSettingsSubjectEventListener {
+
+    val onNotificationTypesChanged: (SubjectNotificationStateData) -> Unit
+
+    val onDismiss: () -> Unit
+}

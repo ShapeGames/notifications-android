@@ -1,5 +1,6 @@
 package dk.shape.games.notifications.presentation
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -54,7 +55,7 @@ class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
                                 notificationTypeIds = stateData.notificationTypeIdentifiers.toSet(),
                                 onSuccess = {
                                     onSuccess()
-                                    config.onNotificationTypesChanged(stateData)
+                                    config.eventListener.onNotificationTypesChanged(stateData)
                                 },
                                 onError = onFailure
                             )
@@ -98,6 +99,11 @@ class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
         .apply {
             viewModel = notificationSubjectViewModel
         }.root
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        config.eventListener.onDismiss()
+    }
 
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 }
