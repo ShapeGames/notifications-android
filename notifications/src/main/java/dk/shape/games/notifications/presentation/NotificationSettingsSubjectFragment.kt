@@ -80,7 +80,7 @@ class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
                     initialMasterState = isActivated
                 )
             )
-            activeNotificationState.awareSet(isActivated)
+            headerViewModel.activeNotificationState.awareSet(isActivated)
         }
     }
 

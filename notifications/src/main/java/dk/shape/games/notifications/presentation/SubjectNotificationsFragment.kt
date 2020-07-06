@@ -74,7 +74,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
                         initialMasterState = false
                     )
                 )
-                activeNotificationState.awareSet(false)
+                headerViewModel.activeNotificationState.awareSet(false)
             }
         }
 
@@ -124,7 +124,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
                         initialMasterState = activatedTypes.isNotEmpty()
                     )
                 )
-                activeNotificationState.awareSet(activatedTypes.isNotEmpty())
+                headerViewModel.activeNotificationState.awareSet(activatedTypes.isNotEmpty())
                 viewSwitcherViewModel.showContent(this)
             }
         }
