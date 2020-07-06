@@ -112,8 +112,8 @@ class NotificationsRepository(
         updateMutexes.getOrPut("$deviceId|$eventId", { Mutex(false) }).withLock {
             service.updateSubscriptions(
                 SubscribeRequest(
-                    eventId = eventId,
                     deviceId = deviceId,
+                    eventId = eventId,
                     types = subscribedNotificationTypeIds
                 )
             )
@@ -125,6 +125,7 @@ class NotificationsRepository(
                 val cachedSubscriptions = (it.filter { subscription ->
                     subscription.eventId != eventId
                 }.toSet() + Subscription(
+                    eventId = eventId,
                     subjectId = eventId,
                     subjectType = SubjectType.EVENTS,
                     types = subscribedNotificationTypeIds

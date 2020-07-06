@@ -37,7 +37,7 @@ class NotificationSettingsFragment : Fragment() {
     private val action: NotificationSettingsAction by action()
     private val config: NotificationSettingsConfig by config()
 
-    private lateinit var savedEventIds: List<String>
+    private var savedEventIds: List<String>? = null
 
     private val legacyNotificationsInteractor: LegacyEventNotificationsUseCases by lazy {
         LegacyEventNotificationsInteractor(
