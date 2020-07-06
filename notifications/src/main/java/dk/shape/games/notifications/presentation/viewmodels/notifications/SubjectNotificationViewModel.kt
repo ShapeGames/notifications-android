@@ -1,6 +1,5 @@
 package dk.shape.games.notifications.presentation.viewmodels.notifications
 
-import android.view.View
 import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
@@ -20,9 +19,37 @@ internal data class SubjectNotificationViewModel(
     private val onClosedPressed: () -> Unit,
     private val onPreferencesSaved: PreferencesSaveAction
 ) {
-    val hasStateChanges: ObservableBoolean = ObservableBoolean(false)
-    val isSavingPreferences: ObservableBoolean = ObservableBoolean(false)
     val activeNotificationState: ObservableBoolean = ObservableBoolean(false)
+
+    val saveButtonViewModel: NotificationSaveButtonViewModel = NotificationSaveButtonViewModel { onSaving, onError ->
+        val hasChanges = notificationTypesCollection.requireValue {
+            hasChanges || (initialMasterState != activeNotificationState.get())
+        }
+
+        if (hasChanges) {
+            val stateData = SubjectNotificationStateData(
+                subjectId = subjectId,
+                subjectType = subjectType,
+                notificationTypeIds = notificationTypesCollection.value {
+                    notificationTypeItems.value {
+                        filter { viewModel ->
+                            viewModel.isActivated.get()
+                        }.mapNotNull { viewModel ->
+                            enumValueOrNull<SubjectNotificationIdentifier>(viewModel.typeId)
+                        }
+                    }
+                }.orEmpty()
+            )
+
+            onSaving()
+            notificationTypesCollection.value { allowItemInput(allowInput = false) }
+
+            onPreferencesSaved(stateData, onClosedPressed) {
+                onError()
+                notificationTypesCollection.value { allowItemInput(allowInput = true) }
+            }
+        }
+    }
 
     val notificationTypesCollection: ObservableField<NotificationTypeCollectionViewModel> =
         ObservableField()
@@ -52,41 +79,11 @@ internal data class SubjectNotificationViewModel(
         stateChangeHandler(isChecked, true)
     }
 
-    val onPreferencesSavedListener = View.OnClickListener {
-        val hasChanges = notificationTypesCollection.requireValue {
-            hasChanges || (initialMasterState != activeNotificationState.get())
-        }
-
-        if (hasChanges) {
-            val stateData = SubjectNotificationStateData(
-                subjectId = subjectId,
-                subjectType = subjectType,
-                notificationTypeIdentifiers = notificationTypesCollection.value {
-                    notificationTypeItems.value {
-                        filter { viewModel ->
-                            viewModel.isActivated.get()
-                        }.mapNotNull { viewModel ->
-                            enumValueOrNull<SubjectNotificationIdentifier>(viewModel.typeId)
-                        }
-                    }
-                }.orEmpty()
-            )
-
-            isSavingPreferences.set(true)
-            notificationTypesCollection.value { allowItemInput(allowInput = false) }
-
-            onPreferencesSaved(stateData, onClosedPressed) {
-                isSavingPreferences.set(false)
-                notificationTypesCollection.value { allowItemInput(allowInput = true) }
-            }
-        }
-    }
-
     private fun updateSaveState(isChecked: Boolean) {
         val hasChanges = notificationTypesCollection.requireValue {
             hasChanges || (initialMasterState != isChecked)
         }
 
-        hasStateChanges.awareSet(hasChanges)
+        saveButtonViewModel.hasStateChanges.awareSet(hasChanges)
     }
 }

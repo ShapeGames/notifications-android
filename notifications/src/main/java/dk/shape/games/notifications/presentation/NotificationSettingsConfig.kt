@@ -1,7 +1,7 @@
 package dk.shape.games.notifications.presentation
 
 import androidx.fragment.app.Fragment
-import dk.shape.games.notifications.actions.LegacyNotificationSettingsEventAction
+import dk.shape.games.notifications.actions.NotificationSettingsEventAction
 import dk.shape.games.notifications.actions.NotificationSettingsSubjectAction
 import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
@@ -34,5 +34,5 @@ data class NotificationSettingsConfig(
 
     val onSubjectNotificationTypesClicked: (Fragment, NotificationSettingsSubjectAction, (SubjectNotificationStateData) -> Unit) -> Unit,
 
-    val onEventNotificationTypesClicked: (Fragment, LegacyNotificationSettingsEventAction) -> Unit
+    val onEventNotificationTypesClicked: (Fragment, NotificationSettingsEventAction) -> Unit
 )

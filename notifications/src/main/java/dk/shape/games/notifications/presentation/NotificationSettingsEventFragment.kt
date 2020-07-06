@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenResumed
 import dk.shape.games.notifications.R
+import dk.shape.games.notifications.actions.NotificationSettingsEventAction
 import dk.shape.games.notifications.actions.NotificationSettingsSubjectAction
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.databinding.FragmentNotificationSettingsSubjectBinding
@@ -16,6 +17,8 @@ import dk.shape.games.notifications.presentation.viewmodels.notifications.Notifi
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.toNotificationTypeInfos
 import dk.shape.games.notifications.presentation.viewmodels.settings.NotificationSettingsSubjectViewModel
+import dk.shape.games.notifications.usecases.LegacyEventNotificationsInteractor
+import dk.shape.games.notifications.usecases.LegacyEventNotificationsUseCases
 import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsInteractor
 import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsUseCases
 import dk.shape.games.notifications.utils.ExpandableBottomSheetDialogFragment
@@ -26,22 +29,24 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
+class NotificationSettingsEventFragment : ExpandableBottomSheetDialogFragment(
     paddingTopRes = R.dimen.expandable_sheet_padding_top
 ) {
     object Args :
-        ConfigFragmentArgs<NotificationSettingsSubjectAction, NotificationSettingsSubjectConfig>()
+        ConfigFragmentArgs<NotificationSettingsEventAction, NotificationSettingsEventConfig>()
 
-    private val config: NotificationSettingsSubjectConfig by config()
-    private val action: NotificationSettingsSubjectAction by action()
+    private val config: NotificationSettingsEventConfig by config()
+    private val action: NotificationSettingsEventAction by action()
 
-    private val notificationsInteractor: SubjectSettingsNotificationsUseCases by lazy {
-        SubjectSettingsNotificationsInteractor(
+    private val legacyNotificationsInteractor: LegacyEventNotificationsUseCases by lazy {
+        LegacyEventNotificationsInteractor(
             config.notificationsDataSource
         )
     }
 
-    private val notificationViewModel: SubjectNotificationViewModel by lazy {
+    private lateinit var notificationViewModel: SubjectNotificationViewModel
+
+    /*private val notificationViewModel: SubjectNotificationViewModel by lazy {
         SubjectNotificationViewModel(
             subjectId = action.subjectId,
             subjectType = action.subjectType,
@@ -82,7 +87,7 @@ class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
             )
             activeNotificationState.awareSet(isActivated)
         }
-    }
+    }*/
 
     private val notificationSubjectViewModel: NotificationSettingsSubjectViewModel by lazy {
         NotificationSettingsSubjectViewModel(

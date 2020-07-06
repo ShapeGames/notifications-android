@@ -41,8 +41,7 @@ class NotificationSettingsFragment : Fragment() {
 
     private val legacyNotificationsInteractor: LegacyEventNotificationsUseCases by lazy {
         LegacyEventNotificationsInteractor(
-            config.legacyNotificationsComponent,
-            config.provideEvents
+            config.legacyNotificationsComponent
         )
     }
 
@@ -146,7 +145,8 @@ class NotificationSettingsFragment : Fragment() {
             appConfig = appConfig,
             onSaveEventIds = { subscribedEventIds ->
                 savedEventIds = subscribedEventIds
-            }
+            },
+            provideEvents = config.provideEvents
         ).map { loadedSubscription ->
             loadedSubscription.toNotificationsSettingsEventViewModel(
                 onEventNotificationTypesClicked = { action ->

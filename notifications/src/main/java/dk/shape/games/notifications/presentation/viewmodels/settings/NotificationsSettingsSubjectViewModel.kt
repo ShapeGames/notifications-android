@@ -88,7 +88,7 @@ data class NotificationsSettingsSubjectViewModel(
     }
 
     fun update(stateData: SubjectNotificationStateData) {
-        activeNotifications = stateData.notificationTypeIdentifiers.toNotificationTypes(
+        activeNotifications = stateData.notificationTypeIds.toNotificationTypes(
             notificationGroupTypes = notificationGroup.notificationTypes
         )
     }

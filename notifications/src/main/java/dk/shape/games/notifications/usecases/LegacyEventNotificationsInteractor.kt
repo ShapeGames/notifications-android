@@ -9,14 +9,14 @@ import dk.shape.games.sportsbook.offerings.modules.notification.NotificationsCom
 import dk.shape.games.sportsbook.offerings.modules.notification.Subscription
 
 data class LegacyEventNotificationsInteractor(
-    private val notificationComponent: NotificationsComponentInterface,
-    private val provideEvents: suspend (eventIds: List<String>) -> List<Event>
+    private val notificationComponent: NotificationsComponentInterface
 ) : LegacyEventNotificationsUseCases {
 
     override suspend fun loadAllSubscriptions(
         eventIds: List<String>?,
         appConfig: AppConfig,
-        onSaveEventIds: (List<String>) -> Unit
+        onSaveEventIds: (List<String>) -> Unit,
+        provideEvents: suspend (eventIds: List<String>) -> List<Event>
     ): List<LoadedLegacySubscription> {
         val subscriptions = getAllSubscriptions()
         val subscribedEventIds = eventIds ?: subscriptions.map { it.eventId }

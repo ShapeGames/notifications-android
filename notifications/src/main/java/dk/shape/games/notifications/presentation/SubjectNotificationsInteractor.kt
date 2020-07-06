@@ -91,7 +91,7 @@ class SubjectNotificationsInteractor(
         }
 
         try {
-            val notificationTypeIds = stateData.notificationTypeIdentifiers.map {
+            val notificationTypeIds = stateData.notificationTypeIds.map {
                 it.name.toLowerCase(Locale.ROOT)
             }.toSet()
 
@@ -103,7 +103,7 @@ class SubjectNotificationsInteractor(
             )
 
             withContext(Dispatchers.Main) {
-                if (stateData.notificationTypeIdentifiers.isNotEmpty()) {
+                if (stateData.notificationTypeIds.isNotEmpty()) {
                     if (notificationsEventHandler is SubjectNotificationsEventHandler.Full) {
                         notificationsEventHandler.onNotificationsActivated(
                             subjectId = stateData.subjectId,

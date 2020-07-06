@@ -6,5 +6,5 @@ import dk.shape.games.notifications.entities.SubjectType
 data class SubjectNotificationStateData(
     val subjectId: String,
     val subjectType: SubjectType,
-    val notificationTypeIdentifiers: List<SubjectNotificationIdentifier>
+    val notificationTypeIds: List<SubjectNotificationIdentifier>
 )
