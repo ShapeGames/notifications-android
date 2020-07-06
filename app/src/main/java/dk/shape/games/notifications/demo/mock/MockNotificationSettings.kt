@@ -2,6 +2,7 @@ package dk.shape.games.notifications.demo.mock
 
 import dk.shape.componentkit2.Promise
 import dk.shape.danskespil.foundation.entities.PolyIcon
+import dk.shape.games.notifications.actions.NotificationSettingsEventAction
 import dk.shape.games.notifications.actions.NotificationSettingsSubjectAction
 import dk.shape.games.notifications.aliases.Notifications
 import dk.shape.games.notifications.entities.SubjectType
@@ -23,6 +24,8 @@ typealias SubjectSubscription = dk.shape.games.notifications.entities.Subscripti
 typealias SubjectNotificationType = AppConfig.SubjectNotificationGroup.SubjectNotificationType
 typealias SubjectNotificationIdentifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier
 
+internal typealias LegacyNotificationType = AppConfig.Notifications.NotificationGroup.NotificationType
+
 val mockLegacySubscriptions: MutableList<Subscription> = mutableListOf(
     Subscription(
         eventId = "event:1234",
@@ -43,7 +46,7 @@ val mockSubjectSubscriptions: Set<SubjectSubscription> = listOf(
     SubjectSubscription(
         subjectId = "subject:1235",
         subjectType = SubjectType.TEAMS,
-        types = listOf("event_start", "event_end","lineup_ready").toSet()
+        types = listOf("event_start", "event_end", "lineup_ready").toSet()
     )
 ).toSet()
 
@@ -107,6 +110,61 @@ val mockNotificationSettingsSubjectAction = NotificationSettingsSubjectAction(
     subjectType = SubjectType.TEAMS,
     possibleNotifications = mockPossibleNotifications,
     initialActiveNotifications = mockInitialActiveNotifications
+)
+
+val mockEventInfo = NotificationSettingsEventAction.EventInfo(
+    homeName = "manchester",
+    awayName = "liverpool",
+    level2Name = "england",
+    level3Name = "premier league",
+    sportIconName = "icon-category-football",
+    startDate = Date()
+)
+
+val mockPossibleLegacyNotifications: List<LegacyNotificationType> = listOf(
+    LegacyNotificationType(
+        identifier = "event_start",
+        name = "Event starts"
+    ),
+    LegacyNotificationType(
+        identifier = "event_end",
+        name = "Event ends"
+    ),
+    LegacyNotificationType(
+        identifier = "yellow_card",
+        name = "Yellow card"
+    ),
+    LegacyNotificationType(
+        identifier = "red_card",
+        name = "red card"
+    ),
+    LegacyNotificationType(
+        identifier = "corner",
+        name = "Corner"
+    ),
+    LegacyNotificationType(
+        identifier = "replacement",
+        name = "Replacement"
+    ),
+    LegacyNotificationType(
+        identifier = "penalty",
+        name = "Penalty"
+    ),
+    LegacyNotificationType(
+        identifier = "extra_time",
+        name = "Extra time"
+    )
+)
+
+val mockInitialLegacyEventNotificationIds: Set<String> = setOf(
+    "yellow_card", "event_start", "event_end"
+)
+
+val mockNotificationSettingsEventAction = NotificationSettingsEventAction(
+    eventId = "event:1234",
+    eventInfo = mockEventInfo,
+    possibleNotifications = mockPossibleLegacyNotifications,
+    initialActiveNotificationIds = mockInitialLegacyEventNotificationIds
 )
 
 val mockSubjectInfos = listOf(

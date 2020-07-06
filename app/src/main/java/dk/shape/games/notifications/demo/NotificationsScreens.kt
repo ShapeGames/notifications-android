@@ -6,8 +6,10 @@ import dk.shape.games.notifications.actions.NotificationSettingsAction
 import dk.shape.games.notifications.demo.dependency.*
 import dk.shape.games.notifications.demo.mock.SubjectNotificationsAction
 import dk.shape.games.notifications.demo.mock.MockSubjectNotificationsParentFragment
+import dk.shape.games.notifications.demo.mock.mockNotificationSettingsEventAction
 import dk.shape.games.notifications.demo.mock.mockNotificationSettingsSubjectAction
 import dk.shape.games.notifications.features.list.EventNotificationsFragment
+import dk.shape.games.notifications.presentation.NotificationSettingsEventFragment
 import dk.shape.games.notifications.presentation.NotificationSettingsFragment
 import dk.shape.games.notifications.presentation.NotificationSettingsSubjectFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -71,6 +73,17 @@ object NotificationsScreens {
                     arguments = NotificationSettingsSubjectFragment.Args.create(
                         mockNotificationSettingsSubjectAction,
                         MockNotificationSettingsSubjectDependencyProvider::class.java
+                    )
+                }
+            }
+        ),
+        DemoScreen(
+            name = "Notification Settings Event",
+            fragmentProvider = {
+                NotificationSettingsEventFragment().apply {
+                    arguments = NotificationSettingsEventFragment.Args.create(
+                        mockNotificationSettingsEventAction,
+                        MockNotificationSettingsEventDependencyProvider::class.java
                     )
                 }
             }
