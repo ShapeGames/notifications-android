@@ -4,7 +4,7 @@ import dk.shape.games.notifications.presentation.SubjectNotificationStateData
 
 internal typealias PreferencesSaveAction = (stateData: SubjectNotificationStateData, onSuccess: () -> Unit, onFailure: () -> Unit) -> Unit
 
-internal typealias NotificationTypeSelected = (isSelected: Boolean) -> Unit
+internal typealias SelectionStateNotifier = (isSelected: Boolean, identifier: SubjectNotificationIdentifier) -> Unit
 
 internal typealias NotificationsLoadedListener = (
     activatedTypes: Set<SubjectNotificationType>,
