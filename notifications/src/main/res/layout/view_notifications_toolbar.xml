@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.presentation.viewmodels.settings.NotificationsToolbarViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        tools:background="@color/grey_999">
+
+        <FrameLayout
+            style="?attr/Notifications.Settings.Toolbar.Container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.hasTransparentBackground ? View.GONE : View.VISIBLE}"
+            tools:background="@color/blue_500"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/notification_toolbar_background"
+            android:elevation="3dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                style="?attr/Notifications.Settings.Toolbar.Icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:onClick="@{viewModel.backListener}"
+                android:padding="4dp"
+                android:src="@drawable/ic_close_black"
+                tools:tint="@color/blue_500" />
+
+            <TextView
+                style="?attr/Notifications.Settings.Toolbar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@{viewModel.title}"
+                tools:fontFamily="sans-serif-black"
+                tools:text="Notifikationer"
+                tools:textColor="@color/blue_500"
+                tools:textSize="17sp" />
+
+        </androidx.appcompat.widget.Toolbar>
+    </FrameLayout>
+</layout>

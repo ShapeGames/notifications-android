@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.presentation.viewmodels.settings.NotificationInfoViewModel.Text" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/bellIcon"
+            style="?attr/Notifications.Settings.Info.Icon"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:layout_marginTop="3.5dp"
+            android:src="@drawable/ic_notifications_bell_black"
+            app:layout_constraintBottom_toBottomOf="@id/notificationTypes"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/notificationTypes"
+            app:layout_constraintVertical_bias="0"
+            tools:tint="#252525" />
+
+        <TextView
+            android:id="@+id/notificationTypes"
+            style="?attr/Notifications.Settings.Info.Text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="5dp"
+            android:text="@{viewModel.text}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/bellIcon"
+            tools:text="So end Reals, GaReals, Game s, Ganl, GaReals, Game sdsy S" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -117,20 +117,64 @@
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
 
+    <!-- Notification Settings -->
+    <style name="Notifications.Settings.Toolbar.Container" parent="@style/Widget" />
+
+    <style name="Notifications.Settings.Toolbar.Icon" parent="@style/Widget" />
+
+    <style name="Notifications.Settings.Toolbar.Title" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">17sp</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="Notifications.Settings.Entry.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">6dp</item>
+        <item name="cardElevation">6dp</item>
+        <item name="android:layout_marginHorizontal">8dp</item>
+        <item name="android:layout_marginVertical">4dp</item>
+        <item name="android:minHeight">80dp</item>
+        <item name="android:outlineSpotShadowColor">@color/grey_999_alpha_75</item>
+    </style>
+
+    <style name="Notifications.Settings.Entry.Container" parent="@style/Widget" >
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingHorizontal">13dp</item>
+        <item name="android:paddingTop">5dp</item>
+    </style>
+
+    <style name="Notifications.Settings.Entry.Name" parent="Widget.AppCompat.TextView" >
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Notifications.Settings.Entry.Settings" parent="@style/Widget" />
+
+    <style name="Notifications.Settings.Info.Text" parent="Widget.AppCompat.TextView" >
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+    </style>
+
+    <style name="Notifications.Settings.Info.Icon" parent="@style/Widget" />
+
+    <style name="Notifications.Settings.Empty.Icon" parent="@style/Widget" />
+
+    <style name="Notifications.Settings.Empty.Title" parent="Widget.AppCompat.TextView" >
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Notifications.Settings.Empty.Description" parent="Widget.AppCompat.TextView" >
+        <item name="android:gravity">center</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:paddingHorizontal">60dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <!-- BottomSheet Subject Notifications -->
-
-    <style name="Notifications.Subjects.Screen.Toolbar" parent="@style/Widget">
-        <item name="elevation">3dp</item>
-        <item name="backgroundColor">@color/background_white</item>
-    </style>
-
-    <style name="Notifications.Subjects.Screen.Toolbar.Navigation" parent="@style/Widget" />
-
-    <style name="Notifications.Subjects.Screen.Toolbar.Title" parent="Widget.AppCompat.TextView">
-        <item name="android:textSize">20sp</item>
-        <item name="android:lineSpacingExtra">-2.7sp</item>
-    </style>
-
     <style name="Notifications.Subjects.Screen.Background" parent="@style/Widget" />
 
     <style name="Notifications.Subjects.Screen.Subject.Name" parent="Widget.AppCompat.TextView" />

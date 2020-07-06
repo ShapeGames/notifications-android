@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.presentation.viewmodels.settings.NotificationsSettingsEventViewModel" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        style="@style/Notifications.Settings.Entry.Card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/Notifications.Settings.Entry.Container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/homeTeam"
+                style="?attr/Notifications.Settings.Entry.Name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:text="@{viewModel.homeTeam}"
+                app:layout_constraintBottom_toTopOf="@id/awayTeam"
+                app:layout_constraintEnd_toStartOf="@id/switchButton"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Team 1 Team 1 Tm 1 Team 1 Team 1 Team 1" />
+
+            <TextView
+                android:id="@+id/awayTeam"
+                style="?attr/Notifications.Settings.Entry.Name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:text="@{viewModel.awayTeam}"
+                android:visibility="@{viewModel.awayTeam != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toTopOf="@id/barrier"
+                app:layout_constraintEnd_toStartOf="@id/switchButton"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homeTeam"
+                tools:text="Team 2Team 2Team 2 Team 2Team 2"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchButton"
+                style="?attr/Notifications.Subjects.Screen.Subject.Switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@{viewModel.isSwitchToggled}"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:thumb="@drawable/notifications_switch_thumb"
+                app:layout_constraintBottom_toBottomOf="@id/awayTeam"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/homeTeam"
+                app:onStateChange="@{viewModel.onSwitchStateChanged}"
+                tools:checked="false" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="homeTeam, awayTeam,switchButton" />
+
+            <include
+                android:id="@+id/notificationInfo"
+                layout="@layout/view_notification_info_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop=".5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/settingsButton"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/settingsButton"
+                app:viewModel="@{viewModel.infoTextViewModel}" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/settingsButton"
+                style="?attr/Notifications.Settings.Entry.Settings"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="5dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:onClick="@{viewModel.onSettingsClicked}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier"
+                app:layout_constraintVertical_bias="0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

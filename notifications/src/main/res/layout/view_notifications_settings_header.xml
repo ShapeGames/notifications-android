@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.presentation.viewmodels.settings.NotificationsSettingsHeaderViewModel" />
+    </data>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11sp"
+        android:layout_marginBottom="4dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@{viewModel.title}"
+        android:textAllCaps="true"
+        android:textColor="@color/blue_500"
+        android:textSize="13sp"
+        app:marginTopRes="@{viewModel.marginTopRes}"
+        tools:text="Event notifikationer" />
+</layout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="grey_999_alpha_35">#59000000</color>
+    <color name="grey_999_alpha_50">#80000000</color>
+    <color name="grey_999_alpha_55">#8C000000</color>
+    <color name="grey_999_alpha_62">#99000000</color>
+    <color name="grey_999_alpha_70">#B3000000</color>
+    <color name="grey_999_alpha_75">#C0000000</color>
+    <color name="grey_999_alpha_85">#D9000000</color>
+</resources>

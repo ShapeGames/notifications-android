@@ -1,7 +1,7 @@
 package dk.shape.games.notifications.usecases
 
 import dk.shape.danskespil.module.data.entities.Icon
-import dk.shape.games.notifications.aliases.NotificationType
+import dk.shape.games.notifications.aliases.LegacyNotificationType
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 import java.util.*
 
@@ -20,7 +20,7 @@ internal sealed class EventNotificationTypesState {
 
         companion object {
 
-            fun create(event: Event, notificationTypes: Set<NotificationType>): Content =
+            fun create(event: Event, notificationTypes: Set<LegacyNotificationType>): Content =
                 Content(
                     event.id,
                     if (event.hasHomeAndAway()) event.home else event.name,

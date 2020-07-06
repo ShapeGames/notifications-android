@@ -1,6 +1,6 @@
 package dk.shape.games.notifications.usecases
 
-import dk.shape.games.notifications.aliases.NotificationType
+import dk.shape.games.notifications.aliases.LegacyNotificationType
 import dk.shape.games.notifications.aliases.Notifications
 import dk.shape.games.notifications.repositories.EventNotificationsDataSource
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
@@ -25,7 +25,7 @@ internal class EventNotificationInteractor(
         BroadcastChannel(Channel.CONFLATED)
     override val state: Flow<EventNotificationState> = mutableState.asFlow()
 
-    private var lastKnownNotificationTypes: Set<NotificationType>? = null
+    private var lastKnownNotificationTypes: Set<LegacyNotificationType>? = null
 
     override suspend fun loadNotification() {
         try {

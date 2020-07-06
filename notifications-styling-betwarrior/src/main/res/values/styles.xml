@@ -123,28 +123,12 @@
         <item name="android:fontFamily">@font/barlow_semibold</item>
     </style>
 
+    <!-- Notification Settings -->
+    <style name="Notifications.Settings.Entry.Settings.BetWarrior" parent="@style/Notifications.Settings.Entry.Settings">
+        <item name="android:src">@drawable/ic_notifications_settings_bw</item>
+    </style>
+
     <!-- Subject Notifications BottomSheet -->
-
-    <style name="Notifications.Subjects.Screen.Toolbar.BetWarrior" parent="@style/Notifications.Subjects.Screen.Toolbar">
-        <item name="elevation">3dp</item>
-        <item name="height">44dp</item>
-        <item name="android:background">@drawable/notifications_toolbar_background_bw</item>
-    </style>
-
-    <style name="Notifications.Subjects.Screen.Toolbar.Navigation.BetWarrior" parent="@style/Notifications.Subjects.Screen.Toolbar.Navigation">
-        <item name="tint">#47434c</item>
-    </style>
-
-    <style name="Notifications.Subjects.Screen.Toolbar.Title.BetWarrior" parent="@style/Notifications.Subjects.Screen.Toolbar.Title">
-        <item name="android:textColor">@color/notifications_bw_main_color</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:layout_marginTop">20dp</item>
-        <item name="android:layout_marginBottom">20dp</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:text">Notifications</item>
-        <item name="fontFamily">@font/barlowsemicondensed_extrabold</item>
-    </style>
-
     <style name="Notifications.Subjects.Screen.Background.BetWarrior" parent="@style/Notifications.Subjects.Screen.Background">
         <item name="android:clipChildren">true</item>
         <item name="android:clipToPadding">true</item>

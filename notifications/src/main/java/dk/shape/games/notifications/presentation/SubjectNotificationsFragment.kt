@@ -100,7 +100,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         SubjectNotificationSheetViewModel(
             notificationViewModel = notificationViewModel,
             notificationSwitcherViewModel = viewSwitcherViewModel,
-            onClosedPressed = { dismiss() }
+            onBackPressed = { dismiss() }
         )
     }
 

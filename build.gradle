@@ -10,7 +10,7 @@ buildscript {
     ext.sportsbook_offerings_version = '2.7.5'
     ext.dsfoundation_version = "2.3.0"
     ext.common_styles_version_bw = '1.0.0'
-    ext.common_styles_version_oddset = '1.1.0'
+    ext.common_styles_version_oddset = '1.1.5'
 
     repositories {
         google()

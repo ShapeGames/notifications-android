@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="min_switcher_area">250dp</dimen>
+    <dimen name="notifications_vertical_padding">20dp</dimen>
+    <dimen name="empty_padding">0dp</dimen>
 </resources>

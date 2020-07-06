@@ -64,9 +64,9 @@ class NotificationsRepository(
         deviceId: String,
         subjectId: String
     ): Flow<Boolean> {
-        return getAllSubscriptions(deviceId).map { subscritions ->
-            val subscrition = subscritions.find { it.subjectId == subjectId }
-            subscrition != null && subscrition.types.isNotEmpty()
+        return getAllSubscriptions(deviceId).map { subscriptions ->
+            val subscription = subscriptions.find { it.subjectId == subjectId }
+            subscription != null && subscription.types.isNotEmpty()
         }
     }
 
