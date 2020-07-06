@@ -1,5 +1,6 @@
 package dk.shape.games.notifications.presentation
 
+import dk.shape.games.notifications.presentation.viewmodels.state.StateDataEvent
 import dk.shape.games.sportsbook.offerings.modules.notification.NotificationsComponentInterface
 
 // TODO: add description once API is stable
@@ -15,7 +16,7 @@ data class NotificationSettingsEventConfig(
 
 interface NotificationSettingsEventEventListener {
 
-    val onNotificationTypesChanged: (EventNotificationStateData) -> Unit
+    val onNotificationTypesChanged: (StateDataEvent) -> Unit
 
     val onDismiss: () -> Unit
 }

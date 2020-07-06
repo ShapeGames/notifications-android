@@ -1,9 +1,9 @@
 package dk.shape.games.notifications.presentation.viewmodels.settings
 
-import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationViewModel
+import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationSheetEventViewModel
 
-internal data class NotificationSettingsSubjectViewModel(
-    val notificationViewModel: SubjectNotificationViewModel,
+internal data class NotificationSettingsTypesEventViewModel(
+    val notificationViewModel: NotificationSheetEventViewModel,
     private val onBackPressed: () -> Unit
 ) {
     val toolbarViewModel: NotificationsToolbarViewModel =

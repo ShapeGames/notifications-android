@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import dk.shape.games.notifications.actions.NotificationSettingsEventAction
 import dk.shape.games.notifications.actions.NotificationSettingsSubjectAction
 import dk.shape.games.notifications.entities.Subscription
+import dk.shape.games.notifications.presentation.viewmodels.state.StateDataSubject
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
 import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
@@ -32,7 +33,7 @@ data class NotificationSettingsConfig(
 
     val onBackPressed: () -> Unit,
 
-    val onSubjectNotificationTypesClicked: (Fragment, NotificationSettingsSubjectAction, (SubjectNotificationStateData) -> Unit) -> Unit,
+    val onSubjectNotificationTypesClicked: (Fragment, NotificationSettingsSubjectAction, (StateDataSubject) -> Unit) -> Unit,
 
     val onEventNotificationTypesClicked: (Fragment, NotificationSettingsEventAction) -> Unit
 )

@@ -8,19 +8,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenResumed
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.NotificationSettingsEventAction
-import dk.shape.games.notifications.actions.NotificationSettingsSubjectAction
 import dk.shape.games.notifications.bindings.awareSet
-import dk.shape.games.notifications.databinding.FragmentNotificationSettingsSubjectBinding
-import dk.shape.games.notifications.extensions.toIds
-import dk.shape.games.notifications.extensions.toTypeIds
+import dk.shape.games.notifications.databinding.FragmentNotificationSettingsEventBinding
+import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationSheetEventViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel
-import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.toNotificationTypeInfos
-import dk.shape.games.notifications.presentation.viewmodels.settings.NotificationSettingsSubjectViewModel
+import dk.shape.games.notifications.presentation.viewmodels.settings.NotificationSettingsTypesEventViewModel
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsInteractor
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsUseCases
-import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsInteractor
-import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsUseCases
 import dk.shape.games.notifications.utils.ExpandableBottomSheetDialogFragment
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
@@ -44,23 +39,18 @@ class NotificationSettingsEventFragment : ExpandableBottomSheetDialogFragment(
         )
     }
 
-    private lateinit var notificationViewModel: SubjectNotificationViewModel
-
-    /*private val notificationViewModel: SubjectNotificationViewModel by lazy {
-        SubjectNotificationViewModel(
-            subjectId = action.subjectId,
-            subjectType = action.subjectType,
-            subjectName = action.subjectName,
+    private val notificationViewModel: NotificationSheetEventViewModel by lazy {
+        NotificationSheetEventViewModel(
+            eventId = action.eventId,
+            eventInfo = action.eventInfo,
             onClosedPressed = { dismiss() },
             onPreferencesSaved = { stateData, onSuccess, onFailure ->
                 lifecycleScope.launch {
                     whenResumed {
                         withContext(Dispatchers.IO) {
-                            notificationsInteractor.updateNotifications(
-                                deviceId = config.provideDeviceId(),
-                                subjectId = stateData.subjectId,
-                                subjectType = stateData.subjectType,
-                                notificationTypeIds = stateData.notificationTypeIds.toSet(),
+                            legacyNotificationsInteractor.updateNotifications(
+                                eventId = stateData.eventId,
+                                notificationTypeIds = stateData.notificationTypeIds,
                                 onSuccess = {
                                     config.eventListener.onNotificationTypesChanged(stateData)
                                     onSuccess()
@@ -72,25 +62,25 @@ class NotificationSettingsEventFragment : ExpandableBottomSheetDialogFragment(
                 }
             }
         ).apply {
-            val isActivated = action.initialActiveNotifications.isNotEmpty()
-            val initialNotificationIds = action.initialActiveNotifications.toIds()
+            val isActivated = action.initialActiveNotificationIds.isNotEmpty()
+            val initialNotificationIds = action.initialActiveNotificationIds
 
             notificationTypesCollection.set(
                 NotificationTypeCollectionViewModel(
-                    defaultTypeIds = initialNotificationIds.toTypeIds(),
-                    selectedTypeIds = initialNotificationIds.toTypeIds(),
-                    activatedTypeIds = initialNotificationIds.toTypeIds(),
+                    defaultTypeIds = initialNotificationIds,
+                    selectedTypeIds = initialNotificationIds,
+                    activatedTypeIds = initialNotificationIds,
                     possibleTypeInfos = action.possibleNotifications.toNotificationTypeInfos(),
                     selectionNotifier = notifySelection,
                     initialMasterState = isActivated
                 )
             )
-            activeNotificationState.awareSet(isActivated)
+            headerViewModel.activeNotificationState.awareSet(isActivated)
         }
-    }*/
+    }
 
-    private val notificationSubjectViewModel: NotificationSettingsSubjectViewModel by lazy {
-        NotificationSettingsSubjectViewModel(
+    private val notificationEventViewModel: NotificationSettingsTypesEventViewModel by lazy {
+        NotificationSettingsTypesEventViewModel(
             notificationViewModel = notificationViewModel,
             onBackPressed = {
                 dismiss()
@@ -102,10 +92,10 @@ class NotificationSettingsEventFragment : ExpandableBottomSheetDialogFragment(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentNotificationSettingsSubjectBinding
+    ) = FragmentNotificationSettingsEventBinding
         .inflate(layoutInflater)
         .apply {
-            viewModel = notificationSubjectViewModel
+            viewModel = notificationEventViewModel
         }.root
 
     override fun onDismiss(dialog: DialogInterface) {

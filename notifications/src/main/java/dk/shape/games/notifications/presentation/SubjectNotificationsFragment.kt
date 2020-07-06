@@ -22,7 +22,7 @@ import dk.shape.games.notifications.presentation.viewmodels.notifications.*
 import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSheetViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSwitcherViewModel
-import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationViewModel
+import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationSheetSubjectViewModel
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
@@ -59,7 +59,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             })
     }
 
-    private fun getInitialSubjectViewModel(): SubjectNotificationViewModel? =
+    private fun getInitialSubjectViewModel(): NotificationSheetSubjectViewModel? =
         config.provideNotificationsNow()?.find {
             it.sportId == action.sportId
         }?.notificationTypes?.let { notificationTypesForSport ->
@@ -78,8 +78,8 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             }
         }
 
-    private val notificationViewModel: SubjectNotificationViewModel by lazy {
-        SubjectNotificationViewModel(
+    private val notificationViewModel: NotificationSheetSubjectViewModel by lazy {
+        NotificationSheetSubjectViewModel(
             subjectId = action.subjectId,
             subjectType = action.subjectType,
             subjectName = action.subjectName,

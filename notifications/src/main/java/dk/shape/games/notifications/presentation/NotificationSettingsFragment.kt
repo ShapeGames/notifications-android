@@ -159,6 +159,7 @@ class NotificationSettingsFragment : Fragment() {
                     legacyNotificationsInteractor.updateNotifications(
                         eventId = loadedSubscription.event.id,
                         notificationTypeIds = notificationIds,
+                        onSuccess = {},
                         onError = onError
                     )
                 }

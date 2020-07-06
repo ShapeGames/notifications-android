@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="dk.shape.games.notifications.presentation.viewmodels.settings.NotificationSettingsTypesSubjectViewModel" />
+            type="dk.shape.games.notifications.presentation.viewmodels.settings.NotificationSettingsTypesEventViewModel" />
     </data>
 
     <LinearLayout
@@ -28,7 +28,7 @@
             android:layout_height="match_parent">
 
             <include
-                layout="@layout/view_notification_sheet_subject"
+                layout="@layout/view_notification_sheet_event"
                 app:viewModel="@{viewModel.notificationViewModel}" />
 
             <View

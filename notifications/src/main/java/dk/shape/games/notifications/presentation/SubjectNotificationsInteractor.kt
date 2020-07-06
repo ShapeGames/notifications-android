@@ -4,6 +4,7 @@ import dk.shape.games.notifications.actions.SubjectNotificationsAction
 import dk.shape.games.notifications.aliases.NotificationsLoadedListener
 import dk.shape.games.notifications.aliases.SubjectNotificationGroup
 import dk.shape.games.notifications.entities.Subscription
+import dk.shape.games.notifications.presentation.viewmodels.state.StateDataSubject
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import kotlinx.coroutines.Dispatchers
@@ -82,7 +83,7 @@ class SubjectNotificationsInteractor(
     }
 
     override suspend fun saveNotificationPreferences(
-        stateData: SubjectNotificationStateData,
+        stateData: StateDataSubject,
         onSuccess: () -> Unit,
         onFailure: (error: Throwable) -> Unit
     ) {

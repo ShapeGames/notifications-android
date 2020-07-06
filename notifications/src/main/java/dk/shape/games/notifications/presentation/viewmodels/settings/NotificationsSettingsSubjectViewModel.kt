@@ -11,7 +11,7 @@ import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.extensions.toActiveNotificationTypes
 import dk.shape.games.notifications.extensions.toDefaultNotificationTypes
 import dk.shape.games.notifications.extensions.toNotificationTypes
-import dk.shape.games.notifications.presentation.SubjectNotificationStateData
+import dk.shape.games.notifications.presentation.viewmodels.state.StateDataSubject
 import dk.shape.games.notifications.usecases.LoadedSubscription
 import kotlin.time.ExperimentalTime
 
@@ -87,7 +87,7 @@ data class NotificationsSettingsSubjectViewModel(
         }
     }
 
-    fun update(stateData: SubjectNotificationStateData) {
+    fun update(stateData: StateDataSubject) {
         activeNotifications = stateData.notificationTypeIds.toNotificationTypes(
             notificationGroupTypes = notificationGroup.notificationTypes
         )

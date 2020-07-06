@@ -19,6 +19,7 @@ interface LegacyEventNotificationsUseCases {
     fun updateNotifications(
         eventId: String,
         notificationTypeIds: Set<String>,
+        onSuccess: () -> Unit,
         onError: () -> Unit
     )
 }

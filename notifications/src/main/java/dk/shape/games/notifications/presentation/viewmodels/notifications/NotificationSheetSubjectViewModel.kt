@@ -1,21 +1,21 @@
 package dk.shape.games.notifications.presentation.viewmodels.notifications
 
 import androidx.databinding.ObservableField
-import dk.shape.games.notifications.aliases.PreferencesSaveAction
+import dk.shape.games.notifications.aliases.PreferenceSaveSubject
 import dk.shape.games.notifications.aliases.SubjectNotificationIdentifier
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.requireValue
 import dk.shape.games.notifications.bindings.value
 import dk.shape.games.notifications.entities.SubjectType
-import dk.shape.games.notifications.presentation.SubjectNotificationStateData
+import dk.shape.games.notifications.presentation.viewmodels.state.StateDataSubject
 import dk.shape.games.notifications.utils.enumValueOrNull
 
-internal data class SubjectNotificationViewModel(
+internal data class NotificationSheetSubjectViewModel(
     private val subjectId: String,
-    val subjectName: String,
+    private val subjectName: String,
     private val subjectType: SubjectType,
     private val onClosedPressed: () -> Unit,
-    private val onPreferencesSaved: PreferencesSaveAction
+    private val onPreferencesSaved: PreferenceSaveSubject
 ) {
     val saveButtonViewModel: NotificationSaveButtonViewModel =
         NotificationSaveButtonViewModel { onSaving, onError ->
@@ -24,19 +24,20 @@ internal data class SubjectNotificationViewModel(
             }
 
             if (hasChanges) {
-                val stateData = SubjectNotificationStateData(
-                    subjectId = subjectId,
-                    subjectType = subjectType,
-                    notificationTypeIds = notificationTypesCollection.value {
-                        notificationTypeItems.value {
-                            filter { viewModel ->
-                                viewModel.isActivated.get()
-                            }.mapNotNull { viewModel ->
-                                enumValueOrNull<SubjectNotificationIdentifier>(viewModel.typeId)
+                val stateData =
+                    StateDataSubject(
+                        subjectId = subjectId,
+                        subjectType = subjectType,
+                        notificationTypeIds = notificationTypesCollection.value {
+                            notificationTypeItems.value {
+                                filter { viewModel ->
+                                    viewModel.isActivated.get()
+                                }.mapNotNull { viewModel ->
+                                    enumValueOrNull<SubjectNotificationIdentifier>(viewModel.typeId)
+                                }
                             }
-                        }
-                    }.orEmpty()
-                )
+                        }.orEmpty()
+                    )
 
                 onSaving()
                 notificationTypesCollection.value { allowItemInput(allowInput = false) }

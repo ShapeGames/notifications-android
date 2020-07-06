@@ -13,9 +13,9 @@ import dk.shape.games.notifications.databinding.FragmentNotificationSettingsSubj
 import dk.shape.games.notifications.extensions.toIds
 import dk.shape.games.notifications.extensions.toTypeIds
 import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel
-import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationViewModel
+import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationSheetSubjectViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.toNotificationTypeInfos
-import dk.shape.games.notifications.presentation.viewmodels.settings.NotificationSettingsSubjectViewModel
+import dk.shape.games.notifications.presentation.viewmodels.settings.NotificationSettingsTypesSubjectViewModel
 import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsInteractor
 import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsUseCases
 import dk.shape.games.notifications.utils.ExpandableBottomSheetDialogFragment
@@ -41,8 +41,8 @@ class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
         )
     }
 
-    private val notificationViewModel: SubjectNotificationViewModel by lazy {
-        SubjectNotificationViewModel(
+    private val notificationViewModel: NotificationSheetSubjectViewModel by lazy {
+        NotificationSheetSubjectViewModel(
             subjectId = action.subjectId,
             subjectType = action.subjectType,
             subjectName = action.subjectName,
@@ -84,8 +84,8 @@ class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
         }
     }
 
-    private val notificationSubjectViewModel: NotificationSettingsSubjectViewModel by lazy {
-        NotificationSettingsSubjectViewModel(
+    private val notificationSubjectViewModel: NotificationSettingsTypesSubjectViewModel by lazy {
+        NotificationSettingsTypesSubjectViewModel(
             notificationViewModel = notificationViewModel,
             onBackPressed = {
                 dismiss()

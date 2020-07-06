@@ -3,6 +3,7 @@ package dk.shape.games.notifications.demo.dependency
 import androidx.fragment.app.Fragment
 import dk.shape.games.notifications.demo.mock.*
 import dk.shape.games.notifications.presentation.*
+import dk.shape.games.notifications.presentation.viewmodels.state.StateDataSubject
 import dk.shape.games.toolbox_library.configinjection.ConfigProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -15,7 +16,7 @@ class MockNotificationSettingsDependencyProvider : ConfigProvider<NotificationSe
         mockNotificationSettingsConfig
 }
 
-var savedNotificationListener: (SubjectNotificationStateData) -> Unit = {}
+var savedNotificationListener: (StateDataSubject) -> Unit = {}
 
 @ExperimentalCoroutinesApi
 @ExperimentalTime
@@ -65,7 +66,7 @@ class MockNotificationSettingsSubjectDependencyProvider :
                 "device:1234"
             },
             eventListener = object : NotificationSettingsSubjectEventListener {
-                override val onNotificationTypesChanged: (SubjectNotificationStateData) -> Unit =
+                override val onNotificationTypesChanged: (StateDataSubject) -> Unit =
                     savedNotificationListener
 
                 override val onDismiss: () -> Unit = {

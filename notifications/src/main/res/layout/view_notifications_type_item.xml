@@ -10,6 +10,8 @@
             type="dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeViewModel" />
 
         <import type="android.graphics.Typeface" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,10 +32,12 @@
             android:layout_gravity="center"
             android:background="@drawable/notifications_icon_background"
             android:src="@{viewModel.icon}"
+            android:visibility="@{viewModel.icon != null ? View.VISIBLE: View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/icon_event_reminder" />
+            tools:srcCompat="@drawable/icon_event_reminder"
+            tools:visibility="gone" />
 
         <dk.shape.viewswitcher.BindingViewSwitcher
             android:id="@+id/notificationsViewSwitcher"

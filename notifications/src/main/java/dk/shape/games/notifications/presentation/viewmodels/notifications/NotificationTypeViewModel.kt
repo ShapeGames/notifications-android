@@ -16,7 +16,7 @@ import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
 
 internal data class NotificationTypeViewModel(
     val name: String,
-    val icon: UIImage,
+    val icon: UIImage?,
     val typeId: String,
     val isLast: Boolean,
     private val isDefault: Boolean,

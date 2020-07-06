@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationSheetEventViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f5f5f5"
+        tools:background="#f5f5f5">
+
+        <include
+            android:id="@+id/header"
+            layout="@layout/view_notification_header_event"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:viewModel="@{viewModel.headerViewModel}" />
+
+        <include
+            android:id="@+id/notificationItems"
+            layout="@layout/view_notifications_type_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header"
+            app:layout_constraintVertical_bias="0"
+            app:viewModel="@{viewModel.notificationTypesCollection}"
+            tools:layout_height="300dp" />
+
+        <include
+            android:id="@+id/button"
+            layout="@layout/view_notification_save_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:viewModel="@{viewModel.saveButtonViewModel}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
