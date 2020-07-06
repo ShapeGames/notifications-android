@@ -11,8 +11,10 @@ import dk.shape.games.notifications.actions.NotificationSettingsSubjectAction
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.databinding.FragmentNotificationSettingsSubjectBinding
 import dk.shape.games.notifications.extensions.toIds
+import dk.shape.games.notifications.extensions.toTypeIds
 import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationViewModel
+import dk.shape.games.notifications.presentation.viewmodels.notifications.toNotificationTypeInfos
 import dk.shape.games.notifications.presentation.viewmodels.settings.NotificationSettingsSubjectViewModel
 import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsInteractor
 import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsUseCases
@@ -69,10 +71,10 @@ class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
 
             notificationTypesCollection.set(
                 NotificationTypeCollectionViewModel(
-                    defaultIdentifiers = initialNotificationIds,
-                    selectedIdentifiers = initialNotificationIds,
-                    activatedIdentifiers = initialNotificationIds,
-                    possibleTypes = action.possibleNotifications,
+                    defaultTypeIds = initialNotificationIds.toTypeIds(),
+                    selectedTypeIds = initialNotificationIds.toTypeIds(),
+                    activatedTypeIds = initialNotificationIds.toTypeIds(),
+                    possibleTypeInfos = action.possibleNotifications.toNotificationTypeInfos(),
                     selectionNotifier = notifySelection,
                     initialMasterState = isActivated
                 )

@@ -17,9 +17,11 @@ import dk.shape.games.notifications.aliases.NotificationsLoadedListener
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.launch
 import dk.shape.games.notifications.databinding.FragmentSubjectNotificationsBinding
+import dk.shape.games.notifications.extensions.toTypeIds
+import dk.shape.games.notifications.presentation.viewmodels.notifications.*
+import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSheetViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSwitcherViewModel
-import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationViewModel
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
@@ -64,10 +66,10 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             notificationViewModel.apply {
                 notificationTypesCollection.set(
                     NotificationTypeCollectionViewModel(
-                        defaultIdentifiers = emptySet(),
-                        selectedIdentifiers = emptySet(),
-                        activatedIdentifiers = emptySet(),
-                        possibleTypes = notificationTypesForSport.toSet(),
+                        defaultTypeIds = emptySet(),
+                        selectedTypeIds = emptySet(),
+                        activatedTypeIds = emptySet(),
+                        possibleTypeInfos = notificationTypesForSport.toSet().toNotificationTypeInfos(),
                         selectionNotifier = notifySelection,
                         initialMasterState = false
                     )
@@ -114,10 +116,10 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             with(notificationViewModel) {
                 notificationTypesCollection.set(
                     NotificationTypeCollectionViewModel(
-                        defaultIdentifiers = initialIdentifiers,
-                        selectedIdentifiers = activeIdentifiers.toSet(),
-                        activatedIdentifiers = activeIdentifiers,
-                        possibleTypes = possibleTypes,
+                        selectedTypeIds = activeIdentifiers.toSet().toTypeIds(),
+                        defaultTypeIds = initialIdentifiers.toTypeIds(),
+                        activatedTypeIds = activeIdentifiers.toTypeIds(),
+                        possibleTypeInfos = possibleTypes.toNotificationTypeInfos(),
                         selectionNotifier = notificationViewModel.notifySelection,
                         initialMasterState = activatedTypes.isNotEmpty()
                     )

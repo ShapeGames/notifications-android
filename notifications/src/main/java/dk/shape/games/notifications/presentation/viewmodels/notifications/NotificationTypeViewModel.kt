@@ -7,10 +7,8 @@ import androidx.databinding.ObservableField
 import dk.shape.danskespil.module.ui.ModuleDiffInterface
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.aliases.OnNotificationTypeSelected
-import dk.shape.games.notifications.aliases.SubjectNotificationType
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.onChange
-import dk.shape.games.notifications.bindings.toLocalUIImage
 import dk.shape.games.uikit.databinding.UIImage
 import me.tatarka.bindingcollectionadapter2.BR
 import me.tatarka.bindingcollectionadapter2.ItemBinding
@@ -86,19 +84,6 @@ internal fun NotificationTypeInfo.toNotificationTypeViewModel(
     isDefault = isDefault,
     isInitialActivated = isInitialActivated,
     onNotificationSelected = onNotificationSelected
-)
-
-
-internal fun SubjectNotificationType.toNotificationTypeInfo() = NotificationTypeInfo(
-    icon = icon.toLocalUIImage(),
-    name = name,
-    typeId = identifier.name
-)
-
-internal data class NotificationTypeInfo(
-    val name: String,
-    val icon: UIImage,
-    val typeId: String
 )
 
 

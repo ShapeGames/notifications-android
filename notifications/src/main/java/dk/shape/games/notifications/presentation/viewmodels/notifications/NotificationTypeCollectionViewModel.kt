@@ -11,7 +11,7 @@ internal data class NotificationTypeCollectionViewModel(
     private var selectedTypeIds: Set<String>,
     private val defaultTypeIds: Set<String>,
     private val activatedTypeIds: Set<String>,
-    private val possibleTypeInfos: Set<NotificationTypeInfo>,
+    private val possibleTypeInfos: List<NotificationTypeInfo>,
     private val selectionNotifier: (hasSelections: Boolean) -> Unit,
     internal val initialMasterState: Boolean
 ) {
