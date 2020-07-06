@@ -55,16 +55,17 @@
             style="?attr/Notifications.Subjects.Type.Switch"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="11dp"
             android:checked="@{viewModel.isActivated}"
             android:clickable="@{viewModel.isEnabled}"
             android:foregroundGravity="center_vertical|right"
-            android:gravity="center_vertical|right"
-            android:layout_marginEnd="11dp"
+            android:gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:onStateChange="@{viewModel.onStateChangeListener}"
-            tools:button="@drawable/notifications_toggle"
+            tools:button="@drawable/vector_toggle_button_background_selected"
             tools:checked="true" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
