@@ -19,7 +19,7 @@ import dk.shape.games.notifications.bindings.launch
 import dk.shape.games.notifications.databinding.FragmentSubjectNotificationsBinding
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSheetViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSwitcherViewModel
-import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationTypeCollectionViewModel
+import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationViewModel
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
@@ -63,7 +63,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         }?.notificationTypes?.let { notificationTypesForSport ->
             notificationViewModel.apply {
                 notificationTypesCollection.set(
-                    SubjectNotificationTypeCollectionViewModel(
+                    NotificationTypeCollectionViewModel(
                         defaultIdentifiers = emptySet(),
                         selectedIdentifiers = emptySet(),
                         activatedIdentifiers = emptySet(),
@@ -113,7 +113,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
 
             with(notificationViewModel) {
                 notificationTypesCollection.set(
-                    SubjectNotificationTypeCollectionViewModel(
+                    NotificationTypeCollectionViewModel(
                         defaultIdentifiers = initialIdentifiers,
                         selectedIdentifiers = activeIdentifiers.toSet(),
                         activatedIdentifiers = activeIdentifiers,

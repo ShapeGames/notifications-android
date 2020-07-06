@@ -50,7 +50,7 @@
 
         <include
             android:id="@+id/notificationItems"
-            layout="@layout/view_subject_notifications_type_container"
+            layout="@layout/view_notifications_type_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"

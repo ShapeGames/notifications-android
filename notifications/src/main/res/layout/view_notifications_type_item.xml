@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationTypeViewModel" />
+            type="dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeViewModel" />
 
         <import type="android.graphics.Typeface" />
     </data>
@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@{viewModel.isLastElement ? @drawable/notification_type_background_no_line : @drawable/notification_type_background}"
+        android:background="@{viewModel.last ? @drawable/notification_type_background_no_line : @drawable/notification_type_background}"
         android:clickable="@{viewModel.isEnabled}"
         android:focusable="true"
         android:minHeight="50dp"

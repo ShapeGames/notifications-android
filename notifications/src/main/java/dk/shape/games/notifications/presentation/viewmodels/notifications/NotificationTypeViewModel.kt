@@ -6,8 +6,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import dk.shape.danskespil.module.ui.ModuleDiffInterface
 import dk.shape.games.notifications.R
-import dk.shape.games.notifications.aliases.SelectionStateNotifier
-import dk.shape.games.notifications.aliases.SubjectNotificationIdentifier
+import dk.shape.games.notifications.aliases.OnNotificationTypeSelected
 import dk.shape.games.notifications.aliases.SubjectNotificationType
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.onChange
@@ -17,22 +16,22 @@ import me.tatarka.bindingcollectionadapter2.BR
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
 
-internal data class SubjectNotificationTypeViewModel(
+internal data class NotificationTypeViewModel(
+    val name: String,
     val icon: UIImage,
-    val identifier: SubjectNotificationIdentifier,
-    val notificationTypeName: String,
-    val isLastElement: Boolean,
+    val typeId: String,
+    val isLast: Boolean,
     private val isDefault: Boolean,
-    private val stateNotifier: SelectionStateNotifier,
-    private val initialState: Boolean
+    private val isInitialActivated: Boolean,
+    private val onNotificationSelected: OnNotificationTypeSelected
 ) : ModuleDiffInterface {
 
     val isEnabled: ObservableBoolean = ObservableBoolean(true)
 
-    val nameItem = ObservableField(initialState.toTypeNameViewModel(notificationTypeName))
+    val nameItem = ObservableField(isInitialActivated.toTypeNameViewModel(name))
 
-    val isActivated: ObservableBoolean = ObservableBoolean(initialState).onChange { value ->
-        nameItem.set(value.toTypeNameViewModel(notificationTypeName))
+    val isActivated: ObservableBoolean = ObservableBoolean(isInitialActivated).onChange { value ->
+        nameItem.set(value.toTypeNameViewModel(name))
     }
 
     val nameItemBinding: ItemBinding<Any> = ItemBinding.of(
@@ -51,14 +50,14 @@ internal data class SubjectNotificationTypeViewModel(
 
     val onStateChangeListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
         isActivated.awareSet(isChecked) {
-            stateNotifier(isChecked, identifier)
+            onNotificationSelected(isChecked)
         }
     }
 
     val onNotificationClicked = View.OnClickListener {
         val newState = !isActivated.get()
         isActivated.awareSet(newState) {
-            stateNotifier(newState, identifier)
+            onNotificationSelected(newState)
         }
     }
 
@@ -70,20 +69,37 @@ internal data class SubjectNotificationTypeViewModel(
     }
 
     override fun compareContentString() = toString()
-    override fun compareString() = identifier.name
+
+    override fun compareString() = typeId
 }
 
-internal fun SubjectNotificationType.toNotificationTypeViewModel(
-    isLastElement: Boolean,
-    selectionStateNotifier: SelectionStateNotifier,
-    activatedIdentifiers: Set<SubjectNotificationIdentifier>,
-    defaultNofification: Set<SubjectNotificationIdentifier>
-) = SubjectNotificationTypeViewModel(
-    icon = icon.toLocalUIImage(),
-    identifier = identifier,
-    isDefault = defaultNofification.contains(identifier),
-    initialState = activatedIdentifiers.contains(this.identifier),
-    stateNotifier = selectionStateNotifier,
-    isLastElement = isLastElement,
-    notificationTypeName = name
+internal fun NotificationTypeInfo.toNotificationTypeViewModel(
+    isLast: Boolean,
+    isDefault: Boolean,
+    isInitialActivated: Boolean,
+    onNotificationSelected: OnNotificationTypeSelected
+) = NotificationTypeViewModel(
+    name = name,
+    icon = icon,
+    typeId = typeId,
+    isLast = isLast,
+    isDefault = isDefault,
+    isInitialActivated = isInitialActivated,
+    onNotificationSelected = onNotificationSelected
 )
+
+
+internal fun SubjectNotificationType.toNotificationTypeInfo() = NotificationTypeInfo(
+    icon = icon.toLocalUIImage(),
+    name = name,
+    typeId = identifier.name
+)
+
+internal data class NotificationTypeInfo(
+    val name: String,
+    val icon: UIImage,
+    val typeId: String
+)
+
+
+

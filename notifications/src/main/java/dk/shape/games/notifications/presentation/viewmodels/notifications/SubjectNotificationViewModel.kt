@@ -5,11 +5,13 @@ import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import dk.shape.games.notifications.aliases.PreferencesSaveAction
+import dk.shape.games.notifications.aliases.SubjectNotificationIdentifier
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.requireValue
 import dk.shape.games.notifications.bindings.value
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.presentation.SubjectNotificationStateData
+import dk.shape.games.notifications.utils.enumValueOrNull
 
 internal data class SubjectNotificationViewModel(
     private val subjectId: String,
@@ -22,7 +24,7 @@ internal data class SubjectNotificationViewModel(
     val isSavingPreferences: ObservableBoolean = ObservableBoolean(false)
     val activeNotificationState: ObservableBoolean = ObservableBoolean(false)
 
-    val notificationTypesCollection: ObservableField<SubjectNotificationTypeCollectionViewModel> =
+    val notificationTypesCollection: ObservableField<NotificationTypeCollectionViewModel> =
         ObservableField()
 
     val stateChangeHandler: (isChecked: Boolean, isMasterTrigger: Boolean) -> Unit =
@@ -60,7 +62,13 @@ internal data class SubjectNotificationViewModel(
                 subjectId = subjectId,
                 subjectType = subjectType,
                 notificationTypeIdentifiers = notificationTypesCollection.value {
-                    notificationTypeItems.value { filter { it.isActivated.get() }.map { it.identifier } }
+                    notificationTypeItems.value {
+                        filter { viewModel ->
+                            viewModel.isActivated.get()
+                        }.mapNotNull { viewModel ->
+                            enumValueOrNull<SubjectNotificationIdentifier>(viewModel.typeId)
+                        }
+                    }
                 }.orEmpty()
             )
 
