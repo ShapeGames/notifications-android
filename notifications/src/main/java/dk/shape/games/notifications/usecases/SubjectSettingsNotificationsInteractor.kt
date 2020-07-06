@@ -1,7 +1,10 @@
 package dk.shape.games.notifications.usecases
 
+import dk.shape.games.notifications.aliases.SubjectNotificationIdentifier
+import dk.shape.games.notifications.aliases.SubjectNotificationType
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.entities.Subscription
+import dk.shape.games.notifications.extensions.toTypeIds
 import dk.shape.games.notifications.presentation.SubjectInfo
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
 import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
@@ -13,13 +16,13 @@ import java.io.IOException
 import java.lang.Exception
 
 data class SubjectSettingsNotificationsInteractor(
-    private val notificationsComponent: SubjectNotificationsDataSource,
-    val provideSubjectInfo: suspend (Set<Subscription>) -> (List<SubjectInfo>)?
+    private val notificationsComponent: SubjectNotificationsDataSource
 ) : SubjectSettingsNotificationsUseCases {
 
     override suspend fun loadAllSubscriptions(
         deviceId: String,
-        appConfig: AppConfig
+        appConfig: AppConfig,
+        provideSubjectInfo: suspend (Set<Subscription>) -> (List<SubjectInfo>)?
     ): List<LoadedSubscription> =
         notificationsComponent.getAllSubscriptions(deviceId).first().let { subscriptions ->
             provideSubjectInfo(subscriptions)?.sortedBy { subjectInfo ->
@@ -50,7 +53,8 @@ data class SubjectSettingsNotificationsInteractor(
         deviceId: String,
         subjectId: String,
         subjectType: SubjectType,
-        notificationTypeIds: Set<String>,
+        notificationTypeIds: Set<SubjectNotificationIdentifier>,
+        onSuccess: () -> Unit,
         onError: () -> Unit
     ) {
         try {
@@ -58,8 +62,11 @@ data class SubjectSettingsNotificationsInteractor(
                 deviceId = deviceId,
                 subjectId = subjectId,
                 subjectType = subjectType,
-                subscribedNotificationTypeIds = notificationTypeIds
+                subscribedNotificationTypeIds = notificationTypeIds.toTypeIds()
             )
+            withContext(Dispatchers.Main) {
+                onSuccess()
+            }
         } catch (e: Exception) {
             if (e is IOException || e is HttpException) {
                 withContext(Dispatchers.Main) {

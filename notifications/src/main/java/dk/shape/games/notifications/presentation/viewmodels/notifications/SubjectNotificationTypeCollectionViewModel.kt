@@ -2,10 +2,8 @@ package dk.shape.games.notifications.presentation.viewmodels.notifications
 
 import androidx.databinding.ObservableField
 import dk.shape.games.notifications.R
-import dk.shape.games.notifications.aliases.SelectionStateNotifier
 import dk.shape.games.notifications.aliases.SubjectNotificationIdentifier
 import dk.shape.games.notifications.aliases.SubjectNotificationType
-import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.value
 import me.tatarka.bindingcollectionadapter2.BR
 import me.tatarka.bindingcollectionadapter2.ItemBinding
@@ -18,25 +16,23 @@ internal data class SubjectNotificationTypeCollectionViewModel(
     private val selectionNotifier: (hasSelections: Boolean) -> Unit,
     internal val initialMasterState: Boolean
 ) {
-    private val stateNotifier: SelectionStateNotifier = { isSelected, identifier ->
-        if (isSelected) {
-            selectedIdentifiers += identifier
-        } else {
-            selectedIdentifiers -= identifier
-        }
-        selectionNotifier(selectedIdentifiers.isNotEmpty())
-    }
-
-    val itemBinding = ItemBinding.of<SubjectNotificationTypeViewModel>(
+    val itemBinding = ItemBinding.of<NotificationTypeViewModel>(
         BR.viewModel,
-        R.layout.view_subject_notifications_type_item
+        R.layout.view_notifications_type_item
     )
 
-    val notificationTypeItems: ObservableField<List<SubjectNotificationTypeViewModel>> =
-        ObservableField(possibleTypes.mapIndexed { index, element ->
-            element.toNotificationTypeViewModel(
-                isLastElement = index == possibleTypes.size - 1,
-                selectionStateNotifier = stateNotifier,
+    val notificationTypeItems: ObservableField<List<NotificationTypeViewModel>> =
+        ObservableField(possibleTypes.mapIndexed { index, notificationType ->
+            notificationType.toNotificationTypeViewModel(
+                isLast = index == possibleTypes.size - 1,
+                onNotificationTypeSelected = { isSelected ->
+                    if (isSelected) {
+                        selectedIdentifiers += notificationType.identifier
+                    } else {
+                        selectedIdentifiers -= notificationType.identifier
+                    }
+                    selectionNotifier(selectedIdentifiers.isNotEmpty())
+                },
                 activatedIdentifiers = activatedIdentifiers,
                 defaultNofification = defaultIdentifiers
             )
@@ -62,7 +58,7 @@ internal data class SubjectNotificationTypeCollectionViewModel(
 
     fun onMasterActive(isActive: Boolean) {
         notificationTypeItems.value {
-            forEach {
+            forEach { viewModel ->
                 if (isActive) {
                     if (defaultIdentifiers.isNotEmpty()) {
                         it.isActivated.awareSet(defaultIdentifiers.contains(it.identifier)) {

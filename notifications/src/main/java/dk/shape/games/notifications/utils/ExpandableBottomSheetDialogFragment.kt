@@ -1,4 +1,4 @@
-package dk.shape.games.notifications.presentation
+package dk.shape.games.notifications.utils
 
 import android.app.Dialog
 import android.content.res.Resources
@@ -10,7 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.games.notifications.R
 
 abstract class ExpandableBottomSheetDialogFragment(
-    private val topOffset: Int = 0
+    private val paddingTopRes: Int = 0
 ) : BottomSheetDialogFragment() {
 
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme
@@ -24,16 +24,16 @@ abstract class ExpandableBottomSheetDialogFragment(
     }
 
     private fun setFullyExpanded() {
-        val bottomSheet = requireView().parent as? ViewGroup?
-        bottomSheet?.let { sheet ->
-            bottomSheet.layoutParams?.let {
-                val windowHeight = Resources.getSystem().displayMetrics.heightPixels - topOffset
-                it.height = windowHeight
-                sheet.layoutParams = it
-                BottomSheetBehavior.from(bottomSheet).apply {
-                    peekHeight = windowHeight
-                    state = BottomSheetBehavior.STATE_EXPANDED
-                }
+        (requireView().parent as? ViewGroup)?.let { bottomSheet ->
+            val windowHeight = Resources.getSystem().displayMetrics.heightPixels -
+                    bottomSheet.resources.getDimensionPixelSize(paddingTopRes)
+
+            bottomSheet.layoutParams?.apply {
+                height = windowHeight
+            }
+            BottomSheetBehavior.from(bottomSheet).apply {
+                peekHeight = windowHeight
+                state = BottomSheetBehavior.STATE_EXPANDED
             }
         }
     }

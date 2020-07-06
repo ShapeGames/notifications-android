@@ -12,6 +12,7 @@ import androidx.lifecycle.whenStarted
 import dk.shape.games.notifications.demo.databinding.FragmentMockNotificationsBinding
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
+import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.Dispatchers
@@ -35,9 +36,9 @@ data class MockData(
 )
 
 @Parcelize
-object SubjectNotificationsAction : Parcelable
+object SubjectNotificationsAction: Parcelable
 
-class SubjectNotificationsFragment : Fragment() {
+class MockSubjectNotificationsParentFragment : Fragment() {
 
     private val mockData = MockData(
         sportId = "football:0000",
@@ -49,6 +50,8 @@ class SubjectNotificationsFragment : Fragment() {
     object Args : ConfigFragmentArgs<SubjectNotificationsAction, MockNotificationsConfig>()
 
     private val config: MockNotificationsConfig by config()
+
+    private val action: SubjectNotificationsAction by action()
 
     private val mockViewModel: MockNotificationsViewModel by lazy {
 

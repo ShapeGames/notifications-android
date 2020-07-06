@@ -1,6 +1,5 @@
 package dk.shape.games.notifications.presentation.viewmodels.settings
 
-import android.view.View
 import androidx.databinding.ObservableField
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.presentation.viewmodels.state.ErrorViewModel
@@ -31,6 +30,9 @@ sealed class NotificationsSettingsSwitcherViewModel {
             R.layout.view_notifications_switcher_content
         )
     )
+
+    private val subjectViewModels: List<NotificationsSettingsSubjectViewModel>?
+        get() = (item.get() as? Content)?.items?.filterIsInstance<NotificationsSettingsSubjectViewModel>()
 
     object Loading : NotificationsSettingsSwitcherViewModel()
     object Empty : NotificationsSettingsSwitcherViewModel()
@@ -79,4 +81,9 @@ sealed class NotificationsSettingsSwitcherViewModel {
     fun setContent(viewModels: List<Any>) {
         item.set(Content(viewModels))
     }
+
+    fun findSubjectViewModel(subjectId: String): NotificationsSettingsSubjectViewModel? =
+        subjectViewModels?.find {
+            it.subscription.subjectId == subjectId
+        }
 }

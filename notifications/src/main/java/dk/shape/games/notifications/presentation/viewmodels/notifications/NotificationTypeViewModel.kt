@@ -6,7 +6,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import dk.shape.danskespil.module.ui.ModuleDiffInterface
 import dk.shape.games.notifications.R
-import dk.shape.games.notifications.aliases.SelectionStateNotifier
+import dk.shape.games.notifications.aliases.NotificationTypeSelected
 import dk.shape.games.notifications.aliases.SubjectNotificationIdentifier
 import dk.shape.games.notifications.aliases.SubjectNotificationType
 import dk.shape.games.notifications.bindings.awareSet
@@ -17,22 +17,22 @@ import me.tatarka.bindingcollectionadapter2.BR
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
 
-internal data class SubjectNotificationTypeViewModel(
+internal data class NotificationTypeViewModel(
+    val name: String,
     val icon: UIImage,
-    val identifier: SubjectNotificationIdentifier,
-    val notificationTypeName: String,
-    val isLastElement: Boolean,
+    val isLast: Boolean,
+    private val typeId: String,
     private val isDefault: Boolean,
-    private val stateNotifier: SelectionStateNotifier,
+    private val onNotificationTypeSelected: NotificationTypeSelected,
     private val initialState: Boolean
 ) : ModuleDiffInterface {
 
     val isEnabled: ObservableBoolean = ObservableBoolean(true)
 
-    val nameItem = ObservableField(initialState.toTypeNameViewModel(notificationTypeName))
+    val nameItem = ObservableField(initialState.toTypeNameViewModel(name))
 
     val isActivated: ObservableBoolean = ObservableBoolean(initialState).onChange { value ->
-        nameItem.set(value.toTypeNameViewModel(notificationTypeName))
+        nameItem.set(value.toTypeNameViewModel(name))
     }
 
     val nameItemBinding: ItemBinding<Any> = ItemBinding.of(
@@ -51,14 +51,14 @@ internal data class SubjectNotificationTypeViewModel(
 
     val onStateChangeListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
         isActivated.awareSet(isChecked) {
-            stateNotifier(isChecked, identifier)
+            onNotificationTypeSelected(isChecked)
         }
     }
 
     val onNotificationClicked = View.OnClickListener {
         val newState = !isActivated.get()
         isActivated.awareSet(newState) {
-            stateNotifier(newState, identifier)
+            onNotificationTypeSelected(newState)
         }
     }
 
@@ -70,20 +70,21 @@ internal data class SubjectNotificationTypeViewModel(
     }
 
     override fun compareContentString() = toString()
-    override fun compareString() = identifier.name
+
+    override fun compareString() = typeId
 }
 
 internal fun SubjectNotificationType.toNotificationTypeViewModel(
-    isLastElement: Boolean,
-    selectionStateNotifier: SelectionStateNotifier,
+    isLast: Boolean,
+    onNotificationTypeSelected: NotificationTypeSelected,
     activatedIdentifiers: Set<SubjectNotificationIdentifier>,
     defaultNofification: Set<SubjectNotificationIdentifier>
-) = SubjectNotificationTypeViewModel(
+) = NotificationTypeViewModel(
+    name = name,
     icon = icon.toLocalUIImage(),
-    identifier = identifier,
+    isLast = isLast,
+    typeId = identifier.name,
     isDefault = defaultNofification.contains(identifier),
     initialState = activatedIdentifiers.contains(this.identifier),
-    stateNotifier = selectionStateNotifier,
-    isLastElement = isLastElement,
-    notificationTypeName = name
+    onNotificationTypeSelected = onNotificationTypeSelected
 )

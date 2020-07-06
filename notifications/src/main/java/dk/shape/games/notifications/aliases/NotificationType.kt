@@ -5,5 +5,6 @@ import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 internal typealias LegacyNotificationGroup = AppConfig.Notifications.NotificationGroup
 internal typealias LegacyNotificationType = AppConfig.Notifications.NotificationGroup.NotificationType
 
+internal typealias SubjectNotificationGroup = AppConfig.SubjectNotificationGroup
 internal typealias SubjectNotificationType = AppConfig.SubjectNotificationGroup.SubjectNotificationType
 internal typealias SubjectNotificationIdentifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier

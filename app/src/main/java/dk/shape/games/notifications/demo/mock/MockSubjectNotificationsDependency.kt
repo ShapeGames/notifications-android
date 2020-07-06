@@ -151,15 +151,14 @@ object SubjectNotificationsRepositoryMock : SubjectNotificationsDataSource {
 fun <T : Fragment> launchBottomSheetNotificationsFragment(
     fragment: T,
     action: SubjectNotificationsAction
-): BottomSheetDialogFragment {
-    return SubjectNotificationsFragment().apply {
+): BottomSheetDialogFragment =
+    SubjectNotificationsFragment().apply {
         arguments = SubjectNotificationsFragment.Args.create(
             action = action,
             configProvider = MockSubjectNotificationsDependencyProvider::class.java
         )
         show(fragment.childFragmentManager, SubjectNotificationsFragment::class.java.simpleName)
     }
-}
 
 @ExperimentalCoroutinesApi
 val mockClientDependencies: MockNotificationsConfig = MockNotificationsConfig(

@@ -4,28 +4,27 @@ import android.view.View
 import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import dk.shape.games.notifications.actions.SubjectNotificationTypesAction
+import dk.shape.games.notifications.actions.NotificationSettingsSubjectAction
 import dk.shape.games.notifications.aliases.SubjectNotificationGroup
 import dk.shape.games.notifications.aliases.SubjectNotificationType
 import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.extensions.toActiveNotificationTypes
 import dk.shape.games.notifications.extensions.toDefaultNotificationTypes
+import dk.shape.games.notifications.extensions.toNotificationTypes
+import dk.shape.games.notifications.presentation.SubjectNotificationStateData
 import dk.shape.games.notifications.usecases.LoadedSubscription
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import kotlin.time.ExperimentalTime
 
-typealias OnSubjectNotificationTypesClicked = (SubjectNotificationTypesAction) -> Unit
+typealias OnSubjectNotificationTypesClicked = (NotificationSettingsSubjectAction) -> Unit
 typealias OnSetSubjectNotifications = (notificationTypes: Set<SubjectNotificationType>, onError: () -> Unit) -> Unit
 
 data class NotificationsSettingsSubjectViewModel(
     val name: String,
-    private val subscription: Subscription,
+    val subscription: Subscription,
     private val notificationGroup: SubjectNotificationGroup,
     private val onSubjectNotificationTypesClicked: OnSubjectNotificationTypesClicked,
     private val onSetNotifications: OnSetSubjectNotifications
 ) {
-    private val subjectId = subscription.subjectId
     private val initialActiveNotifications: Set<SubjectNotificationType> =
         subscription.toActiveNotificationTypes(
             notificationGroup
@@ -66,10 +65,11 @@ data class NotificationsSettingsSubjectViewModel(
 
     val onSettingsClicked = View.OnClickListener {
         onSubjectNotificationTypesClicked(
-            SubjectNotificationTypesAction(
-                name = name,
-                subjectId = subjectId,
-                possibleNotifications = notificationGroup.notificationTypes,
+            NotificationSettingsSubjectAction(
+                subjectName = name,
+                subjectId = subscription.subjectId,
+                subjectType = subscription.subjectType,
+                possibleNotifications = notificationGroup.notificationTypes.toSet(),
                 initialActiveNotifications = activeNotifications
             )
         )
@@ -85,6 +85,12 @@ data class NotificationsSettingsSubjectViewModel(
         onSetNotifications(notificationTypes) {
             activeNotifications = previousNotifications
         }
+    }
+
+    fun update(stateData: SubjectNotificationStateData) {
+        activeNotifications = stateData.notificationTypeIdentifiers.toNotificationTypes(
+            notificationGroupTypes = notificationGroup.notificationTypes
+        )
     }
 }
 
