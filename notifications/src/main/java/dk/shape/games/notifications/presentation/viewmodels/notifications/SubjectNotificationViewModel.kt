@@ -48,10 +48,10 @@ internal data class SubjectNotificationViewModel(
             }
         }
 
-    val headerViewModel: NotificationHeaderViewModel = NotificationHeaderViewModel(
-        subjectName = subjectName,
+    val headerViewModel: NotificationHeaderViewModel.Subject = NotificationHeaderViewModel.Subject(
+        name = subjectName,
         isDisabled = saveButtonViewModel.isSavingPreferences,
-        onMasterSwitchToggled = { isChecked ->
+        onSwitchToggled = { isChecked ->
             notificationTypesCollection.value {
                 resetAll()
                 onMasterActive(isChecked)

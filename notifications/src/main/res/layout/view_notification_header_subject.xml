@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationHeaderViewModel" />
+            type="dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationHeaderViewModel.Subject" />
 
     </data>
 
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
             android:layout_marginTop="24dp"
-            android:text="@{viewModel.subjectName}"
+            android:text="@{viewModel.name}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Manchester City"

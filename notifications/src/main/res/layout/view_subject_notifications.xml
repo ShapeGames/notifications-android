@@ -20,7 +20,7 @@
 
         <include
             android:id="@+id/header"
-            layout="@layout/view_notification_header"
+            layout="@layout/view_notification_header_subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
