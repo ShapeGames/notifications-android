@@ -52,7 +52,7 @@ class NotificationSettingsFragment : Fragment() {
     }
 
     private val switcherViewModel: NotificationsSettingsSwitcherViewModel =
-        NotificationsSettingsSwitcherViewModel.Loading
+        NotificationsSettingsSwitcherViewModel()
 
     private val toolbarViewModel: NotificationsToolbarViewModel by lazy {
         NotificationsToolbarViewModel.Settings(

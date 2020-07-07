@@ -8,27 +8,31 @@ import me.tatarka.bindingcollectionadapter2.BR
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
 
-sealed class NotificationsSettingsSwitcherViewModel {
+class NotificationsSettingsSwitcherViewModel {
     val item: ObservableField<Any> = ObservableField(Loading)
 
     val itemBinding: ItemBinding<Any> = ItemBinding.of(
-        OnItemBindClass<Any>().map(
-            Loading::class.java,
-            BR.viewModel,
-            R.layout.view_notifications_switcher_loading
-        ).map(
-            Empty::class.java,
-            BR.viewModel,
-            R.layout.view_notifications_switcher_empty
-        ).map(
-            Error::class.java,
-            BR.viewModel,
-            R.layout.view_notifications_switcher_error
-        ).map(
-            Content::class.java,
-            BR.viewModel,
-            R.layout.view_notifications_switcher_content
-        )
+        OnItemBindClass<Any>()
+            .map(
+                Loading::class.java,
+                BR.viewModel,
+                R.layout.view_notifications_switcher_loading
+            )
+            .map(
+                Empty::class.java,
+                BR.viewModel,
+                R.layout.view_notifications_switcher_empty
+            )
+            .map(
+                Error::class.java,
+                BR.viewModel,
+                R.layout.view_notifications_switcher_error
+            )
+            .map(
+                Content::class.java,
+                BR.viewModel,
+                R.layout.view_notifications_switcher_content
+            )
     )
 
     private val subjectViewModels: List<NotificationsSettingsSubjectViewModel>?
@@ -37,12 +41,12 @@ sealed class NotificationsSettingsSwitcherViewModel {
     private val eventViewModels: List<NotificationsSettingsEventViewModel>?
         get() = (item.get() as? Content?)?.items?.filterIsInstance<NotificationsSettingsEventViewModel>()
 
-    object Loading : NotificationsSettingsSwitcherViewModel()
-    object Empty : NotificationsSettingsSwitcherViewModel()
+    object Loading
+    object Empty
 
     data class Error(
         private val onRetry: () -> Unit
-    ) : NotificationsSettingsSwitcherViewModel() {
+    ) {
         val errorViewModel = ErrorViewModel(
             description = UIText.Raw.Resource(R.string.error_description),
             onRetryClick = onRetry
@@ -51,7 +55,7 @@ sealed class NotificationsSettingsSwitcherViewModel {
 
     data class Content(
         val items: List<Any>
-    ) : NotificationsSettingsSwitcherViewModel() {
+    ) {
         val itemViews: ItemBinding<Any> = ItemBinding.of(
             OnItemBindClass<Any>().map(
                 NotificationsSettingsHeaderViewModel::class.java,
