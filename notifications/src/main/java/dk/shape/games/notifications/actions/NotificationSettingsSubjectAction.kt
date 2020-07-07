@@ -12,6 +12,6 @@ data class NotificationSettingsSubjectAction(
     val subjectId: String,
     val subjectType: SubjectType,
     val possibleNotifications: Set<SubjectNotificationType>,
-    val initialActiveNotifications: Set<SubjectNotificationType>,
+    val initialActiveNotificationIds: Set<SubjectNotificationIdentifier>,
     val defaultNotificationTypeIds: Set<SubjectNotificationIdentifier>
 ) : Parcelable

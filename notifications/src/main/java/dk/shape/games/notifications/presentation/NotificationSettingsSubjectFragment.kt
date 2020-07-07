@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenResumed
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.NotificationSettingsSubjectAction
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.databinding.FragmentNotificationSettingsSubjectBinding
-import dk.shape.games.notifications.extensions.toIds
 import dk.shape.games.notifications.extensions.toStrings
 import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationSheetSubjectViewModel
@@ -23,7 +21,6 @@ import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
@@ -48,27 +45,26 @@ class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
             subjectName = action.subjectName,
             onClosedPressed = { dismiss() },
             onPreferencesSaved = { stateData, onSuccess, onFailure ->
-                lifecycleScope.launch {
-                    whenResumed {
-                        withContext(Dispatchers.IO) {
-                            notificationsInteractor.updateNotifications(
-                                deviceId = config.provideDeviceId(),
-                                subjectId = stateData.subjectId,
-                                subjectType = stateData.subjectType,
-                                notificationTypeIds = stateData.notificationTypeIds.toSet(),
-                                onSuccess = {
-                                    config.eventListener.onNotificationTypesChanged(stateData)
-                                    onSuccess()
-                                },
-                                onError = onFailure
-                            )
-                        }
+                lifecycleScope.launchWhenResumed {
+
+                    withContext(Dispatchers.IO) {
+                        notificationsInteractor.updateNotifications(
+                            deviceId = config.provideDeviceId(),
+                            subjectId = stateData.subjectId,
+                            subjectType = stateData.subjectType,
+                            notificationTypeIds = stateData.notificationTypeIds.toSet(),
+                            onSuccess = {
+                                config.eventListener.onNotificationTypesChanged(stateData)
+                                onSuccess()
+                            },
+                            onError = onFailure
+                        )
                     }
                 }
             }
         ).apply {
-            val isActivated = action.initialActiveNotifications.isNotEmpty()
-            val initialNotificationIds = action.initialActiveNotifications.toIds()
+            val isActivated = action.initialActiveNotificationIds.isNotEmpty()
+            val initialNotificationIds = action.initialActiveNotificationIds
 
             notificationTypesCollection.set(
                 NotificationTypeCollectionViewModel(

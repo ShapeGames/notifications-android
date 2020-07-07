@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenResumed
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.NotificationSettingsEventAction
 import dk.shape.games.notifications.bindings.awareSet
@@ -21,7 +20,6 @@ import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class NotificationSettingsEventFragment : ExpandableBottomSheetDialogFragment(
@@ -45,19 +43,17 @@ class NotificationSettingsEventFragment : ExpandableBottomSheetDialogFragment(
             eventInfo = action.eventInfo,
             onClosedPressed = { dismiss() },
             onPreferencesSaved = { stateData, onSuccess, onFailure ->
-                lifecycleScope.launch {
-                    whenResumed {
-                        withContext(Dispatchers.IO) {
-                            legacyNotificationsInteractor.updateNotifications(
-                                eventId = stateData.eventId,
-                                notificationTypeIds = stateData.notificationTypeIds,
-                                onSuccess = {
-                                    config.eventListener.onNotificationTypesChanged(stateData)
-                                    onSuccess()
-                                },
-                                onError = onFailure
-                            )
-                        }
+                lifecycleScope.launchWhenResumed {
+                    withContext(Dispatchers.IO) {
+                        legacyNotificationsInteractor.updateNotifications(
+                            eventId = stateData.eventId,
+                            notificationTypeIds = stateData.notificationTypeIds,
+                            onSuccess = {
+                                config.eventListener.onNotificationTypesChanged(stateData)
+                                onSuccess()
+                            },
+                            onError = onFailure
+                        )
                     }
                 }
             }

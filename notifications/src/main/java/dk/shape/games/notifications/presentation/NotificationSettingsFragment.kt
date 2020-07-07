@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenResumed
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.NotificationSettingsAction
 import dk.shape.games.notifications.databinding.FragmentNotificationSettingsBinding
@@ -80,57 +79,55 @@ class NotificationSettingsFragment : Fragment() {
     private fun fetchNotifications(eventIds: List<String>?) {
         switcherViewModel.setLoading()
 
-        lifecycleScope.launch {
-            whenResumed {
-                withContext(Dispatchers.IO) {
-                    try {
-                        val appConfig = config.provideAppConfig()
-                        val deviceId = config.provideDeviceId()
+        lifecycleScope.launchWhenResumed {
+            withContext(Dispatchers.IO) {
+                try {
+                    val appConfig = config.provideAppConfig()
+                    val deviceId = config.provideDeviceId()
 
-                        val eventNotificationViewModels =
-                            getEventNotificationsViewModels(eventIds, appConfig)
+                    val eventNotificationViewModels =
+                        getEventNotificationsViewModels(eventIds, appConfig)
 
-                        val statsNotificationViewModels =
-                            getSubjectNotificationsViewModels(deviceId, appConfig)
+                    val statsNotificationViewModels =
+                        getSubjectNotificationsViewModels(deviceId, appConfig)
 
-                        val hasSectionHeaders =
-                            eventNotificationViewModels.isNotEmpty() && statsNotificationViewModels.isNotEmpty()
+                    val hasSectionHeaders =
+                        eventNotificationViewModels.isNotEmpty() && statsNotificationViewModels.isNotEmpty()
 
-                        val eventHeaderViewModel = listOfNotNull(
-                            if (hasSectionHeaders) {
-                                NotificationsSettingsHeaderViewModel(
-                                    title = UIText.Raw.Resource(R.string.notification_type_event),
-                                    isFirst = true
-                                )
-                            } else null
-                        )
+                    val eventHeaderViewModel = listOfNotNull(
+                        if (hasSectionHeaders) {
+                            NotificationsSettingsHeaderViewModel(
+                                title = UIText.Raw.Resource(R.string.notification_type_event),
+                                isFirst = true
+                            )
+                        } else null
+                    )
 
-                        val statsHeaderViewModel = listOfNotNull(
-                            if (hasSectionHeaders) {
-                                NotificationsSettingsHeaderViewModel(
-                                    title = UIText.Raw.Resource(R.string.notification_type_stats)
-                                )
-                            } else null
-                        )
+                    val statsHeaderViewModel = listOfNotNull(
+                        if (hasSectionHeaders) {
+                            NotificationsSettingsHeaderViewModel(
+                                title = UIText.Raw.Resource(R.string.notification_type_stats)
+                            )
+                        } else null
+                    )
 
-                        val viewModels =
-                            eventHeaderViewModel + eventNotificationViewModels + statsHeaderViewModel + statsNotificationViewModels
+                    val viewModels =
+                        eventHeaderViewModel + eventNotificationViewModels + statsHeaderViewModel + statsNotificationViewModels
 
-                        withContext(Dispatchers.Main) {
-                            if (viewModels.isNotEmpty()) {
-                                switcherViewModel.setContent(viewModels)
-                            } else switcherViewModel.setEmpty()
-                        }
-
-                    } catch (e: Exception) {
-                        if (e is IOException || e is HttpException || e is IllegalArgumentException) {
-                            withContext(Dispatchers.Main) {
-                                switcherViewModel.setError {
-                                    fetchNotifications(savedEventIds)
-                                }
-                            }
-                        } else throw e
+                    withContext(Dispatchers.Main) {
+                        if (viewModels.isNotEmpty()) {
+                            switcherViewModel.setContent(viewModels)
+                        } else switcherViewModel.setEmpty()
                     }
+
+                } catch (e: Exception) {
+                    if (e is IOException || e is HttpException || e is IllegalArgumentException) {
+                        withContext(Dispatchers.Main) {
+                            switcherViewModel.setError {
+                                fetchNotifications(savedEventIds)
+                            }
+                        }
+                    } else throw e
                 }
             }
         }
@@ -191,18 +188,16 @@ class NotificationSettingsFragment : Fragment() {
                     }
                 },
                 onSetNotifications = { notificationTypes, onError ->
-                    lifecycleScope.launch {
-                        whenResumed {
-                            withContext(Dispatchers.IO) {
-                                subjectNotificationsInteractor.updateNotifications(
-                                    deviceId = deviceId,
-                                    subjectId = loadedSubscription.subscription.subjectId,
-                                    subjectType = loadedSubscription.subscription.subjectType,
-                                    notificationTypeIds = notificationTypes.toIds(),
-                                    onSuccess = {},
-                                    onError = onError
-                                )
-                            }
+                    lifecycleScope.launchWhenResumed {
+                        withContext(Dispatchers.IO) {
+                            subjectNotificationsInteractor.updateNotifications(
+                                deviceId = deviceId,
+                                subjectId = loadedSubscription.subscription.subjectId,
+                                subjectType = loadedSubscription.subscription.subjectType,
+                                notificationTypeIds = notificationTypes.toIds(),
+                                onSuccess = {},
+                                onError = onError
+                            )
                         }
                     }
                 }

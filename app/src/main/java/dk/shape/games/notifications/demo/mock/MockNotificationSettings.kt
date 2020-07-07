@@ -268,7 +268,7 @@ val mockNotificationSettingsSubjectAction = NotificationSettingsSubjectAction(
     subjectId = "team:1234",
     subjectType = SubjectType.TEAMS,
     possibleNotifications = mockPossibleNotifications,
-    initialActiveNotifications = mockInitialActiveNotifications,
+    initialActiveNotificationIds = mockInitialActiveNotifications.map { it.identifier }.toSet(),
     defaultNotificationTypeIds = mockTeamSubjectNotificationGroups.first().defaultNotificationTypeIdentifiers.toSet()
 )
 
