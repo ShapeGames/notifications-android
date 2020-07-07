@@ -136,7 +136,7 @@ val mockPossibleLegacyNotifications: List<LegacyNotificationType> = listOf(
     ),
     LegacyNotificationType(
         identifier = "red_card",
-        name = "red card"
+        name = "Red card"
     ),
     LegacyNotificationType(
         identifier = "corner",

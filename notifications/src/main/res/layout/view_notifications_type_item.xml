@@ -26,36 +26,36 @@
         tools:layout_height="50dp">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/notificationTypeIcon"
+            android:id="@+id/icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/notifications_icon_background"
             android:src="@{viewModel.icon}"
-            android:visibility="@{viewModel.icon != null ? View.VISIBLE: View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/icon_event_reminder"
             tools:visibility="gone" />
 
         <dk.shape.viewswitcher.BindingViewSwitcher
-            android:id="@+id/notificationsViewSwitcher"
+            android:id="@+id/name"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="10dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:inAnimation="@anim/switcher_fade_in_anim"
             android:outAnimation="@anim/switcher_fade_out_anim"
             app:item="@{viewModel.nameItem}"
             app:itemBinding="@{viewModel.nameItemBinding}"
-            app:layout_constraintBottom_toBottomOf="@id/notificationTypeIcon"
-            app:layout_constraintEnd_toStartOf="@id/notificationTypeCheckBox"
-            app:layout_constraintStart_toEndOf="@id/notificationTypeIcon"
-            app:layout_constraintTop_toTopOf="@id/notificationTypeIcon" />
+            app:layout_constraintBottom_toBottomOf="@id/icon"
+            app:layout_constraintEnd_toStartOf="@id/checkbox"
+            app:layout_constraintStart_toEndOf="@id/icon"
+            app:layout_constraintTop_toTopOf="@id/icon" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/notificationTypeCheckBox"
+            android:id="@+id/checkbox"
             style="?attr/Notifications.Subjects.Type.Switch"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -67,6 +67,7 @@
             android:gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/name"
             app:layout_constraintTop_toTopOf="parent"
             app:onStateChange="@{viewModel.onStateChangeListener}"
             tools:button="@drawable/vector_toggle_button_background_selected"
