@@ -54,7 +54,19 @@ private val mockNotificationSettingsConfig = NotificationSettingsConfig(
         }
         savedSubjectNotificationListener = notificationListener
     },
-    onEventNotificationTypesClicked = { fragment, legacyEventNotificationTypesAction -> }
+    onEventNotificationTypesClicked = { fragment, legacyEventNotificationTypesAction, notificationListener ->
+        NotificationSettingsEventFragment().apply {
+            arguments = NotificationSettingsEventFragment.Args.create(
+                legacyEventNotificationTypesAction,
+                MockNotificationSettingsEventDependencyProvider::class.java
+            )
+            show(
+                fragment.childFragmentManager,
+                NotificationSettingsEventFragment::class.java.simpleName
+            )
+        }
+        savedEventNotificationListener = notificationListener
+    }
 )
 
 @ExperimentalTime
@@ -125,7 +137,7 @@ class MockNotificationSettingsEmptyDependencyProvider : ConfigProvider<Notificat
             },
             onBackPressed = {},
             onSubjectNotificationTypesClicked = { fragment, subjectNotificationTypesAction, listener -> },
-            onEventNotificationTypesClicked = { fragment, legacyEventNotificationTypesAction -> }
+            onEventNotificationTypesClicked = { fragment, legacyEventNotificationTypesAction, listener -> }
         )
     }
 }

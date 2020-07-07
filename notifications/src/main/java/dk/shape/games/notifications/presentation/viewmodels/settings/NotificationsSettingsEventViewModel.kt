@@ -10,6 +10,7 @@ import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 import dk.shape.games.sportsbook.offerings.modules.notification.Subscription
 import dk.shape.games.notifications.extensions.toEventInfo
 import dk.shape.games.notifications.extensions.toTeamNamesPair
+import dk.shape.games.notifications.presentation.viewmodels.state.StateDataEvent
 import dk.shape.games.notifications.usecases.LoadedLegacySubscription
 
 typealias OnEventNotificationTypesClicked = (NotificationSettingsEventAction) -> Unit
@@ -17,7 +18,7 @@ typealias OnSetEventNotifications = (notificationIds: Set<String>, onError: () -
 
 data class NotificationsSettingsEventViewModel(
     private val event: Event,
-    private val subscription: Subscription,
+    val subscription: Subscription,
     private val notificationGroup: LegacyNotificationGroup,
     private val onEventNotificationTypesClicked: OnEventNotificationTypesClicked,
     private val onSetNotifications: OnSetEventNotifications
@@ -82,6 +83,10 @@ data class NotificationsSettingsEventViewModel(
         onSetNotifications(notificationTypeIds) {
             activeNotificationIds = previousNotificationIds
         }
+    }
+
+    fun update(stateData: StateDataEvent) {
+        activeNotificationIds = stateData.notificationTypeIds
     }
 
     private fun Set<String>.toFormattedString(): String = mapNotNull { typeId ->

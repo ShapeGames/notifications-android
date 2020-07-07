@@ -32,7 +32,10 @@ sealed class NotificationsSettingsSwitcherViewModel {
     )
 
     private val subjectViewModels: List<NotificationsSettingsSubjectViewModel>?
-        get() = (item.get() as? Content)?.items?.filterIsInstance<NotificationsSettingsSubjectViewModel>()
+        get() = (item.get() as? Content?)?.items?.filterIsInstance<NotificationsSettingsSubjectViewModel>()
+
+    private val eventViewModels: List<NotificationsSettingsEventViewModel>?
+        get() = (item.get() as? Content?)?.items?.filterIsInstance<NotificationsSettingsEventViewModel>()
 
     object Loading : NotificationsSettingsSwitcherViewModel()
     object Empty : NotificationsSettingsSwitcherViewModel()
@@ -85,5 +88,10 @@ sealed class NotificationsSettingsSwitcherViewModel {
     fun findSubjectViewModel(subjectId: String): NotificationsSettingsSubjectViewModel? =
         subjectViewModels?.find {
             it.subscription.subjectId == subjectId
+        }
+
+    fun findEventViewModel(eventId: String): NotificationsSettingsEventViewModel? =
+        eventViewModels?.find {
+            it.subscription.eventId == eventId
         }
 }

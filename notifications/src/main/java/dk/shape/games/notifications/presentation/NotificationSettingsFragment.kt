@@ -153,7 +153,11 @@ class NotificationSettingsFragment : Fragment() {
                     config.onEventNotificationTypesClicked(
                         this@NotificationSettingsFragment,
                         action
-                    )
+                    ) { stateData ->
+                        with(stateData) {
+                            switcherViewModel.findEventViewModel(eventId)?.update(this)
+                        }
+                    }
                 },
                 onSetNotifications = { notificationIds, onError ->
                     legacyNotificationsInteractor.updateNotifications(
