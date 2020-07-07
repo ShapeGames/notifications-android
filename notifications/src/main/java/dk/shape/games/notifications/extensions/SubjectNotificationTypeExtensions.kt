@@ -7,7 +7,7 @@ internal fun Set<SubjectNotificationType>.toIds(): Set<SubjectNotificationIdenti
     notificationType.identifier
 }.toSet()
 
-internal fun Set<SubjectNotificationType>.toTypeIds(): Set<String> = map { notificationType ->
+internal fun Set<SubjectNotificationType>.toStrings(): Set<String> = map { notificationType ->
     notificationType.identifier.toTypeId()
 }.toSet()
 

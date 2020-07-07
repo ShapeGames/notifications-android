@@ -17,7 +17,7 @@ import dk.shape.games.notifications.aliases.NotificationsLoadedListener
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.launch
 import dk.shape.games.notifications.databinding.FragmentSubjectNotificationsBinding
-import dk.shape.games.notifications.extensions.toTypeIds
+import dk.shape.games.notifications.extensions.toStrings
 import dk.shape.games.notifications.presentation.viewmodels.notifications.*
 import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSheetViewModel
@@ -116,9 +116,9 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             with(notificationViewModel) {
                 notificationTypesCollection.set(
                     NotificationTypeCollectionViewModel(
-                        selectedTypeIds = activeIdentifiers.toSet().toTypeIds(),
-                        defaultTypeIds = initialIdentifiers.toTypeIds(),
-                        activatedTypeIds = activeIdentifiers.toTypeIds(),
+                        selectedTypeIds = activeIdentifiers.toSet().toStrings(),
+                        defaultTypeIds = initialIdentifiers.toStrings(),
+                        activatedTypeIds = activeIdentifiers.toStrings(),
                         possibleTypeInfos = possibleTypes.toNotificationTypeInfos(),
                         selectionNotifier = notificationViewModel.notifySelection,
                         initialMasterState = activatedTypes.isNotEmpty()

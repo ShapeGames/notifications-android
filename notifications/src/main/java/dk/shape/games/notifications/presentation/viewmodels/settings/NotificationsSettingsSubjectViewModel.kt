@@ -70,7 +70,8 @@ data class NotificationsSettingsSubjectViewModel(
                 subjectId = subscription.subjectId,
                 subjectType = subscription.subjectType,
                 possibleNotifications = notificationGroup.notificationTypes.toSet(),
-                initialActiveNotifications = activeNotifications
+                initialActiveNotifications = activeNotifications,
+                defaultNotificationTypeIds = notificationGroup.defaultNotificationTypeIdentifiers.toSet()
             )
         )
     }

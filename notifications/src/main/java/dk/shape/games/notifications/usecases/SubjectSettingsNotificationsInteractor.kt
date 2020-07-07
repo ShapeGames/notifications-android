@@ -1,10 +1,9 @@
 package dk.shape.games.notifications.usecases
 
 import dk.shape.games.notifications.aliases.SubjectNotificationIdentifier
-import dk.shape.games.notifications.aliases.SubjectNotificationType
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.entities.Subscription
-import dk.shape.games.notifications.extensions.toTypeIds
+import dk.shape.games.notifications.extensions.toStrings
 import dk.shape.games.notifications.presentation.SubjectInfo
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
 import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
@@ -62,7 +61,7 @@ data class SubjectSettingsNotificationsInteractor(
                 deviceId = deviceId,
                 subjectId = subjectId,
                 subjectType = subjectType,
-                subscribedNotificationTypeIds = notificationTypeIds.toTypeIds()
+                subscribedNotificationTypeIds = notificationTypeIds.toStrings()
             )
             withContext(Dispatchers.Main) {
                 onSuccess()

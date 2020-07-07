@@ -104,14 +104,6 @@ val mockInitialActiveNotifications = setOf(
     )
 )
 
-val mockNotificationSettingsSubjectAction = NotificationSettingsSubjectAction(
-    subjectName = "Manchester",
-    subjectId = "team:1234",
-    subjectType = SubjectType.TEAMS,
-    possibleNotifications = mockPossibleNotifications,
-    initialActiveNotifications = mockInitialActiveNotifications
-)
-
 val mockEventInfo = NotificationSettingsEventAction.EventInfo(
     homeName = "manchester",
     awayName = "liverpool",
@@ -243,7 +235,7 @@ val mockTeamSubjectNotificationGroups: List<AppConfig.SubjectNotificationGroup> 
         sportId = "sport:football",
         sportName = "Football",
         defaultNotificationTypeIdentifiers = listOf(
-            SubjectNotificationIdentifier.EVENT_REMINDER,
+            SubjectNotificationIdentifier.EVENT_START,
             SubjectNotificationIdentifier.EVENT_END
         ),
         notificationTypes = listOf(
@@ -269,6 +261,15 @@ val mockTeamSubjectNotificationGroups: List<AppConfig.SubjectNotificationGroup> 
             )
         )
     )
+)
+
+val mockNotificationSettingsSubjectAction = NotificationSettingsSubjectAction(
+    subjectName = "Manchester",
+    subjectId = "team:1234",
+    subjectType = SubjectType.TEAMS,
+    possibleNotifications = mockPossibleNotifications,
+    initialActiveNotifications = mockInitialActiveNotifications,
+    defaultNotificationTypeIds = mockTeamSubjectNotificationGroups.first().defaultNotificationTypeIdentifiers.toSet()
 )
 
 val mockEventNotificationGroups: List<AppConfig.Notifications.NotificationGroup> = listOf(
