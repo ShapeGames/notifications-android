@@ -45,16 +45,20 @@ internal data class NotificationSheetEventViewModel(
             }
         }
 
+    private val switchToggleHandler: (Boolean) -> Unit = { isChecked ->
+        headerViewModel.activeNotificationState.awareSet(isChecked) {
+            notificationTypesCollection.value {
+                resetAll()
+                onMasterActive(isChecked)
+            }
+            stateChangeHandler(isChecked, true)
+        }
+    }
+
     val headerViewModel: NotificationHeaderViewModel.Event =
         eventInfo.toNotificationHeaderEventViewModel(
             isDisabled = saveButtonViewModel.isSavingPreferences,
-            onSwitchToggled = { isChecked ->
-                notificationTypesCollection.value {
-                    resetAll()
-                    onMasterActive(isChecked)
-                }
-                stateChangeHandler(isChecked, true)
-            }
+            onSwitchToggled = switchToggleHandler
         )
 
     val notificationTypesCollection: ObservableField<NotificationTypeCollectionViewModel> =
