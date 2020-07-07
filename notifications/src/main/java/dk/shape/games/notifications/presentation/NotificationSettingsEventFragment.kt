@@ -67,7 +67,7 @@ class NotificationSettingsEventFragment : ExpandableBottomSheetDialogFragment(
 
             notificationTypesCollection.set(
                 NotificationTypeCollectionViewModel(
-                    defaultTypeIds = initialNotificationIds,
+                    defaultTypeIds = action.defaultNotificationIds,
                     selectedTypeIds = initialNotificationIds,
                     activatedTypeIds = initialNotificationIds,
                     possibleTypeInfos = action.possibleNotifications.toNotificationTypeInfos(),

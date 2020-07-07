@@ -61,7 +61,8 @@ data class NotificationsSettingsEventViewModel(
                 eventId = eventId,
                 eventInfo = event.toEventInfo(),
                 possibleNotifications = notificationGroup.notificationTypes,
-                initialActiveNotificationIds = activeNotificationIds
+                initialActiveNotificationIds = activeNotificationIds,
+                defaultNotificationIds = notificationGroup.defaultNotificationTypeIdentifiers.toSet()
             )
         )
     }

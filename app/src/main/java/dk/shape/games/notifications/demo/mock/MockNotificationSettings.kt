@@ -160,13 +160,6 @@ val mockInitialLegacyEventNotificationIds: Set<String> = setOf(
     "yellow_card", "event_start", "event_end"
 )
 
-val mockNotificationSettingsEventAction = NotificationSettingsEventAction(
-    eventId = "event:1234",
-    eventInfo = mockEventInfo,
-    possibleNotifications = mockPossibleLegacyNotifications,
-    initialActiveNotificationIds = mockInitialLegacyEventNotificationIds
-)
-
 val mockSubjectInfos = listOf(
     SubjectInfo(
         subjectId = "subject:1234",
@@ -250,27 +243,27 @@ val mockTeamSubjectNotificationGroups: List<AppConfig.SubjectNotificationGroup> 
         sportId = "sport:football",
         sportName = "Football",
         defaultNotificationTypeIdentifiers = listOf(
-            AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_REMINDER,
-            AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_END
+            SubjectNotificationIdentifier.EVENT_REMINDER,
+            SubjectNotificationIdentifier.EVENT_END
         ),
         notificationTypes = listOf(
             AppConfig.SubjectNotificationGroup.SubjectNotificationType(
-                identifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.LINEUP_READY,
+                identifier = SubjectNotificationIdentifier.LINEUP_READY,
                 icon = PolyIcon.Resource("icon-lineup-ready", false),
                 name = "Startopstilling"
             ),
             AppConfig.SubjectNotificationGroup.SubjectNotificationType(
-                identifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_REMINDER,
+                identifier = SubjectNotificationIdentifier.EVENT_REMINDER,
                 icon = PolyIcon.Resource("icon-event-reminder", false),
                 name = "Inden event starter"
             ),
             AppConfig.SubjectNotificationGroup.SubjectNotificationType(
-                identifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_START,
+                identifier = SubjectNotificationIdentifier.EVENT_START,
                 icon = PolyIcon.Resource("icon-event-start", false),
                 name = "Inden event starter"
             ),
             AppConfig.SubjectNotificationGroup.SubjectNotificationType(
-                identifier = AppConfig.SubjectNotificationGroup.SubjectNotificationIdentifier.EVENT_END,
+                identifier = SubjectNotificationIdentifier.EVENT_END,
                 icon = PolyIcon.Resource("icon-event-end", false),
                 name = "Slutresultat for event"
             )
@@ -281,7 +274,7 @@ val mockTeamSubjectNotificationGroups: List<AppConfig.SubjectNotificationGroup> 
 val mockEventNotificationGroups: List<AppConfig.Notifications.NotificationGroup> = listOf(
     AppConfig.Notifications.NotificationGroup(
         groupId = "sport:football",
-        defaultNotificationTypeIdentifiers = listOf("event_start"),
+        defaultNotificationTypeIdentifiers = listOf("event_start", "event_end"),
         notificationTypes = listOf(
             AppConfig.Notifications.NotificationGroup.NotificationType(
                 identifier = "event_start",
@@ -318,6 +311,14 @@ val mockEventNotificationGroups: List<AppConfig.Notifications.NotificationGroup>
         )
 
     )
+)
+
+val mockNotificationSettingsEventAction = NotificationSettingsEventAction(
+    eventId = "event:1234",
+    eventInfo = mockEventInfo,
+    possibleNotifications = mockPossibleLegacyNotifications,
+    initialActiveNotificationIds = mockInitialLegacyEventNotificationIds,
+    defaultNotificationIds = mockEventNotificationGroups.first().defaultNotificationTypeIdentifiers.toSet()
 )
 
 val mockAppConfig: AppConfig = AppConfig(

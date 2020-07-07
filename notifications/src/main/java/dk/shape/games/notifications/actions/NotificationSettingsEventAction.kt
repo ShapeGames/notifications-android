@@ -10,8 +10,10 @@ data class NotificationSettingsEventAction(
     val eventId: String,
     val eventInfo: EventInfo,
     val possibleNotifications: List<LegacyNotificationType>,
-    val initialActiveNotificationIds: Set<String>
+    val initialActiveNotificationIds: Set<String>,
+    val defaultNotificationIds: Set<String>
 ) : Parcelable {
+
     @Parcelize
     data class EventInfo(
         val sportIconName: String?,
