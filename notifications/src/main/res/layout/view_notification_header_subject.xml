@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationHeaderViewModel.Subject" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="18dp"
+        android:paddingTop="17dp"
+        android:paddingBottom="17dp"
+        android:paddingEnd="18dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/subjectName"
+            style="?attr/Notifications.Subjects.Screen.Subject.Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.name}"
+            app:layout_constraintBottom_toBottomOf="@id/switchButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/switchButton"
+            tools:text="Manchester City"
+            tools:textColor="#2d2d2d"
+            tools:textSize="16sp"
+            tools:textStyle="bold" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchButton"
+            style="?attr/Notifications.Subjects.Screen.Subject.Switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{viewModel.activeNotificationState}"
+            android:clickable="@{!viewModel.isDisabled}"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:thumb="@drawable/notifications_switch_thumb"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:onStateChange="@{viewModel.onStateChangeListener}"
+            tools:checked="false" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

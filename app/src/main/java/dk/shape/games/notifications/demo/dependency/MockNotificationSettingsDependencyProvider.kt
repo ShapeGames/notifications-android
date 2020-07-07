@@ -3,6 +3,8 @@ package dk.shape.games.notifications.demo.dependency
 import androidx.fragment.app.Fragment
 import dk.shape.games.notifications.demo.mock.*
 import dk.shape.games.notifications.presentation.*
+import dk.shape.games.notifications.presentation.viewmodels.state.StateDataEvent
+import dk.shape.games.notifications.presentation.viewmodels.state.StateDataSubject
 import dk.shape.games.toolbox_library.configinjection.ConfigProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -15,7 +17,8 @@ class MockNotificationSettingsDependencyProvider : ConfigProvider<NotificationSe
         mockNotificationSettingsConfig
 }
 
-var savedNotificationListener: (SubjectNotificationStateData) -> Unit = {}
+var savedSubjectNotificationListener: (StateDataSubject) -> Unit = {}
+var savedEventNotificationListener: (StateDataEvent) -> Unit = {}
 
 @ExperimentalCoroutinesApi
 @ExperimentalTime
@@ -49,9 +52,21 @@ private val mockNotificationSettingsConfig = NotificationSettingsConfig(
                 NotificationSettingsSubjectFragment::class.java.simpleName
             )
         }
-        savedNotificationListener = notificationListener
+        savedSubjectNotificationListener = notificationListener
     },
-    onEventNotificationTypesClicked = { fragment, legacyEventNotificationTypesAction -> }
+    onEventNotificationTypesClicked = { fragment, legacyEventNotificationTypesAction, notificationListener ->
+        NotificationSettingsEventFragment().apply {
+            arguments = NotificationSettingsEventFragment.Args.create(
+                legacyEventNotificationTypesAction,
+                MockNotificationSettingsEventDependencyProvider::class.java
+            )
+            show(
+                fragment.childFragmentManager,
+                NotificationSettingsEventFragment::class.java.simpleName
+            )
+        }
+        savedEventNotificationListener = notificationListener
+    }
 )
 
 @ExperimentalTime
@@ -65,11 +80,33 @@ class MockNotificationSettingsSubjectDependencyProvider :
                 "device:1234"
             },
             eventListener = object : NotificationSettingsSubjectEventListener {
-                override val onNotificationTypesChanged: (SubjectNotificationStateData) -> Unit =
-                    savedNotificationListener
+                override val onNotificationTypesChanged: (StateDataSubject) -> Unit =
+                    savedSubjectNotificationListener
 
                 override val onDismiss: () -> Unit = {
-                    savedNotificationListener = {}
+                    savedSubjectNotificationListener = {}
+                }
+            }
+        )
+    }
+}
+
+@ExperimentalTime
+class MockNotificationSettingsEventDependencyProvider :
+    ConfigProvider<NotificationSettingsEventConfig> {
+    @ExperimentalCoroutinesApi
+    override fun config(fragment: Fragment): NotificationSettingsEventConfig {
+        return NotificationSettingsEventConfig(
+            notificationsDataSource = mockLegacyNotificationsComponent,
+            provideDeviceId = {
+                "device:1234"
+            },
+            eventListener = object : NotificationSettingsEventEventListener {
+                override val onNotificationTypesChanged: (StateDataEvent) -> Unit =
+                    savedEventNotificationListener
+
+                override val onDismiss: () -> Unit = {
+                    savedEventNotificationListener = {}
                 }
             }
         )
@@ -100,7 +137,7 @@ class MockNotificationSettingsEmptyDependencyProvider : ConfigProvider<Notificat
             },
             onBackPressed = {},
             onSubjectNotificationTypesClicked = { fragment, subjectNotificationTypesAction, listener -> },
-            onEventNotificationTypesClicked = { fragment, legacyEventNotificationTypesAction -> }
+            onEventNotificationTypesClicked = { fragment, legacyEventNotificationTypesAction, listener -> }
         )
     }
 }

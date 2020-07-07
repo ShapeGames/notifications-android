@@ -26,6 +26,11 @@
         <item name="Notifications.Settings.Empty.Title">@style/Notifications.Settings.Empty.Title.Oddset</item>
         <item name="Notifications.Settings.Empty.Description">@style/Notifications.Settings.Empty.Description.Oddset</item>
 
+        <!-- Event Notifications -->
+        <item name="Notifications.Event.Screen.Icon">@style/Notifications.Event.Screen.Icon.Oddset</item>
+        <item name="Notifications.Event.Screen.Text">@style/Notifications.Event.Screen.Text.Oddset</item>
+        <item name="Notifications.Event.Screen.Text.Level2">@style/Notifications.Event.Screen.Text.Level2.Oddset</item>
+
         <!-- Subject Notifications -->
         <item name="Notifications.Subjects.Screen.Background">@style/Notifications.Subjects.Screen.Background.Oddset</item>
         <item name="Notifications.Subjects.Screen.Subject.Name">@style/Notifications.Subjects.Screen.Subject.Name.Oddset</item>

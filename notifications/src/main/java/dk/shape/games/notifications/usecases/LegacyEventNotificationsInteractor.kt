@@ -9,14 +9,14 @@ import dk.shape.games.sportsbook.offerings.modules.notification.NotificationsCom
 import dk.shape.games.sportsbook.offerings.modules.notification.Subscription
 
 data class LegacyEventNotificationsInteractor(
-    private val notificationComponent: NotificationsComponentInterface,
-    private val provideEvents: suspend (eventIds: List<String>) -> List<Event>
+    private val notificationComponent: NotificationsComponentInterface
 ) : LegacyEventNotificationsUseCases {
 
     override suspend fun loadAllSubscriptions(
         eventIds: List<String>?,
         appConfig: AppConfig,
-        onSaveEventIds: (List<String>) -> Unit
+        onSaveEventIds: (List<String>) -> Unit,
+        provideEvents: suspend (eventIds: List<String>) -> List<Event>
     ): List<LoadedLegacySubscription> {
         val subscriptions = getAllSubscriptions()
         val subscribedEventIds = eventIds ?: subscriptions.map { it.eventId }
@@ -47,16 +47,19 @@ data class LegacyEventNotificationsInteractor(
     override fun updateNotifications(
         eventId: String,
         notificationTypeIds: Set<String>,
+        onSuccess: () -> Unit,
         onError: () -> Unit
     ) {
         if (notificationTypeIds.isNotEmpty()) {
             subscribeToNotifications(
                 eventId,
                 notificationTypeIds,
+                onSuccess,
                 onError
             )
         } else unsubscribeAllNotifications(
             eventId,
+            onSuccess,
             onError
         )
     }
@@ -75,29 +78,31 @@ data class LegacyEventNotificationsInteractor(
     private fun subscribeToNotifications(
         eventId: String,
         notificationTypeIds: Set<String>,
+        onSuccess: () -> Unit,
         onError: () -> Unit
     ) {
         notificationComponent.subscribe(
             eventId,
             notificationTypeIds.joinToString(",")
         ).onMainResult { subscriptionResult ->
-            if (subscriptionResult.resultType != Result.ResultType.SUCCESS) {
-                onError()
-            }
+            if (subscriptionResult.resultType == Result.ResultType.SUCCESS) {
+                onSuccess()
+            } else onError()
         }
     }
 
     @MainThread
     private fun unsubscribeAllNotifications(
         eventId: String,
+        onSuccess: () -> Unit,
         onError: () -> Unit
     ) {
         notificationComponent.unsubscribe(
             eventId
-        ).onMainResult { subscriptionResult ->
-            if (subscriptionResult.resultType != Result.ResultType.SUCCESS) {
-                onError()
-            }
+        ).onMainResult { unsubscriptionResult ->
+            if (unsubscriptionResult.resultType == Result.ResultType.SUCCESS) {
+                onSuccess()
+            } else onError()
         }
     }
 }

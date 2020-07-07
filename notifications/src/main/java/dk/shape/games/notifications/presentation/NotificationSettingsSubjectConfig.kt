@@ -1,5 +1,6 @@
 package dk.shape.games.notifications.presentation
 
+import dk.shape.games.notifications.presentation.viewmodels.state.StateDataSubject
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
 
 // TODO: add description once API is stable
@@ -15,7 +16,7 @@ data class NotificationSettingsSubjectConfig(
 
 interface NotificationSettingsSubjectEventListener {
 
-    val onNotificationTypesChanged: (SubjectNotificationStateData) -> Unit
+    val onNotificationTypesChanged: (StateDataSubject) -> Unit
 
     val onDismiss: () -> Unit
 }

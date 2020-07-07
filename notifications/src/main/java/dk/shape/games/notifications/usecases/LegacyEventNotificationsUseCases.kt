@@ -11,13 +11,15 @@ interface LegacyEventNotificationsUseCases {
     suspend fun loadAllSubscriptions(
         eventIds: List<String>?,
         appConfig: AppConfig,
-        onSaveEventIds: (List<String>) -> Unit
+        onSaveEventIds: (List<String>) -> Unit,
+        provideEvents: suspend (eventIds: List<String>) -> List<Event>
     ): List<LoadedLegacySubscription>
 
     @MainThread
     fun updateNotifications(
         eventId: String,
         notificationTypeIds: Set<String>,
+        onSuccess: () -> Unit,
         onError: () -> Unit
     )
 }

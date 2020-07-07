@@ -2,7 +2,7 @@ package dk.shape.games.notifications.usecases
 
 import androidx.annotation.WorkerThread
 import dk.shape.games.notifications.aliases.NotificationsLoadedListener
-import dk.shape.games.notifications.presentation.SubjectNotificationStateData
+import dk.shape.games.notifications.presentation.viewmodels.state.StateDataSubject
 
 internal interface SubjectNotificationUseCases {
 
@@ -14,7 +14,7 @@ internal interface SubjectNotificationUseCases {
 
     @WorkerThread
     suspend fun saveNotificationPreferences(
-        stateData: SubjectNotificationStateData,
+        stateData: StateDataSubject,
         onSuccess: () -> Unit = { },
         onFailure: (error: Throwable) -> Unit = { }
     )

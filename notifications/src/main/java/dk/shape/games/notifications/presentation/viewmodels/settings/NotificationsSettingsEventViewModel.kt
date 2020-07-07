@@ -4,20 +4,21 @@ import android.view.View
 import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import dk.shape.games.notifications.actions.LegacyNotificationSettingsEventAction
+import dk.shape.games.notifications.actions.NotificationSettingsEventAction
 import dk.shape.games.notifications.aliases.LegacyNotificationGroup
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 import dk.shape.games.sportsbook.offerings.modules.notification.Subscription
 import dk.shape.games.notifications.extensions.toEventInfo
 import dk.shape.games.notifications.extensions.toTeamNamesPair
+import dk.shape.games.notifications.presentation.viewmodels.state.StateDataEvent
 import dk.shape.games.notifications.usecases.LoadedLegacySubscription
 
-typealias OnEventNotificationTypesClicked = (LegacyNotificationSettingsEventAction) -> Unit
+typealias OnEventNotificationTypesClicked = (NotificationSettingsEventAction) -> Unit
 typealias OnSetEventNotifications = (notificationIds: Set<String>, onError: () -> Unit) -> Unit
 
 data class NotificationsSettingsEventViewModel(
     private val event: Event,
-    private val subscription: Subscription,
+    val subscription: Subscription,
     private val notificationGroup: LegacyNotificationGroup,
     private val onEventNotificationTypesClicked: OnEventNotificationTypesClicked,
     private val onSetNotifications: OnSetEventNotifications
@@ -56,11 +57,12 @@ data class NotificationsSettingsEventViewModel(
 
     val onSettingsClicked = View.OnClickListener {
         onEventNotificationTypesClicked(
-            LegacyNotificationSettingsEventAction(
+            NotificationSettingsEventAction(
                 eventId = eventId,
                 eventInfo = event.toEventInfo(),
                 possibleNotifications = notificationGroup.notificationTypes,
-                initialActiveNotificationIds = activeNotificationIds
+                initialActiveNotificationIds = activeNotificationIds,
+                defaultNotificationIds = notificationGroup.defaultNotificationTypeIdentifiers.toSet()
             )
         )
     }
@@ -82,6 +84,10 @@ data class NotificationsSettingsEventViewModel(
         onSetNotifications(notificationTypeIds) {
             activeNotificationIds = previousNotificationIds
         }
+    }
+
+    fun update(stateData: StateDataEvent) {
+        activeNotificationIds = stateData.notificationTypeIds
     }
 
     private fun Set<String>.toFormattedString(): String = mapNotNull { typeId ->

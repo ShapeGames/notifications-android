@@ -17,10 +17,12 @@ import dk.shape.games.notifications.aliases.NotificationsLoadedListener
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.launch
 import dk.shape.games.notifications.databinding.FragmentSubjectNotificationsBinding
+import dk.shape.games.notifications.extensions.toStrings
+import dk.shape.games.notifications.presentation.viewmodels.notifications.*
+import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSheetViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSwitcherViewModel
-import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationTypeCollectionViewModel
-import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationViewModel
+import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationSheetSubjectViewModel
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
@@ -57,27 +59,27 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             })
     }
 
-    private fun getInitialSubjectViewModel(): SubjectNotificationViewModel? =
+    private fun getInitialSubjectViewModel(): NotificationSheetSubjectViewModel? =
         config.provideNotificationsNow()?.find {
             it.sportId == action.sportId
         }?.notificationTypes?.let { notificationTypesForSport ->
             notificationViewModel.apply {
                 notificationTypesCollection.set(
-                    SubjectNotificationTypeCollectionViewModel(
-                        defaultIdentifiers = emptySet(),
-                        selectedIdentifiers = emptySet(),
-                        activatedIdentifiers = emptySet(),
-                        possibleTypes = notificationTypesForSport.toSet(),
+                    NotificationTypeCollectionViewModel(
+                        defaultTypeIds = emptySet(),
+                        selectedTypeIds = emptySet(),
+                        activatedTypeIds = emptySet(),
+                        possibleTypeInfos = notificationTypesForSport.toSet().toNotificationTypeInfos(),
                         selectionNotifier = notifySelection,
                         initialMasterState = false
                     )
                 )
-                activeNotificationState.awareSet(false)
+                headerViewModel.activeNotificationState.awareSet(false)
             }
         }
 
-    private val notificationViewModel: SubjectNotificationViewModel by lazy {
-        SubjectNotificationViewModel(
+    private val notificationViewModel: NotificationSheetSubjectViewModel by lazy {
+        NotificationSheetSubjectViewModel(
             subjectId = action.subjectId,
             subjectType = action.subjectType,
             subjectName = action.subjectName,
@@ -113,16 +115,16 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
 
             with(notificationViewModel) {
                 notificationTypesCollection.set(
-                    SubjectNotificationTypeCollectionViewModel(
-                        defaultIdentifiers = initialIdentifiers,
-                        selectedIdentifiers = activeIdentifiers.toSet(),
-                        activatedIdentifiers = activeIdentifiers,
-                        possibleTypes = possibleTypes,
+                    NotificationTypeCollectionViewModel(
+                        selectedTypeIds = activeIdentifiers.toSet().toStrings(),
+                        defaultTypeIds = initialIdentifiers.toStrings(),
+                        activatedTypeIds = activeIdentifiers.toStrings(),
+                        possibleTypeInfos = possibleTypes.toNotificationTypeInfos(),
                         selectionNotifier = notificationViewModel.notifySelection,
                         initialMasterState = activatedTypes.isNotEmpty()
                     )
                 )
-                activeNotificationState.awareSet(activatedTypes.isNotEmpty())
+                headerViewModel.activeNotificationState.awareSet(activatedTypes.isNotEmpty())
                 viewSwitcherViewModel.showContent(this)
             }
         }

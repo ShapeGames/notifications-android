@@ -47,6 +47,19 @@
         <item name="android:textColor">#252525</item>
     </style>
 
+    <!-- BottomSheet Event Notifications -->
+    <style name="Notifications.Event.Screen.Icon.Oddset" parent="@style/Notifications.Event.Screen.Icon" >
+        <item name="android:tint">#999999</item>
+    </style>
+
+    <style name="Notifications.Event.Screen.Text.Oddset" parent="@style/Notifications.Event.Screen.Text" >
+        <item name="android:textColor">#999999</item>
+    </style>
+
+    <style name="Notifications.Event.Screen.Text.Level2.Oddset" parent="@style/Notifications.Event.Screen.Text.Level2" >
+        <item name="android:textColor">#999999</item>
+    </style>
+
     <!-- Subject Notifications BottomSheet -->
     <style name="Notifications.Subjects.Screen.Background.Oddset" parent="@style/Notifications.Subjects.Screen.Background">
         <item name="android:clipChildren">true</item>

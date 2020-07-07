@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationSheetSubjectViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey_100"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="90dp">
+
+                <include
+                    android:id="@+id/header"
+                    layout="@layout/view_notification_header_subject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:viewModel="@{viewModel.headerViewModel}" />
+
+                <include
+                    android:id="@+id/notificationItems"
+                    layout="@layout/view_notifications_type_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginBottom="16dp"
+                    app:viewModel="@{viewModel.notificationTypesCollection}"
+                    tools:layout_height="620dp" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <include
+            android:id="@+id/button"
+            layout="@layout/view_notification_save_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="34dp"
+            app:viewModel="@{viewModel.saveButtonViewModel}" />
+
+    </FrameLayout>
+</layout>

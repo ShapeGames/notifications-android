@@ -10,7 +10,7 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding
 import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
 
 internal class SubjectNotificationSwitcherViewModel(
-    initialContentItem: SubjectNotificationViewModel?,
+    initialContentItem: NotificationSheetSubjectViewModel?,
     val onItemChanged: () -> Unit
 ) {
     private val loadingViewModel = LoadingViewModel()
@@ -20,9 +20,9 @@ internal class SubjectNotificationSwitcherViewModel(
             .map(ErrorViewModel::class.java, BR.viewModel, R.layout.state_error_view)
             .map(LoadingViewModel::class.java, BR.viewModel, R.layout.state_loading_view)
             .map(
-                SubjectNotificationViewModel::class.java,
+                NotificationSheetSubjectViewModel::class.java,
                 BR.viewModel,
-                R.layout. view_subject_notifications
+                R.layout. view_notification_sheet_subject
             )
     )
 
@@ -32,7 +32,7 @@ internal class SubjectNotificationSwitcherViewModel(
         onItemChanged()
     }
 
-    fun showContent(viewModel: SubjectNotificationViewModel) {
+    fun showContent(viewModel: NotificationSheetSubjectViewModel) {
         item.set(viewModel)
     }
 

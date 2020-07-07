@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationSaveButtonViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <FrameLayout
+        android:id="@+id/notificationsSaveButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="?attr/Notifications.Subjects.Screen.SaveButton"
+            android:layout_width="match_parent"
+            android:clickable="@{!viewModel.isSavingPreferences}"
+            android:enabled="@{viewModel.hasStateChanges}"
+            android:gravity="center"
+            android:onClick="@{viewModel.onPreferencesSavedListener}"
+            android:text="@{viewModel.isSavingPreferences ? @string/empty : @string/save_my_preferences}"
+            android:textAlignment="gravity"
+            tools:background="@drawable/notifications_save_button"
+            tools:layout_height="40dp"
+            tools:layout_marginHorizontal="23dp"
+            tools:padding="6dp"
+            tools:text="Save my preferences"
+            tools:textAllCaps="true"
+            tools:textColor="@color/grey_000"
+            tools:textSize="13sp"
+            tools:textStyle="bold" />
+
+        <ProgressBar
+            style="?attr/Notifications.Subjects.Type.Saving.ProgressBar"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:elevation="6dp"
+            android:theme="?attr/Notifications.Subjects.Type.Saving.ProgressBar"
+            android:visibility="@{viewModel.isSavingPreferences ? View.VISIBLE : View.INVISIBLE}"
+            tools:visibility="visible" />
+
+    </FrameLayout>
+</layout>

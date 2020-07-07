@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationTypeCollectionViewModel" />
+            type="dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
