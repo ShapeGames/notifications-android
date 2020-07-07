@@ -3,7 +3,10 @@ package dk.shape.games.notifications.presentation.viewmodels.notifications
 import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import dk.shape.games.notifications.actions.NotificationSettingsEventAction
-import java.util.*
+import dk.shape.games.notifications.extensions.toDateText
+import dk.shape.games.notifications.extensions.toTimeText
+import dk.shape.games.uikit.databinding.UIImage
+import dk.shape.games.uikit.databinding.UIText
 
 internal sealed class NotificationHeaderViewModel(
     open val isDisabled: ObservableBoolean,
@@ -25,10 +28,11 @@ internal sealed class NotificationHeaderViewModel(
     )
 
     data class Event(
-        val sportIconName: String?,
+        val sportIcon: UIImage,
         val homeName: String,
         val awayName: String?,
-        val startDate: Date,
+        val dateText: UIText,
+        val timeText: UIText,
         val level2Name: String?,
         val level3Name: String?,
         override val isDisabled: ObservableBoolean,
@@ -44,12 +48,15 @@ internal fun NotificationSettingsEventAction.EventInfo.toNotificationHeaderEvent
     onSwitchToggled: (isChecked: Boolean) -> Unit
 ): NotificationHeaderViewModel.Event =
     NotificationHeaderViewModel.Event(
-        sportIconName = sportIconName,
-        homeName = homeName,
-        awayName = awayName,
-        startDate = startDate,
-        level2Name = level2Name,
-        level3Name = level3Name,
+        sportIcon = sportIconName?.toUIImage() ?: UIImage.gone(),
+        homeName = homeName.capitalize(),
+        awayName = awayName?.capitalize(),
+        dateText = startDate.toDateText(),
+        timeText = startDate.toTimeText(),
+        level2Name = level2Name?.capitalize(),
+        level3Name = level3Name?.capitalize(),
         isDisabled = isDisabled,
         onSwitchToggled = onSwitchToggled
     )
+
+private fun String.toUIImage(): UIImage = UIImage.byResourceName(replace('-', '_'))

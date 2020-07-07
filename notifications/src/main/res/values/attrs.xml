@@ -35,6 +35,11 @@
         <attr name="Notifications.Settings.Empty.Title" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Empty.Description" format="reference" tools:ignore="ResourceName" />
 
+        <!-- BottomSheet Event Notifications -->
+        <attr name="Notifications.Event.Screen.Icon" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Event.Screen.Text" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Event.Screen.Text.Level2" format="reference" tools:ignore="ResourceName" />
+
         <!-- BottomSheet Subject Notifications -->
         <attr name="Notifications.Subjects.Screen.Background" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Screen.Subject.Name" format="reference" tools:ignore="ResourceName" />

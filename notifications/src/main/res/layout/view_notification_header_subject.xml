@@ -13,35 +13,38 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingStart="18dp"
+        android:paddingTop="17dp"
+        android:paddingBottom="17dp"
+        android:paddingEnd="18dp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/subjectName"
             style="?attr/Notifications.Subjects.Screen.Subject.Name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="24dp"
             android:text="@{viewModel.name}"
+            app:layout_constraintBottom_toBottomOf="@id/switchButton"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/switchButton"
             tools:text="Manchester City"
             tools:textColor="#2d2d2d"
             tools:textSize="16sp"
             tools:textStyle="bold" />
 
         <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchButton"
             style="?attr/Notifications.Subjects.Screen.Subject.Switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
             android:checked="@{viewModel.activeNotificationState}"
             android:clickable="@{!viewModel.isDisabled}"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:thumb="@drawable/notifications_switch_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/subjectName"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/subjectName"
+            app:layout_constraintTop_toTopOf="parent"
             app:onStateChange="@{viewModel.onStateChangeListener}"
             tools:checked="false" />
 

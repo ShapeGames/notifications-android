@@ -13,37 +13,125 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingStart="18dp"
+        android:paddingTop="17dp"
+        android:paddingEnd="18dp"
+        android:paddingBottom="17dp">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/subjectName"
-            style="?attr/Notifications.Subjects.Screen.Subject.Name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="24dp"
-            android:text="@{viewModel.homeName}"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icon"
+            style="?attr/Notifications.Event.Screen.Icon"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@{viewModel.sportIcon}"
+            app:layout_constraintBottom_toTopOf="@id/switchButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Manchester City"
-            tools:textColor="#2d2d2d"
-            tools:textSize="16sp"
-            tools:textStyle="bold" />
+            app:layout_constraintVertical_bias="0"
+            tools:srcCompat="@drawable/icon_category_football"
+            tools:tint="#999999"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/level2"
+            style="?attr/Notifications.Event.Screen.Text.Level2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="3dp"
+            android:text="@{viewModel.level2Name}"
+            app:layout_constraintBottom_toBottomOf="@id/icon"
+            app:layout_constraintStart_toEndOf="@id/icon"
+            app:layout_constraintTop_toTopOf="@id/icon"
+            tools:alpha=".8f"
+            tools:fontFamily="sans-serif-medium"
+            tools:text="England"
+            tools:textColor="#999999"
+            tools:textSize="12sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/level3"
+            style="?attr/Notifications.Event.Screen.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@{viewModel.level3Name}"
+            app:layout_constraintBottom_toBottomOf="@id/icon"
+            app:layout_constraintStart_toEndOf="@id/level2"
+            app:layout_constraintTop_toTopOf="@id/icon"
+            tools:fontFamily="sans-serif-medium"
+            tools:text="Premier League"
+            tools:textColor="#999999"
+            tools:textSize="12sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dateText"
+            style="?attr/Notifications.Event.Screen.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:text="@{viewModel.dateText}"
+            app:layout_constraintBottom_toBottomOf="@id/icon"
+            app:layout_constraintEnd_toStartOf="@id/timeText"
+            app:layout_constraintTop_toTopOf="@id/icon"
+            tools:fontFamily="sans-serif-medium"
+            tools:text="Sondag"
+            tools:textColor="#999999"
+            tools:textSize="12sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/timeText"
+            style="?attr/Notifications.Event.Screen.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.timeText}"
+            app:layout_constraintBottom_toBottomOf="@id/icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/icon"
+            tools:fontFamily="sans-serif-medium"
+            tools:text="17:30"
+            tools:textColor="#999999"
+            tools:textSize="12sp" />
 
         <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchButton"
             style="?attr/Notifications.Subjects.Screen.Subject.Switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
+            android:layout_marginTop="11dp"
             android:checked="@{viewModel.activeNotificationState}"
             android:clickable="@{!viewModel.isDisabled}"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:thumb="@drawable/notifications_switch_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/subjectName"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/subjectName"
+            app:layout_constraintTop_toBottomOf="@id/timeText"
             app:onStateChange="@{viewModel.onStateChangeListener}"
             tools:checked="false" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/homeName"
+            style="?attr/Notifications.Subjects.Screen.Subject.Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.homeName}"
+            app:layout_constraintBottom_toTopOf="@id/awayName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/switchButton"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Manchester City" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/awayName"
+            style="?attr/Notifications.Subjects.Screen.Subject.Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.awayName}"
+            app:layout_constraintBottom_toBottomOf="@id/switchButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/homeName"
+            tools:text="west hame" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
