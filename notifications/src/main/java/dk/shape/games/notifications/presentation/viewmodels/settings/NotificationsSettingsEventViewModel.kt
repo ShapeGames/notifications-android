@@ -25,7 +25,7 @@ data class NotificationsSettingsEventViewModel(
 ) {
     private val eventId = event.id
 
-    private val initialActiveNotificationIds: Set<String> = subscription.toTypeIds()
+    private val initialActiveNotificationIds: Set<String> = subscription.types.toSet()
     private val eventName: Pair<String, String?> = event.toTeamNamesPair()
 
     val homeTeam: String = eventName.first
@@ -95,8 +95,6 @@ data class NotificationsSettingsEventViewModel(
             notificationType.identifier == typeId
         }?.name
     }.joinToString()
-
-    private fun Subscription.toTypeIds(): Set<String> = commaSeparatedTypes.split(',').toSet()
 }
 
 internal fun LoadedLegacySubscription.toNotificationsSettingsEventViewModel(

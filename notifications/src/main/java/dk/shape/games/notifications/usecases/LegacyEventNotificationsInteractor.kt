@@ -31,7 +31,7 @@ data class LegacyEventNotificationsInteractor(
                 subscriptions.find { subscription ->
                     subscription.eventId == event.id
                 }?.takeIf { subscription ->
-                    subscription.commaSeparatedTypes.isNotEmpty()
+                    subscription.types.isNotEmpty()
                 }?.let { matchingSubscription ->
                     LoadedLegacySubscription(
                         event = event,
