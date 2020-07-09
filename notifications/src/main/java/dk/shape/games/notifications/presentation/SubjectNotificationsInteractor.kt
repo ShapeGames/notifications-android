@@ -8,7 +8,7 @@ import dk.shape.games.notifications.presentation.viewmodels.state.StateDataSubje
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
@@ -39,8 +39,8 @@ class SubjectNotificationsInteractor(
         }
 
         try {
-            notificationsDataSource.getAllSubscriptions(provideDeviceId()).apply {
-                collect { subscriptions ->
+            notificationsDataSource.getAllSubscriptions(provideDeviceId()).first()
+                .let { subscriptions ->
                     val notifications = notificationsProvider()
                     val notificationsGroup = notifications.find(sportsIdFilter)
 
@@ -76,7 +76,6 @@ class SubjectNotificationsInteractor(
                         onFailure(IllegalArgumentException(message))
                     }
                 }
-            }
         } catch (e: Exception) {
             handleException(e, notificationsEventHandler, onFailure)
         }
