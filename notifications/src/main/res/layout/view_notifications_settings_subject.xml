@@ -16,7 +16,9 @@
     <androidx.cardview.widget.CardView
         style="@style/Notifications.Settings.Entry.Card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{viewModel.onSettingsClicked}"
+        app:showRipple="@{true}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             style="@style/Notifications.Settings.Entry.Container"
