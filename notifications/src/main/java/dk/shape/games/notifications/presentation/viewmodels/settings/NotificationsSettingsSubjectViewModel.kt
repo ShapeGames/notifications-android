@@ -9,7 +9,7 @@ import dk.shape.games.notifications.aliases.SubjectNotificationGroup
 import dk.shape.games.notifications.aliases.SubjectNotificationType
 import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.extensions.toActiveNotificationTypes
-import dk.shape.games.notifications.extensions.toDefaultNotificationTypes
+import dk.shape.games.notifications.extensions.toDefaultOrAllNotificationTypes
 import dk.shape.games.notifications.extensions.toIds
 import dk.shape.games.notifications.extensions.toNotificationTypes
 import dk.shape.games.notifications.presentation.viewmodels.state.StateDataSubject
@@ -59,7 +59,7 @@ data class NotificationsSettingsSubjectViewModel(
 
         setNotificationsAsync(
             notificationTypes = if (isChecked) {
-                notificationGroup.toDefaultNotificationTypes()
+                notificationGroup.toDefaultOrAllNotificationTypes()
             } else emptySet()
         )
     }
