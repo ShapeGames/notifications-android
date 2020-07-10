@@ -6,3 +6,8 @@ internal fun LegacyNotificationType.isChecked(selectedTypeIds: Set<String>) =
     selectedTypeIds.any { typeId ->
         this.identifier == typeId
     }
+
+internal fun List<LegacyNotificationType>.toIds(): Set<String> =
+    map {
+        it.identifier
+    }.toSet()

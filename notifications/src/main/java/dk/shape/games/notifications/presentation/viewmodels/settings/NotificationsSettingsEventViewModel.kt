@@ -6,6 +6,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import dk.shape.games.notifications.actions.NotificationSettingsEventAction
 import dk.shape.games.notifications.aliases.LegacyNotificationGroup
+import dk.shape.games.notifications.extensions.toDefaultOrAllNotifications
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 import dk.shape.games.sportsbook.offerings.modules.notification.Subscription
 import dk.shape.games.notifications.extensions.toEventInfo
@@ -70,7 +71,7 @@ data class NotificationsSettingsEventViewModel(
     private fun toggleNotifications(isChecked: Boolean) {
         setNotificationsAsync(
             notificationTypeIds = if (isChecked) {
-                notificationGroup.defaultNotificationTypeIdentifiers.toSet()
+                notificationGroup.toDefaultOrAllNotifications()
             } else emptySet()
         )
     }
