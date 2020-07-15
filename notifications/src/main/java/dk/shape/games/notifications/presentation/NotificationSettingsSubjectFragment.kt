@@ -16,16 +16,14 @@ import dk.shape.games.notifications.presentation.viewmodels.notifications.toNoti
 import dk.shape.games.notifications.presentation.viewmodels.settings.NotificationSettingsTypesSubjectViewModel
 import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsInteractor
 import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsUseCases
-import dk.shape.games.notifications.utils.ExpandableBottomSheetDialogFragment
+import dk.shape.games.notifications.utils.ExpandedBottomSheetDialogFragment
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class NotificationSettingsSubjectFragment : ExpandableBottomSheetDialogFragment(
-    paddingTopRes = R.dimen.expandable_sheet_padding_top
-) {
+class NotificationSettingsSubjectFragment : ExpandedBottomSheetDialogFragment() {
     object Args :
         ConfigFragmentArgs<NotificationSettingsSubjectAction, NotificationSettingsSubjectConfig>()
 
