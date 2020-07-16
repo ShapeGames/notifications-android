@@ -16,14 +16,15 @@
         android:layout_height="wrap_content"
         android:paddingStart="18dp"
         android:paddingTop="17dp"
-        android:paddingBottom="17dp"
-        android:paddingEnd="18dp">
+        android:paddingEnd="18dp"
+        android:paddingBottom="17dp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/subjectName"
             style="?attr/Notifications.Subjects.Screen.Subject.Name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingBottom="1dp"
             android:text="@{viewModel.name}"
             app:layout_constraintBottom_toBottomOf="@id/switchButton"
             app:layout_constraintStart_toStartOf="parent"

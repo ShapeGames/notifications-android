@@ -181,12 +181,12 @@
     <!-- BottomSheet Event Notifications -->
     <style name="Notifications.Event.Screen.Icon" parent="@style/Widget" />
 
-    <style name="Notifications.Event.Screen.Text" parent="Widget.AppCompat.TextView" >
+    <style name="Notifications.Event.Screen.Text" parent="Widget.AppCompat.TextView">
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="Notifications.Event.Screen.Text.Level2" parent="Notifications.Event.Screen.Text" >
+    <style name="Notifications.Event.Screen.Text.Level2" parent="Notifications.Event.Screen.Text">
         <item name="android:alpha">0.8</item>
     </style>
 
@@ -197,7 +197,9 @@
 
     <style name="Notifications.Subjects.Screen.Subject.Switch" parent="Widget.AppCompat.CompoundButton.Switch" />
 
-    <style name="Notifications.Subjects.Screen.SaveButton" parent="@style/Widget" />
+    <style name="Notifications.Subjects.Screen.SaveButton" parent="@style/Widget">
+        <item name="android:elevation">6dp</item>
+    </style>
 
     <!-- BottomSheet Subject Notification Types -->
     <style name="Notifications.Subjects.Type.Icon" parent="@style/Widget" />

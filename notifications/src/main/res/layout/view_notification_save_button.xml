@@ -29,6 +29,7 @@
             android:text="@{viewModel.isSavingPreferences ? @string/empty : @string/save_my_preferences}"
             android:textAlignment="gravity"
             tools:background="@drawable/notifications_save_button"
+            tools:elevation="6dp"
             tools:layout_height="40dp"
             tools:layout_marginHorizontal="23dp"
             tools:padding="6dp"

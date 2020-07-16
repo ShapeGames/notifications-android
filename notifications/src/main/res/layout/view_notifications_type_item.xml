@@ -20,10 +20,9 @@
         android:background="@{viewModel.last ? @drawable/notification_type_background_no_line : @drawable/notification_type_background}"
         android:clickable="@{viewModel.isEnabled}"
         android:focusable="true"
-        android:minHeight="50dp"
+        android:minHeight="54dp"
         android:onClick="@{viewModel.onNotificationClicked}"
-        tools:background="@drawable/notification_type_background"
-        tools:layout_height="50dp">
+        tools:background="@drawable/notification_type_background">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/icon"
