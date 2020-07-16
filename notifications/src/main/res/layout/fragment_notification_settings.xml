@@ -11,20 +11,33 @@
 
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/view_notifications_toolbar"
+                app:viewModel="@{viewModel.toolbarViewModel}" />
+
+            <include
+                layout="@layout/view_notifications_settings_switcher"
+                app:viewModel="@{viewModel.switcherViewModel}" />
+
+        </LinearLayout>
 
         <include
-            layout="@layout/view_notifications_toolbar"
-            app:viewModel="@{viewModel.toolbarViewModel}" />
+            layout="@layout/status_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:viewModel="@{viewModel.errorMessageViewModel.presentationViewModel}" />
 
-        <include
-            layout="@layout/view_notifications_settings_switcher"
-            app:viewModel="@{viewModel.switcherViewModel}" />
-
-    </LinearLayout>
+    </FrameLayout>
 </layout>

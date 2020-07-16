@@ -10,32 +10,45 @@
             type="dk.shape.games.notifications.presentation.viewmodels.settings.NotificationSettingsTypesSubjectViewModel" />
     </data>
 
-    <LinearLayout
-        style="?attr/Notifications.Subjects.Screen.Background"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:orientation="vertical"
-        tools:background="#f5f5f5">
+        android:layout_height="wrap_content">
 
-        <include
-            layout="@layout/view_notifications_toolbar"
-            app:viewModel="@{viewModel.toolbarViewModel}" />
-
-        <FrameLayout
+        <LinearLayout
+            style="?attr/Notifications.Subjects.Screen.Background"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            tools:background="#f5f5f5">
 
             <include
-                layout="@layout/view_notification_sheet_subject"
-                app:viewModel="@{viewModel.notificationViewModel}" />
+                layout="@layout/view_notifications_toolbar"
+                app:viewModel="@{viewModel.toolbarViewModel}" />
 
-            <View
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="@drawable/top_shadow_light" />
+                android:layout_height="match_parent">
 
-        </FrameLayout>
-    </LinearLayout>
+                <include
+                    layout="@layout/view_notification_sheet_subject"
+                    app:viewModel="@{viewModel.notificationViewModel}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@drawable/top_shadow_light" />
+
+            </FrameLayout>
+        </LinearLayout>
+
+        <include
+            layout="@layout/status_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:viewModel="@{viewModel.errorMessageViewModel.presentationViewModel}" />
+
+    </FrameLayout>
 </layout>
