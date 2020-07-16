@@ -23,6 +23,7 @@ import dk.shape.games.notifications.presentation.viewmodels.notifications.Notifi
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSheetViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSwitcherViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationSheetSubjectViewModel
+import dk.shape.games.notifications.presentation.viewmodels.state.ErrorMessageViewModel
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
@@ -59,6 +60,10 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
             })
     }
 
+    private val errorMessageViewModel = ErrorMessageViewModel {
+        requireActivity()
+    }
+
     private fun getInitialSubjectViewModel(): NotificationSheetSubjectViewModel? =
         config.provideNotificationsNow()?.find {
             it.sportId == action.sportId
@@ -69,7 +74,8 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
                         defaultTypeIds = emptySet(),
                         selectedTypeIds = emptySet(),
                         activatedTypeIds = emptySet(),
-                        possibleTypeInfos = notificationTypesForSport.toSet().toNotificationTypeInfos(),
+                        possibleTypeInfos = notificationTypesForSport.toSet()
+                            .toNotificationTypeInfos(),
                         selectionNotifier = notifySelection,
                         initialMasterState = false
                     )
@@ -90,7 +96,10 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
                         saveNotificationPreferences(
                             stateData = stateData,
                             onSuccess = onSuccess,
-                            onFailure = { onFailure() }
+                            onFailure = {
+                                onFailure()
+                                errorMessageViewModel.showErrorMessage()
+                            }
                         )
                     }
                 }
@@ -102,7 +111,10 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         SubjectNotificationSheetViewModel(
             notificationViewModel = notificationViewModel,
             notificationSwitcherViewModel = viewSwitcherViewModel,
-            onBackPressed = { dismiss() }
+            errorMessageViewModel = errorMessageViewModel,
+            onBackPressed = {
+                dismiss()
+            }
         )
     }
 

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="grey_000">#ffffff</color>
+    <color name="grey_000_alpha_75">#BFffffff</color>
     <color name="grey_100">#f5f5f5</color>
     <color name="grey_999_alpha_35">#59000000</color>
     <color name="grey_999_alpha_50">#80000000</color>

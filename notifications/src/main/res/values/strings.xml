@@ -13,4 +13,6 @@
     <string name="notification_type_event">EVENT Notifikationer</string>
     <string name="notification_type_stats">FAVORIT NOTIFIKATIONER</string>
     <string name="save_my_preferences">Gem mine valg</string>
+    <string name="error_message_title">Der opstod en fejl</string>
+    <string name="error_saving_preferences">Dine valg kunne ikke gemmes. Kontrollér om du har netforbindelse, og prøv derefter igen.</string>
 </resources>

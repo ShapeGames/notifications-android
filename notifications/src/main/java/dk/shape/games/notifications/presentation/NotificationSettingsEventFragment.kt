@@ -13,6 +13,7 @@ import dk.shape.games.notifications.presentation.viewmodels.notifications.Notifi
 import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.toNotificationTypeInfos
 import dk.shape.games.notifications.presentation.viewmodels.settings.NotificationSettingsTypesEventViewModel
+import dk.shape.games.notifications.presentation.viewmodels.state.ErrorMessageViewModel
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsInteractor
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsUseCases
 import dk.shape.games.notifications.utils.ExpandedBottomSheetDialogFragment
@@ -35,6 +36,10 @@ class NotificationSettingsEventFragment : ExpandedBottomSheetDialogFragment() {
         )
     }
 
+    private val errorMessageViewModel = ErrorMessageViewModel {
+        requireActivity()
+    }
+
     private val notificationViewModel: NotificationSheetEventViewModel by lazy {
         NotificationSheetEventViewModel(
             eventId = action.eventId,
@@ -50,7 +55,10 @@ class NotificationSettingsEventFragment : ExpandedBottomSheetDialogFragment() {
                                 config.eventListener.onNotificationTypesChanged(stateData)
                                 onSuccess()
                             },
-                            onError = onFailure
+                            onError = {
+                                onFailure()
+                                errorMessageViewModel.showErrorMessage()
+                            }
                         )
                     }
                 }
@@ -76,6 +84,7 @@ class NotificationSettingsEventFragment : ExpandedBottomSheetDialogFragment() {
     private val notificationEventViewModel: NotificationSettingsTypesEventViewModel by lazy {
         NotificationSettingsTypesEventViewModel(
             notificationViewModel = notificationViewModel,
+            errorMessageViewModel = errorMessageViewModel,
             onBackPressed = {
                 dismiss()
             }

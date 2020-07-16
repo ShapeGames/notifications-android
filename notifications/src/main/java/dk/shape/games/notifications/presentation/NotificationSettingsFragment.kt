@@ -12,6 +12,7 @@ import dk.shape.games.notifications.databinding.FragmentNotificationSettingsBind
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.extensions.toIds
 import dk.shape.games.notifications.presentation.viewmodels.settings.*
+import dk.shape.games.notifications.presentation.viewmodels.state.ErrorMessageViewModel
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsInteractor
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsUseCases
 import dk.shape.games.notifications.usecases.SubjectSettingsNotificationsInteractor
@@ -59,13 +60,21 @@ class NotificationSettingsFragment : Fragment() {
         )
     }
 
+    private val errorMessageViewModel = ErrorMessageViewModel {
+        requireActivity()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return FragmentNotificationSettingsBinding.inflate(layoutInflater).apply {
-            viewModel = NotificationsSettingsViewModel(toolbarViewModel, switcherViewModel)
+            viewModel = NotificationsSettingsViewModel(
+                toolbarViewModel,
+                switcherViewModel,
+                errorMessageViewModel
+            )
         }.root
     }
 
@@ -161,7 +170,10 @@ class NotificationSettingsFragment : Fragment() {
                         eventId = loadedSubscription.event.id,
                         notificationTypeIds = notificationIds,
                         onSuccess = {},
-                        onError = onError
+                        onError = {
+                            onError()
+                            errorMessageViewModel.showErrorMessage()
+                        }
                     )
                 }
             )
@@ -196,7 +208,10 @@ class NotificationSettingsFragment : Fragment() {
                                 subjectType = loadedSubscription.subscription.subjectType,
                                 notificationTypeIds = notificationTypes.toIds(),
                                 onSuccess = {},
-                                onError = onError
+                                onError = {
+                                    onError()
+                                    errorMessageViewModel.showErrorMessage()
+                                }
                             )
                         }
                     }
