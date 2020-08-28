@@ -8,7 +8,7 @@ import kotlinx.serialization.*
 @Serializable
 data class Subscription(
     @SerialName("event_id") val eventId: String? = null,
-    @SerialName("subject_id") val subjectId: String?,
-    @SerialName("subject_type") val subjectType: SubjectType,
+    @SerialName("subject_id") val subjectId: String = "undefined",
+    @SerialName("subject_type") val subjectType: SubjectType = SubjectType.UNKNOWN,
     @SerialName("types") val types: Set<String>
 )

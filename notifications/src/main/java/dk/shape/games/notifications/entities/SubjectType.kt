@@ -18,5 +18,7 @@ enum class SubjectType {
     LEAGUES,
 
     @SerialName("athletes")
-    ATHLETES
+    ATHLETES,
+
+    UNKNOWN
 }
