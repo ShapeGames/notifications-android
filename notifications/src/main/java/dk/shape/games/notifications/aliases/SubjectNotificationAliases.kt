@@ -8,8 +8,14 @@ internal typealias PreferenceSaveEvent = (stateData: StateDataEvent, onSuccess: 
 
 internal typealias OnNotificationTypeSelected = (isSelected: Boolean) -> Unit
 
-internal typealias NotificationsLoadedListener = (
+internal typealias SubjectNotificationsLoadedListener = (
     activatedTypes: Set<SubjectNotificationType>,
     possibleTypes: Set<SubjectNotificationType>,
     defaultTypes: Set<SubjectNotificationIdentifier>
+) -> Unit
+
+internal typealias EventNotificationsLoadedListener = (
+    activatedTypes: Set<String>,
+    possibleTypes: List<LegacyNotificationType>,
+    defaultTypes: Set<String>
 ) -> Unit

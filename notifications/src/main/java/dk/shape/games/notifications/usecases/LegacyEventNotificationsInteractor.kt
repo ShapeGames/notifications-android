@@ -3,14 +3,51 @@ package dk.shape.games.notifications.usecases
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import dk.shape.componentkit2.Result
+import dk.shape.games.notifications.aliases.EventNotificationsLoadedListener
+import dk.shape.games.notifications.aliases.LegacyNotificationGroup
+import dk.shape.games.notifications.aliases.LegacyNotificationType
 import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 import dk.shape.games.sportsbook.offerings.modules.notification.NotificationsComponentInterface
 import dk.shape.games.sportsbook.offerings.modules.notification.Subscription
+import java.lang.Exception
 
 data class LegacyEventNotificationsInteractor(
     private val notificationComponent: NotificationsComponentInterface
 ) : LegacyEventNotificationsUseCases {
+
+    override suspend fun loadSubscription(
+        eventId: String,
+        notificationGroupId: String,
+        provideNotifications: suspend () -> List<LegacyNotificationGroup>,
+        onSuccess: EventNotificationsLoadedListener,
+        onError: () -> Unit
+    ) {
+        try {
+            val subscriptions: List<Subscription> = getAllSubscriptions()
+            val notificationGroups: List<LegacyNotificationGroup> = provideNotifications()
+
+            notificationGroups.find { notificationGroup ->
+                notificationGroup.groupId == notificationGroupId
+            }?.let { matchingGroup ->
+                subscriptions.find { subscription ->
+                    subscription.eventId == eventId
+                }?.takeIf { subscription ->
+                    subscription.types.isNotEmpty()
+                }?.let { matchingSubscription ->
+                    val activatedTypes: Set<String> = matchingSubscription.types.toSet()
+                    val possibleTypes: List<LegacyNotificationType> =
+                        matchingGroup.notificationTypes
+                    val defaultTypes: Set<String> =
+                        matchingGroup.defaultNotificationTypeIdentifiers.toSet()
+
+                    onSuccess(activatedTypes, possibleTypes, defaultTypes)
+                }
+            } ?: onError()
+        } catch (e: Exception) {
+            onError()
+        }
+    }
 
     override suspend fun loadAllSubscriptions(
         eventIds: List<String>?,

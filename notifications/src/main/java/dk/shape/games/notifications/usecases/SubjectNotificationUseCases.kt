@@ -1,14 +1,14 @@
 package dk.shape.games.notifications.usecases
 
 import androidx.annotation.WorkerThread
-import dk.shape.games.notifications.aliases.NotificationsLoadedListener
+import dk.shape.games.notifications.aliases.SubjectNotificationsLoadedListener
 import dk.shape.games.notifications.presentation.viewmodels.state.StateDataSubject
 
 internal interface SubjectNotificationUseCases {
 
     @WorkerThread
     suspend fun loadNotifications(
-        onLoaded: NotificationsLoadedListener,
+        onLoaded: SubjectNotificationsLoadedListener,
         onFailure: (error: Throwable) -> Unit = { }
     )
 

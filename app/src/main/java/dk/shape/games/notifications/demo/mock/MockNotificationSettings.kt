@@ -2,6 +2,7 @@ package dk.shape.games.notifications.demo.mock
 
 import dk.shape.componentkit2.Promise
 import dk.shape.danskespil.foundation.entities.PolyIcon
+import dk.shape.games.notifications.actions.EventInfo
 import dk.shape.games.notifications.actions.NotificationSettingsEventAction
 import dk.shape.games.notifications.actions.NotificationSettingsSubjectAction
 import dk.shape.games.notifications.aliases.Notifications
@@ -113,7 +114,7 @@ val mockInitialActiveNotifications = setOf(
     )
 )
 
-val mockEventInfo = NotificationSettingsEventAction.EventInfo(
+val mockEventInfo = EventInfo(
     homeName = "manchester",
     awayName = "liverpool",
     level2Name = "england",

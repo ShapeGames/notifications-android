@@ -13,7 +13,7 @@ import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
-import dk.shape.games.notifications.aliases.NotificationsLoadedListener
+import dk.shape.games.notifications.aliases.SubjectNotificationsLoadedListener
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.launch
 import dk.shape.games.notifications.databinding.FragmentSubjectNotificationsBinding
@@ -118,7 +118,7 @@ class SubjectNotificationsFragment : BottomSheetDialogFragment() {
         )
     }
 
-    private val onNotificationsLoaded: NotificationsLoadedListener =
+    private val onNotificationsLoaded: SubjectNotificationsLoadedListener =
         { activatedTypes, possibleTypes, defaultTypes ->
             val activeIdentifiers = activatedTypes.map { it.identifier }.toSet()
             val initialIdentifiers = if (defaultTypes.isNotEmpty()) {
