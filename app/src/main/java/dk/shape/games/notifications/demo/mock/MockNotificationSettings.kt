@@ -375,7 +375,7 @@ val mockLegacyNotificationsComponent = object : NotificationsComponentInterface 
 }
 
 val mockSubjectNotificationsDataSource = object : SubjectNotificationsDataSource {
-    override suspend fun hasActiveSubscription(deviceId: String, subjectId: String): Flow<Boolean> =
+    override suspend fun hasActiveSubjectSubscription(deviceId: String, subjectId: String): Flow<Boolean> =
         flowOf(true)
 
     override suspend fun updateSubjectSubscriptions(

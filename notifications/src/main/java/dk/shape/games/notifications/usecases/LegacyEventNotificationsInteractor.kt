@@ -10,6 +10,8 @@ import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 import dk.shape.games.sportsbook.offerings.modules.notification.NotificationsComponentInterface
 import dk.shape.games.sportsbook.offerings.modules.notification.Subscription
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 data class LegacyEventNotificationsInteractor(
@@ -41,11 +43,11 @@ data class LegacyEventNotificationsInteractor(
                     val defaultTypes: Set<String> =
                         matchingGroup.defaultNotificationTypeIdentifiers.toSet()
 
-                    onSuccess(activatedTypes, possibleTypes, defaultTypes)
+                    postToMain { onSuccess(activatedTypes, possibleTypes, defaultTypes) }
                 }
-            } ?: onError()
+            } ?: postToMain { onError() }
         } catch (e: Exception) {
-            onError()
+            postToMain { onError() }
         }
     }
 
@@ -141,5 +143,9 @@ data class LegacyEventNotificationsInteractor(
                 onSuccess()
             } else onError()
         }
+    }
+
+    private suspend fun postToMain(updateUI: () -> Unit) = withContext(Dispatchers.Main) {
+        updateUI()
     }
 }

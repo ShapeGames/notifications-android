@@ -14,5 +14,5 @@ data class EventNotificationsSheetConfig(
 
     val notificationsDataSource: NotificationsComponentInterface,
 
-    val onDismissed: () -> Unit
+    val eventHandler: EventNotificationsSheetEventHandler
 )

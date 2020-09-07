@@ -88,7 +88,13 @@ class EventNotificationsSheetFragment : BottomSheetDialogFragment() {
                         updateNotifications(
                             eventId = stateData.eventId,
                             notificationTypeIds = stateData.notificationTypeIds,
-                            onSuccess = onSuccess,
+                            onSuccess = {
+                                onSuccess()
+                                config.eventHandler.onSubscriptionsUpdated(
+                                    eventId = action.eventId,
+                                    hasActiveSubscriptions = stateData.notificationTypeIds.isNotEmpty()
+                                )
+                            },
                             onError = {
                                 onFailure()
                                 errorMessageViewModel.showErrorMessage()
@@ -136,7 +142,7 @@ class EventNotificationsSheetFragment : BottomSheetDialogFragment() {
     private suspend fun loadNotifications() {
         eventNotificationInteractor.loadSubscription(
             eventId = action.eventId,
-            notificationGroupId = action.notificationGroupId,
+            notificationGroupId = action.groupId,
             provideNotifications = config.provideNotifications,
             onSuccess = onNotificationsLoaded,
             onError = {
@@ -165,12 +171,12 @@ class EventNotificationsSheetFragment : BottomSheetDialogFragment() {
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-        config.onDismissed()
+        config.eventHandler.onDismissed()
     }
 
     override fun dismiss() {
         super.dismiss()
-        config.onDismissed()
+        config.eventHandler.onDismissed()
     }
 
     override fun onCreateView(

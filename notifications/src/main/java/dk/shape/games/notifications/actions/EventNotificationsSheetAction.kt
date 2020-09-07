@@ -9,5 +9,5 @@ import kotlinx.android.parcel.Parcelize
 data class EventNotificationsSheetAction(
     val eventId: String,
     val eventInfo: EventInfo,
-    val notificationGroupId: String
+    val groupId: String
 ) : Parcelable

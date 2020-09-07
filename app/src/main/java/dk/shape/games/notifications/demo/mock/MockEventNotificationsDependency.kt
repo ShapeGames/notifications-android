@@ -3,19 +3,27 @@ package dk.shape.games.notifications.demo.mock
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.games.notifications.actions.EventNotificationTypesAction
+import dk.shape.games.notifications.actions.EventNotificationsSheetAction
 import dk.shape.games.notifications.demo.R
 import dk.shape.games.notifications.demo.dependency.MockEventNotificationTypesDependencyProvider
-import dk.shape.games.notifications.entities.SubjectType
+import dk.shape.games.notifications.demo.dependency.MockEventNotificationsSheetDependencyProvider
 import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.features.list.NotificationsEventHandler
 import dk.shape.games.notifications.features.list.EventNotificationsFragment
 import dk.shape.games.notifications.features.types.NotificationTypesEventHandler
 import dk.shape.games.notifications.features.types.EventNotificationTypesFragment
+import dk.shape.games.notifications.presentation.*
 import dk.shape.games.notifications.repositories.EventNotificationsDataSource
 import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
+import dk.shape.games.notifications.entities.SubjectType
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import kotlin.time.ExperimentalTime
 
 object DeviceIdProviderMock {
@@ -56,7 +64,7 @@ object NotificationsProviderMock {
 
 object NotificationsRepositoryMock : EventNotificationsDataSource {
 
-    private val subscriptionSetMock = mutableSetOf(
+    private val subscriptionSetMock = mutableSetOf<Subscription>(
         Subscription(
             eventId = "event1",
             subjectId = "event1",
@@ -68,6 +76,12 @@ object NotificationsRepositoryMock : EventNotificationsDataSource {
             subjectId = "event2",
             subjectType = SubjectType.EVENTS,
             types = setOf("team_home_score", "team_away_score")
+        ),
+        Subscription(
+            eventId = "event:1234",
+            subjectId = "event:1234",
+            subjectType = SubjectType.EVENTS,
+            types = setOf("red_card", "yellow_card")
         )
     )
 
@@ -83,6 +97,15 @@ object NotificationsRepositoryMock : EventNotificationsDataSource {
                 }.toSet()
             )
         }
+    }
+
+    override suspend fun hasActiveEventSubscription(
+        deviceId: String,
+        eventId: String
+    ): Flow<Boolean> = flow {
+        emit(
+            subscriptionSetMock.find { it.eventId == eventId }?.types?.isNotEmpty() ?: false
+        )
     }
 
     override suspend fun updateEventSubscriptions(
@@ -162,3 +185,61 @@ object NotificationTypesEventHandlerMock : NotificationTypesEventHandler {
 
     }
 }
+
+object GroupNotificationsSupportMock {
+    suspend fun hasNotificationsSupport(eventId: String): Boolean {
+        return true
+    }
+}
+
+object EventNotificationsProviderMock {
+    suspend fun provideNotificationsMock(): List<AppConfig.Notifications.NotificationGroup> {
+        return withContext(Dispatchers.IO) {
+            mockEventNotificationGroups
+        }
+    }
+}
+
+@ExperimentalCoroutinesApi
+val mockEventDependencies: MockEventParentNotificationsConfig = MockEventParentNotificationsConfig(
+    hasGroupNotificationsSupport = { groupId ->
+        GroupNotificationsSupportMock.hasNotificationsSupport(groupId)
+    },
+    hasNotificationsSupport = { eventId ->
+        val deviceId = SubjectDeviceIdProviderMock.provideDeviceIdMock()
+        NotificationsRepositoryMock.hasActiveEventSubscription(deviceId, eventId)
+    },
+    notificationsEventListener = { },
+    showNotificationsFragment = { fragment, mockData ->
+        launchEventBottomSheetNotificationsFragment(
+            fragment = fragment,
+            action = EventNotificationsSheetAction(
+                groupId = mockData.groupId,
+                eventId = mockData.eventId,
+                eventInfo = mockData.eventInfo
+            )
+        )
+    }
+)
+
+private fun <T : Fragment> launchEventBottomSheetNotificationsFragment(
+    fragment: T,
+    action: EventNotificationsSheetAction
+): BottomSheetDialogFragment =
+    EventNotificationsSheetFragment().apply {
+        arguments = EventNotificationsSheetFragment.Args.create(
+            action = action,
+            configProvider = MockEventNotificationsSheetDependencyProvider::class.java
+        )
+        show(fragment.childFragmentManager, EventNotificationsSheetFragment::class.java.simpleName)
+    }
+
+@ExperimentalCoroutinesApi
+object EventNotificationsSheetEventHandlerMock : EventNotificationsSheetEventHandler {
+    override fun onSubscriptionsUpdated(eventId: String, hasActiveSubscriptions: Boolean) {
+        mockEventDependencies.notificationsEventListener(hasActiveSubscriptions)
+    }
+
+    override fun onDismissed() {}
+}
+
