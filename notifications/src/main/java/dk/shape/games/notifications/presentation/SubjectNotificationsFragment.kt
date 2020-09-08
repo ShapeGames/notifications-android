@@ -25,12 +25,13 @@ import dk.shape.games.notifications.presentation.viewmodels.notifications.Subjec
 import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationSheetSubjectViewModel
 import dk.shape.games.notifications.presentation.viewmodels.state.ErrorMessageViewModel
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
+import dk.shape.games.notifications.utils.ExpandedBottomSheetDialogFragment
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import kotlinx.coroutines.Dispatchers
 
-class SubjectNotificationsFragment : BottomSheetDialogFragment() {
+class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
 
     object Args : ConfigFragmentArgs<SubjectNotificationsAction, SubjectNotificationsConfig>()
 

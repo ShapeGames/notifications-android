@@ -22,12 +22,13 @@ import dk.shape.games.notifications.presentation.viewmodels.notifications.Notifi
 import dk.shape.games.notifications.presentation.viewmodels.state.ErrorMessageViewModel
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsInteractor
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsUseCases
+import dk.shape.games.notifications.utils.ExpandedBottomSheetDialogFragment
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import kotlinx.coroutines.Dispatchers
 
-class EventNotificationsSheetFragment : BottomSheetDialogFragment() {
+class EventNotificationsSheetFragment : ExpandedBottomSheetDialogFragment() {
 
     object Args : ConfigFragmentArgs<EventNotificationsSheetAction, EventNotificationsSheetConfig>()
 
@@ -57,25 +58,24 @@ class EventNotificationsSheetFragment : BottomSheetDialogFragment() {
         requireActivity()
     }
 
-    private fun getInitialEventViewModel(): NotificationSheetEventViewModel? = null
-    /* config.provideNotificationsNow()?.find {
-         it.groupId == action.notificationGroupId
-     }?.notificationTypes?.let { notificationTypesForSport ->
-         notificationViewModel.apply {
-             notificationTypesCollection.set(
-                 NotificationTypeCollectionViewModel(
-                     defaultTypeIds = emptySet(),
-                     selectedTypeIds = emptySet(),
-                     activatedTypeIds = emptySet(),
-                     possibleTypeInfos = notificationTypesForSport.toSet()
-                         .toNotificationTypeInfos(),
-                     selectionNotifier = notifySelection,
-                     initialMasterState = false
-                 )
-             )
-             headerViewModel.activeNotificationState.awareSet(false)
-         }
-     }*/
+    private fun getInitialEventViewModel(): NotificationSheetEventViewModel? =
+        config.provideNotificationsNow()?.find {
+            it.groupId == action.groupId
+        }?.notificationTypes?.let { possibleTypes ->
+            notificationViewModel.apply {
+                notificationTypesCollection.set(
+                    NotificationTypeCollectionViewModel(
+                        defaultTypeIds = emptySet(),
+                        selectedTypeIds = emptySet(),
+                        activatedTypeIds = emptySet(),
+                        possibleTypeInfos = possibleTypes.toNotificationTypeInfos(),
+                        selectionNotifier = notifySelection,
+                        initialMasterState = false
+                    )
+                )
+                headerViewModel.activeNotificationState.awareSet(false)
+            }
+        }
 
     private val notificationViewModel: NotificationSheetEventViewModel by lazy {
         NotificationSheetEventViewModel(
