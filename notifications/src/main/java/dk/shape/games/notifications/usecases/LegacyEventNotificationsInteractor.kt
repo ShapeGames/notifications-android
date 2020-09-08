@@ -45,7 +45,7 @@ data class LegacyEventNotificationsInteractor(
 
                     postToMain { onSuccess(activatedTypes, possibleTypes, defaultTypes) }
                 }
-            } ?: postToMain { onError() }
+            }
         } catch (e: Exception) {
             postToMain { onError() }
         }
