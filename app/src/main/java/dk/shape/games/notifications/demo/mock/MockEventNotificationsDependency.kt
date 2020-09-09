@@ -99,15 +99,6 @@ object NotificationsRepositoryMock : EventNotificationsDataSource {
         }
     }
 
-    override suspend fun hasActiveEventSubscription(
-        deviceId: String,
-        eventId: String
-    ): Flow<Boolean> = flow {
-        emit(
-            subscriptionSetMock.find { it.eventId == eventId }?.types?.isNotEmpty() ?: false
-        )
-    }
-
     override suspend fun updateEventSubscriptions(
         deviceId: String,
         eventId: String,
@@ -206,8 +197,7 @@ val mockEventDependencies: MockEventParentNotificationsConfig = MockEventParentN
         GroupNotificationsSupportMock.hasNotificationsSupport(groupId)
     },
     hasNotificationsSupport = { eventId ->
-        val deviceId = SubjectDeviceIdProviderMock.provideDeviceIdMock()
-        NotificationsRepositoryMock.hasActiveEventSubscription(deviceId, eventId)
+        flow { true }
     },
     notificationsEventListener = { },
     showNotificationsFragment = { fragment, mockData ->

@@ -91,15 +91,15 @@ class EventNotificationsSheetFragment : ExpandedBottomSheetDialogFragment() {
                             eventId = stateData.eventId,
                             notificationTypeIds = stateData.notificationTypeIds,
                             onSuccess = {
-                                onSuccess()
                                 config.eventHandler.onSubscriptionsUpdated(
                                     eventId = action.eventId,
                                     hasActiveSubscriptions = stateData.notificationTypeIds.isNotEmpty()
                                 )
+                                onSuccess()
                             },
                             onError = {
-                                onFailure()
                                 errorMessageViewModel.showErrorMessage()
+                                onFailure()
                             }
                         )
                     }

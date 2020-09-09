@@ -60,17 +60,6 @@ class NotificationsRepository(
     }
 
     @FlowPreview
-    override suspend fun hasActiveEventSubscription(
-        deviceId: String,
-        eventId: String
-    ): Flow<Boolean> {
-        return getAllSubscriptions(deviceId).map { subscriptions ->
-            val subscription = subscriptions.find { it.eventId == eventId }
-            subscription != null && subscription.types.isNotEmpty()
-        }
-    }
-
-    @FlowPreview
     override suspend fun hasActiveSubjectSubscription(
         deviceId: String,
         subjectId: String
