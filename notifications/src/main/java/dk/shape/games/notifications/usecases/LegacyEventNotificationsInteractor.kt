@@ -32,19 +32,16 @@ data class LegacyEventNotificationsInteractor(
             notificationGroups.find { notificationGroup ->
                 notificationGroup.groupId == notificationGroupId
             }?.let { matchingGroup ->
-                subscriptions.find { subscription ->
+                val activatedTypes: Set<String> = subscriptions.find { subscription ->
                     subscription.eventId == eventId
-                }?.let { matchingSubscription ->
-                    val activatedTypes: Set<String> = matchingSubscription.types.toSet()
+                }?.types?.toSet() ?: emptySet()
 
-                    val possibleTypes: List<LegacyNotificationType> =
-                        matchingGroup.notificationTypes
+                val possibleTypes: List<LegacyNotificationType> = matchingGroup.notificationTypes
 
-                    val defaultTypes: Set<String> =
-                        matchingGroup.defaultNotificationTypeIdentifiers.toSet()
+                val defaultTypes: Set<String> =
+                    matchingGroup.defaultNotificationTypeIdentifiers.toSet()
 
-                    postToMain { onSuccess(activatedTypes, possibleTypes, defaultTypes) }
-                }
+                postToMain { onSuccess(activatedTypes, possibleTypes, defaultTypes) }
             }
         } catch (e: Exception) {
             postToMain { onError() }
