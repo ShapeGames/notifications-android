@@ -42,6 +42,8 @@ data class LegacyEventNotificationsInteractor(
                     matchingGroup.defaultNotificationTypeIdentifiers.toSet()
 
                 postToMain { onSuccess(activatedTypes, possibleTypes, defaultTypes) }
+            } ?: run {
+                postToMain { onError() }
             }
         } catch (e: Exception) {
             postToMain { onError() }
