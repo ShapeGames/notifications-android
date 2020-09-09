@@ -121,13 +121,9 @@ class EventNotificationsSheetFragment : ExpandedBottomSheetDialogFragment() {
 
     private val onNotificationsLoaded: EventNotificationsLoadedListener =
         { activatedTypeIds, possibleTypes, defaultTypesIds ->
-            val initialTypeIds = if (defaultTypesIds.isNotEmpty()) {
-                defaultTypesIds
-            } else activatedTypeIds
-
             val viewModelUpdate = NotificationTypeCollectionViewModel(
                 selectedTypeIds = activatedTypeIds,
-                defaultTypeIds = initialTypeIds,
+                defaultTypeIds = defaultTypesIds,
                 activatedTypeIds = activatedTypeIds,
                 possibleTypeInfos = possibleTypes.toNotificationTypeInfos(),
                 selectionNotifier = notificationViewModel.notifySelection,

@@ -30,7 +30,7 @@ internal typealias LegacyNotificationType = AppConfig.Notifications.Notification
 val mockLegacySubscriptions: MutableList<Subscription> = mutableListOf(
     Subscription(
         eventId = "event:1234",
-        types = listOf("event_start")
+        types = listOf()
     ),
     Subscription(
         eventId = "event:1235",

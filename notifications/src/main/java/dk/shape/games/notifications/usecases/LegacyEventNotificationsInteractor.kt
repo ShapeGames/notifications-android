@@ -40,9 +40,8 @@ data class LegacyEventNotificationsInteractor(
                     val possibleTypes: List<LegacyNotificationType> =
                         matchingGroup.notificationTypes
 
-                    val defaultTypes: Set<String> = if (activatedTypes.isEmpty()) {
+                    val defaultTypes: Set<String> =
                         matchingGroup.defaultNotificationTypeIdentifiers.toSet()
-                    } else emptySet()
 
                     postToMain { onSuccess(activatedTypes, possibleTypes, defaultTypes) }
                 }
