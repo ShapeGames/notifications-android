@@ -34,14 +34,15 @@ data class LegacyEventNotificationsInteractor(
             }?.let { matchingGroup ->
                 subscriptions.find { subscription ->
                     subscription.eventId == eventId
-                }?.takeIf { subscription ->
-                    subscription.types.isNotEmpty()
                 }?.let { matchingSubscription ->
                     val activatedTypes: Set<String> = matchingSubscription.types.toSet()
+
                     val possibleTypes: List<LegacyNotificationType> =
                         matchingGroup.notificationTypes
-                    val defaultTypes: Set<String> =
+
+                    val defaultTypes: Set<String> = if (activatedTypes.isEmpty()) {
                         matchingGroup.defaultNotificationTypeIdentifiers.toSet()
+                    } else emptySet()
 
                     postToMain { onSuccess(activatedTypes, possibleTypes, defaultTypes) }
                 }
