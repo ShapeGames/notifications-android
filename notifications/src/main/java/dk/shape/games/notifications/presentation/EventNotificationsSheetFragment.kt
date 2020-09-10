@@ -54,8 +54,6 @@ class EventNotificationsSheetFragment : ExpandedBottomSheetDialogFragment() {
             })
     }
 
-    private var pendingNotificationUpdate: NotificationTypesUpdate? = null
-
     private val errorMessageViewModel = ErrorMessageViewModel {
         requireActivity()
     }
@@ -130,15 +128,10 @@ class EventNotificationsSheetFragment : ExpandedBottomSheetDialogFragment() {
                 initialMasterState = activatedTypeIds.isNotEmpty()
             )
 
-            val notificationUpdate = NotificationTypesUpdate(
-                viewModel = viewModelUpdate,
-                hasActiveSubscriptions = activatedTypeIds.isNotEmpty()
-            )
-
-            if (isExpanded) {
-                notificationViewModel.update(notificationUpdate)
-            } else {
-                pendingNotificationUpdate = notificationUpdate
+            with(notificationViewModel) {
+                notificationTypesCollection.set(viewModelUpdate)
+                headerViewModel.activeNotificationState.awareSet(activatedTypeIds.isNotEmpty())
+                viewSwitcherViewModel.showContent(this)
             }
         }
 
@@ -166,19 +159,6 @@ class EventNotificationsSheetFragment : ExpandedBottomSheetDialogFragment() {
             }
         }
     }
-
-    override var isExpanded: Boolean = false
-        set(value) {
-            if (field != value) {
-                if (value) {
-                    pendingNotificationUpdate?.let { pendingUpdate ->
-                        notificationViewModel.update(pendingUpdate)
-                    }
-                    pendingNotificationUpdate = null
-                }
-                field = value
-            }
-        }
 
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 
@@ -213,17 +193,4 @@ class EventNotificationsSheetFragment : ExpandedBottomSheetDialogFragment() {
             }
         }
     }
-
-    private fun NotificationSheetEventViewModel.update(notificationUpdate: NotificationTypesUpdate) {
-        with(notificationUpdate) {
-            notificationTypesCollection.set(viewModel)
-            headerViewModel.activeNotificationState.awareSet(hasActiveSubscriptions)
-            viewSwitcherViewModel.showContent(this@update)
-        }
-    }
-
-    private data class NotificationTypesUpdate(
-        val viewModel: NotificationTypeCollectionViewModel,
-        val hasActiveSubscriptions: Boolean
-    )
 }

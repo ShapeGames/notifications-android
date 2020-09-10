@@ -21,6 +21,7 @@ import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 import dk.shape.games.notifications.entities.SubjectType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
@@ -197,7 +198,10 @@ val mockEventDependencies: MockEventParentNotificationsConfig = MockEventParentN
         GroupNotificationsSupportMock.hasNotificationsSupport(groupId)
     },
     hasNotificationsSupport = { eventId ->
-        flow { true }
+        flow {
+            delay(1000)
+            emit(true)
+        }
     },
     notificationsEventListener = { },
     showNotificationsFragment = { fragment, mockData ->
