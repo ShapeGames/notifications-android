@@ -108,7 +108,7 @@ object SubjectNotificationsRepositoryMock : SubjectNotificationsDataSource {
     }
 
     @ExperimentalCoroutinesApi
-    override suspend fun hasActiveSubscription(
+    override suspend fun hasActiveSubjectSubscription(
         deviceId: String,
         subjectId: String
     ): Flow<Boolean> {
@@ -161,13 +161,13 @@ fun <T : Fragment> launchBottomSheetNotificationsFragment(
     }
 
 @ExperimentalCoroutinesApi
-val mockClientDependencies: MockNotificationsConfig = MockNotificationsConfig(
+val mockClientDependencies: MockSubjectNotificationsConfig = MockSubjectNotificationsConfig(
     hasSportNotificationsSupport = { sportId ->
         SportNotificationsSupportMock.hasNotificationsSupport(sportId)
     },
     hasNotificationsSupport = {
         val deviceId = SubjectDeviceIdProviderMock.provideDeviceIdMock()
-        SubjectNotificationsRepositoryMock.hasActiveSubscription(deviceId, it)
+        SubjectNotificationsRepositoryMock.hasActiveSubjectSubscription(deviceId, it)
     },
     notificationsEventListener = { },
     showNotificationsFragment = { fragment, mockData ->

@@ -1,7 +1,7 @@
 package dk.shape.games.notifications.presentation
 
 import dk.shape.games.notifications.actions.SubjectNotificationsAction
-import dk.shape.games.notifications.aliases.NotificationsLoadedListener
+import dk.shape.games.notifications.aliases.SubjectNotificationsLoadedListener
 import dk.shape.games.notifications.aliases.SubjectNotificationGroup
 import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.presentation.viewmodels.state.StateDataSubject
@@ -31,7 +31,7 @@ class SubjectNotificationsInteractor(
     }
 
     override suspend fun loadNotifications(
-        onLoaded: NotificationsLoadedListener,
+        onLoaded: SubjectNotificationsLoadedListener,
         onFailure: (error: Throwable) -> Unit
     ) {
         if (notificationsEventHandler is SubjectNotificationsEventHandler.Full.State) {

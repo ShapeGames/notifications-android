@@ -4,10 +4,7 @@ import dk.shape.games.demoskeleton.DemoScreen
 import dk.shape.games.notifications.actions.EventNotificationsAction
 import dk.shape.games.notifications.actions.NotificationSettingsAction
 import dk.shape.games.notifications.demo.dependency.*
-import dk.shape.games.notifications.demo.mock.SubjectNotificationsAction
-import dk.shape.games.notifications.demo.mock.MockSubjectNotificationsParentFragment
-import dk.shape.games.notifications.demo.mock.mockNotificationSettingsEventAction
-import dk.shape.games.notifications.demo.mock.mockNotificationSettingsSubjectAction
+import dk.shape.games.notifications.demo.mock.*
 import dk.shape.games.notifications.features.list.EventNotificationsFragment
 import dk.shape.games.notifications.presentation.NotificationSettingsEventFragment
 import dk.shape.games.notifications.presentation.NotificationSettingsFragment
@@ -34,12 +31,23 @@ object NotificationsScreens {
             }
         ),
         DemoScreen(
-            name = "Bottom Sheet Notifications",
+            name = "Notifications Sheet Subject",
             fragmentProvider = {
                 MockSubjectNotificationsParentFragment().apply {
                     arguments = MockSubjectNotificationsParentFragment.Args.create(
                         SubjectNotificationsAction,
                         MockNotificationsDependencyProvider::class.java
+                    )
+                }
+            }
+        ),
+        DemoScreen(
+            name = "Notifications Sheet Event",
+            fragmentProvider = {
+                MockEventNotificationsParentFragment().apply {
+                    arguments = MockEventNotificationsParentFragment.Args.create(
+                        EventParentNotificationsAction,
+                        MockEventParentNotificationsDependencyProvider::class.java
                     )
                 }
             }

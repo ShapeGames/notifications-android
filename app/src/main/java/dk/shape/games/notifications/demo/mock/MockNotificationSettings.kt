@@ -2,6 +2,7 @@ package dk.shape.games.notifications.demo.mock
 
 import dk.shape.componentkit2.Promise
 import dk.shape.danskespil.foundation.entities.PolyIcon
+import dk.shape.games.notifications.actions.EventInfo
 import dk.shape.games.notifications.actions.NotificationSettingsEventAction
 import dk.shape.games.notifications.actions.NotificationSettingsSubjectAction
 import dk.shape.games.notifications.aliases.Notifications
@@ -29,7 +30,7 @@ internal typealias LegacyNotificationType = AppConfig.Notifications.Notification
 val mockLegacySubscriptions: MutableList<Subscription> = mutableListOf(
     Subscription(
         eventId = "event:1234",
-        types = listOf("event_start")
+        types = listOf("corner")
     ),
     Subscription(
         eventId = "event:1235",
@@ -113,7 +114,7 @@ val mockInitialActiveNotifications = setOf(
     )
 )
 
-val mockEventInfo = NotificationSettingsEventAction.EventInfo(
+val mockEventInfo = EventInfo(
     homeName = "manchester",
     awayName = "liverpool",
     level2Name = "england",
@@ -374,7 +375,7 @@ val mockLegacyNotificationsComponent = object : NotificationsComponentInterface 
 }
 
 val mockSubjectNotificationsDataSource = object : SubjectNotificationsDataSource {
-    override suspend fun hasActiveSubscription(deviceId: String, subjectId: String): Flow<Boolean> =
+    override suspend fun hasActiveSubjectSubscription(deviceId: String, subjectId: String): Flow<Boolean> =
         flowOf(true)
 
     override suspend fun updateSubjectSubscriptions(

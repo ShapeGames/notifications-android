@@ -1,7 +1,7 @@
 package dk.shape.games.notifications.presentation.viewmodels.notifications
 
 import androidx.databinding.ObservableField
-import dk.shape.games.notifications.actions.NotificationSettingsEventAction
+import dk.shape.games.notifications.actions.EventInfo
 import dk.shape.games.notifications.aliases.PreferenceSaveEvent
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.requireValue
@@ -10,7 +10,7 @@ import dk.shape.games.notifications.presentation.viewmodels.state.StateDataEvent
 
 internal data class NotificationSheetEventViewModel(
     private val eventId: String,
-    private val eventInfo: NotificationSettingsEventAction.EventInfo,
+    private val eventInfo: EventInfo,
     private val onClosedPressed: () -> Unit,
     private val onPreferencesSaved: PreferenceSaveEvent
 ) {

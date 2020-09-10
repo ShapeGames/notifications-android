@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenResumed
 import androidx.lifecycle.whenStarted
+import dk.shape.games.notifications.actions.EventInfo
 import dk.shape.games.notifications.demo.databinding.FragmentMockNotificationsBinding
-import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
@@ -20,38 +20,44 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
-data class MockSubjectNotificationsConfig(
-    val hasSportNotificationsSupport: suspend (sportId: String) -> Boolean,
-    val hasNotificationsSupport: suspend (subjectId: String) -> Flow<Boolean>,
-    val showNotificationsFragment: (Fragment, MockSubjectData) -> Unit,
+data class MockEventParentNotificationsConfig(
+    val hasGroupNotificationsSupport: suspend (groupId: String) -> Boolean,
+    val hasNotificationsSupport: suspend (eventId: String) -> Flow<Boolean>,
+    val showNotificationsFragment: (Fragment, MockEventParentData) -> Unit,
     var notificationsEventListener: (hasNotifications: Boolean) -> Unit
 )
 
-data class MockSubjectData(
-    val sportId: String,
-    val subjectId: String,
-    val subjectName: String,
-    val subjectType: SubjectType
+data class MockEventParentData(
+    val eventId: String,
+    val groupId: String,
+    val eventInfo: EventInfo
 )
 
 @Parcelize
-object SubjectNotificationsAction: Parcelable
+object EventParentNotificationsAction : Parcelable
 
-class MockSubjectNotificationsParentFragment : Fragment() {
+class MockEventNotificationsParentFragment : Fragment() {
 
-    private val mockData = MockSubjectData(
-        sportId = "football:0000",
-        subjectId = "team:0000",
-        subjectName = "Manchester United",
-        subjectType = SubjectType.TEAMS
+    private val mockData = MockEventParentData(
+        eventId = "event:1234",
+        groupId = "sport:football",
+        eventInfo = EventInfo(
+            sportIconName = null,
+            homeName = "Manchester",
+            awayName = "Barcelona",
+            startDate = Date(),
+            level2Name = "Premier League",
+            level3Name = "England"
+        )
     )
 
-    object Args : ConfigFragmentArgs<SubjectNotificationsAction, MockSubjectNotificationsConfig>()
+    object Args : ConfigFragmentArgs<EventParentNotificationsAction, MockEventParentNotificationsConfig>()
 
-    private val config: MockSubjectNotificationsConfig by config()
+    private val config: MockEventParentNotificationsConfig by config()
 
-    private val action: SubjectNotificationsAction by action()
+    private val action: EventParentNotificationsAction by action()
 
     private val mockViewModel: MockNotificationsViewModel by lazy {
 
@@ -70,9 +76,9 @@ class MockSubjectNotificationsParentFragment : Fragment() {
         lifecycleScope.launch {
             whenStarted { mockViewModel.isLoadingStatus.set(true) }
             whenResumed {
-                if (config.hasSportNotificationsSupport(mockData.sportId)) {
+                if (config.hasGroupNotificationsSupport(mockData.groupId)) {
                     mockViewModel.hasNotificationsSupport.set(true)
-                    config.hasNotificationsSupport(mockData.subjectId).collect {
+                    config.hasNotificationsSupport(mockData.eventId).collect {
                         withContext(Dispatchers.Main) {
                             mockViewModel.isLoadingStatus.set(false)
                             mockViewModel.hasNotifications.set(it)

@@ -2,7 +2,7 @@ package dk.shape.games.notifications.presentation.viewmodels.notifications
 
 import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
-import dk.shape.games.notifications.actions.NotificationSettingsEventAction
+import dk.shape.games.notifications.actions.EventInfo
 import dk.shape.games.notifications.extensions.toDateText
 import dk.shape.games.notifications.extensions.toTimeText
 import dk.shape.games.uikit.databinding.UIImage
@@ -43,7 +43,7 @@ internal sealed class NotificationHeaderViewModel(
     )
 }
 
-internal fun NotificationSettingsEventAction.EventInfo.toNotificationHeaderEventViewModel(
+internal fun EventInfo.toNotificationHeaderEventViewModel(
     isDisabled: ObservableBoolean,
     onSwitchToggled: (isChecked: Boolean) -> Unit
 ): NotificationHeaderViewModel.Event =

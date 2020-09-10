@@ -16,3 +16,4 @@ class MockSubjectNotificationsDependencyProvider : ConfigProvider<SubjectNotific
         eventHandler = SubjectNotificationsEventHandlerMock
     )
 }
+

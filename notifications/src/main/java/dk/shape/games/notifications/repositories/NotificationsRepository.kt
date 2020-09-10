@@ -60,7 +60,7 @@ class NotificationsRepository(
     }
 
     @FlowPreview
-    override suspend fun hasActiveSubscription(
+    override suspend fun hasActiveSubjectSubscription(
         deviceId: String,
         subjectId: String
     ): Flow<Boolean> {

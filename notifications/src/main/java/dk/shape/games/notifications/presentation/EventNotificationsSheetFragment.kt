@@ -12,45 +12,38 @@ import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dk.shape.games.notifications.R
-import dk.shape.games.notifications.actions.SubjectNotificationsAction
-import dk.shape.games.notifications.aliases.SubjectNotificationsLoadedListener
+import dk.shape.games.notifications.actions.EventNotificationsSheetAction
+import dk.shape.games.notifications.aliases.EventNotificationsLoadedListener
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.launch
-import dk.shape.games.notifications.databinding.FragmentSubjectNotificationsBinding
-import dk.shape.games.notifications.extensions.toStrings
+import dk.shape.games.notifications.databinding.FragmentEventNotificationsSheetBinding
 import dk.shape.games.notifications.presentation.viewmodels.notifications.*
 import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel
-import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSheetViewModel
-import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSwitcherViewModel
-import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationSheetSubjectViewModel
 import dk.shape.games.notifications.presentation.viewmodels.state.ErrorMessageViewModel
-import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
+import dk.shape.games.notifications.usecases.LegacyEventNotificationsInteractor
+import dk.shape.games.notifications.usecases.LegacyEventNotificationsUseCases
 import dk.shape.games.notifications.utils.ExpandedBottomSheetDialogFragment
 import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import kotlinx.coroutines.Dispatchers
 
-class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
+class EventNotificationsSheetFragment : ExpandedBottomSheetDialogFragment() {
 
-    object Args : ConfigFragmentArgs<SubjectNotificationsAction, SubjectNotificationsConfig>()
+    object Args : ConfigFragmentArgs<EventNotificationsSheetAction, EventNotificationsSheetConfig>()
 
-    private val config: SubjectNotificationsConfig by config()
-    private val action: SubjectNotificationsAction by action()
+    private val config: EventNotificationsSheetConfig by config()
+    private val action: EventNotificationsSheetAction by action()
 
-    private val interactor: SubjectNotificationUseCases by lazy {
-        SubjectNotificationsInteractor(
-            action = action,
-            provideDeviceId = config.provideDeviceId,
-            notificationsProvider = config.provideNotifications,
-            notificationsDataSource = config.notificationsDataSource,
-            notificationsEventHandler = config.eventHandler
+    private val eventNotificationInteractor: LegacyEventNotificationsUseCases by lazy {
+        LegacyEventNotificationsInteractor(
+            config.notificationsDataSource
         )
     }
 
-    private val viewSwitcherViewModel: SubjectNotificationSwitcherViewModel by lazy {
-        SubjectNotificationSwitcherViewModel(
-            initialContentItem = getInitialSubjectViewModel(),
+    private val viewSwitcherViewModel: EventNotificationSwitcherViewModel by lazy {
+        EventNotificationSwitcherViewModel(
+            initialContentItem = getInitialEventViewModel(),
             onItemChanged = {
                 requireBottomSheetView()?.let { bottomSheetView ->
                     TransitionManager.beginDelayedTransition(
@@ -65,18 +58,17 @@ class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
         requireActivity()
     }
 
-    private fun getInitialSubjectViewModel(): NotificationSheetSubjectViewModel? =
+    private fun getInitialEventViewModel(): NotificationSheetEventViewModel? =
         config.provideNotificationsNow()?.find {
-            it.sportId == action.sportId
-        }?.notificationTypes?.let { notificationTypesForSport ->
+            it.groupId == action.groupId
+        }?.notificationTypes?.let { possibleTypes ->
             notificationViewModel.apply {
                 notificationTypesCollection.set(
                     NotificationTypeCollectionViewModel(
                         defaultTypeIds = emptySet(),
                         selectedTypeIds = emptySet(),
                         activatedTypeIds = emptySet(),
-                        possibleTypeInfos = notificationTypesForSport.toSet()
-                            .toNotificationTypeInfos(),
+                        possibleTypeInfos = possibleTypes.toNotificationTypeInfos(),
                         selectionNotifier = notifySelection,
                         initialMasterState = false
                     )
@@ -85,21 +77,27 @@ class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
             }
         }
 
-    private val notificationViewModel: NotificationSheetSubjectViewModel by lazy {
-        NotificationSheetSubjectViewModel(
-            subjectId = action.subjectId,
-            subjectType = action.subjectType,
-            subjectName = action.subjectName,
+    private val notificationViewModel: NotificationSheetEventViewModel by lazy {
+        NotificationSheetEventViewModel(
+            eventId = action.eventId,
+            eventInfo = action.eventInfo,
             onClosedPressed = { dismiss() },
             onPreferencesSaved = { stateData, onSuccess, onFailure ->
-                launch(interactor, Dispatchers.IO) {
+                launch(eventNotificationInteractor, Dispatchers.IO) {
                     whenResumed {
-                        saveNotificationPreferences(
-                            stateData = stateData,
-                            onSuccess = onSuccess,
-                            onFailure = {
-                                onFailure()
+                        updateNotifications(
+                            eventId = stateData.eventId,
+                            notificationTypeIds = stateData.notificationTypeIds,
+                            onSuccess = {
+                                config.eventHandler.onSubscriptionsUpdated(
+                                    eventId = action.eventId,
+                                    hasActiveSubscriptions = stateData.notificationTypeIds.isNotEmpty()
+                                )
+                                onSuccess()
+                            },
+                            onError = {
                                 errorMessageViewModel.showErrorMessage()
+                                onFailure()
                             }
                         )
                     }
@@ -108,8 +106,8 @@ class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
         )
     }
 
-    private val notificationsSheetViewModel: SubjectNotificationSheetViewModel by lazy {
-        SubjectNotificationSheetViewModel(
+    private val notificationsSheetViewModel: EventNotificationSheetViewModel by lazy {
+        EventNotificationSheetViewModel(
             notificationViewModel = notificationViewModel,
             notificationSwitcherViewModel = viewSwitcherViewModel,
             errorMessageViewModel = errorMessageViewModel,
@@ -119,33 +117,31 @@ class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
         )
     }
 
-    private val onNotificationsLoaded: SubjectNotificationsLoadedListener =
-        { activatedTypes, possibleTypes, defaultTypes ->
-            val activeIdentifiers = activatedTypes.map { it.identifier }.toSet()
-            val initialIdentifiers = if (defaultTypes.isNotEmpty()) {
-                defaultTypes.toSet()
-            } else activeIdentifiers.toSet()
+    private val onNotificationsLoaded: EventNotificationsLoadedListener =
+        { activatedTypeIds, possibleTypes, defaultTypesIds ->
+            val viewModelUpdate = NotificationTypeCollectionViewModel(
+                selectedTypeIds = activatedTypeIds,
+                defaultTypeIds = defaultTypesIds,
+                activatedTypeIds = activatedTypeIds,
+                possibleTypeInfos = possibleTypes.toNotificationTypeInfos(),
+                selectionNotifier = notificationViewModel.notifySelection,
+                initialMasterState = activatedTypeIds.isNotEmpty()
+            )
 
             with(notificationViewModel) {
-                notificationTypesCollection.set(
-                    NotificationTypeCollectionViewModel(
-                        selectedTypeIds = activeIdentifiers.toSet().toStrings(),
-                        defaultTypeIds = initialIdentifiers.toStrings(),
-                        activatedTypeIds = activeIdentifiers.toStrings(),
-                        possibleTypeInfos = possibleTypes.toNotificationTypeInfos(),
-                        selectionNotifier = notificationViewModel.notifySelection,
-                        initialMasterState = activatedTypes.isNotEmpty()
-                    )
-                )
-                headerViewModel.activeNotificationState.awareSet(activatedTypes.isNotEmpty())
+                notificationTypesCollection.set(viewModelUpdate)
+                headerViewModel.activeNotificationState.awareSet(activatedTypeIds.isNotEmpty())
                 viewSwitcherViewModel.showContent(this)
             }
         }
 
-    private suspend fun loadNotifications(interactor: SubjectNotificationUseCases) {
-        interactor.loadNotifications(
-            onLoaded = onNotificationsLoaded,
-            onFailure = {
+    private suspend fun loadNotifications() {
+        eventNotificationInteractor.loadSubscription(
+            eventId = action.eventId,
+            notificationGroupId = action.groupId,
+            provideNotifications = config.provideNotifications,
+            onSuccess = onNotificationsLoaded,
+            onError = {
                 viewSwitcherViewModel.showError {
                     onRetry()
                 }
@@ -159,7 +155,7 @@ class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
                 viewSwitcherViewModel.showLoading()
             }
             whenResumed {
-                loadNotifications(interactor)
+                loadNotifications()
             }
         }
     }
@@ -183,7 +179,7 @@ class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentSubjectNotificationsBinding
+    ) = FragmentEventNotificationsSheetBinding
         .inflate(layoutInflater)
         .apply {
             viewModel = notificationsSheetViewModel
@@ -193,7 +189,7 @@ class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         launch(Dispatchers.IO) {
             whenResumed {
-                loadNotifications(interactor)
+                loadNotifications()
             }
         }
     }

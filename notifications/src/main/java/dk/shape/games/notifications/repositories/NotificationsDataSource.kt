@@ -31,7 +31,7 @@ interface EventNotificationsDataSource : NotificationsDataSource {
 
 interface SubjectNotificationsDataSource : NotificationsDataSource {
 
-    suspend fun hasActiveSubscription(
+    suspend fun hasActiveSubjectSubscription(
         deviceId: String,
         subjectId: String
     ): Flow<Boolean>
