@@ -44,7 +44,7 @@ class MockEventNotificationsParentFragment : Fragment() {
         eventId = "event:1234",
         groupId = "sport:football",
         eventInfo = EventInfo(
-            sportIconName = null,
+            sportIconName = "icon-category-football",
             homeName = "Manchester",
             awayName = "Barcelona",
             startDate = Date(),
