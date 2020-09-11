@@ -19,64 +19,70 @@
         android:paddingEnd="18dp"
         android:paddingBottom="17dp">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/icon"
-            style="?attr/Notifications.Event.Screen.Icon"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:src="@{viewModel.sportIcon}"
+        <LinearLayout
+            android:id="@+id/eventHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@id/switchButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0"
-            tools:srcCompat="@drawable/icon_category_football"
-            tools:tint="#999999"
-            tools:visibility="visible" />
+            app:layout_constraintVertical_bias="0">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/level3"
-            style="?attr/Notifications.Event.Screen.Text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="@{viewModel.level3Name}"
-            app:layout_constraintBottom_toTopOf="@id/switchButton"
-            app:layout_constraintStart_toEndOf="@id/icon"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0"
-            tools:fontFamily="sans-serif-medium"
-            tools:text="Premier League"
-            tools:textColor="#999999"
-            tools:textSize="12sp" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icon"
+                style="?attr/Notifications.Event.Screen.Icon"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@{viewModel.sportIcon}"
+                tools:srcCompat="@drawable/icon_category_football"
+                tools:tint="#999999"
+                tools:visibility="visible" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/dateText"
-            style="?attr/Notifications.Event.Screen.Text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="3dp"
-            android:text="@{viewModel.dateText}"
-            app:layout_constraintBottom_toBottomOf="@id/icon"
-            app:layout_constraintEnd_toStartOf="@id/timeText"
-            app:layout_constraintTop_toTopOf="@id/icon"
-            tools:fontFamily="sans-serif-medium"
-            tools:text="Sondag"
-            tools:textColor="#999999"
-            tools:textSize="12sp" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/level3"
+                style="?attr/Notifications.Event.Screen.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:background="@color/red_500"
+                android:text="@{viewModel.level3Name}"
+                tools:fontFamily="sans-serif-medium"
+                tools:text="Premier League"
+                tools:textColor="#999999"
+                tools:textSize="12sp" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/timeText"
-            style="?attr/Notifications.Event.Screen.Text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.timeText}"
-            app:layout_constraintBottom_toBottomOf="@id/icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/icon"
-            tools:fontFamily="sans-serif-medium"
-            tools:text="17:30"
-            tools:textColor="#999999"
-            tools:textSize="12sp" />
+            <View
+                android:id="@+id/filler"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/dateText"
+                style="?attr/Notifications.Event.Screen.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:text="@{viewModel.dateText}"
+                tools:fontFamily="sans-serif-medium"
+                tools:text="Sondag"
+                tools:textColor="#999999"
+                tools:textSize="12sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/timeText"
+                style="?attr/Notifications.Event.Screen.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.timeText}"
+                tools:fontFamily="sans-serif-medium"
+                tools:text="17:30"
+                tools:textColor="#999999"
+                tools:textSize="12sp" />
+
+        </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switchButton"
@@ -90,7 +96,7 @@
             android:thumb="@drawable/notifications_switch_thumb"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/timeText"
+            app:layout_constraintTop_toBottomOf="@id/eventHeader"
             app:onStateChange="@{viewModel.onStateChangeListener}"
             tools:checked="false" />
 
