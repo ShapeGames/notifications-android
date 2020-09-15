@@ -184,6 +184,7 @@
     <style name="Notifications.Event.Screen.Text" parent="Widget.AppCompat.TextView">
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="Notifications.Event.Screen.Text.Level2" parent="Notifications.Event.Screen.Text">

@@ -97,8 +97,9 @@ class NotificationSettingsFragment : Fragment() {
                     val eventNotificationViewModels =
                         getEventNotificationsViewModels(eventIds, appConfig)
 
-                    val statsNotificationViewModels =
-                        getSubjectNotificationsViewModels(deviceId, appConfig)
+                    val statsNotificationViewModels = if (action.openedFromMyGames) {
+                        emptyList()
+                    } else getSubjectNotificationsViewModels(deviceId, appConfig)
 
                     val hasSectionHeaders =
                         eventNotificationViewModels.isNotEmpty() && statsNotificationViewModels.isNotEmpty()
