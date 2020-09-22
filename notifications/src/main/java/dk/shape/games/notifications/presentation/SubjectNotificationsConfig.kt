@@ -34,5 +34,7 @@ data class SubjectNotificationsConfig(
 
     val notificationsDataSource: SubjectNotificationsDataSource,
 
-    val eventHandler: SubjectNotificationsEventHandler
+    val eventHandler: SubjectNotificationsEventHandler,
+
+    val onTrackNotificationSaved: () -> Unit = {}
 )

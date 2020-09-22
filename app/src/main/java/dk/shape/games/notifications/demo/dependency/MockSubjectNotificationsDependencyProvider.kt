@@ -13,7 +13,10 @@ class MockSubjectNotificationsDependencyProvider : ConfigProvider<SubjectNotific
         provideNotifications = SubjectNotificationsProviderMock::provideNotificationsMock,
         provideNotificationsNow = { subjectNotifications },
         notificationsDataSource = SubjectNotificationsRepositoryMock,
-        eventHandler = SubjectNotificationsEventHandlerMock
+        eventHandler = SubjectNotificationsEventHandlerMock,
+        onTrackNotificationSaved = {
+            val tot = 0
+        }
     )
 }
 

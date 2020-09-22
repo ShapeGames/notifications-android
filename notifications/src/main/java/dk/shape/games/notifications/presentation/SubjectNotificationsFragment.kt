@@ -96,7 +96,10 @@ class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
                     whenResumed {
                         saveNotificationPreferences(
                             stateData = stateData,
-                            onSuccess = onSuccess,
+                            onSuccess = {
+                                config.onTrackNotificationSaved()
+                                onSuccess()
+                            },
                             onFailure = {
                                 onFailure()
                                 errorMessageViewModel.showErrorMessage()
