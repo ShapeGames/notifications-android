@@ -1,9 +1,9 @@
 package dk.shape.games.notifications.presentation.viewmodels.state
 
-import dk.shape.danskespil.module.ui.ModuleDiffInterface
 import dk.shape.games.notifications.R
 import dk.shape.games.uikit.databinding.UIImage
 import dk.shape.games.uikit.databinding.UIText
+import dk.shape.games.uikit.utils.UIDiffInterface
 
 data class ErrorViewModel(
     val title: UIText = UIText.Raw.Resource(R.string.error_title),
@@ -11,8 +11,6 @@ data class ErrorViewModel(
     val description: UIText? = null,
     val icon: UIImage = UIImage.Raw.Resource(R.drawable.ic_signal_icon),
     val onRetryClick: (() -> Unit)? = null
-) : ModuleDiffInterface {
-
-    override fun compareString(): String = "ERROR_VIEW_MODEL"
-    override fun compareContentString(): String = "ERROR_VIEW_MODEL"
+) : UIDiffInterface {
+    override val id: String = "ERROR_VIEW_MODEL"
 }

@@ -4,12 +4,12 @@ import android.view.View
 import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import dk.shape.danskespil.module.ui.ModuleDiffInterface
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.aliases.OnNotificationTypeSelected
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.onChange
 import dk.shape.games.uikit.databinding.UIImage
+import dk.shape.games.uikit.utils.UIDiffInterface
 import me.tatarka.bindingcollectionadapter2.BR
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
@@ -22,7 +22,7 @@ internal data class NotificationTypeViewModel(
     private val isDefault: Boolean,
     private val isInitialActivated: Boolean,
     private val onNotificationSelected: OnNotificationTypeSelected
-) : ModuleDiffInterface {
+) : UIDiffInterface {
 
     val isEnabled: ObservableBoolean = ObservableBoolean(true)
 
@@ -66,9 +66,7 @@ internal data class NotificationTypeViewModel(
         }
     }
 
-    override fun compareContentString() = toString()
-
-    override fun compareString() = typeId
+    override val id = typeId
 }
 
 internal fun NotificationTypeInfo.toNotificationTypeViewModel(
