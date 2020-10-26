@@ -1,8 +1,5 @@
 package dk.shape.games.notifications.presentation.viewmodels.state
 
-import dk.shape.danskespil.module.ui.ModuleDiffInterface
+import dk.shape.games.uikit.utils.UIDiffInterface
 
-class LoadingViewModel : ModuleDiffInterface {
-    override fun compareString(): String = "LOADING_VIEW_MODEL"
-    override fun compareContentString(): String = "LOADING_VIEW_MODEL"
-}
+data class LoadingViewModel(override val id: String = "LOADING_VIEW_MODEL") : UIDiffInterface
