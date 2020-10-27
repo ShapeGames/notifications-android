@@ -11,7 +11,8 @@
     </style>
 
     <style name="Notifications.Settings.Toolbar.Title.Oddset" parent="@style/Notifications.Settings.Toolbar.Title">
-        <item name="fontFamily">@font/avenir_next_heavy_italic</item>
+        <item name="fontFamily">sans-serif-black</item>
+        <item name="android:textStyle">italic</item>
         <item name="android:textColor">@color/blue_500</item>
     </style>
 
