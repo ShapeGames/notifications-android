@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import dk.shape.danskespil.foundation.DSApiResponseException
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.NotificationSettingsAction
 import dk.shape.games.notifications.databinding.FragmentNotificationSettingsBinding
@@ -147,37 +148,43 @@ class NotificationSettingsFragment : Fragment() {
         eventIds: List<String>?,
         appConfig: AppConfig
     ): List<NotificationsSettingsEventViewModel> =
-        legacyNotificationsInteractor.loadAllSubscriptions(
-            eventIds = eventIds,
-            appConfig = appConfig,
-            onSaveEventIds = { subscribedEventIds ->
-                savedEventIds = subscribedEventIds
-            },
-            provideEvents = config.provideEvents
-        ).map { loadedSubscription ->
-            loadedSubscription.toNotificationsSettingsEventViewModel(
-                onEventNotificationTypesClicked = { action ->
-                    config.onEventNotificationTypesClicked(
-                        this@NotificationSettingsFragment,
-                        action
-                    ) { stateData ->
-                        with(stateData) {
-                            switcherViewModel.findEventViewModel(eventId)?.update(this)
-                        }
-                    }
+        try {
+            legacyNotificationsInteractor.loadAllSubscriptions(
+                eventIds = eventIds,
+                appConfig = appConfig,
+                onSaveEventIds = { subscribedEventIds ->
+                    savedEventIds = subscribedEventIds
                 },
-                onSetNotifications = { notificationIds, onError ->
-                    legacyNotificationsInteractor.updateNotifications(
-                        eventId = loadedSubscription.event.id,
-                        notificationTypeIds = notificationIds,
-                        onSuccess = {},
-                        onError = {
-                            onError()
-                            errorMessageViewModel.showErrorMessage()
+                provideEvents = config.provideEvents
+            ).map { loadedSubscription ->
+                loadedSubscription.toNotificationsSettingsEventViewModel(
+                    onEventNotificationTypesClicked = { action ->
+                        config.onEventNotificationTypesClicked(
+                            this@NotificationSettingsFragment,
+                            action
+                        ) { stateData ->
+                            with(stateData) {
+                                switcherViewModel.findEventViewModel(eventId)?.update(this)
+                            }
                         }
-                    )
-                }
-            )
+                    },
+                    onSetNotifications = { notificationIds, onError ->
+                        legacyNotificationsInteractor.updateNotifications(
+                            eventId = loadedSubscription.event.id,
+                            notificationTypeIds = notificationIds,
+                            onSuccess = {},
+                            onError = {
+                                onError()
+                                errorMessageViewModel.showErrorMessage()
+                            }
+                        )
+                    }
+                )
+            }
+        } catch (e: Exception) {
+            if (e is DSApiResponseException.MissingBodyError) {
+                emptyList()
+            } else throw e
         }
 
     private suspend fun getSubjectNotificationsViewModels(
