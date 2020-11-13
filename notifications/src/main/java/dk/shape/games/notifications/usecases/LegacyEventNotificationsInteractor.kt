@@ -3,6 +3,7 @@ package dk.shape.games.notifications.usecases
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import dk.shape.componentkit2.Result
+import dk.shape.danskespil.foundation.DSApiResponseException
 import dk.shape.games.notifications.aliases.EventNotificationsLoadedListener
 import dk.shape.games.notifications.aliases.LegacyNotificationGroup
 import dk.shape.games.notifications.aliases.LegacyNotificationType
@@ -60,24 +61,29 @@ data class LegacyEventNotificationsInteractor(
         val subscribedEventIds = eventIds ?: subscriptions.map { it.eventId }
         onSaveEventIds(subscribedEventIds)
 
-        return provideEvents(subscribedEventIds).mapNotNull { event ->
+        return try {
+            provideEvents(subscribedEventIds)
+                .mapNotNull { event ->
 
-            appConfig.notifications.group.find { notificationGroup ->
-                notificationGroup.groupId == event.notificationConfigurationId
-            }?.let { matchingGroup ->
+                    appConfig.notifications.group.find { notificationGroup ->
+                        notificationGroup.groupId == event.notificationConfigurationId
+                    }?.let { matchingGroup ->
 
-                subscriptions.find { subscription ->
-                    subscription.eventId == event.id
-                }?.takeIf { subscription ->
-                    subscription.types.isNotEmpty()
-                }?.let { matchingSubscription ->
-                    LoadedLegacySubscription(
-                        event = event,
-                        subscription = matchingSubscription,
-                        notificationGroup = matchingGroup
-                    )
+                        subscriptions.find { subscription ->
+                            subscription.eventId == event.id
+                        }?.takeIf { subscription ->
+                            subscription.types.isNotEmpty()
+                        }?.let { matchingSubscription ->
+                            LoadedLegacySubscription(
+                                event = event,
+                                subscription = matchingSubscription,
+                                notificationGroup = matchingGroup
+                            )
+                        }
+                    }
                 }
-            }
+        } catch (e: DSApiResponseException.MissingBodyError) {
+            emptyList()
         }
     }
 
