@@ -1,0 +1,354 @@
+---
+format_version: '8'
+default_step_lib_source: 'https://github.com/bitrise-io/bitrise-steplib.git'
+project_type: android
+trigger_map:
+  - push_branch: master
+    workflow: deploy-beta
+  - pull_request_source_branch: '*'
+    workflow: pr-checks
+workflows:
+  deploy-master:
+    description: >
+      ## How to get a signed APK
+
+
+      This workflow contains the **Sign APK** step. To sign your APK all you
+      have to do is to:
+
+
+      1. Click on **Code Signing** tab
+
+      1. Find the **ANDROID KEYSTORE FILE** section
+
+      1. Click or drop your file on the upload file field
+
+      1. Fill the displayed 3 input fields:
+       1. **Keystore password**
+       1. **Keystore alias**
+       1. **Private key password**
+      1. Click on **[Save metadata]** button
+
+
+      That's it! From now on, **Sign APK** step will receive your uploaded
+      files.
+
+
+      ## To run this workflow
+
+
+      If you want to run this workflow manually:
+
+
+      1. Open the app's build list page
+
+      2. Click on **[Start/Schedule a Build]** button
+
+      3. Select **deploy** in **Workflow** dropdown input
+
+      4. Click **[Start Build]** button
+
+
+      Or if you need this workflow to be started by a GIT event:
+
+
+      1. Click on **Triggers** tab
+
+      2. Setup your desired event (push/tag/pull) and select **deploy** workflow
+
+      3. Click on **[Done]** and then **[Save]** buttons
+
+
+      The next change in your repository that matches any of your trigger map
+      event will start **deploy** workflow.
+    steps:
+      - activate-ssh-key@4.0.5:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone@4.0.18: {}
+      - git-tag@1.1.0:
+          inputs:
+            - tag_message: v$VERSION_STABLE
+            - tag: v$VERSION_STABLE
+      - cache-pull@2.1.4: {}
+      - install-missing-android-tools@2.3.8:
+          inputs:
+            - gradlew_path: $PROJECT_LOCATION/gradlew
+      - gradle-runner@1.9.3:
+          inputs:
+            - gradle_task: publish
+          title: Publish Maven Artifacts
+      - deploy-to-bitrise-io@1.9.6:
+          inputs:
+            - notify_user_groups: none
+      - cache-push@2.2.3: {}
+      - slack@3.1.3:
+          inputs:
+            - channel: '#android-framework-releases'
+            - text: ''
+            - pretext: ''
+            - author_name: ''
+            - title: New Bet Slip UI version available!
+            - message: >-
+                dk.shape.games.notifications:notifications:$VERSION_STABLE
+
+                dk.shape.games.notifications:notifications-style-betwarrior:$VERSION_STABLE
+
+                dk.shape.games.notifications:notifications-style-oddset:$VERSION_STABLE
+            - icon_url: >-
+                https://concrete-userfiles-production.s3.us-west-2.amazonaws.com/repositories/f35038789b811d1e/avatar/avatar.png
+            - fields: |
+                Branch|${BITRISE_GIT_BRANCH}
+            - buttons: |
+                View App|${BITRISE_APP_URL}
+                View Build|${BITRISE_BUILD_URL}
+            - image_url: >-
+                https://concrete-userfiles-production.s3.us-west-2.amazonaws.com/repositories/f35038789b811d1e/avatar/avatar.png
+            - webhook_url: $slack_webhook_url
+  pr-checks:
+    steps:
+      - activate-ssh-key@4.0.3:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone@4.0.17: {}
+      - cache-pull@2.1.1: {}
+      - install-missing-android-tools@2.3.7:
+          inputs:
+            - gradlew_path: $PROJECT_LOCATION/gradlew
+      - android-build@0.10.0:
+          inputs:
+            - module: $MODULE_APP
+            - variant: $VARIANT_APP
+      - sign-apk@1.4.1: {}
+      - android-lint@0.9.6:
+          inputs:
+            - variant: $VARIANT_LIBRARY
+            - module: $MODULE_LIBRARY
+      - android-detekt@0.0.2:
+          inputs:
+            - module: $MODULE_LIBRARY
+      - deploy-to-bitrise-io@1.9.2:
+          inputs:
+            - notify_user_groups: none
+      - cache-push@2.2.1: {}
+  deploy-beta:
+    description: >
+      ## How to get a signed APK
+
+
+      This workflow contains the **Sign APK** step. To sign your APK all you
+      have to do is to:
+
+
+      1. Click on **Code Signing** tab
+
+      1. Find the **ANDROID KEYSTORE FILE** section
+
+      1. Click or drop your file on the upload file field
+
+      1. Fill the displayed 3 input fields:
+       1. **Keystore password**
+       1. **Keystore alias**
+       1. **Private key password**
+      1. Click on **[Save metadata]** button
+
+
+      That's it! From now on, **Sign APK** step will receive your uploaded
+      files.
+
+
+      ## To run this workflow
+
+
+      If you want to run this workflow manually:
+
+
+      1. Open the app's build list page
+
+      2. Click on **[Start/Schedule a Build]** button
+
+      3. Select **deploy** in **Workflow** dropdown input
+
+      4. Click **[Start Build]** button
+
+
+      Or if you need this workflow to be started by a GIT event:
+
+
+      1. Click on **Triggers** tab
+
+      2. Setup your desired event (push/tag/pull) and select **deploy** workflow
+
+      3. Click on **[Done]** and then **[Save]** buttons
+
+
+      The next change in your repository that matches any of your trigger map
+      event will start **deploy** workflow.
+    steps:
+      - activate-ssh-key@4.0.3:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone@4.0.17: {}
+      - cache-pull@2.1.1: {}
+      - install-missing-android-tools@2.3.7:
+          inputs:
+            - gradlew_path: $PROJECT_LOCATION/gradlew
+      - gradle-runner@1.9.1:
+          inputs:
+            - gradle_task: publish
+          title: Publish Maven Artifacts
+      - deploy-to-bitrise-io@1.9.2:
+          inputs:
+            - notify_user_groups: none
+      - cache-push@2.2.1: {}
+  shipshape:
+    description: >
+      ## How to get a signed APK
+
+
+      This workflow contains the **Sign APK** step. To sign your APK all you
+      have to do is to:
+
+
+      1. Click on **Code Signing** tab
+
+      1. Find the **ANDROID KEYSTORE FILE** section
+
+      1. Click or drop your file on the upload file field
+
+      1. Fill the displayed 3 input fields:
+       1. **Keystore password**
+       1. **Keystore alias**
+       1. **Private key password**
+      1. Click on **[Save metadata]** button
+
+
+      That's it! From now on, **Sign APK** step will receive your uploaded
+      files.
+
+
+      ## To run this workflow
+
+
+      If you want to run this workflow manually:
+
+
+      1. Open the app's build list page
+
+      2. Click on **[Start/Schedule a Build]** button
+
+      3. Select **deploy** in **Workflow** dropdown input
+
+      4. Click **[Start Build]** button
+
+
+      Or if you need this workflow to be started by a GIT event:
+
+
+      1. Click on **Triggers** tab
+
+      2. Setup your desired event (push/tag/pull) and select **deploy** workflow
+
+      3. Click on **[Done]** and then **[Save]** buttons
+
+
+      The next change in your repository that matches any of your trigger map
+      event will start **deploy** workflow.
+    steps:
+      - activate-ssh-key@4.0.3:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - script@1.1.5:
+          inputs:
+            - content: >-
+                #!/usr/bin/env bash
+
+                # fail if any commands fails
+
+                set -e
+
+                # debug log
+
+                set -x
+
+
+                npm install -g git+ssh://git@github.com:shapehq/ship-shape-cli.git
+
+
+                echo "{ \"ship_activation_code\": \"$SHIP_ACTIVATION_CODE\" }" >
+                ~/shape-dev.config
+          title: Install Shipshape
+      - git-clone@4.0.17: {}
+      - cache-pull@2.1.1: {}
+      - install-missing-android-tools@2.3.7:
+          inputs:
+            - gradlew_path: $PROJECT_LOCATION/gradlew
+      - android-build@0.10.0:
+          inputs:
+            - project_location: $PROJECT_LOCATION
+            - module: $MODULE_APP
+            - variant: $VARIANT_APP
+      - sign-apk@1.4.1: {}
+      - script@1.1.5:
+          inputs:
+            - content: >-
+                #!/usr/bin/env bash
+
+                # fail if any commands fails
+
+                set -e
+
+                # debug log
+
+                set -x
+
+
+                cd shipshape
+
+
+                # Replace APK_PATH in shipshape config
+
+                sed "s@APK_PATH@$BITRISE_SIGNED_APK_PATH@" shape-app.config >
+                shape-app.config.temp ; mv shape-app.config.temp shape-app.config
+
+                sed "s@VARIANT@$VARIANT_APP@" shape-app.config >
+                shape-app.config.temp ; mv shape-app.config.temp shape-app.config
+
+
+                # Save release notes to file
+
+                echo "${BITRISE_GIT_MESSAGE}" > release-note.txt
+
+
+                # Ship
+
+                ship publish --release-note release-note.txt --distribution-list
+                "$SHIPSHAPE_DISTRIBUTION_LIST" --prompt false --send-email false
+                --send-push false
+          title: Ship Publish
+      - deploy-to-bitrise-io@1.9.2:
+          inputs:
+            - notify_user_groups: none
+      - cache-push@2.2.1: {}
+app:
+  envs:
+    - opts:
+        is_expand: false
+      PROJECT_LOCATION: .
+    - opts:
+        is_expand: false
+      MODULE_APP: app
+    - opts:
+        is_expand: false
+      VARIANT_APP: release
+    - opts:
+        is_expand: false
+      MODULE_LIBRARY: notifications
+    - opts:
+        is_expand: false
+      VARIANT_LIBRARY: release
+    - opts:
+        is_expand: false
+      SHIPSHAPE_DISTRIBUTION_LIST: SHAPE internal
+    - opts:
+        is_expand: false
+      GRADLEW_PATH: ./gradlew
+    - VERSION_STABLE: 1.0.0
+      opts:
+        is_expand: false

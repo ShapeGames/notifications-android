@@ -12,6 +12,7 @@ buildscript {
     ext.dsfoundation_version = "3.1.0"
     ext.common_styles_version_bw = '1.0.0'
     ext.common_styles_version_oddset = '1.1.5'
+    ext.detekt_version = "1.2.2"
 
     repositories {
         google()
@@ -36,6 +37,7 @@ buildscript {
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.16"
         classpath "org.ajoberstar.reckon:org.ajoberstar.reckon.gradle.plugin:0.12.0"
         classpath 'digital.wup:android-maven-publish:3.6.2'
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
