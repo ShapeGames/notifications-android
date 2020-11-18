@@ -1,0 +1,16 @@
+style:
+  NewLineAtEndOfFile:
+    active: false
+
+formatting:
+  active: true
+  autoCorrect: false
+  FinalNewline:
+    active: false
+    autoCorrect: false
+  StringTemplate:
+    active: false
+    autoCorrect: false
+
+build:
+  maxIssues: 156
