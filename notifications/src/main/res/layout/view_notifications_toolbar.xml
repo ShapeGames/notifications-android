@@ -17,6 +17,7 @@
         android:layout_height="60dp"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:visibility="@{viewModel.toolbarProvider != null ? View.GONE : View.VISIBLE}"
         tools:background="@color/grey_999">
 
         <FrameLayout

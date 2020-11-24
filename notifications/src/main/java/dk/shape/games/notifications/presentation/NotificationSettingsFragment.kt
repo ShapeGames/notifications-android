@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import dk.shape.danskespil.foundation.DSApiResponseException
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.NotificationSettingsAction
 import dk.shape.games.notifications.databinding.FragmentNotificationSettingsBinding
@@ -57,7 +56,8 @@ class NotificationSettingsFragment : Fragment() {
 
     private val toolbarViewModel: NotificationsToolbarViewModel by lazy {
         NotificationsToolbarViewModel.Settings(
-            onBackPressed = config.onBackPressed
+            onBackPressed = config.onBackPressed,
+            toolbarProvider = config.toolbarProvider
         )
     }
 
@@ -69,7 +69,7 @@ class NotificationSettingsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return FragmentNotificationSettingsBinding.inflate(layoutInflater).apply {
             viewModel = NotificationsSettingsViewModel(
                 toolbarViewModel,

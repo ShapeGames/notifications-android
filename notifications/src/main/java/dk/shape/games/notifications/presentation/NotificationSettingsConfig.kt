@@ -1,5 +1,6 @@
 package dk.shape.games.notifications.presentation
 
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import dk.shape.games.notifications.actions.NotificationSettingsEventAction
 import dk.shape.games.notifications.actions.NotificationSettingsSubjectAction
@@ -36,5 +37,7 @@ data class NotificationSettingsConfig(
 
     val onSubjectNotificationTypesClicked: (Fragment, NotificationSettingsSubjectAction, (StateDataSubject) -> Unit) -> Unit,
 
-    val onEventNotificationTypesClicked: (Fragment, NotificationSettingsEventAction, (StateDataEvent) -> Unit) -> Unit
+    val onEventNotificationTypesClicked: (Fragment, NotificationSettingsEventAction, (StateDataEvent) -> Unit) -> Unit,
+
+    val toolbarProvider: (() -> Toolbar)? = null
 )
