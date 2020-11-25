@@ -19,6 +19,9 @@
         <item name="Notifications.Settings.Toolbar.Title">
             @style/Notifications.Settings.Toolbar.Title.Jack
         </item>
+        <item name="Notifications.Settings.Entry.Header">
+            @style/Notifications.Settings.Entry.Header.Jack
+        </item>
         <item name="Notifications.Settings.Entry.Name">
             @style/Notifications.Settings.Entry.Name.Jack
         </item>

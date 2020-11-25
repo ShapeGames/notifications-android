@@ -16,6 +16,10 @@
         <item name="android:textColor">@color/blue_500</item>
     </style>
 
+    <style name="Notifications.Settings.Entry.Header.Oddset" parent="@style/Notifications.Settings.Entry.Header">
+        <item name="android:textColor">@color/blue_500</item>
+    </style>
+
     <style name="Notifications.Settings.Entry.Name.Oddset" parent="@style/Notifications.Settings.Entry.Name">
         <item name="fontFamily">sans-serif-medium</item>
         <item name="android:textColor">#2d2d2d</item>

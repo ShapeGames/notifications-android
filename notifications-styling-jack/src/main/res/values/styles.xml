@@ -23,10 +23,18 @@
         <item name="android:textSize">19sp</item>
     </style>
 
+    <style name="Notifications.Settings.Entry.Header.Jack" parent="@style/Notifications.Settings.Entry.Header">
+        <item name="android:fontFamily">@font/avenir_next_bold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/jack_primary_500</item>
+    </style>
+
     <style name="Notifications.Settings.Entry.Name.Jack" parent="@style/Notifications.Settings.Entry.Name">
         <item name="fontFamily">@font/avenir_next_demibold</item>
         <item name="android:textColor">@color/jack_primary_500</item>
         <item name="android:textSize">13sp</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="Notifications.Settings.Entry.Settings.Jack" parent="@style/Notifications.Settings.Entry.Settings">

@@ -27,6 +27,7 @@
         <attr name="Notifications.Settings.Toolbar.Shadow" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Toolbar.Icon" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Toolbar.Title" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Settings.Entry.Header" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Entry.Card" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Entry.Container" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Entry.Name" format="reference" tools:ignore="ResourceName" />
