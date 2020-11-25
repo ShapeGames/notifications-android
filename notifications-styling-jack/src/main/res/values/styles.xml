@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="Notifications.Settings.Toolbar.Shadow.Jack" parent="@style/Notifications.Settings.Toolbar.Shadow">
+        <item name="android:visibility">gone</item>
+    </style>
+
     <style name="Notifications.Settings.Toolbar.Jack" parent="@style/Notifications.Settings.Toolbar">
-        <item name="android:background">@drawable/notification_toolbar_background</item>
-        <item name="android:elevation">0dp</item>
+        <item name="android:background">@drawable/jack_toolbar_background</item>
     </style>
 
     <style name="Notifications.Settings.Toolbar.Icon.Jack" parent="@style/Notifications.Settings.Toolbar.Icon">
-        <item name="android:layout_width">18dp</item>
-        <item name="android:layout_height">18dp</item>
+        <item name="android:layout_width">16dp</item>
+        <item name="android:layout_height">16dp</item>
         <item name="android:layout_marginStart">19dp</item>
         <item name="android:padding">0dp</item>
         <item name="android:src">@drawable/jack_ic_close</item>
@@ -73,10 +76,21 @@
     </style>
 
     <!-- Subject Notifications BottomSheet -->
+    <style name="Notifications.Subjects.Screen.Container.Jack" parent="@style/Notifications.Subjects.Screen.Container">
+        <item name="android:background">@color/jack_grey_150</item>
+    </style>
+
     <style name="Notifications.Subjects.Screen.Background.Jack" parent="@style/Notifications.Subjects.Screen.Background">
         <item name="android:clipChildren">true</item>
         <item name="android:clipToPadding">true</item>
         <item name="background">@drawable/jack_notifications_bottomsheet_background</item>
+    </style>
+
+    <style name="Notifications.Subjects.Screen.Subject.Name.Jack" parent="@style/Notifications.Subjects.Screen.Subject.Name">
+        <item name="android:textColor">@color/jack_primary_500</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="fontFamily">@font/avenir_next_demibold</item>
     </style>
 
     <style name="Notifications.Subjects.Screen.Subject.Switch.Jack" parent="@style/Notifications.Subjects.Screen.Subject.Switch">
@@ -103,7 +117,7 @@
     </style>
 
     <style name="Notifications.Subjects.Type.Name.Active.Jack" parent="Notifications.Subjects.Type.Name.Jack">
-        <item name="fontFamily">@font/avenir_next_black</item>
+        <item name="fontFamily">@font/avenir_next_bold</item>
     </style>
 
     <style name="Notifications.Subjects.Type.Switch.Jack" parent="@style/Notifications.Subjects.Type.Switch">

@@ -26,6 +26,7 @@
             app:itemBinding="@{viewModel.itemBinding}" />
 
         <View
+            style="?attr/Notifications.Settings.Toolbar.Shadow"
             android:layout_width="match_parent"
             android:layout_height="5dp"
             android:background="@drawable/top_shadow_light" />

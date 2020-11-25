@@ -118,10 +118,10 @@
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
 
     <!-- Notification Settings -->
+    <style name="Notifications.Settings.Toolbar.Shadow" parent="@style/Widget" />
     <style name="Notifications.Settings.Toolbar.Container" parent="@style/Widget" />
     <style name="Notifications.Settings.Toolbar" parent="@style/Widget" >
         <item name="android:background">@drawable/notification_toolbar_background</item>
-        <item name="android:elevation">3dp</item>
     </style>
 
     <style name="Notifications.Settings.Toolbar.Icon" parent="@style/Widget" >
@@ -207,6 +207,10 @@
     </style>
 
     <!-- BottomSheet Subject Notifications -->
+    <style name="Notifications.Subjects.Screen.Container" parent="@style/Widget" >
+        <item name="android:background">@color/grey_100</item>
+    </style>
+
     <style name="Notifications.Subjects.Screen.Background" parent="@style/Widget" />
 
     <style name="Notifications.Subjects.Screen.Subject.Name" parent="Widget.AppCompat.TextView" />

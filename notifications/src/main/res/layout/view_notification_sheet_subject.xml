@@ -13,9 +13,9 @@
     </data>
 
     <FrameLayout
+        style="?attr/Notifications.Subjects.Screen.Container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey_100"
         android:clipChildren="false"
         android:clipToPadding="false">
 

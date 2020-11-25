@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">notifications-styling-jack</string>
     <string name="save_my_preferences">ok</string>
+    <string name="notification_types_title">Notification types</string>
 </resources>

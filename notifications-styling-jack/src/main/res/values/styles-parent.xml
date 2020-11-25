@@ -4,6 +4,9 @@
     <style name="JackNotificationsModuleStyle" parent="">
 
         <!-- Notification Settings -->
+        <item name="Notifications.Settings.Toolbar.Shadow">
+            @style/Notifications.Settings.Toolbar.Shadow.Jack
+        </item>
         <item name="Notifications.Settings.Toolbar.Container">
             @style/Notifications.Settings.Toolbar.Container
         </item>
@@ -48,11 +51,14 @@
         </item>
 
         <!-- Subject Notifications -->
+        <item name="Notifications.Subjects.Screen.Container">
+            @style/Notifications.Subjects.Screen.Container.Jack
+        </item>
         <item name="Notifications.Subjects.Screen.Background">
             @style/Notifications.Subjects.Screen.Background.Jack
         </item>
         <item name="Notifications.Subjects.Screen.Subject.Name">
-            @style/Notifications.Subjects.Screen.Subject.Name
+            @style/Notifications.Subjects.Screen.Subject.Name.Jack
         </item>
         <item name="Notifications.Subjects.Screen.Subject.Switch">
             @style/Notifications.Subjects.Screen.Subject.Switch.Jack

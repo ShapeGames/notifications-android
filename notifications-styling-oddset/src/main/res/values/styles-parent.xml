@@ -4,11 +4,14 @@
     <style name="OddsetNotificationsModuleStyle" parent="">
 
         <!-- Notification Settings -->
+        <item name="Notifications.Settings.Toolbar.Shadow">
+            @style/Notifications.Settings.Toolbar.Shadow
+        </item>
         <item name="Notifications.Settings.Toolbar.Container">
             @style/Notifications.Settings.Toolbar.Container.Oddset
         </item>
         <item name="Notifications.Settings.Toolbar">
-            @style/Notifications.Settings.Toolbar.Oddset
+            @style/Notifications.Settings.Toolbar
         </item>
         <item name="Notifications.Settings.Toolbar.Icon">
             @style/Notifications.Settings.Toolbar.Icon.Oddset
@@ -48,6 +51,9 @@
         </item>
 
         <!-- Subject Notifications -->
+        <item name="Notifications.Subjects.Screen.Container">
+            @style/Notifications.Subjects.Screen.Container
+        </item>
         <item name="Notifications.Subjects.Screen.Background">
             @style/Notifications.Subjects.Screen.Background.Oddset
         </item>

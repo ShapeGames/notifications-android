@@ -13,11 +13,11 @@
     </data>
 
     <FrameLayout
+        style="?attr/Notifications.Subjects.Screen.Container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
-        android:clipToPadding="false"
-        android:background="@color/grey_100">
+        android:clipToPadding="false">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                     layout="@layout/view_notifications_type_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginHorizontal="12dp"
                     android:layout_marginBottom="16dp"
                     app:viewModel="@{viewModel.notificationTypesCollection}"
                     tools:layout_height="600dp" />

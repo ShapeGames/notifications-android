@@ -63,6 +63,9 @@
         </item>
 
         <!-- Subject Notifications -->
+        <item name="Notifications.Subjects.Screen.Container">
+            @style/Notifications.Subjects.Screen.Container
+        </item>
         <item name="Notifications.Subjects.Screen.Background">
             @style/Notifications.Subjects.Screen.Background.BetWarrior
         </item>
