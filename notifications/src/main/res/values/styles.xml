@@ -119,6 +119,10 @@
 
     <!-- Notification Settings -->
     <style name="Notifications.Settings.Toolbar.Container" parent="@style/Widget" />
+    <style name="Notifications.Settings.Toolbar" parent="@style/Widget" >
+        <item name="android:background">@drawable/notification_toolbar_background</item>
+        <item name="android:elevation">3dp</item>
+    </style>
 
     <style name="Notifications.Settings.Toolbar.Icon" parent="@style/Widget" >
         <item name="android:layout_width">24dp</item>
@@ -132,7 +136,8 @@
 
     <style name="Notifications.Settings.Toolbar.Title" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">17sp</item>
-        <item name="textAllCaps">true</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="Notifications.Settings.Entry.Card" parent="Widget.MaterialComponents.CardView">
@@ -196,7 +201,9 @@
     </style>
 
     <style name="Notifications.Event.Screen.Text.Level2" parent="Notifications.Event.Screen.Text">
-        <item name="android:alpha">0.8</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <!-- BottomSheet Subject Notifications -->
@@ -224,7 +231,13 @@
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
-    <style name="Notifications.Subjects.Type.Name" parent="Widget.AppCompat.TextView" />
+    <style name="Notifications.Subjects.Type.Name" parent="Widget.AppCompat.TextView" >
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textAlignment">gravity</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">#2d2d2d</item>
+    </style>
 
     <style name="Notifications.Subjects.Type.Name.Active" parent="Notifications.Subjects.Type.Name" />
 

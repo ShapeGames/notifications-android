@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="Notifications.Settings.Toolbar.Jack" parent="@style/Notifications.Settings.Toolbar">
+        <item name="android:background">@drawable/notification_toolbar_background</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
     <style name="Notifications.Settings.Toolbar.Icon.Jack" parent="@style/Notifications.Settings.Toolbar.Icon">
         <item name="android:layout_width">18dp</item>
         <item name="android:layout_height">18dp</item>
@@ -9,28 +14,30 @@
         <item name="android:src">@drawable/jack_ic_close</item>
     </style>
 
-    <!--<style name="Notifications.Settings.Toolbar.Title.Jack" parent="@style/Notifications.Settings.Toolbar.Title">
-        <item name="fontFamily">sans-serif-black</item>
-        <item name="android:textStyle">italic</item>
-        <item name="android:textColor">@color/blue_500</item>
+    <style name="Notifications.Settings.Toolbar.Title.Jack" parent="@style/Notifications.Settings.Toolbar.Title">
+        <item name="fontFamily">@font/dinpro_condensed_black</item>
+        <item name="android:textColor">@color/jack_primary_500</item>
+        <item name="android:textSize">19sp</item>
     </style>
 
     <style name="Notifications.Settings.Entry.Name.Jack" parent="@style/Notifications.Settings.Entry.Name">
-        <item name="fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">#2d2d2d</item>
+        <item name="fontFamily">@font/avenir_next_demibold</item>
+        <item name="android:textColor">@color/jack_primary_500</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
     <style name="Notifications.Settings.Entry.Settings.Jack" parent="@style/Notifications.Settings.Entry.Settings">
-        <item name="android:src">@drawable/ic_notifications_settings_blue</item>
+        <item name="android:src">@drawable/jack_cogwheel_red</item>
     </style>
 
     <style name="Notifications.Settings.Info.Text.Jack" parent="@style/Notifications.Settings.Info.Text">
-        <item name="fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">#7d7d7d</item>
+        <item name="fontFamily">@font/avenir_next_medium</item>
+        <item name="android:textColor">@color/jack_grey_700</item>
+        <item name="android:textSize">11sp</item>
     </style>
 
     <style name="Notifications.Settings.Info.Icon.Jack" parent="@style/Notifications.Settings.Info.Icon">
-        <item name="android:tint">#252525</item>
+        <item name="android:tint">@color/jack_secondary_500</item>
     </style>
 
     <style name="Notifications.Settings.Empty.Icon.Jack" parent="@style/Notifications.Settings.Empty.Icon" >
@@ -47,73 +54,65 @@
         <item name="android:textColor">#252525</item>
     </style>
 
-    &lt;!&ndash; BottomSheet Event Notifications &ndash;&gt;
+    <!-- BottomSheet Event Notifications -->
     <style name="Notifications.Event.Screen.Icon.Jack" parent="@style/Notifications.Event.Screen.Icon" >
-        <item name="android:tint">#999999</item>
+        <item name="android:tint">@color/jack_grey_700</item>
     </style>
 
     <style name="Notifications.Event.Screen.Text.Jack" parent="@style/Notifications.Event.Screen.Text" >
-        <item name="android:textColor">#999999</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/jack_grey_700</item>
+        <item name="android:fontFamily">@font/dinpro_medium</item>
     </style>
 
     <style name="Notifications.Event.Screen.Text.Level2.Jack" parent="@style/Notifications.Event.Screen.Text.Level2" >
-        <item name="android:textColor">#999999</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/jack_grey_700</item>
+        <item name="android:fontFamily">@font/dinpro_condensed_bold</item>
     </style>
 
-    &lt;!&ndash; Subject Notifications BottomSheet &ndash;&gt;
+    <!-- Subject Notifications BottomSheet -->
     <style name="Notifications.Subjects.Screen.Background.Jack" parent="@style/Notifications.Subjects.Screen.Background">
         <item name="android:clipChildren">true</item>
         <item name="android:clipToPadding">true</item>
-        <item name="background">@drawable/notifications_bottomsheet_background</item>
-    </style>
-
-    <style name="Notifications.Subjects.Screen.Subject.Name.Jack" parent="@style/Notifications.Subjects.Screen.Subject.Name">
-        <item name="android:textColor">#2d2d2d</item>
-        <item name="android:textSize">16sp</item>
-        <item name="fontFamily">sans-serif-medium</item>
+        <item name="background">@drawable/jack_notifications_bottomsheet_background</item>
     </style>
 
     <style name="Notifications.Subjects.Screen.Subject.Switch.Jack" parent="@style/Notifications.Subjects.Screen.Subject.Switch">
-        <item name="track">@drawable/selector_notifications_switch_track</item>
+        <item name="track">@drawable/jack_selector_notifications_switch_track</item>
     </style>
 
     <style name="Notifications.Subjects.Screen.SaveButton.Jack" parent="@style/Notifications.Subjects.Screen.SaveButton">
         <item name="android:layout_marginStart">23dp</item>
         <item name="android:layout_marginEnd">23dp</item>
-        <item name="android:background">@drawable/selector_notifications_save_button</item>
+        <item name="android:background">@drawable/jack_selector_notifications_save_button</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:padding">2dp</item>
         <item name="android:layout_height">40dp</item>
-        <item name="fontFamily">sans-serif-black</item>
+        <item name="fontFamily">@font/dinpro_bold</item>
         <item name="textAllCaps">true</item>
         <item name="android:textSize">13sp</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/jack_white</item>
     </style>
 
     <style name="Notifications.Subjects.Type.Name.Jack" parent="@style/Notifications.Subjects.Type.Name">
         <item name="android:textSize">15sp</item>
-        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/jack_primary_500</item>
+        <item name="fontFamily">@font/avenir_next_medium</item>
     </style>
 
     <style name="Notifications.Subjects.Type.Name.Active.Jack" parent="Notifications.Subjects.Type.Name.Jack">
-        <item name="fontFamily">sans-serif-black</item>
+        <item name="fontFamily">@font/avenir_next_black</item>
     </style>
 
     <style name="Notifications.Subjects.Type.Switch.Jack" parent="@style/Notifications.Subjects.Type.Switch">
-        <item name="android:button">@drawable/selector_notifications_toggle</item>
-    </style>
-
-    <style name="Notifications.Subjects.Loading.ProgressBar.Jack" parent="@style/Notifications.Subjects.Loading.ProgressBar">
-        <item name="colorAccent">@color/notifications_progress_bar</item>
-    </style>
-
-    <style name="Notifications.Subjects.Error.Button.Jack" parent="@style/Notifications.Subjects.Error.Button">
-        <item name="backgroundTint">@color/notifications_error_button</item>
+        <item name="android:button">@drawable/jack_selector_notifications_toggle</item>
     </style>
 
     <style name="Notifications.Subjects.Type.Saving.ProgressBar.Jack" parent="@style/Notifications.Subjects.Type.Saving.ProgressBar">
         <item name="colorAccent">@android:color/white</item>
         <item name="android:layout_height">20dp</item>
         <item name="android:layout_width">20dp</item>
-    </style>-->
+    </style>
 </resources>

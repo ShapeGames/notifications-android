@@ -18,8 +18,8 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/bellIcon"
             style="?attr/Notifications.Settings.Info.Icon"
-            android:layout_width="11dp"
-            android:layout_height="11dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
             android:layout_marginTop="3.5dp"
             android:src="@drawable/ic_notifications_bell_black"
             app:layout_constraintBottom_toBottomOf="@id/notificationTypes"

@@ -2,8 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android" android:enterFadeDuration="@android:integer/config_shortAnimTime" android:exitFadeDuration="@android:integer/config_shortAnimTime">
     <item android:state_enabled="false">
         <shape android:shape="rectangle">
-            <solid android:color="#BFC8D2" />
-            <corners android:radius="20dp" />
+            <solid android:color="@color/jack_grey_500" />
+            <corners android:radius="4dp" />
         </shape>
     </item>
 
@@ -11,8 +11,8 @@
         <ripple android:color="?android:colorControlHighlight">
             <item>
                 <shape android:shape="rectangle">
-                    <solid android:color="#1d5aaf" />
-                    <corners android:radius="20dp" />
+                    <solid android:color="@color/jack_secondary_500" />
+                    <corners android:radius="4dp" />
                 </shape>
             </item>
         </ripple>

@@ -7,6 +7,9 @@
         <item name="Notifications.Settings.Toolbar.Container">
             @style/Notifications.Settings.Toolbar.Container.Oddset
         </item>
+        <item name="Notifications.Settings.Toolbar">
+            @style/Notifications.Settings.Toolbar.Oddset
+        </item>
         <item name="Notifications.Settings.Toolbar.Icon">
             @style/Notifications.Settings.Toolbar.Icon.Oddset
         </item>

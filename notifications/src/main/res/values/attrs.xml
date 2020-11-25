@@ -23,6 +23,7 @@
 
         <!-- Notification Settings -->
         <attr name="Notifications.Settings.Toolbar.Container" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Settings.Toolbar" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Toolbar.Icon" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Toolbar.Title" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Entry.Card" format="reference" tools:ignore="ResourceName" />
