@@ -184,21 +184,6 @@
 
     <style name="Notifications.Settings.Info.Icon" parent="@style/Widget" />
 
-    <style name="Notifications.Settings.Empty.Icon" parent="@style/Widget" />
-
-    <style name="Notifications.Settings.Empty.Title" parent="Widget.AppCompat.TextView">
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textSize">18sp</item>
-    </style>
-
-    <style name="Notifications.Settings.Empty.Description" parent="Widget.AppCompat.TextView">
-        <item name="android:gravity">center</item>
-        <item name="android:lineSpacingMultiplier">1.1</item>
-        <item name="android:paddingStart">60dp</item>
-        <item name="android:paddingEnd">60dp</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
     <!-- BottomSheet Event Notifications -->
     <style name="Notifications.Event.Screen.Icon" parent="@style/Widget" />
 

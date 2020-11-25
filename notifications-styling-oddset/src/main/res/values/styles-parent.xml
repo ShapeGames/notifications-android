@@ -34,15 +34,6 @@
         <item name="Notifications.Settings.Info.Text">
             @style/Notifications.Settings.Info.Text.Oddset
         </item>
-        <item name="Notifications.Settings.Empty.Icon">
-            @style/Notifications.Settings.Empty.Icon.Oddset
-        </item>
-        <item name="Notifications.Settings.Empty.Title">
-            @style/Notifications.Settings.Empty.Title.Oddset
-        </item>
-        <item name="Notifications.Settings.Empty.Description">
-            @style/Notifications.Settings.Empty.Description.Oddset
-        </item>
 
         <!-- Event Notifications -->
         <item name="Notifications.Event.Screen.Icon">@style/Notifications.Event.Screen.Icon.Oddset

@@ -78,6 +78,10 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
 
+    implementation "dk.shape.games.feedbackui:feedback-ui-styling-oddset:$feedback_ui_version"
+    implementation "dk.shape.games.feedbackui:feedback-ui-styling-betwarrior:$feedback_ui_version"
+    implementation "dk.shape.games.feedbackui:feedback-ui-styling-jack:$feedback_ui_version"
+
     implementation "dk.shape.games.demo:demoskeleton:1.6.0"
     implementation "dk.shape.games:uikit:$uikit_version"
     implementation "dk.shape.games.sportsbook:offerings:$sportsbook_offerings_version"

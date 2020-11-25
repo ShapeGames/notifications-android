@@ -4,4 +4,7 @@
     <string name="notification_types_title">Notification types</string>
     <string name="notification_type_event">event notifications</string>
     <string name="notification_type_stats">favorite notifications</string>
+    <string name="notification_settings_empty_title">No notifications</string>
+    <string name="notification_settings_empty_description">When you add notifications for events they will show up here.</string>
+    <string name="error_description">Notifications could not be retrieved</string>
 </resources>
