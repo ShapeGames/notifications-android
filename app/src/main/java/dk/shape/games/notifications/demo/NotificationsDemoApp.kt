@@ -7,8 +7,8 @@ import dk.shape.componentkit2.androidextensions.AndroidMainThreadExecutor
 import dk.shape.games.demoskeleton.DemoApp
 import dk.shape.games.demoskeleton.DemoConfig
 import dk.shape.games.demoskeleton.Style
-import kotlin.time.ExperimentalTime
 import java.util.*
+import kotlin.time.ExperimentalTime
 
 lateinit var context: Context
 
@@ -26,6 +26,12 @@ class NotificationsDemoApp : DemoApp() {
             homeTitle = "Notifications",
             demoScreens = NotificationsScreens.screens,
             styles = listOf(
+                Style(
+                    name = "Jack",
+                    styleResourceId = R.style.JackNotificationsModuleStyle,
+                    logoResourceId = R.drawable.logo_jack,
+                    navBarColor = Color.parseColor("#ad2025")
+                ),
                 Style(
                     name = "Oddset",
                     styleResourceId = R.style.OddsetNotificationsModuleStyle,

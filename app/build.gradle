@@ -88,4 +88,5 @@ dependencies {
     implementation project(':notifications')
     implementation project(':notifications-styling-oddset')
     implementation project(':notifications-styling-betwarrior')
+    implementation project(':notifications-styling-jack')
 }

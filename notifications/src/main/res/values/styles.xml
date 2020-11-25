@@ -120,7 +120,15 @@
     <!-- Notification Settings -->
     <style name="Notifications.Settings.Toolbar.Container" parent="@style/Widget" />
 
-    <style name="Notifications.Settings.Toolbar.Icon" parent="@style/Widget" />
+    <style name="Notifications.Settings.Toolbar.Icon" parent="@style/Widget" >
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:src">@drawable/ic_close_black</item>
+    </style>
 
     <style name="Notifications.Settings.Toolbar.Title" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">17sp</item>

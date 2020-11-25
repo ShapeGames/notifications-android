@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="JackNotificationsModuleStyle" parent="">
+
+        <!-- Notification Settings -->
+        <item name="Notifications.Settings.Toolbar.Container">
+            @style/Notifications.Settings.Toolbar.Container
+        </item>
+        <item name="Notifications.Settings.Toolbar.Icon">
+            @style/Notifications.Settings.Toolbar.Icon
+        </item>
+        <item name="Notifications.Settings.Toolbar.Title">
+            @style/Notifications.Settings.Toolbar.Title
+        </item>
+        <item name="Notifications.Settings.Entry.Name">
+            @style/Notifications.Settings.Entry.Name
+        </item>
+        <item name="Notifications.Settings.Entry.Settings">
+            @style/Notifications.Settings.Entry.Settings
+        </item>
+        <item name="Notifications.Settings.Info.Icon">
+            @style/Notifications.Settings.Info.Icon
+        </item>
+        <item name="Notifications.Settings.Info.Text">
+            @style/Notifications.Settings.Info.Text
+        </item>
+        <item name="Notifications.Settings.Empty.Icon">
+            @style/Notifications.Settings.Empty.Icon
+        </item>
+        <item name="Notifications.Settings.Empty.Title">
+            @style/Notifications.Settings.Empty.Title
+        </item>
+        <item name="Notifications.Settings.Empty.Description">
+            @style/Notifications.Settings.Empty.Description
+        </item>
+
+        <!-- Event Notifications -->
+        <item name="Notifications.Event.Screen.Icon">@style/Notifications.Event.Screen.Icon
+        </item>
+        <item name="Notifications.Event.Screen.Text">@style/Notifications.Event.Screen.Text
+        </item>
+        <item name="Notifications.Event.Screen.Text.Level2">
+            @style/Notifications.Event.Screen.Text.Level2
+        </item>
+
+        <!-- Subject Notifications -->
+        <item name="Notifications.Subjects.Screen.Background">
+            @style/Notifications.Subjects.Screen.Background
+        </item>
+        <item name="Notifications.Subjects.Screen.Subject.Name">
+            @style/Notifications.Subjects.Screen.Subject.Name
+        </item>
+        <item name="Notifications.Subjects.Screen.Subject.Switch">
+            @style/Notifications.Subjects.Screen.Subject.Switch
+        </item>
+        <item name="Notifications.Subjects.Screen.SaveButton">
+            @style/Notifications.Subjects.Screen.SaveButton
+        </item>
+        <item name="Notifications.Subjects.Type.Name">
+            @style/Notifications.Subjects.Type.Name
+        </item>
+        <item name="Notifications.Subjects.Type.Name.Active">
+            @style/Notifications.Subjects.Type.Name.Active
+        </item>
+        <item name="Notifications.Subjects.Type.Switch">
+            @style/Notifications.Subjects.Type.Switch
+        </item>
+        <item name="Notifications.Subjects.Type.Saving.ProgressBar">
+            @style/Notifications.Subjects.Type.Saving.ProgressBar
+        </item>
+        <item name="Notifications.Subjects.Loading.ProgressBar">
+            @style/Notifications.Subjects.Loading.ProgressBar
+        </item>
+        <item name="Notifications.Subjects.Error.Button">
+            @style/Notifications.Subjects.Error.Button
+        </item>
+    </style>
+</resources>
