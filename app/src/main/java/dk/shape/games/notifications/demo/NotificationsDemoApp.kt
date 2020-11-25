@@ -28,19 +28,28 @@ class NotificationsDemoApp : DemoApp() {
             styles = listOf(
                 Style(
                     name = "Jack",
-                    styleResourceId = R.style.JackNotificationsModuleStyle,
+                    styleResourceIds = intArrayOf(
+                        R.style.JackNotificationsModuleStyle,
+                        R.style.FeedbackUIStyleBetJack
+                    ),
                     logoResourceId = R.drawable.logo_jack,
                     navBarColor = Color.parseColor("#ad2025")
                 ),
                 Style(
                     name = "Oddset",
-                    styleResourceId = R.style.OddsetNotificationsModuleStyle,
+                    styleResourceIds = intArrayOf(
+                        R.style.OddsetNotificationsModuleStyle,
+                        R.style.FeedbackUIStyleOddset
+                    ),
                     logoResourceId = R.drawable.logo_oddset,
                     navBarColor = Color.parseColor("#1644A2")
                 ),
                 Style(
                     name = "BetWarrior",
-                    styleResourceId = R.style.BetWarriorNotificationsModuleStyle,
+                    styleResourceIds = intArrayOf(
+                        R.style.BetWarriorNotificationsModuleStyle,
+                        R.style.FeedbackUIStyleBetWarrior
+                    ),
                     logoResourceId = R.drawable.logo_betwarrior,
                     navBarColor = Color.parseColor("#EF683F")
                 )
