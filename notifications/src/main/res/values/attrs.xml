@@ -23,17 +23,17 @@
 
         <!-- Notification Settings -->
         <attr name="Notifications.Settings.Toolbar.Container" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Settings.Toolbar" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Settings.Toolbar.Shadow" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Toolbar.Icon" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Toolbar.Title" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Settings.Entry.Header" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Entry.Card" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Entry.Container" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Entry.Name" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Entry.Settings" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Info.Text" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Settings.Info.Icon" format="reference" tools:ignore="ResourceName" />
-        <attr name="Notifications.Settings.Empty.Icon" format="reference" tools:ignore="ResourceName" />
-        <attr name="Notifications.Settings.Empty.Title" format="reference" tools:ignore="ResourceName" />
-        <attr name="Notifications.Settings.Empty.Description" format="reference" tools:ignore="ResourceName" />
 
         <!-- BottomSheet Event Notifications -->
         <attr name="Notifications.Event.Screen.Icon" format="reference" tools:ignore="ResourceName" />
@@ -41,6 +41,7 @@
         <attr name="Notifications.Event.Screen.Text.Level2" format="reference" tools:ignore="ResourceName" />
 
         <!-- BottomSheet Subject Notifications -->
+        <attr name="Notifications.Subjects.Screen.Container" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Screen.Background" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Screen.Subject.Name" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Screen.Subject.Switch" format="reference" tools:ignore="ResourceName" />

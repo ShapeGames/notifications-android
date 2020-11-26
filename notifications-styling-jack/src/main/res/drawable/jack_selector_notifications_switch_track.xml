@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:enterFadeDuration="@android:integer/config_shortAnimTime" android:exitFadeDuration="@android:integer/config_shortAnimTime">
+    <item android:state_checked="true">
+        <shape android:dither="true" android:shape="rectangle" android:useLevel="false" android:visible="true">
+            <solid android:color="@color/jack_secondary_500" />
+            <corners android:radius="20dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:dither="true" android:shape="rectangle" android:useLevel="false" android:visible="true">
+            <solid android:color="@color/jack_grey_300" />
+            <stroke android:width="0.5dp" android:color="#d3dce7" />
+            <corners android:radius="20dp" />
+        </shape>
+    </item>
+</selector>

@@ -12,9 +12,9 @@
     </data>
 
     <FrameLayout
+        style="?attr/Notifications.Subjects.Screen.Container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background">
+        android:layout_height="match_parent">
 
         <dk.shape.viewswitcher.BindingViewSwitcher
             android:layout_width="match_parent"
@@ -26,6 +26,7 @@
             app:itemBinding="@{viewModel.itemBinding}" />
 
         <View
+            style="?attr/Notifications.Settings.Toolbar.Shadow"
             android:layout_width="match_parent"
             android:layout_height="5dp"
             android:background="@drawable/top_shadow_light" />

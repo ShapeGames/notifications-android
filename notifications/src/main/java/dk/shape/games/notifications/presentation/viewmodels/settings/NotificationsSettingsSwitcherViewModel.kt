@@ -1,32 +1,29 @@
 package dk.shape.games.notifications.presentation.viewmodels.settings
 
 import androidx.databinding.ObservableField
+import dk.shape.games.feedbackui.FeedbackInfoViewModel
+import dk.shape.games.feedbackui.FeedbackLoadingViewModel
 import dk.shape.games.notifications.R
-import dk.shape.games.notifications.presentation.viewmodels.state.ErrorViewModel
+import dk.shape.games.uikit.databinding.UIImage
 import dk.shape.games.uikit.databinding.UIText
 import me.tatarka.bindingcollectionadapter2.BR
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
 
 class NotificationsSettingsSwitcherViewModel {
-    val item: ObservableField<Any> = ObservableField(Loading)
+    val item: ObservableField<Any> = ObservableField(FeedbackLoadingViewModel)
 
     val itemBinding: ItemBinding<Any> = ItemBinding.of(
         OnItemBindClass<Any>()
             .map(
-                Loading::class.java,
+                FeedbackLoadingViewModel::class.java,
                 BR.viewModel,
-                R.layout.view_notifications_switcher_loading
+                R.layout.feedback_loading_vm
             )
             .map(
-                Empty::class.java,
+                FeedbackInfoViewModel::class.java,
                 BR.viewModel,
-                R.layout.view_notifications_switcher_empty
-            )
-            .map(
-                Error::class.java,
-                BR.viewModel,
-                R.layout.view_notifications_switcher_error
+                R.layout.feedback_info
             )
             .map(
                 Content::class.java,
@@ -41,17 +38,12 @@ class NotificationsSettingsSwitcherViewModel {
     private val eventViewModels: List<NotificationsSettingsEventViewModel>?
         get() = (item.get() as? Content?)?.items?.filterIsInstance<NotificationsSettingsEventViewModel>()
 
-    object Loading
-    object Empty
-
-    data class Error(
-        private val onRetry: () -> Unit
-    ) {
-        val errorViewModel = ErrorViewModel(
-            description = UIText.Raw.Resource(R.string.error_description),
-            onRetryClick = onRetry
-        )
-    }
+    private val emptyViewModel = FeedbackInfoViewModel.ScreenEmpty(
+        customIcon = UIImage.Raw.Resource(R.drawable.ic_notification_big),
+        customTitleText = UIText.Raw.Resource(R.string.notification_settings_empty_title),
+        customDescriptionText = UIText.Raw.Resource(R.string.notification_settings_empty_description),
+        isLight = true
+    )
 
     data class Content(
         val items: List<Any>
@@ -74,15 +66,15 @@ class NotificationsSettingsSwitcherViewModel {
     }
 
     fun setLoading() {
-        item.set(Loading)
+        item.set(FeedbackLoadingViewModel)
     }
 
     fun setEmpty() {
-        item.set(Empty)
+        item.set(emptyViewModel)
     }
 
     fun setError(onRetry: () -> Unit) {
-        item.set(Error(onRetry))
+        item.set(getErrorViewModel(onRetry))
     }
 
     fun setContent(viewModels: List<Any>) {
@@ -98,4 +90,11 @@ class NotificationsSettingsSwitcherViewModel {
         eventViewModels?.find {
             it.subscription.eventId == eventId
         }
+
+    private fun getErrorViewModel(onRetry: () -> Unit): FeedbackInfoViewModel.ScreenError =
+        FeedbackInfoViewModel.ScreenError(
+            customDescriptionText = UIText.Raw.Resource(R.string.error_description),
+            onScreenRetry = onRetry,
+            isLight = true
+        )
 }

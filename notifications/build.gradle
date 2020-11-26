@@ -86,6 +86,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1'
 
     implementation "dk.shape.games:uikit:$uikit_version"
+    implementation "dk.shape.games.feedbackui:feedback-ui:$feedback_ui_version"
     implementation "dk.shape.danskespil.foundation:dsfoundation:$dsfoundation_version"
     implementation "dk.shape.games.sportsbook:offerings:$sportsbook_offerings_version"
     implementation "dk.shape.componentkit2:componentkit:2.1.4"
