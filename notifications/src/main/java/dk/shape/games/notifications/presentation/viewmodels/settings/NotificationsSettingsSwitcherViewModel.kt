@@ -94,6 +94,7 @@ class NotificationsSettingsSwitcherViewModel {
     private fun getErrorViewModel(onRetry: () -> Unit): FeedbackInfoViewModel.ScreenError =
         FeedbackInfoViewModel.ScreenError(
             customDescriptionText = UIText.Raw.Resource(R.string.error_description),
-            onScreenRetry = onRetry
+            onScreenRetry = onRetry,
+            isLight = true
         )
 }
