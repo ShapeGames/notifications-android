@@ -3,5 +3,6 @@
     <color name="notifications_error_button">#BC5818</color>
     <color name="notifications_progress_bar">#DA662C</color>
     <color name="blue_500">#1d5aaf</color>
+    <color name="blue_600">#112d82</color>
     <color name="blue_800">#002b74</color>
 </resources>

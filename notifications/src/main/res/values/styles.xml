@@ -208,6 +208,10 @@
 
     <style name="Notifications.Subjects.Screen.Subject.Name" parent="Widget.AppCompat.TextView" />
 
+    <style name="Notifications.Subjects.Screen.Subject.Title" parent="Widget.AppCompat.TextView">
+        <item name="android:visibility">gone</item>
+    </style>
+
     <style name="Notifications.Subjects.Screen.Subject.Switch" parent="Widget.AppCompat.CompoundButton.Switch" />
 
     <style name="Notifications.Subjects.Screen.SaveButton" parent="@style/Widget">

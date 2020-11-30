@@ -72,6 +72,9 @@
         <item name="Notifications.Subjects.Screen.Subject.Name">
             @style/Notifications.Subjects.Screen.Subject.Name.BetWarrior
         </item>
+        <item name="Notifications.Subjects.Screen.Subject.Title">
+            @style/Notifications.Subjects.Screen.Subject.Title
+        </item>
         <item name="Notifications.Subjects.Screen.Subject.Switch">
             @style/Notifications.Subjects.Screen.Subject.Switch.BetWarrior
         </item>
