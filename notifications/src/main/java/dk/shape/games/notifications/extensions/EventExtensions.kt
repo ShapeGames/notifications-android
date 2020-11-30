@@ -23,7 +23,6 @@ internal fun Event.toEventInfo(): EventInfo {
         homeName = teamNames.first,
         awayName = teamNames.second,
         startDate = scheduledStartTime,
-        // Apply same logic as in offerings
         levelName = levelPath.toLastLevelPath()
     )
 }
