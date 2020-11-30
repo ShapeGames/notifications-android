@@ -16,21 +16,22 @@ internal fun Event.toTeamNamesPair(): Pair<String, String?> = home?.let { homeTe
     } else Pair(eventNameSplit[0], eventNameSplit[1])
 }
 
-internal fun Event.toEventInfo(
-    defaultLevel: Int = 2
-): EventInfo {
+internal fun Event.toEventInfo(): EventInfo {
     val teamNames = toTeamNamesPair()
-
     return EventInfo(
         sportIconName = icon?.name,
         homeName = teamNames.first,
         awayName = teamNames.second,
         startDate = scheduledStartTime,
         // Apply same logic as in offerings
-        levelName = levelPath.toLevelPathString(defaultLevel)
+        levelName = levelPath.toLastLevelPath()
     )
 }
 
-internal fun List<Level>.toLevelPathString(
+internal fun List<Level>.toLastLevelPath(): String? = if (size > 0) {
+    toLevelPath(size - 1)
+} else null
+
+internal fun List<Level>.toLevelPath(
     level: Int
-): String? = getOrNull(level)?.name
+): String = get(level).name
