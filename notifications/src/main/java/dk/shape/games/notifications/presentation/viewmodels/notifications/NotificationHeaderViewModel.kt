@@ -33,8 +33,7 @@ internal sealed class NotificationHeaderViewModel(
         val awayName: String?,
         val dateText: UIText,
         val timeText: UIText,
-        val level2Name: String?,
-        val level3Name: String?,
+        val levelName: String?,
         override val isDisabled: ObservableBoolean,
         private val onSwitchToggled: (isChecked: Boolean) -> Unit
     ) : NotificationHeaderViewModel(
@@ -53,8 +52,7 @@ internal fun EventInfo.toNotificationHeaderEventViewModel(
         awayName = awayName?.capitalize(),
         dateText = startDate.toDateText(),
         timeText = startDate.toTimeText(),
-        level2Name = level2Name?.capitalize(),
-        level3Name = level3Name?.capitalize(),
+        levelName = levelName?.capitalize(),
         isDisabled = isDisabled,
         onSwitchToggled = onSwitchToggled
     )

@@ -2,6 +2,7 @@ package dk.shape.games.notifications.extensions
 
 import dk.shape.games.notifications.actions.EventInfo
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
+import dk.shape.games.sportsbook.offerings.modules.event.data.Level
 
 internal fun Event.toTeamNamesPair(): Pair<String, String?> = home?.let { homeTeam ->
     away?.let { awayTeam ->
@@ -15,23 +16,21 @@ internal fun Event.toTeamNamesPair(): Pair<String, String?> = home?.let { homeTe
     } else Pair(eventNameSplit[0], eventNameSplit[1])
 }
 
-internal fun Event.toEventInfo(): EventInfo {
+internal fun Event.toEventInfo(
+    defaultLevel: Int = 2
+): EventInfo {
     val teamNames = toTeamNamesPair()
-
-    val level2Name = if (levelPath.size >= 2) {
-        levelPath.getOrNull(1)?.name
-    } else null
-
-    val level3Name = if (levelPath.size >= 3) {
-        levelPath.getOrNull(levelPath.size - 1)?.name
-    } else null
 
     return EventInfo(
         sportIconName = icon?.name,
         homeName = teamNames.first,
         awayName = teamNames.second,
         startDate = scheduledStartTime,
-        level2Name = level2Name,
-        level3Name = level3Name
+        // Apply same logic as in offerings
+        levelName = levelPath.toLevelPathString(defaultLevel)
     )
 }
+
+internal fun List<Level>.toLevelPathString(
+    level: Int
+): String? = getOrNull(level)?.name

@@ -48,8 +48,7 @@ class MockEventNotificationsParentFragment : Fragment() {
             homeName = "Manchester",
             awayName = "Barcelona",
             startDate = Date(),
-            level2Name = "Premier League",
-            level3Name = "England"
+            levelName = "Premier League"
         )
     )
 

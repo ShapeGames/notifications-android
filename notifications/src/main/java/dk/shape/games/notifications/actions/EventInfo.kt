@@ -10,6 +10,5 @@ data class EventInfo(
     val homeName: String,
     val awayName: String?,
     val startDate: Date,
-    val level2Name: String?,
-    val level3Name: String?
+    val levelName: String?
 ) : Parcelable

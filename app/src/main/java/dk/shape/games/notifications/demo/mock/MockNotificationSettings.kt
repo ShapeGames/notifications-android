@@ -117,8 +117,7 @@ val mockInitialActiveNotifications = setOf(
 val mockEventInfo = EventInfo(
     homeName = "manchester",
     awayName = "liverpool",
-    level2Name = "england",
-    level3Name = "premier league",
+    levelName = "premier league",
     sportIconName = "icon-category-football",
     startDate = Date()
 )

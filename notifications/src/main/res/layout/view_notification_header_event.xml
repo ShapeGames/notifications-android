@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="@{viewModel.level3Name}"
+                android:text="@{viewModel.levelName}"
                 tools:fontFamily="sans-serif-medium"
                 tools:text="Premier League"
                 tools:textColor="#999999"
