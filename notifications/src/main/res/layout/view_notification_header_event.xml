@@ -9,6 +9,8 @@
             name="viewModel"
             type="dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationHeaderViewModel.Event" />
 
+        <import type="android.view.View" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -115,10 +117,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.awayName}"
+            android:visibility="@{viewModel.awayName != null ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/switchButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/homeName"
-            tools:text="west hame" />
+            tools:text="west hame"
+            tools:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

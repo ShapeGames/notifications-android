@@ -116,7 +116,7 @@ val mockInitialActiveNotifications = setOf(
 
 val mockEventInfo = EventInfo(
     homeName = "manchester",
-    awayName = "liverpool",
+    awayName = null,
     levelName = "premier league",
     sportIconName = "icon-category-football",
     startDate = Date()
@@ -184,7 +184,7 @@ val mockEvents: List<Event> = listOf(
         awayImageUrl = null,
         scheduledStartTime = Date(),
         markets = listOf(),
-        name = "Manchester - Liverpool",
+        name = "Manchester",
         levelPath = listOf(),
         hasLiveVideoStream = false,
         isInRunning = true,
