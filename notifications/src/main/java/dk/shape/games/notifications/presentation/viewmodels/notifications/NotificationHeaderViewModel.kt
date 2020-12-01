@@ -11,7 +11,6 @@ import dk.shape.games.uikit.databinding.UIText
 
 internal sealed class NotificationHeaderViewModel(
     open val isDisabled: ObservableBoolean,
-    open val isHeaderTitleVisible: Boolean,
     private val onSwitchToggled: (isChecked: Boolean) -> Unit
 ) {
     val activeNotificationState: ObservableBoolean = ObservableBoolean(false)
@@ -20,18 +19,17 @@ internal sealed class NotificationHeaderViewModel(
         onSwitchToggled(isChecked)
     }
 
-    val titleVisibility = if (isHeaderTitleVisible) View.VISIBLE else View.GONE
-
     data class Subject(
         val name: String,
         override val isDisabled: ObservableBoolean,
-        override val isHeaderTitleVisible: Boolean,
+        val isHeaderTitleVisible: Boolean,
         private val onSwitchToggled: (isChecked: Boolean) -> Unit
     ) : NotificationHeaderViewModel(
         isDisabled,
-        isHeaderTitleVisible,
         onSwitchToggled
-    )
+    ){
+        val titleVisibility = if (isHeaderTitleVisible) View.VISIBLE else View.GONE
+    }
 
     data class Event(
         val sportIcon: UIImage,
@@ -42,11 +40,9 @@ internal sealed class NotificationHeaderViewModel(
         val level2Name: String?,
         val level3Name: String?,
         override val isDisabled: ObservableBoolean,
-        override val isHeaderTitleVisible: Boolean,
         private val onSwitchToggled: (isChecked: Boolean) -> Unit
     ) : NotificationHeaderViewModel(
         isDisabled,
-        isHeaderTitleVisible,
         onSwitchToggled
     )
 }
@@ -64,7 +60,6 @@ internal fun EventInfo.toNotificationHeaderEventViewModel(
         level2Name = level2Name?.capitalize(),
         level3Name = level3Name?.capitalize(),
         isDisabled = isDisabled,
-        isHeaderTitleVisible = false,
         onSwitchToggled = onSwitchToggled
     )
 

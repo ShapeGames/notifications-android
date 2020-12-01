@@ -16,7 +16,6 @@ class MockSubjectNotificationsDependencyProvider : ConfigProvider<SubjectNotific
         eventHandler = SubjectNotificationsEventHandlerMock,
         onTrackNotificationSaved = {
             val tot = 0
-        },
-        shouldShowHeaderTitle = true
+        }
     )
 }

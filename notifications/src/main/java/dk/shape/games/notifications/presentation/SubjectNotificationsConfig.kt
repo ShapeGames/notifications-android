@@ -36,7 +36,5 @@ data class SubjectNotificationsConfig(
 
     val eventHandler: SubjectNotificationsEventHandler,
 
-    val onTrackNotificationSaved: () -> Unit = {},
-
-    val shouldShowHeaderTitle: Boolean = false
+    val onTrackNotificationSaved: () -> Unit = {}
 )
