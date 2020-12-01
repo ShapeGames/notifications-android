@@ -23,6 +23,7 @@
             android:id="@+id/subjectTitle"
             style="?attr/Notifications.Subjects.Screen.Subject.Title"
             android:layout_width="0dp"
+            android:visibility="@{viewModel.titleVisibility}"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="@id/switchButton"
             app:layout_constraintStart_toStartOf="@id/subjectName"

@@ -90,6 +90,7 @@ class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
             subjectId = action.subjectId,
             subjectType = action.subjectType,
             subjectName = action.subjectName,
+            isHeaderTitleVisible = config.shouldShowHeaderTitle,
             onClosedPressed = { dismiss() },
             onPreferencesSaved = { stateData, onSuccess, onFailure ->
                 launch(interactor, Dispatchers.IO) {
@@ -140,7 +141,17 @@ class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
                         initialMasterState = activatedTypes.isNotEmpty()
                     )
                 )
-                headerViewModel.activeNotificationState.awareSet(activatedTypes.isNotEmpty())
+                when {
+                    activatedTypes.isNotEmpty() -> {
+                        headerViewModel.activeNotificationState.awareSet(activatedTypes.isNotEmpty())
+                    }
+                    config.shouldShowHeaderTitle -> {
+                        autoToggleSwitch(config.shouldShowHeaderTitle)
+                    }
+                    else -> {
+                        headerViewModel.activeNotificationState.awareSet(false)
+                    }
+                }
                 viewSwitcherViewModel.showContent(this)
             }
         }
