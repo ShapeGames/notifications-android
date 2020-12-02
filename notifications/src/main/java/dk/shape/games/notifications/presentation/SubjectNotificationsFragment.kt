@@ -98,7 +98,7 @@ class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
                         saveNotificationPreferences(
                             stateData = stateData,
                             onSuccess = {
-                                config.onTrackNotificationSaved()
+                                config.onTrackNotificationSaved(action.toTrackingNotificationSavedData(stateData.notificationTypeIds))
                                 onSuccess()
                             },
                             onFailure = {

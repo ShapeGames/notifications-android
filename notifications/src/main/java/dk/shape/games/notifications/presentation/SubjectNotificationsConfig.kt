@@ -1,7 +1,10 @@
 package dk.shape.games.notifications.presentation
 
+import dk.shape.games.notifications.actions.SubjectNotificationsAction
 import dk.shape.games.notifications.aliases.SubjectNotificationGroup
+import dk.shape.games.notifications.aliases.SubjectNotificationIdentifier
 import dk.shape.games.notifications.repositories.SubjectNotificationsDataSource
+import java.util.*
 
 /**
  * Configuration used for for configuring the BottomSheetNotifications fragment.
@@ -36,5 +39,12 @@ data class SubjectNotificationsConfig(
 
     val eventHandler: SubjectNotificationsEventHandler,
 
-    val onTrackNotificationSaved: () -> Unit = {}
+    val onTrackNotificationSaved: (trackingNotificationSavedData: TrackingNotificationSavedData) -> Unit = { }
 )
+
+internal fun SubjectNotificationsAction.toTrackingNotificationSavedData(selections: List<SubjectNotificationIdentifier>) =
+    TrackingNotificationSavedData(
+        teamName = subjectName,
+        subjectType = subjectType,
+        selections = selections.map { it.toString().toLowerCase(Locale.ROOT) }
+    )
