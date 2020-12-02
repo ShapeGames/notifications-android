@@ -1,5 +1,6 @@
 package dk.shape.games.notifications.presentation.viewmodels.notifications
 
+import android.view.View
 import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import dk.shape.games.notifications.actions.EventInfo
@@ -21,11 +22,14 @@ internal sealed class NotificationHeaderViewModel(
     data class Subject(
         val name: String,
         override val isDisabled: ObservableBoolean,
+        val isHeaderTitleVisible: Boolean,
         private val onSwitchToggled: (isChecked: Boolean) -> Unit
     ) : NotificationHeaderViewModel(
         isDisabled,
         onSwitchToggled
-    )
+    ){
+        val titleVisibility = if (isHeaderTitleVisible) View.VISIBLE else View.GONE
+    }
 
     data class Event(
         val sportIcon: UIImage,

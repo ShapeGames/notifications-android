@@ -44,6 +44,7 @@
         <attr name="Notifications.Subjects.Screen.Container" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Screen.Background" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Screen.Subject.Name" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Subjects.Screen.Subject.Title" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Screen.Subject.Switch" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Screen.SaveButton" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Type.Switch" format="reference" tools:ignore="ResourceName" />

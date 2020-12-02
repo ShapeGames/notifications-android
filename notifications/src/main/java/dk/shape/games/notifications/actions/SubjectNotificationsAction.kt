@@ -10,5 +10,6 @@ class SubjectNotificationsAction(
     @SerializedName("sport_id") val sportId: String,
     @SerializedName("subject_id") val subjectId: String,
     @SerializedName("subject_name") val subjectName: String,
-    @SerializedName("subject_type") val subjectType: SubjectType
+    @SerializedName("subject_type") val subjectType: SubjectType,
+    val shouldShowHeaderTitle: Boolean = false
 ) : Parcelable

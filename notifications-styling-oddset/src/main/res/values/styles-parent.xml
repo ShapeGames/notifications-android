@@ -54,6 +54,9 @@
         <item name="Notifications.Subjects.Screen.Subject.Name">
             @style/Notifications.Subjects.Screen.Subject.Name.Oddset
         </item>
+        <item name="Notifications.Subjects.Screen.Subject.Title">
+            @style/Notifications.Subjects.Screen.Subject.Title.Oddset
+        </item>
         <item name="Notifications.Subjects.Screen.Subject.Switch">
             @style/Notifications.Subjects.Screen.Subject.Switch.Oddset
         </item>
