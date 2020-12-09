@@ -13,6 +13,7 @@ import dk.shape.games.notifications.utils.enumValueOrNull
 internal data class NotificationSheetSubjectViewModel(
     private val subjectId: String,
     private val subjectName: String,
+    private val isHeaderTitleVisible: Boolean,
     private val subjectType: SubjectType,
     private val onClosedPressed: () -> Unit,
     private val onPreferencesSaved: PreferenceSaveSubject
@@ -61,6 +62,7 @@ internal data class NotificationSheetSubjectViewModel(
 
     val headerViewModel: NotificationHeaderViewModel.Subject = NotificationHeaderViewModel.Subject(
         name = subjectName,
+        isHeaderTitleVisible = isHeaderTitleVisible,
         isDisabled = saveButtonViewModel.isSavingPreferences,
         onSwitchToggled = switchToggleHandler
     )
@@ -82,6 +84,8 @@ internal data class NotificationSheetSubjectViewModel(
         }
         stateChangeHandler(hasSelections, false)
     }
+
+    internal fun autoToggleSwitch(shouldToggle: Boolean) = switchToggleHandler(shouldToggle)
 
     private fun updateSaveState(isChecked: Boolean) {
         val hasChanges = notificationTypesCollection.requireValue {

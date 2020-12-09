@@ -19,4 +19,3 @@ class MockSubjectNotificationsDependencyProvider : ConfigProvider<SubjectNotific
         }
     )
 }
-

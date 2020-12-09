@@ -46,6 +46,7 @@ class NotificationSettingsSubjectFragment : ExpandedBottomSheetDialogFragment() 
             subjectId = action.subjectId,
             subjectType = action.subjectType,
             subjectName = action.subjectName,
+            isHeaderTitleVisible = false,
             onClosedPressed = { dismiss() },
             onPreferencesSaved = { stateData, onSuccess, onFailure ->
                 lifecycleScope.launchWhenResumed {

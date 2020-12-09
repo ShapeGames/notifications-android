@@ -177,7 +177,8 @@ val mockClientDependencies: MockSubjectNotificationsConfig = MockSubjectNotifica
                 sportId = mockData.sportId,
                 subjectId = mockData.subjectId,
                 subjectName = mockData.subjectName,
-                subjectType = mockData.subjectType
+                subjectType = mockData.subjectType,
+                shouldShowHeaderTitle = false
             )
         )
     }

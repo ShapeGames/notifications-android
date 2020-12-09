@@ -93,6 +93,7 @@ class EventNotificationsSheetFragment : ExpandedBottomSheetDialogFragment() {
                                     eventId = action.eventId,
                                     hasActiveSubscriptions = stateData.notificationTypeIds.isNotEmpty()
                                 )
+                                config.onTrackNotificationSaved(action.toTrackingNotificationSavedData(stateData.notificationTypeIds.toList()))
                                 onSuccess()
                             },
                             onError = {

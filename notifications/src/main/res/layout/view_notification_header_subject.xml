@@ -19,6 +19,16 @@
         android:paddingEnd="18dp"
         android:paddingBottom="17dp">
 
+        <TextView
+            android:id="@+id/subjectTitle"
+            style="?attr/Notifications.Subjects.Screen.Subject.Title"
+            android:layout_width="0dp"
+            android:visibility="@{viewModel.titleVisibility}"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/switchButton"
+            app:layout_constraintStart_toStartOf="@id/subjectName"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/subjectName"
             style="?attr/Notifications.Subjects.Screen.Subject.Name"
@@ -45,7 +55,7 @@
             android:thumb="@drawable/notifications_switch_thumb"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subjectTitle"
             app:onStateChange="@{viewModel.onStateChangeListener}"
             tools:checked="false" />
 

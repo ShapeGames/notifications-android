@@ -64,8 +64,22 @@
         <item name="fontFamily">sans-serif-medium</item>
     </style>
 
+    <style name="Notifications.Subjects.Screen.Subject.Title.Oddset" parent="@style/Notifications.Subjects.Screen.Subject.Title">
+        <item name="android:visibility">visible</item>
+        <item name="android:text">HER KAN DU VÆLGE AT MODTAGE NOTIFIKATIONER FOR DIN FAVORIT</item>
+        <item name="fontFamily">sans-serif-black</item>
+        <item name="android:textColor">@color/blue_600</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:maxLines">2</item>
+    </style>
+
     <style name="Notifications.Subjects.Screen.Subject.Switch.Oddset" parent="@style/Notifications.Subjects.Screen.Subject.Switch">
         <item name="track">@drawable/selector_notifications_switch_track</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="layout_goneMarginTop">0dp</item>
     </style>
 
     <style name="Notifications.Subjects.Screen.SaveButton.Oddset" parent="@style/Notifications.Subjects.Screen.SaveButton">
