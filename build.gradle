@@ -12,7 +12,7 @@ buildscript {
     ext.statusmessages_version = '1.1.0'
     ext.dsfoundation_version = "3.1.0"
     ext.common_styles_version_bw = '1.0.0'
-    ext.common_styles_version_oddset = '1.1.5'
+    ext.common_styles_version_oddset = '2.1.3'
     ext.detekt_version = "1.2.2"
 
     repositories {
