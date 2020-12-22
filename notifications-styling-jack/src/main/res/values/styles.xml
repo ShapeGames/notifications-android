@@ -37,6 +37,13 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
+    <style name="Notifications.Settings.Entry.HomeAwayName.Jack" parent="@style/Notifications.Settings.Entry.HomeAwayName">
+        <item name="fontFamily">@font/avenir_next_demibold</item>
+        <item name="android:textColor">@color/jack_primary_500</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
     <style name="Notifications.Settings.Entry.Settings.Jack" parent="@style/Notifications.Settings.Entry.Settings">
         <item name="android:src">@drawable/jack_cogwheel_red</item>
     </style>
@@ -48,7 +55,7 @@
     </style>
 
     <style name="Notifications.Settings.Info.Icon.Jack" parent="@style/Notifications.Settings.Info.Icon">
-        <item name="android:tint">@color/jack_secondary_500</item>
+        <item name="android:src">@drawable/jack_ic_notifications_bell</item>
     </style>
 
     <!-- BottomSheet Event Notifications -->
