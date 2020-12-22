@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="empty"> </string>
-    <string name="error_title">Ingen forbindelse</string>
-    <string name="error_description">Notifikationer kunne ikke hentes</string>
-    <string name="error_try_again">Forsøg igen</string>
-    <string name="notifications_none_selected">Ingen notifikationer valgt</string>
-    <string name="notification_settings_title">Notifikationer</string>
-    <string name="notification_settings_empty_title">INGEN NOTIFIKATIONER</string>
-    <string name="notification_settings_empty_description">Når du aktiverer notifikationer, kan du konfigurere dem her.</string>
-    <string name="notification_types_title">Notifikationstyper</string>
-    <string name="notification_type_event">EVENTnotifikationer</string>
-    <string name="notification_type_stats">FAVORITnotifikationer</string>
-    <string name="save_my_preferences">Gem mine valg</string>
-    <string name="error_message_title">Der opstod en fejl</string>
-    <string name="error_saving_preferences">Dine valg kunne ikke gemmes. Kontrollér om du har netforbindelse, og prøv derefter igen.</string>
+    <string name="empty" translatable="false"> </string>
+    <string name="save_my_preferences">ok</string>
+    <string name="error_title">Entry forbidden</string>
+    <string name="error_try_again">Try again</string>
+    <string name="notifications_none_selected">No notifications selected</string>
+    <string name="notification_settings_title">Notifications</string>
+    <string name="notification_types_title">Notification types</string>
+    <string name="notification_type_event">Event notifications</string>
+    <string name="notification_type_stats">Favorite notifications</string>
+    <string name="notification_settings_empty_title">No notifications</string>
+    <string name="notification_settings_empty_description">When you add notifications for events they will show up here.</string>
+    <string name="error_description">Notifications could not be retrieved</string>
+    <string name="error_message_title">An error occurred</string>
+    <string name="error_saving_preferences">Your selections could not be saved. Check your network connection, then try again.</string>
 </resources>

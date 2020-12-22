@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_title">Ingen forbindelse</string>
+    <string name="error_description">Notifikationer kunne ikke hentes</string>
+    <string name="error_try_again">Forsøg igen</string>
+    <string name="notifications_none_selected">Ingen notifikationer valgt</string>
+    <string name="notification_settings_title">Notifikationer</string>
+    <string name="notification_settings_empty_title">Ingen notifikationer</string>
+    <string name="notification_settings_empty_description">Når du aktiverer notifikationer, kan du konfigurere dem her.</string>
+    <string name="notification_types_title">Notifikationstyper</string>
+    <string name="notification_type_event">Event notifikationer</string>
+    <string name="notification_type_stats">Favorit notifikationer</string>
+    <string name="save_my_preferences">Gem mine valg</string>
+    <string name="error_message_title">Der opstod en fejl</string>
+    <string name="error_saving_preferences">Dine valg kunne ikke gemmes. Kontrollér om du har netforbindelse, og prøv derefter igen.</string>
+</resources>
