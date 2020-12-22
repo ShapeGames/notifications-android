@@ -38,7 +38,7 @@ internal data class EventNotificationViewModel constructor(
     }
 
     @ExperimentalCoroutinesApi
-    fun onToggled(enabled: Boolean)  {
+    fun onToggled(enabled: Boolean) {
         if (this.enabled.value != enabled && this.enabled.value != null) {
             (GlobalScope + SupervisorJob()).launch {
                 notificationUseCases.toggle(enabled)
@@ -62,13 +62,12 @@ internal data class EventNotificationViewModel constructor(
         mutableEnabled.postValue(contentState.isEnabled())
     }
 
-    private fun EventNotificationState.toContent(): EventNotificationState.Content = when(this) {
+    private fun EventNotificationState.toContent(): EventNotificationState.Content = when (this) {
         is EventNotificationState.Content -> this
         is EventNotificationState.Error -> lastKnownState
     }
 
-    override fun equals(other: Any?): Boolean = if(other is EventNotificationViewModel) {
+    override fun equals(other: Any?): Boolean = if (other is EventNotificationViewModel) {
         other.state.value == this.state.value
     } else false
-
 }
