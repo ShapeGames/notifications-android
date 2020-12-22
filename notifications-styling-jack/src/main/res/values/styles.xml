@@ -6,7 +6,7 @@
     </style>
 
     <style name="Notifications.Settings.Toolbar.Jack" parent="@style/Notifications.Settings.Toolbar">
-        <item name="android:background">@drawable/jack_toolbar_background</item>
+        <item name="android:background">@drawable/jack_bg_toolbar</item>
     </style>
 
     <style name="Notifications.Settings.Toolbar.Icon.Jack" parent="@style/Notifications.Settings.Toolbar.Icon">
@@ -84,7 +84,7 @@
     <style name="Notifications.Subjects.Screen.Background.Jack" parent="@style/Notifications.Subjects.Screen.Background">
         <item name="android:clipChildren">true</item>
         <item name="android:clipToPadding">true</item>
-        <item name="background">@drawable/jack_notifications_bottomsheet_background</item>
+        <item name="background">@drawable/jack_bg_notifications_bottomsheet</item>
     </style>
 
     <style name="Notifications.Subjects.Screen.Subject.Name.Jack" parent="@style/Notifications.Subjects.Screen.Subject.Name">
