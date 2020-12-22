@@ -3,7 +3,7 @@
 
     <!-- Notification Settings -->
     <style name="Notifications.Settings.Toolbar.Container.Oddset" parent="@style/Notifications.Settings.Toolbar.Container">
-        <item name="android:background">@color/blue_800</item>
+        <item name="android:background">@color/oddset_primary_700</item>
     </style>
 
     <style name="Notifications.Settings.Toolbar.Icon.Oddset" parent="@style/Notifications.Settings.Toolbar.Icon">
@@ -53,84 +53,83 @@
 
     <!-- BottomSheet Event Notifications -->
     <style name="Notifications.Event.Screen.Icon.Oddset" parent="@style/Notifications.Event.Screen.Icon" >
-        <item name="android:tint">#999999</item>
+        <item name="android:tint">@color/oddset_grey_800</item>
     </style>
 
     <style name="Notifications.Event.Screen.Text.Oddset" parent="@style/Notifications.Event.Screen.Text" >
-        <item name="android:textColor">#999999</item>
+        <item name="android:textColor">@color/oddset_grey_800</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="Notifications.Event.Screen.Text.Level2.Oddset" parent="@style/Notifications.Event.Screen.Text.Level2" >
-        <item name="android:textColor">#999999</item>
+        <item name="android:textColor">@color/oddset_grey_800</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <!-- Subject Notifications BottomSheet -->
     <style name="Notifications.Subjects.Screen.Background.Oddset" parent="@style/Notifications.Subjects.Screen.Background">
         <item name="android:clipChildren">true</item>
         <item name="android:clipToPadding">true</item>
-        <item name="background">@drawable/notifications_bottomsheet_background</item>
+        <item name="background">@drawable/oddset_bg_notifications_bottomsheet</item>
     </style>
 
     <style name="Notifications.Subjects.Screen.Subject.Name.Oddset" parent="@style/Notifications.Subjects.Screen.Subject.Name">
-        <item name="android:textColor">#2d2d2d</item>
+        <item name="android:textColor">@color/oddset_primary_900</item>
         <item name="android:textSize">16sp</item>
-        <item name="fontFamily">sans-serif-medium</item>
+        <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
     <style name="Notifications.Subjects.Screen.Subject.Title.Oddset" parent="@style/Notifications.Subjects.Screen.Subject.Title">
         <item name="android:visibility">visible</item>
         <item name="android:text">HER KAN DU VÆLGE AT MODTAGE NOTIFIKATIONER FOR DIN FAVORIT</item>
-        <item name="fontFamily">sans-serif-black</item>
-        <item name="android:textColor">@color/blue_600</item>
-        <item name="android:textAllCaps">true</item>
+        <item name="fontFamily">@font/roboto_black_italic</item>
+        <item name="android:textColor">@color/oddset_primary_700</item>
         <item name="android:textSize">18sp</item>
         <item name="android:lineSpacingExtra">2sp</item>
-        <item name="android:letterSpacing">0.04</item>
         <item name="android:maxLines">2</item>
     </style>
 
     <style name="Notifications.Subjects.Screen.Subject.Switch.Oddset" parent="@style/Notifications.Subjects.Screen.Subject.Switch">
-        <item name="track">@drawable/selector_notifications_switch_track</item>
+        <item name="track">@drawable/oddset_selector_notifications_switch_track</item>
         <item name="android:layout_marginTop">16dp</item>
         <item name="layout_goneMarginTop">0dp</item>
     </style>
 
     <style name="Notifications.Subjects.Screen.SaveButton.Oddset" parent="@style/Notifications.Subjects.Screen.SaveButton">
-        <item name="android:layout_marginStart">23dp</item>
-        <item name="android:layout_marginEnd">23dp</item>
-        <item name="android:background">@drawable/selector_notifications_save_button</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:padding">2dp</item>
         <item name="android:layout_height">40dp</item>
-        <item name="fontFamily">sans-serif-black</item>
-        <item name="textAllCaps">true</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:background">@drawable/oddset_selector_notifications_save_button</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">@font/roboto_black</item>
         <item name="android:textSize">13sp</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/oddset_white</item>
     </style>
 
     <style name="Notifications.Subjects.Type.Name.Oddset" parent="@style/Notifications.Subjects.Type.Name">
-        <item name="android:textSize">15sp</item>
-        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/oddset_primary_900</item>
+        <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
-    <style name="Notifications.Subjects.Type.Name.Active.Oddset" parent="Notifications.Subjects.Type.Name.Oddset">
-        <item name="fontFamily">sans-serif-black</item>
-    </style>
+    <style name="Notifications.Subjects.Type.Name.Active.Oddset" parent="Notifications.Subjects.Type.Name.Oddset"/>
 
     <style name="Notifications.Subjects.Type.Switch.Oddset" parent="@style/Notifications.Subjects.Type.Switch">
-        <item name="android:button">@drawable/selector_notifications_toggle</item>
+        <item name="android:button">@drawable/oddset_selector_notifications_toggle</item>
     </style>
 
     <style name="Notifications.Subjects.Loading.ProgressBar.Oddset" parent="@style/Notifications.Subjects.Loading.ProgressBar">
-        <item name="colorAccent">@color/notifications_progress_bar</item>
+        <item name="colorAccent">@color/oddset_secondary_500</item>
     </style>
 
     <style name="Notifications.Subjects.Error.Button.Oddset" parent="@style/Notifications.Subjects.Error.Button">
-        <item name="backgroundTint">@color/notifications_error_button</item>
+        <item name="backgroundTint">@color/oddset_secondary_700</item>
     </style>
 
     <style name="Notifications.Subjects.Type.Saving.ProgressBar.Oddset" parent="@style/Notifications.Subjects.Type.Saving.ProgressBar">
-        <item name="colorAccent">@android:color/white</item>
+        <item name="colorAccent">@color/oddset_white</item>
         <item name="android:layout_height">20dp</item>
         <item name="android:layout_width">20dp</item>
     </style>

@@ -2,7 +2,7 @@
 <resources>
 
     <string name="empty" translatable="false"> </string>
-    <string name="save_my_preferences">ok</string>
+    <string name="save_my_preferences">OK</string>
     <string name="error_title">Entry forbidden</string>
     <string name="error_try_again">Try again</string>
     <string name="notifications_none_selected">No notifications selected</string>
