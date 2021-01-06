@@ -10,13 +10,10 @@ import kotlinx.serialization.Serializable
 enum class SubjectType {
     @SerialName("events")
     EVENTS,
-
     @SerialName("teams")
     TEAMS,
-    
     @SerialName("leagues")
     LEAGUES,
-
     @SerialName("athletes")
     ATHLETES
 }

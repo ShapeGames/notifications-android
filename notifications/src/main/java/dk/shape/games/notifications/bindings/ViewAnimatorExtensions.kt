@@ -9,7 +9,7 @@ import androidx.databinding.BindingAdapter
 internal fun ViewAnimator.setDisplayedChildId(@IdRes displayedChildId: Int?) {
     val childView = displayedChildId?.let { findViewById<View>(it) }
     val childViewIndex = childView?.let { indexOfChild(it) }
-    if(displayedChild != childViewIndex) {
+    if (displayedChild != childViewIndex) {
         childViewIndex?.let { displayedChild = childViewIndex }
     }
 }

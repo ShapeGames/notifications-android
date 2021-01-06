@@ -6,7 +6,7 @@
     </style>
 
     <style name="Notifications.Settings.Toolbar.Jack" parent="@style/Notifications.Settings.Toolbar">
-        <item name="android:background">@drawable/jack_toolbar_background</item>
+        <item name="android:background">@drawable/jack_bg_toolbar</item>
     </style>
 
     <style name="Notifications.Settings.Toolbar.Icon.Jack" parent="@style/Notifications.Settings.Toolbar.Icon">
@@ -37,6 +37,13 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
+    <style name="Notifications.Settings.Entry.HomeAwayName.Jack" parent="@style/Notifications.Settings.Entry.HomeAwayName">
+        <item name="fontFamily">@font/avenir_next_demibold</item>
+        <item name="android:textColor">@color/jack_primary_500</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
     <style name="Notifications.Settings.Entry.Settings.Jack" parent="@style/Notifications.Settings.Entry.Settings">
         <item name="android:src">@drawable/jack_cogwheel_red</item>
     </style>
@@ -48,7 +55,7 @@
     </style>
 
     <style name="Notifications.Settings.Info.Icon.Jack" parent="@style/Notifications.Settings.Info.Icon">
-        <item name="android:tint">@color/jack_secondary_500</item>
+        <item name="android:src">@drawable/jack_ic_notifications_bell</item>
     </style>
 
     <!-- BottomSheet Event Notifications -->
@@ -77,7 +84,7 @@
     <style name="Notifications.Subjects.Screen.Background.Jack" parent="@style/Notifications.Subjects.Screen.Background">
         <item name="android:clipChildren">true</item>
         <item name="android:clipToPadding">true</item>
-        <item name="background">@drawable/jack_notifications_bottomsheet_background</item>
+        <item name="background">@drawable/jack_bg_notifications_bottomsheet</item>
     </style>
 
     <style name="Notifications.Subjects.Screen.Subject.Name.Jack" parent="@style/Notifications.Subjects.Screen.Subject.Name">

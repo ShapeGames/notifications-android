@@ -25,6 +25,9 @@
         <item name="Notifications.Settings.Entry.Name">
             @style/Notifications.Settings.Entry.Name.Jack
         </item>
+        <item name="Notifications.Settings.Entry.HomeAwayName">
+            @style/Notifications.Settings.Entry.HomeAwayName.Jack
+        </item>
         <item name="Notifications.Settings.Entry.Settings">
             @style/Notifications.Settings.Entry.Settings.Jack
         </item>

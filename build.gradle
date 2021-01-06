@@ -4,7 +4,7 @@ buildscript {
     ext.kotlin_version = '1.4.10'
     ext.mocking_version = '1.0.6'
     ext.uikit_version = '1.18.6'
-    ext.feedback_ui_version = '1.3.2'
+    ext.feedback_ui_version = '1.3.7'
     ext.viewswitcher_version = "temp-0.4"
     ext.androidx_core_ktx_version = "1.3.0"
     ext.androidx_lifecycle_version = "2.2.0"
@@ -12,7 +12,7 @@ buildscript {
     ext.statusmessages_version = '1.1.0'
     ext.dsfoundation_version = "3.1.0"
     ext.common_styles_version_bw = '1.0.0'
-    ext.common_styles_version_oddset = '1.1.5'
+    ext.common_styles_version_oddset = '2.1.3'
     ext.detekt_version = "1.2.2"
 
     repositories {

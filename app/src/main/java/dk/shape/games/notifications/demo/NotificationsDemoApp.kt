@@ -27,6 +27,15 @@ class NotificationsDemoApp : DemoApp() {
             demoScreens = NotificationsScreens.screens,
             styles = listOf(
                 Style(
+                    name = "Oddset",
+                    styleResourceIds = intArrayOf(
+                        R.style.OddsetNotificationsModuleStyle,
+                        R.style.FeedbackUIStyleOddset
+                    ),
+                    logoResourceId = R.drawable.logo_oddset,
+                    navBarColor = Color.parseColor("#1d5aaf")
+                ),
+                Style(
                     name = "Jack",
                     styleResourceIds = intArrayOf(
                         R.style.JackNotificationsModuleStyle,
@@ -34,15 +43,6 @@ class NotificationsDemoApp : DemoApp() {
                     ),
                     logoResourceId = R.drawable.logo_jack,
                     navBarColor = Color.parseColor("#ad2025")
-                ),
-                Style(
-                    name = "Oddset",
-                    styleResourceIds = intArrayOf(
-                        R.style.OddsetNotificationsModuleStyle,
-                        R.style.FeedbackUIStyleOddset
-                    ),
-                    logoResourceId = R.drawable.logo_oddset,
-                    navBarColor = Color.parseColor("#1644A2")
                 ),
                 Style(
                     name = "BetWarrior",
