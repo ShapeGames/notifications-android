@@ -30,6 +30,7 @@ import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
 
@@ -207,7 +208,9 @@ class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         launch(Dispatchers.IO) {
             whenResumed {
-                loadNotifications(interactor)
+                withContext(Dispatchers.IO){
+                    loadNotifications(interactor)
+                }
             }
         }
     }
