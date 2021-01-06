@@ -27,6 +27,7 @@ import dk.shape.games.toolbox_library.configinjection.ConfigFragmentArgs
 import dk.shape.games.toolbox_library.configinjection.action
 import dk.shape.games.toolbox_library.configinjection.config
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class EventNotificationsSheetFragment : ExpandedBottomSheetDialogFragment() {
 
@@ -156,7 +157,9 @@ class EventNotificationsSheetFragment : ExpandedBottomSheetDialogFragment() {
                 viewSwitcherViewModel.showLoading()
             }
             whenResumed {
-                loadNotifications()
+                withContext(Dispatchers.IO) {
+                    loadNotifications()
+                }
             }
         }
     }
@@ -190,7 +193,9 @@ class EventNotificationsSheetFragment : ExpandedBottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         launch(Dispatchers.IO) {
             whenResumed {
-                loadNotifications()
+                withContext(Dispatchers.IO) {
+                    loadNotifications()
+                }
             }
         }
     }
