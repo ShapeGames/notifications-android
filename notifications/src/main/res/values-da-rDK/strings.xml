@@ -8,8 +8,8 @@
     <string name="notification_settings_empty_title">Ingen notifikationer</string>
     <string name="notification_settings_empty_description">Når du aktiverer notifikationer, kan du konfigurere dem her.</string>
     <string name="notification_types_title">Notifikationstyper</string>
-    <string name="notification_type_event">Event notifikationer</string>
-    <string name="notification_type_stats">Favorit notifikationer</string>
+    <string name="notification_type_event">Eventnotifikationer</string>
+    <string name="notification_type_stats">Favoritnotifikationer</string>
     <string name="save_my_preferences">Gem mine valg</string>
     <string name="error_message_title">Der opstod en fejl</string>
     <string name="error_saving_preferences">Dine valg kunne ikke gemmes. Kontrollér om du har netforbindelse, og prøv derefter igen.</string>
