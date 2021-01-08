@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="BetWarriorNotificationsModuleStyle" parent="">
+    <style name="BetWarriorNotificationsStyle" parent="">
 
         <!-- Notifications -->
         <item name="Notifications.Container">

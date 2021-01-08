@@ -29,7 +29,7 @@ class NotificationsDemoApp : DemoApp() {
                 Style(
                     name = "Oddset",
                     styleResourceIds = intArrayOf(
-                        R.style.OddsetNotificationsModuleStyle,
+                        R.style.OddsetNotificationsStyle,
                         R.style.FeedbackUIStyleOddset
                     ),
                     logoResourceId = R.drawable.logo_oddset,
@@ -38,7 +38,7 @@ class NotificationsDemoApp : DemoApp() {
                 Style(
                     name = "Jack",
                     styleResourceIds = intArrayOf(
-                        R.style.JackNotificationsModuleStyle,
+                        R.style.JackNotificationsStyle,
                         R.style.FeedbackUIStyleBetJack
                     ),
                     logoResourceId = R.drawable.logo_jack,
@@ -47,7 +47,7 @@ class NotificationsDemoApp : DemoApp() {
                 Style(
                     name = "BetWarrior",
                     styleResourceIds = intArrayOf(
-                        R.style.BetWarriorNotificationsModuleStyle,
+                        R.style.BetWarriorNotificationsStyle,
                         R.style.FeedbackUIStyleBetWarrior
                     ),
                     logoResourceId = R.drawable.logo_betwarrior,
