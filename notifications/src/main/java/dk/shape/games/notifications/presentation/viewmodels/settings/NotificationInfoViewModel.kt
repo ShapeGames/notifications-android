@@ -1,11 +1,9 @@
 package dk.shape.games.notifications.presentation.viewmodels.settings
 
-import dk.shape.games.notifications.R
 import dk.shape.games.notifications.BR
+import dk.shape.games.notifications.R
 import dk.shape.games.uikit.databinding.UIText
 import me.tatarka.bindingcollectionadapter2.ItemBinding
-
-private val EMPTY_UI_TEXT = UIText.Raw.Resource(R.string.notifications_none_selected)
 
 sealed class NotificationInfoViewModel {
     data class Icons(
@@ -18,7 +16,7 @@ sealed class NotificationInfoViewModel {
     open class Text(
         val text: UIText
     ) : NotificationInfoViewModel() {
-        object Empty : Text(EMPTY_UI_TEXT)
+        object Empty : Text(UIText.Raw.Resource(R.string.notifications_none_selected))
     }
 }
 
