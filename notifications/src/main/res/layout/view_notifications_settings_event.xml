@@ -31,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:orientation="vertical"
+                android:gravity="center_vertical"
                 app:layout_constraintBottom_toTopOf="@id/barrier"
                 app:layout_constraintEnd_toStartOf="@id/switchButton"
                 app:layout_constraintHorizontal_bias="0"
@@ -66,9 +67,9 @@
                 android:checked="@{viewModel.isSwitchToggled}"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:thumb="@drawable/notifications_switch_thumb"
-                app:layout_constraintBottom_toBottomOf="@id/teamNames"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/teamNames"
+                app:layout_constraintBottom_toBottomOf="@id/teamNames"
                 app:onStateChange="@{viewModel.onSwitchStateChanged}"
                 tools:checked="false" />
 
