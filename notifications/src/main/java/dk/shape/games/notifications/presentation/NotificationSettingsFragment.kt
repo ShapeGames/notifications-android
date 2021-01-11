@@ -81,7 +81,9 @@ class NotificationSettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        action.getEventIds { eventIds ->
+        action.eventIds?.let { eventIds ->
+            fetchNotifications(eventIds)
+        } ?: action.getEventIds { eventIds ->
             fetchNotifications(eventIds)
         }
     }
