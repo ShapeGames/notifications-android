@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.NotificationSettingsAction
-import dk.shape.games.notifications.actions.NotificationSettingsType
 import dk.shape.games.notifications.databinding.FragmentNotificationSettingsBinding
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.extensions.toIds
@@ -82,22 +81,16 @@ class NotificationSettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        action.apply {
-            when (notificationSettingsType) {
-                is NotificationSettingsType.WithEventIds -> {
-                    fetchNotifications(notificationSettingsType.eventIds)
+        when (action) {
+            is NotificationSettingsAction.NotificationsForAllEventIds ->
+                fetchNotifications(
+                    (action as NotificationSettingsAction.NotificationsForAllEventIds).eventIds
+                )
+
+            else ->
+                action.getEventIds { eventIds ->
+                    fetchNotifications(eventIds)
                 }
-                is NotificationSettingsType.OpenFromMyGames -> {
-                    getEventIds(true) { eventIds ->
-                        fetchNotifications(eventIds)
-                    }
-                }
-                is NotificationSettingsType.NotFromMyGames -> {
-                    getEventIds(false) { eventIds ->
-                        fetchNotifications(eventIds)
-                    }
-                }
-            }
         }
     }
 
@@ -111,10 +104,14 @@ class NotificationSettingsFragment : Fragment() {
                     val deviceId = config.provideDeviceId()
 
                     val eventNotificationViewModels =
-                        getEventNotificationsViewModels(eventIds, appConfig, action.notificationSettingsType is NotificationSettingsType.WithEventIds)
+                        getEventNotificationsViewModels(
+                            eventIds,
+                            appConfig,
+                            action is NotificationSettingsAction.NotificationsForAllEventIds
+                        )
 
                     val statsNotificationViewModels =
-                        if (action.notificationSettingsType is NotificationSettingsType.OpenFromMyGames) {
+                        if (action is NotificationSettingsAction.FromMyGames) {
                             emptyList()
                         } else getSubjectNotificationsViewModels(deviceId, appConfig)
 
@@ -175,7 +172,7 @@ class NotificationSettingsFragment : Fragment() {
                 }
             }
         }
-        return if (showUnsubscribed){
+        return if (showUnsubscribed) {
             legacyNotificationsInteractor.loadAllNotifications(
                 eventIds = eventIds,
                 appConfig = appConfig,
@@ -268,14 +265,13 @@ class NotificationSettingsFragment : Fragment() {
         }
 
     private fun NotificationSettingsAction.getEventIds(
-        openedFromMyGames: Boolean,
         onResult: (List<String>?) -> Unit
     ) {
-        when {
-            betslipComponentUUID != null -> {
+        when (this) {
+            is NotificationSettingsAction.WithBetSlipComponentUUID -> {
                 onResult(config.provideEventIdsForBetSlip())
             }
-            openedFromMyGames -> {
+            NotificationSettingsAction.FromMyGames -> {
                 config.provideEventIdsForUserBetsAsync(onResult)
             }
             else -> onResult(null)

@@ -57,7 +57,7 @@ object NotificationsScreens {
             fragmentProvider = {
                 NotificationSettingsFragment().apply {
                     arguments = NotificationSettingsFragment.Args.create(
-                        NotificationSettingsAction(),
+                        NotificationSettingsAction.NoData,
                         MockNotificationSettingsDependencyProvider::class.java
                     )
                 }
@@ -68,7 +68,7 @@ object NotificationsScreens {
             fragmentProvider = {
                 NotificationSettingsFragment().apply {
                     arguments = NotificationSettingsFragment.Args.create(
-                        NotificationSettingsAction(),
+                        NotificationSettingsAction.NoData,
                         MockNotificationSettingsEmptyDependencyProvider::class.java
                     )
                 }
