@@ -13,14 +13,13 @@ import dk.shape.games.notifications.extensions.toEventInfo
 import dk.shape.games.notifications.extensions.toTeamNamesPair
 import dk.shape.games.notifications.presentation.viewmodels.state.StateDataEvent
 import dk.shape.games.notifications.usecases.LoadedLegacySubscription
-import dk.shape.games.notifications.usecases.LoadedNotifications
 
 typealias OnEventNotificationTypesClicked = (NotificationSettingsEventAction) -> Unit
 typealias OnSetEventNotifications = (notificationIds: Set<String>, onError: () -> Unit) -> Unit
 
 open class NotificationsSettingsEventViewModel(
     private val event: Event,
-    open val subscription: Subscription,
+    val subscription: Subscription,
     private val notificationGroup: LegacyNotificationGroup,
     private val onEventNotificationTypesClicked: OnEventNotificationTypesClicked,
     private val onSetNotifications: OnSetEventNotifications
@@ -97,43 +96,12 @@ open class NotificationsSettingsEventViewModel(
             notificationType.identifier == typeId
         }?.name
     }.joinToString()
-
-    class Subscribed(
-        event: Event,
-        override val subscription: Subscription,
-        notificationGroup: LegacyNotificationGroup,
-        onEventNotificationTypesClicked: OnEventNotificationTypesClicked,
-        onSetNotifications: OnSetEventNotifications
-    ): NotificationsSettingsEventViewModel(
-        event, subscription, notificationGroup, onEventNotificationTypesClicked, onSetNotifications
-    )
-
-    class Unsubscribed(
-        event: Event,
-        override val subscription: Subscription,
-        notificationGroup: LegacyNotificationGroup,
-        onEventNotificationTypesClicked: OnEventNotificationTypesClicked,
-        onSetNotifications: OnSetEventNotifications
-    ): NotificationsSettingsEventViewModel(
-        event, subscription, notificationGroup, onEventNotificationTypesClicked, onSetNotifications
-    )
 }
-
-internal fun LoadedNotifications.toNotificationsSettingsEventViewModel(
-    onEventNotificationTypesClicked: OnEventNotificationTypesClicked,
-    onSetNotifications: OnSetEventNotifications
-) = NotificationsSettingsEventViewModel.Unsubscribed(
-    event = event,
-    subscription = subscription,
-    notificationGroup = notificationGroup,
-    onEventNotificationTypesClicked = onEventNotificationTypesClicked,
-    onSetNotifications = onSetNotifications
-)
 
 internal fun LoadedLegacySubscription.toNotificationsSettingsEventViewModel(
     onEventNotificationTypesClicked: OnEventNotificationTypesClicked,
     onSetNotifications: OnSetEventNotifications
-) = NotificationsSettingsEventViewModel.Subscribed(
+) = NotificationsSettingsEventViewModel(
     event = event,
     subscription = subscription,
     notificationGroup = notificationGroup,
