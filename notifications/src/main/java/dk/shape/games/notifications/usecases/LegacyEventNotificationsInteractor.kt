@@ -87,6 +87,41 @@ data class LegacyEventNotificationsInteractor(
         }
     }
 
+    override suspend fun loadAllNotifications(
+        eventIds: List<String>?,
+        appConfig: AppConfig,
+        onSaveEventIds: (List<String>) -> Unit,
+        provideEvents: suspend (eventIds: List<String>) -> List<Event>
+    ): List<LoadedNotifications> {
+        val subscriptions = getAllSubscriptions()
+        //val subscribedEventIds = eventIds ?: subscriptions.map { it.eventId }
+        return eventIds?.let {
+            onSaveEventIds(eventIds)
+
+            try {
+                provideEvents(eventIds)
+                    .mapNotNull { event ->
+
+                        appConfig.notifications.group.find { notificationGroup ->
+                            notificationGroup.groupId == event.notificationConfigurationId
+                        }?.let { matchingGroup ->
+                            subscriptions.find { subscription ->
+                                subscription.types.isNotEmpty()
+                            }?.let {
+                                LoadedNotifications(
+                                    event = event,
+                                    subscription = it,
+                                    notificationGroup = matchingGroup
+                                )
+                            }
+                        }
+                    }
+            } catch (e: DSApiResponseException.MissingBodyError) {
+                emptyList()
+            }
+        } ?: emptyList()
+    }
+
     @MainThread
     override fun updateNotifications(
         eventId: String,

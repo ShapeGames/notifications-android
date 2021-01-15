@@ -24,6 +24,13 @@ interface LegacyEventNotificationsUseCases {
         provideEvents: suspend (eventIds: List<String>) -> List<Event>
     ): List<LoadedLegacySubscription>
 
+    suspend fun loadAllNotifications(
+        eventIds: List<String>?,
+        appConfig: AppConfig,
+        onSaveEventIds: (List<String>) -> Unit,
+        provideEvents: suspend (eventIds: List<String>) -> List<Event>
+    ): List<LoadedNotifications>
+
     @MainThread
     fun updateNotifications(
         eventId: String,
@@ -34,6 +41,12 @@ interface LegacyEventNotificationsUseCases {
 }
 
 data class LoadedLegacySubscription(
+    val event: Event,
+    val subscription: Subscription,
+    val notificationGroup: LegacyNotificationGroup
+)
+
+data class LoadedNotifications(
     val event: Event,
     val subscription: Subscription,
     val notificationGroup: LegacyNotificationGroup
