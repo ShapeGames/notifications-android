@@ -94,7 +94,7 @@ data class LegacyEventNotificationsInteractor(
         provideEvents: suspend (eventIds: List<String>) -> List<Event>
     ): List<LoadedLegacySubscription> {
         val subscriptions = getAllSubscriptions() as MutableList
-        val subscribedEventIds = eventIds ?: subscriptions.map { it.eventId }
+        val subscribedEventIds = subscriptions.map { it.eventId }
 
         val unsubscribed = mutableListOf<Subscription>().apply {
             eventIds?.forEach { id ->
