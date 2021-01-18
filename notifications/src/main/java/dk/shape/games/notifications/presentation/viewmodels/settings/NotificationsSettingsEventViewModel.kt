@@ -17,7 +17,7 @@ import dk.shape.games.notifications.usecases.LoadedLegacySubscription
 typealias OnEventNotificationTypesClicked = (NotificationSettingsEventAction) -> Unit
 typealias OnSetEventNotifications = (notificationIds: Set<String>, onError: () -> Unit) -> Unit
 
-open class NotificationsSettingsEventViewModel(
+data class NotificationsSettingsEventViewModel(
     private val event: Event,
     val subscription: Subscription,
     private val notificationGroup: LegacyNotificationGroup,
