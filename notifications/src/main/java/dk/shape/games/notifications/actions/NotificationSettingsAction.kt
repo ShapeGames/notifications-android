@@ -6,20 +6,21 @@ import kotlinx.android.parcel.Parcelize
 sealed class NotificationSettingsAction : Action {
 
     @Parcelize
-    data class NotificationsForAllEventIds(
-        val eventIds: List<String> = emptyList()
+    data class IncludeAllEvents(
+        val eventIds: List<String>
     ) : NotificationSettingsAction()
 
+    @Deprecated("This will not be used with a release of new BetHistory")
     @Parcelize
-    object FromMyGames : NotificationSettingsAction()
+    object FilterBetEvents : NotificationSettingsAction()
 
     @Parcelize
-    data class WithBetSlipComponentUUID(
+    data class FilterBetSlip(
         val betSlipComponentUUID: String? = null
     ) : NotificationSettingsAction()
 
     @Parcelize
-    object NoData: NotificationSettingsAction()
+    object Default: NotificationSettingsAction()
 
     override fun isModal() = true
 

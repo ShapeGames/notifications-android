@@ -82,9 +82,9 @@ class NotificationSettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         when (action) {
-            is NotificationSettingsAction.NotificationsForAllEventIds ->
+            is NotificationSettingsAction.IncludeAllEvents ->
                 fetchNotifications(
-                    (action as NotificationSettingsAction.NotificationsForAllEventIds).eventIds
+                    (action as NotificationSettingsAction.IncludeAllEvents).eventIds
                 )
 
             else ->
@@ -107,11 +107,11 @@ class NotificationSettingsFragment : Fragment() {
                         getEventNotificationsViewModels(
                             eventIds,
                             appConfig,
-                            action is NotificationSettingsAction.NotificationsForAllEventIds
+                            action is NotificationSettingsAction.IncludeAllEvents
                         )
 
                     val statsNotificationViewModels =
-                        if (action is NotificationSettingsAction.FromMyGames) {
+                        if (action is NotificationSettingsAction.FilterBetEvents) {
                             emptyList()
                         } else getSubjectNotificationsViewModels(deviceId, appConfig)
 
@@ -197,6 +197,7 @@ class NotificationSettingsFragment : Fragment() {
         }
     }
 
+
     private suspend fun getSubjectNotificationsViewModels(
         deviceId: String,
         appConfig: AppConfig
@@ -241,10 +242,10 @@ class NotificationSettingsFragment : Fragment() {
         onResult: (List<String>?) -> Unit
     ) {
         when (this) {
-            is NotificationSettingsAction.WithBetSlipComponentUUID -> {
+            is NotificationSettingsAction.FilterBetSlip -> {
                 onResult(config.provideEventIdsForBetSlip())
             }
-            NotificationSettingsAction.FromMyGames -> {
+            NotificationSettingsAction.FilterBetEvents -> {
                 config.provideEventIdsForUserBetsAsync(onResult)
             }
             else -> onResult(null)
