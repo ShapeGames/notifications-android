@@ -71,7 +71,7 @@ data class LegacyEventNotificationsInteractor(
                     }
                 }
                 (subscriptions as MutableList).addAll(unsubscribed)
-                subscriptions.map { it.eventId }
+                eventIds ?: emptyList()
             }
             else -> eventIds ?: subscriptions.map { it.eventId }
         }
