@@ -100,8 +100,8 @@ data class LegacyEventNotificationsInteractor(
                         subscription.eventId
                     }
 
-                providedEventIds?.filterNot {
-                    subscribedEventIds.contains(it)
+                providedEventIds?.filterNot { providedId ->
+                    subscribedEventIds.contains(providedId)
                 }?.map { id ->
                     Subscription(
                         eventId = id,
