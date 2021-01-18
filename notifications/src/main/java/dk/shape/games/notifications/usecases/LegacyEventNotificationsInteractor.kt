@@ -58,16 +58,13 @@ data class LegacyEventNotificationsInteractor(
         onSaveEventIds: (List<String>) -> Unit,
         provideEvents: suspend (eventIds: List<String>) -> List<Event>
     ): List<LoadedLegacySubscription> {
-        val subscriptions = getAllSubscriptions().apply {
+        val subscriptions: List<Subscription> = getAllSubscriptions().apply {
             if (includeAllEvents)
-                addUnsubscribedEvents(providedEventIds)
+                plus(getUnsubscribedEvents(providedEventIds))
         }
-        val eventIdsToShow = providedEventIds ?: run {
-            when {
-                includeAllEvents -> emptyList()
-                else -> subscriptions.map { it.eventId }
-            }
-        }
+        val eventIdsToShow =
+            providedEventIds ?: subscriptions.map { it.eventId }.takeUnless { includeAllEvents }
+            ?: emptyList()
 
         onSaveEventIds(eventIdsToShow)
 
@@ -97,25 +94,24 @@ data class LegacyEventNotificationsInteractor(
         }
     }
 
-    private fun List<Subscription>.addUnsubscribedEvents(
+    private fun List<Subscription>.getUnsubscribedEvents(
         providedEventIds: List<String>?
-    ) {
+    ): List<Subscription>? {
         val subscribedEventIds: List<String> =
             map { subscription ->
                 subscription.eventId
             }
 
-        providedEventIds?.filterNot { providedId ->
+        return providedEventIds?.filterNot { providedId ->
             subscribedEventIds.contains(providedId)
         }?.map { id ->
             Subscription(
                 eventId = id,
                 types = emptyList()
             )
-        }?.also { extraSubscriptions ->
-            (this as MutableList).addAll(extraSubscriptions)
         }
     }
+
 
     @MainThread
     override fun updateNotifications(
