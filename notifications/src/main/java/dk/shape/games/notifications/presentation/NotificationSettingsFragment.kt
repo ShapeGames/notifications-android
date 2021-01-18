@@ -96,7 +96,7 @@ class NotificationSettingsFragment : Fragment() {
         }
     }
 
-    private fun fetchNotifications(eventIds: List<String>?) {
+    private fun fetchNotifications(providedEventIds: List<String>?) {
         switcherViewModel.setLoading()
 
         lifecycleScope.launchWhenResumed {
@@ -107,7 +107,7 @@ class NotificationSettingsFragment : Fragment() {
 
                     val eventNotificationViewModels =
                         getEventNotificationsViewModels(
-                            eventIds = eventIds,
+                            providedEventIds = providedEventIds,
                             appConfig = appConfig,
                             includeAllEvents = action is NotificationSettingsAction.IncludeAllEvents
                         )
@@ -160,12 +160,12 @@ class NotificationSettingsFragment : Fragment() {
     }
 
     private suspend fun getEventNotificationsViewModels(
-        eventIds: List<String>?,
+        providedEventIds: List<String>?,
         appConfig: AppConfig,
         includeAllEvents: Boolean
     ): List<NotificationsSettingsEventViewModel> {
         return legacyNotificationsInteractor.loadAllSubscriptions(
-            eventIds = eventIds,
+            providedEventIds = providedEventIds,
             includeAllEvents = includeAllEvents,
             appConfig = appConfig,
             onSaveEventIds = { subscribedEventIds ->

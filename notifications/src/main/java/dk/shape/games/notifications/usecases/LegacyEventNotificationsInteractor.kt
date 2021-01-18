@@ -52,14 +52,23 @@ data class LegacyEventNotificationsInteractor(
     }
 
     override suspend fun loadAllSubscriptions(
-        eventIds: List<String>?,
+        providedEventIds: List<String>?,
         includeAllEvents: Boolean,
         appConfig: AppConfig,
         onSaveEventIds: (List<String>) -> Unit,
         provideEvents: suspend (eventIds: List<String>) -> List<Event>
     ): List<LoadedLegacySubscription> {
-        val subscriptions = getAllSubscriptions()
-        val eventIdsToShow = subscriptions.toEventIds(eventIds, includeAllEvents)
+        val subscriptions = getAllSubscriptions().apply {
+            if (includeAllEvents)
+                addUnsubscribedEvents(providedEventIds)
+        }
+        val eventIdsToShow = providedEventIds ?: run {
+            when {
+                includeAllEvents -> emptyList()
+                else -> subscriptions.map { it.eventId }
+            }
+        }
+
         onSaveEventIds(eventIdsToShow)
 
         return try {
@@ -88,32 +97,23 @@ data class LegacyEventNotificationsInteractor(
         }
     }
 
-    private fun List<Subscription>.toEventIds(
-        providedEventIds: List<String>?,
-        includeAllEvents: Boolean
-    ): List<String> {
-        return when {
-            includeAllEvents -> {
-
-                val subscribedEventIds: List<String> =
-                    map { subscription ->
-                        subscription.eventId
-                    }
-
-                providedEventIds?.filterNot { providedId ->
-                    subscribedEventIds.contains(providedId)
-                }?.map { id ->
-                    Subscription(
-                        eventId = id,
-                        types = emptyList()
-                    )
-                }?.also { extraSubscriptions ->
-                    (this as MutableList).addAll(extraSubscriptions)
-                }
-
-                providedEventIds ?: emptyList()
+    private fun List<Subscription>.addUnsubscribedEvents(
+        providedEventIds: List<String>?
+    ) {
+        val subscribedEventIds: List<String> =
+            map { subscription ->
+                subscription.eventId
             }
-            else -> providedEventIds ?: map { it.eventId }
+
+        providedEventIds?.filterNot { providedId ->
+            subscribedEventIds.contains(providedId)
+        }?.map { id ->
+            Subscription(
+                eventId = id,
+                types = emptyList()
+            )
+        }?.also { extraSubscriptions ->
+            (this as MutableList).addAll(extraSubscriptions)
         }
     }
 
