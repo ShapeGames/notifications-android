@@ -107,8 +107,8 @@ data class LegacyEventNotificationsInteractor(
                         eventId = id,
                         types = emptyList()
                     )
-                }?.also {
-                    (this as MutableList).addAll(it)
+                }?.also { extraSubscriptions ->
+                    (this as MutableList).addAll(extraSubscriptions)
                 }
 
                 providedEventIds ?: emptyList()
