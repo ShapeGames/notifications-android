@@ -162,67 +162,40 @@ class NotificationSettingsFragment : Fragment() {
         appConfig: AppConfig,
         showUnsubscribed: Boolean
     ): List<NotificationsSettingsEventViewModel> {
-        val onEventNotificationTypesClicked: OnEventNotificationTypesClicked = { action ->
-            config.onEventNotificationTypesClicked(
-                this@NotificationSettingsFragment,
-                action
-            ) { stateData ->
-                with(stateData) {
-                    switcherViewModel.findEventViewModel(eventId)?.update(this)
+        return legacyNotificationsInteractor.loadAllSubscriptions(
+            eventIds = eventIds,
+            showUnsubscribed = showUnsubscribed,
+            appConfig = appConfig,
+            onSaveEventIds = { subscribedEventIds ->
+                savedEventIds = subscribedEventIds
+            },
+            provideEvents = config.provideEvents
+        ).map { loadedSubscription ->
+            loadedSubscription.toNotificationsSettingsEventViewModel(
+                onEventNotificationTypesClicked = { action ->
+                    config.onEventNotificationTypesClicked(
+                        this@NotificationSettingsFragment,
+                        action
+                    ) { stateData ->
+                        with(stateData) {
+                            switcherViewModel.findEventViewModel(eventId)?.update(this)
+                        }
+                    }
+                },
+                onSetNotifications = { notificationIds, onError ->
+                    legacyNotificationsInteractor.updateNotifications(
+                        eventId = loadedSubscription.event.id,
+                        notificationTypeIds = notificationIds,
+                        onSuccess = {},
+                        onError = {
+                            onError()
+                            errorMessageViewModel.showErrorMessage()
+                        }
+                    )
                 }
-            }
-        }
-        return if (showUnsubscribed) {
-            legacyNotificationsInteractor.loadAllNotifications(
-                eventIds = eventIds,
-                appConfig = appConfig,
-                onSaveEventIds = { saveEventIds ->
-                    savedEventIds = saveEventIds
-                },
-                provideEvents = config.provideEvents
-            ).map { loadedNotifications ->
-                loadedNotifications.toNotificationsSettingsEventViewModel(
-                    onEventNotificationTypesClicked = onEventNotificationTypesClicked,
-                    onSetNotifications = { notificationIds, onError ->
-                        legacyNotificationsInteractor.updateNotifications(
-                            eventId = loadedNotifications.event.id,
-                            notificationTypeIds = notificationIds,
-                            onSuccess = {},
-                            onError = {
-                                onError()
-                                errorMessageViewModel.showErrorMessage()
-                            }
-                        )
-                    }
-                )
-            }
-        } else {
-            legacyNotificationsInteractor.loadAllSubscriptions(
-                eventIds = eventIds,
-                appConfig = appConfig,
-                onSaveEventIds = { subscribedEventIds ->
-                    savedEventIds = subscribedEventIds
-                },
-                provideEvents = config.provideEvents
-            ).map { loadedSubscription ->
-                loadedSubscription.toNotificationsSettingsEventViewModel(
-                    onEventNotificationTypesClicked = onEventNotificationTypesClicked,
-                    onSetNotifications = { notificationIds, onError ->
-                        legacyNotificationsInteractor.updateNotifications(
-                            eventId = loadedSubscription.event.id,
-                            notificationTypeIds = notificationIds,
-                            onSuccess = {},
-                            onError = {
-                                onError()
-                                errorMessageViewModel.showErrorMessage()
-                            }
-                        )
-                    }
-                )
-            }
+            )
         }
     }
-
 
     private suspend fun getSubjectNotificationsViewModels(
         deviceId: String,

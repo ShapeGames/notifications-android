@@ -53,16 +53,32 @@ data class LegacyEventNotificationsInteractor(
 
     override suspend fun loadAllSubscriptions(
         eventIds: List<String>?,
+        showUnsubscribed: Boolean,
         appConfig: AppConfig,
         onSaveEventIds: (List<String>) -> Unit,
         provideEvents: suspend (eventIds: List<String>) -> List<Event>
     ): List<LoadedLegacySubscription> {
         val subscriptions = getAllSubscriptions()
-        val subscribedEventIds = eventIds ?: subscriptions.map { it.eventId }
-        onSaveEventIds(subscribedEventIds)
+
+        val eventIdsToShow = when {
+            showUnsubscribed -> {
+                val subscribedEventIds = subscriptions.map { it.eventId }
+                val unsubscribed = mutableListOf<Subscription>().apply {
+                    eventIds?.forEach { id ->
+                        if (!subscribedEventIds.contains(id)) {
+                            add(Subscription(id, emptyList()))
+                        }
+                    }
+                }
+                (subscriptions as MutableList).addAll(unsubscribed)
+                subscriptions.map { it.eventId }
+            }
+            else -> eventIds ?: subscriptions.map { it.eventId }
+        }
+        onSaveEventIds(eventIdsToShow)
 
         return try {
-            provideEvents(subscribedEventIds)
+            provideEvents(eventIdsToShow)
                 .mapNotNull { event ->
 
                     appConfig.notifications.group.find { notificationGroup ->
@@ -72,7 +88,10 @@ data class LegacyEventNotificationsInteractor(
                         subscriptions.find { subscription ->
                             subscription.eventId == event.id
                         }?.takeIf { subscription ->
-                            subscription.types.isNotEmpty()
+                            when {
+                                !showUnsubscribed -> subscription.types.isNotEmpty()
+                                else -> true
+                            }
                         }?.let { matchingSubscription ->
                             LoadedLegacySubscription(
                                 event = event,
@@ -85,51 +104,6 @@ data class LegacyEventNotificationsInteractor(
         } catch (e: DSApiResponseException.MissingBodyError) {
             emptyList()
         }
-    }
-
-    override suspend fun loadAllNotifications(
-        eventIds: List<String>?,
-        appConfig: AppConfig,
-        onSaveEventIds: (List<String>) -> Unit,
-        provideEvents: suspend (eventIds: List<String>) -> List<Event>
-    ): List<LoadedLegacySubscription> {
-        val subscriptions = getAllSubscriptions() as MutableList
-        val subscribedEventIds = subscriptions.map { it.eventId }
-
-        val unsubscribed = mutableListOf<Subscription>().apply {
-            eventIds?.forEach { id ->
-                if (!subscribedEventIds.contains(id)) {
-                    add(Subscription(id, emptyList()))
-                }
-            }
-        }
-        subscriptions.addAll(unsubscribed)
-        return eventIds?.let {
-            onSaveEventIds(eventIds)
-
-            try {
-                provideEvents(eventIds)
-                    .mapNotNull { event ->
-
-                        appConfig.notifications.group.find { notificationGroup ->
-                            notificationGroup.groupId == event.notificationConfigurationId
-                        }?.let { matchingGroup ->
-
-                            subscriptions.find { subscription ->
-                                subscription.eventId == event.id
-                            }?.let {
-                                LoadedLegacySubscription(
-                                    event = event,
-                                    subscription = it,
-                                    notificationGroup = matchingGroup
-                                )
-                            }
-                        }
-                    }
-            } catch (e: DSApiResponseException.MissingBodyError) {
-                emptyList()
-            }
-        } ?: emptyList()
     }
 
     @MainThread
