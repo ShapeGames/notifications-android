@@ -86,11 +86,13 @@ class NotificationSettingsFragment : Fragment() {
                 fetchNotifications(
                     (action as NotificationSettingsAction.IncludeAllEvents).eventIds
                 )
-
-            else ->
-                action.getEventIds { eventIds ->
-                    fetchNotifications(eventIds)
-                }
+            is NotificationSettingsAction.FilterBetSlip -> {
+                fetchNotifications(config.provideEventIdsForBetSlip())
+            }
+            NotificationSettingsAction.FilterBetEvents -> {
+                config.provideEventIdsForUserBetsAsync { eventIds -> fetchNotifications(eventIds) }
+            }
+            else -> fetchNotifications(null)
         }
     }
 
@@ -105,9 +107,9 @@ class NotificationSettingsFragment : Fragment() {
 
                     val eventNotificationViewModels =
                         getEventNotificationsViewModels(
-                            eventIds,
-                            appConfig,
-                            action is NotificationSettingsAction.IncludeAllEvents
+                            eventIds = eventIds,
+                            appConfig = appConfig,
+                            includeAllEvents = action is NotificationSettingsAction.IncludeAllEvents
                         )
 
                     val statsNotificationViewModels =
@@ -160,11 +162,11 @@ class NotificationSettingsFragment : Fragment() {
     private suspend fun getEventNotificationsViewModels(
         eventIds: List<String>?,
         appConfig: AppConfig,
-        showUnsubscribed: Boolean
+        includeAllEvents: Boolean
     ): List<NotificationsSettingsEventViewModel> {
         return legacyNotificationsInteractor.loadAllSubscriptions(
             eventIds = eventIds,
-            showUnsubscribed = showUnsubscribed,
+            includeAllEvents = includeAllEvents,
             appConfig = appConfig,
             onSaveEventIds = { subscribedEventIds ->
                 savedEventIds = subscribedEventIds
@@ -237,20 +239,6 @@ class NotificationSettingsFragment : Fragment() {
                 }
             )
         }
-
-    private fun NotificationSettingsAction.getEventIds(
-        onResult: (List<String>?) -> Unit
-    ) {
-        when (this) {
-            is NotificationSettingsAction.FilterBetSlip -> {
-                onResult(config.provideEventIdsForBetSlip())
-            }
-            NotificationSettingsAction.FilterBetEvents -> {
-                config.provideEventIdsForUserBetsAsync(onResult)
-            }
-            else -> onResult(null)
-        }
-    }
 }
 
 data class SubjectInfo(

@@ -53,28 +53,13 @@ data class LegacyEventNotificationsInteractor(
 
     override suspend fun loadAllSubscriptions(
         eventIds: List<String>?,
-        showUnsubscribed: Boolean,
+        includeAllEvents: Boolean,
         appConfig: AppConfig,
         onSaveEventIds: (List<String>) -> Unit,
         provideEvents: suspend (eventIds: List<String>) -> List<Event>
     ): List<LoadedLegacySubscription> {
         val subscriptions = getAllSubscriptions()
-
-        val eventIdsToShow = when {
-            showUnsubscribed -> {
-                val subscribedEventIds = subscriptions.map { it.eventId }
-                val unsubscribed = mutableListOf<Subscription>().apply {
-                    eventIds?.forEach { id ->
-                        if (!subscribedEventIds.contains(id)) {
-                            add(Subscription(id, emptyList()))
-                        }
-                    }
-                }
-                (subscriptions as MutableList).addAll(unsubscribed)
-                eventIds ?: emptyList()
-            }
-            else -> eventIds ?: subscriptions.map { it.eventId }
-        }
+        val eventIdsToShow = subscriptions.toEventIds(eventIds, includeAllEvents)
         onSaveEventIds(eventIdsToShow)
 
         return try {
@@ -88,10 +73,7 @@ data class LegacyEventNotificationsInteractor(
                         subscriptions.find { subscription ->
                             subscription.eventId == event.id
                         }?.takeIf { subscription ->
-                            when {
-                                !showUnsubscribed -> subscription.types.isNotEmpty()
-                                else -> true
-                            }
+                            includeAllEvents || subscription.types.isNotEmpty()
                         }?.let { matchingSubscription ->
                             LoadedLegacySubscription(
                                 event = event,
@@ -103,6 +85,27 @@ data class LegacyEventNotificationsInteractor(
                 }
         } catch (e: DSApiResponseException.MissingBodyError) {
             emptyList()
+        }
+    }
+
+    private fun List<Subscription>.toEventIds(
+        providedEventIds: List<String>?,
+        includeAllEvents: Boolean
+    ): List<String> {
+        return when {
+            includeAllEvents -> {
+                val subscribedEventIds = map { it.eventId }
+                val unsubscribed = mutableListOf<Subscription>().apply {
+                    providedEventIds?.forEach { id ->
+                        if (!subscribedEventIds.contains(id)) {
+                            add(Subscription(id, emptyList()))
+                        }
+                    }
+                }
+                (this as MutableList).addAll(unsubscribed)
+                providedEventIds ?: emptyList()
+            }
+            else -> providedEventIds ?: map { it.eventId }
         }
     }
 
