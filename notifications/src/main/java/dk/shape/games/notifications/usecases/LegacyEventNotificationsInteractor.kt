@@ -58,12 +58,15 @@ data class LegacyEventNotificationsInteractor(
         onSaveEventIds: (List<String>) -> Unit,
         provideEvents: suspend (eventIds: List<String>) -> List<Event>
     ): List<LoadedLegacySubscription> {
-        val subscriptions: List<Subscription> = getAllSubscriptions().apply {
+        val subscriptions = getAllSubscriptions()
+        val subscriptionsToShow: List<Subscription> =
             if (includeAllEvents)
-                plus(getUnsubscribedEvents(providedEventIds))
-        }
+                subscriptions.plus(subscriptions.getUnsubscribedEvents(providedEventIds))
+            else subscriptions
+
         val eventIdsToShow =
-            providedEventIds ?: subscriptions.map { it.eventId }.takeUnless { includeAllEvents }
+            providedEventIds ?: subscriptionsToShow.map { it.eventId }
+                .takeUnless { includeAllEvents }
             ?: emptyList()
 
         onSaveEventIds(eventIdsToShow)
@@ -76,7 +79,7 @@ data class LegacyEventNotificationsInteractor(
                         notificationGroup.groupId == event.notificationConfigurationId
                     }?.let { matchingGroup ->
 
-                        subscriptions.find { subscription ->
+                        subscriptionsToShow.find { subscription ->
                             subscription.eventId == event.id
                         }?.takeIf { subscription ->
                             includeAllEvents || subscription.types.isNotEmpty()
@@ -96,7 +99,7 @@ data class LegacyEventNotificationsInteractor(
 
     private fun List<Subscription>.getUnsubscribedEvents(
         providedEventIds: List<String>?
-    ): List<Subscription>? {
+    ): List<Subscription> {
         val subscribedEventIds: List<String> =
             map { subscription ->
                 subscription.eventId
@@ -109,7 +112,7 @@ data class LegacyEventNotificationsInteractor(
                 eventId = id,
                 types = emptyList()
             )
-        }
+        } ?: emptyList()
     }
 
 
