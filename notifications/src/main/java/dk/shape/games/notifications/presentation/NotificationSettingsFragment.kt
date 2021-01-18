@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.actions.NotificationSettingsAction
+import dk.shape.games.notifications.actions.NotificationSettingsActionConfig
 import dk.shape.games.notifications.databinding.FragmentNotificationSettingsBinding
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.extensions.toIds
@@ -81,15 +82,15 @@ class NotificationSettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        when (action) {
-            is NotificationSettingsAction.IncludeAllEvents ->
+        when (action.config) {
+            is NotificationSettingsActionConfig.IncludeAllEvents ->
                 fetchNotifications(
-                    (action as NotificationSettingsAction.IncludeAllEvents).eventIds
+                    (action.config as NotificationSettingsActionConfig.IncludeAllEvents).eventIds
                 )
-            is NotificationSettingsAction.FilterBetSlip -> {
+            is NotificationSettingsActionConfig.FilterBetSlip -> {
                 fetchNotifications(config.provideEventIdsForBetSlip())
             }
-            NotificationSettingsAction.FilterBetEvents -> {
+            NotificationSettingsActionConfig.FilterBetEvents -> {
                 config.provideEventIdsForUserBetsAsync { eventIds -> fetchNotifications(eventIds) }
             }
             else -> fetchNotifications(null)
@@ -109,11 +110,11 @@ class NotificationSettingsFragment : Fragment() {
                         getEventNotificationsViewModels(
                             providedEventIds = providedEventIds,
                             appConfig = appConfig,
-                            includeAllEvents = action is NotificationSettingsAction.IncludeAllEvents
+                            includeAllEvents = action.config is NotificationSettingsActionConfig.IncludeAllEvents
                         )
 
                     val statsNotificationViewModels =
-                        if (action is NotificationSettingsAction.FilterBetEvents) {
+                        if (action.config is NotificationSettingsActionConfig.FilterBetEvents) {
                             emptyList()
                         } else getSubjectNotificationsViewModels(deviceId, appConfig)
 
