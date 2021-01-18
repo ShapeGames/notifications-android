@@ -7,10 +7,11 @@ import kotlinx.android.parcel.Parcelize
 data class NotificationSettingsAction(
     val betslipComponentUUID: String? = null,
     val openedFromMyGames: Boolean = false,
-    val eventIds: List<String>? = null
+    val eventIds: List<String> = emptyList()
 ) : Action {
 
     override fun isModal() = true
 
     override fun isQuickBetEnabled() = false
 }
+

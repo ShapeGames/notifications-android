@@ -52,27 +52,37 @@ data class LegacyEventNotificationsInteractor(
     }
 
     override suspend fun loadAllSubscriptions(
-        eventIds: List<String>?,
+        providedEventIds: List<String>?,
+        includeAllEvents: Boolean,
         appConfig: AppConfig,
         onSaveEventIds: (List<String>) -> Unit,
         provideEvents: suspend (eventIds: List<String>) -> List<Event>
     ): List<LoadedLegacySubscription> {
         val subscriptions = getAllSubscriptions()
-        val subscribedEventIds = eventIds ?: subscriptions.map { it.eventId }
-        onSaveEventIds(subscribedEventIds)
+        val subscriptionsToShow: List<Subscription> =
+            if (includeAllEvents)
+                subscriptions.plus(subscriptions.getUnsubscribedEvents(providedEventIds))
+            else subscriptions
+
+        val eventIdsToShow =
+            providedEventIds ?: subscriptionsToShow.map { it.eventId }
+                .takeUnless { includeAllEvents }
+            ?: emptyList()
+
+        onSaveEventIds(eventIdsToShow)
 
         return try {
-            provideEvents(subscribedEventIds)
+            provideEvents(eventIdsToShow)
                 .mapNotNull { event ->
 
                     appConfig.notifications.group.find { notificationGroup ->
                         notificationGroup.groupId == event.notificationConfigurationId
                     }?.let { matchingGroup ->
 
-                        subscriptions.find { subscription ->
+                        subscriptionsToShow.find { subscription ->
                             subscription.eventId == event.id
                         }?.takeIf { subscription ->
-                            subscription.types.isNotEmpty()
+                            includeAllEvents || subscription.types.isNotEmpty()
                         }?.let { matchingSubscription ->
                             LoadedLegacySubscription(
                                 event = event,
@@ -86,6 +96,25 @@ data class LegacyEventNotificationsInteractor(
             emptyList()
         }
     }
+
+    private fun List<Subscription>.getUnsubscribedEvents(
+        providedEventIds: List<String>?
+    ): List<Subscription> {
+        val subscribedEventIds: List<String> =
+            map { subscription ->
+                subscription.eventId
+            }
+
+        return providedEventIds?.filterNot { providedId ->
+            subscribedEventIds.contains(providedId)
+        }?.map { id ->
+            Subscription(
+                eventId = id,
+                types = emptyList()
+            )
+        } ?: emptyList()
+    }
+
 
     @MainThread
     override fun updateNotifications(

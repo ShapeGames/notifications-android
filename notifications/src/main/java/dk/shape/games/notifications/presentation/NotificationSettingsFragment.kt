@@ -81,14 +81,17 @@ class NotificationSettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        action.eventIds?.let { eventIds ->
-            fetchNotifications(eventIds)
-        } ?: action.getEventIds { eventIds ->
-            fetchNotifications(eventIds)
+        when {
+            action.eventIds.isNotEmpty() -> fetchNotifications(action.eventIds)
+            action.betslipComponentUUID != null ->
+                fetchNotifications(config.provideEventIdsForBetSlip())
+            action.openedFromMyGames ->
+                config.provideEventIdsForUserBetsAsync { eventIds -> fetchNotifications(eventIds) }
+            else -> fetchNotifications(null)
         }
     }
 
-    private fun fetchNotifications(eventIds: List<String>?) {
+    private fun fetchNotifications(providedEventIds: List<String>?) {
         switcherViewModel.setLoading()
 
         lifecycleScope.launchWhenResumed {
@@ -98,11 +101,16 @@ class NotificationSettingsFragment : Fragment() {
                     val deviceId = config.provideDeviceId()
 
                     val eventNotificationViewModels =
-                        getEventNotificationsViewModels(eventIds, appConfig)
+                        getEventNotificationsViewModels(
+                            providedEventIds = providedEventIds,
+                            appConfig = appConfig,
+                            includeAllEvents = action.eventIds.isNotEmpty()
+                        )
 
-                    val statsNotificationViewModels = if (action.openedFromMyGames) {
-                        emptyList()
-                    } else getSubjectNotificationsViewModels(deviceId, appConfig)
+                    val statsNotificationViewModels =
+                        if (action.openedFromMyGames) {
+                            emptyList()
+                        } else getSubjectNotificationsViewModels(deviceId, appConfig)
 
                     val hasSectionHeaders =
                         eventNotificationViewModels.isNotEmpty() && statsNotificationViewModels.isNotEmpty()
@@ -147,11 +155,13 @@ class NotificationSettingsFragment : Fragment() {
     }
 
     private suspend fun getEventNotificationsViewModels(
-        eventIds: List<String>?,
-        appConfig: AppConfig
-    ): List<NotificationsSettingsEventViewModel> =
-        legacyNotificationsInteractor.loadAllSubscriptions(
-            eventIds = eventIds,
+        providedEventIds: List<String>?,
+        appConfig: AppConfig,
+        includeAllEvents: Boolean
+    ): List<NotificationsSettingsEventViewModel> {
+        return legacyNotificationsInteractor.loadAllSubscriptions(
+            providedEventIds = providedEventIds,
+            includeAllEvents = includeAllEvents,
             appConfig = appConfig,
             onSaveEventIds = { subscribedEventIds ->
                 savedEventIds = subscribedEventIds
@@ -182,6 +192,8 @@ class NotificationSettingsFragment : Fragment() {
                 }
             )
         }
+    }
+
 
     private suspend fun getSubjectNotificationsViewModels(
         deviceId: String,
@@ -222,18 +234,6 @@ class NotificationSettingsFragment : Fragment() {
                 }
             )
         }
-
-    private fun NotificationSettingsAction.getEventIds(onResult: (List<String>?) -> Unit) {
-        when {
-            betslipComponentUUID != null -> {
-                onResult(config.provideEventIdsForBetSlip())
-            }
-            openedFromMyGames -> {
-                config.provideEventIdsForUserBetsAsync(onResult)
-            }
-            else -> onResult(null)
-        }
-    }
 }
 
 data class SubjectInfo(

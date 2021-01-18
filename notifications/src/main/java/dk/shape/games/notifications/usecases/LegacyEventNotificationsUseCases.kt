@@ -18,7 +18,8 @@ interface LegacyEventNotificationsUseCases {
     )
 
     suspend fun loadAllSubscriptions(
-        eventIds: List<String>?,
+        providedEventIds: List<String>?,
+        includeAllEvents: Boolean,
         appConfig: AppConfig,
         onSaveEventIds: (List<String>) -> Unit,
         provideEvents: suspend (eventIds: List<String>) -> List<Event>
