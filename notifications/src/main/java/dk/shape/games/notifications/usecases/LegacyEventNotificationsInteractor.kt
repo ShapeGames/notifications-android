@@ -94,15 +94,23 @@ data class LegacyEventNotificationsInteractor(
     ): List<String> {
         return when {
             includeAllEvents -> {
-                val subscribedEventIds = map { it.eventId }
-                val unsubscribed = mutableListOf<Subscription>().apply {
-                    providedEventIds?.forEach { id ->
-                        if (!subscribedEventIds.contains(id)) {
-                            add(Subscription(id, emptyList()))
-                        }
+
+                val subscribedEventIds: List<String> =
+                    map { subscription ->
+                        subscription.eventId
                     }
+
+                providedEventIds?.filterNot {
+                    subscribedEventIds.contains(it)
+                }?.map { id ->
+                    Subscription(
+                        eventId = id,
+                        types = emptyList()
+                    )
+                }?.also {
+                    (this as MutableList).addAll(it)
                 }
-                (this as MutableList).addAll(unsubscribed)
+
                 providedEventIds ?: emptyList()
             }
             else -> providedEventIds ?: map { it.eventId }
