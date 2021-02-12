@@ -10,8 +10,8 @@ import dk.shape.games.notifications.actions.NotificationSettingsSubjectAction
 import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.databinding.FragmentNotificationSettingsSubjectBinding
 import dk.shape.games.notifications.extensions.toStrings
-import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationSheetSubjectViewModel
+import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel
 import dk.shape.games.notifications.presentation.viewmodels.notifications.toNotificationTypeInfos
 import dk.shape.games.notifications.presentation.viewmodels.settings.NotificationSettingsTypesSubjectViewModel
 import dk.shape.games.notifications.presentation.viewmodels.state.ErrorMessageViewModel
@@ -37,8 +37,10 @@ class NotificationSettingsSubjectFragment : ExpandedBottomSheetDialogFragment() 
         )
     }
 
-    private val errorMessageViewModel = ErrorMessageViewModel {
-        requireActivity()
+    private val errorMessageViewModel: ErrorMessageViewModel by lazy {
+        ErrorMessageViewModel {
+            requireActivity()
+        }
     }
 
     private val notificationViewModel: NotificationSheetSubjectViewModel by lazy {

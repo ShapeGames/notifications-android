@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.databinding.ObservableField
 import dk.shape.games.notifications.R
 import dk.shape.games.statusmessages.presentation.*
+import dk.shape.games.uikit.extensions.getResourceIdFromAttr
 import java.util.*
 
 private const val MESSAGE_DISMISS_DELAY = 5000L
@@ -11,7 +12,11 @@ private const val MESSAGE_DISMISS_DELAY = 5000L
 class ErrorMessageViewModel(
     private val contextResolver: () -> Context
 ) {
-    val presentationViewModel = ObservableField(StatusMessagePresentationViewModel())
+    val presentationViewModel = ObservableField(
+        StatusMessagePresentationViewModel(
+            shadowGradient = contextResolver().getResourceIdFromAttr(R.attr.Notifications_Status_Message_Background_Gradient),
+        )
+    )
 
     private val statusMessagePresenter = StatusMessagePresenter(presentationViewModel)
 
@@ -20,9 +25,10 @@ class ErrorMessageViewModel(
             time += MESSAGE_DISMISS_DELAY
         }
 
-    fun showErrorMessage(errorType: ErrorType) = statusMessagePresenter.showSingleStatusMessage(
-        getErrorStatusMessage(errorType)
-    )
+    private fun showErrorMessage(errorType: ErrorType) =
+        statusMessagePresenter.showSingleStatusMessage(
+            getErrorStatusMessage(errorType)
+        )
 
     fun showErrorMessage() = showErrorMessage(ErrorType.SavingPreferences)
 

@@ -61,8 +61,10 @@ class NotificationSettingsFragment : Fragment() {
         )
     }
 
-    private val errorMessageViewModel = ErrorMessageViewModel {
-        requireActivity()
+    private val errorMessageViewModel: ErrorMessageViewModel by lazy {
+        ErrorMessageViewModel {
+            requireActivity()
+        }
     }
 
     override fun onCreateView(

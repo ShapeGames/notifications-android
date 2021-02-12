@@ -19,10 +19,6 @@ import dk.shape.games.notifications.bindings.launch
 import dk.shape.games.notifications.databinding.FragmentSubjectNotificationsBinding
 import dk.shape.games.notifications.extensions.toStrings
 import dk.shape.games.notifications.presentation.viewmodels.notifications.*
-import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel
-import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSheetViewModel
-import dk.shape.games.notifications.presentation.viewmodels.notifications.SubjectNotificationSwitcherViewModel
-import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationSheetSubjectViewModel
 import dk.shape.games.notifications.presentation.viewmodels.state.ErrorMessageViewModel
 import dk.shape.games.notifications.usecases.SubjectNotificationUseCases
 import dk.shape.games.notifications.utils.ExpandedBottomSheetDialogFragment
@@ -62,8 +58,10 @@ class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
             })
     }
 
-    private val errorMessageViewModel = ErrorMessageViewModel {
-        requireActivity()
+    private val errorMessageViewModel: ErrorMessageViewModel by lazy {
+        ErrorMessageViewModel {
+            requireActivity()
+        }
     }
 
     private fun getInitialSubjectViewModel(): NotificationSheetSubjectViewModel? =
@@ -99,7 +97,11 @@ class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
                         saveNotificationPreferences(
                             stateData = stateData,
                             onSuccess = {
-                                config.onTrackNotificationSaved(action.toTrackingNotificationSavedData(stateData.notificationTypeIds))
+                                config.onTrackNotificationSaved(
+                                    action.toTrackingNotificationSavedData(
+                                        stateData.notificationTypeIds
+                                    )
+                                )
                                 onSuccess()
                             },
                             onFailure = {
@@ -208,7 +210,7 @@ class SubjectNotificationsFragment : ExpandedBottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         launch(Dispatchers.IO) {
             whenResumed {
-                withContext(Dispatchers.IO){
+                withContext(Dispatchers.IO) {
                     loadNotifications(interactor)
                 }
             }

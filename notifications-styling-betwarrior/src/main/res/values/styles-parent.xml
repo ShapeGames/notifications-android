@@ -99,5 +99,8 @@
         <item name="Notifications.Subjects.Error.Button">
             @style/Notifications.Subjects.Error.Button.BetWarrior
         </item>
+        <item name="Notifications.Status.Message.Background.Gradient">
+            @drawable/bw_status_message_background_gradient
+        </item>
     </style>
 </resources>
