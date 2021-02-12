@@ -18,7 +18,6 @@ import dk.shape.games.notifications.bindings.awareSet
 import dk.shape.games.notifications.bindings.launch
 import dk.shape.games.notifications.databinding.FragmentEventNotificationsSheetBinding
 import dk.shape.games.notifications.presentation.viewmodels.notifications.*
-import dk.shape.games.notifications.presentation.viewmodels.notifications.NotificationTypeCollectionViewModel
 import dk.shape.games.notifications.presentation.viewmodels.state.ErrorMessageViewModel
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsInteractor
 import dk.shape.games.notifications.usecases.LegacyEventNotificationsUseCases
@@ -55,8 +54,10 @@ class EventNotificationsSheetFragment : ExpandedBottomSheetDialogFragment() {
             })
     }
 
-    private val errorMessageViewModel = ErrorMessageViewModel {
-        requireActivity()
+    private val errorMessageViewModel: ErrorMessageViewModel by lazy {
+        ErrorMessageViewModel {
+            requireActivity()
+        }
     }
 
     private fun getInitialEventViewModel(): NotificationSheetEventViewModel? =
@@ -94,7 +95,11 @@ class EventNotificationsSheetFragment : ExpandedBottomSheetDialogFragment() {
                                     eventId = action.eventId,
                                     hasActiveSubscriptions = stateData.notificationTypeIds.isNotEmpty()
                                 )
-                                config.onTrackNotificationSaved(action.toTrackingNotificationSavedData(stateData.notificationTypeIds.toList()))
+                                config.onTrackNotificationSaved(
+                                    action.toTrackingNotificationSavedData(
+                                        stateData.notificationTypeIds.toList()
+                                    )
+                                )
                                 onSuccess()
                             },
                             onError = {

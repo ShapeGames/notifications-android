@@ -84,5 +84,8 @@
         <item name="Notifications.Subjects.Error.Button">
             @style/Notifications.Subjects.Error.Button.Oddset
         </item>
+        <item name="Notifications.Status.Message.Background.Gradient">
+            @drawable/oddset_status_message_background_gradient
+        </item>
     </style>
 </resources>

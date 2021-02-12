@@ -57,5 +57,7 @@
         <!-- BottomSheet Subject Error -->
         <attr name="Notifications.Subjects.Error.Button" format="reference" tools:ignore="ResourceName" />
         <attr name="Notifications.Subjects.Error.Text" format="reference" tools:ignore="ResourceName" />
+        <attr name="Notifications.Status.Message.Background.Gradient" format="reference" tools:ignore="ResourceName" />
+
     </declare-styleable>
 </resources>

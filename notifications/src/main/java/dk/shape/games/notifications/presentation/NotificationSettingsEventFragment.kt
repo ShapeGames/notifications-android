@@ -36,8 +36,10 @@ class NotificationSettingsEventFragment : ExpandedBottomSheetDialogFragment() {
         )
     }
 
-    private val errorMessageViewModel = ErrorMessageViewModel {
-        requireActivity()
+    private val errorMessageViewModel: ErrorMessageViewModel by lazy {
+        ErrorMessageViewModel {
+            requireActivity()
+        }
     }
 
     private val notificationViewModel: NotificationSheetEventViewModel by lazy {
