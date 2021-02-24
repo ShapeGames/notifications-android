@@ -106,7 +106,7 @@ class NotificationSettingsFragment : Fragment() {
                         getEventNotificationsViewModels(
                             providedEventIds = providedEventIds,
                             appConfig = appConfig,
-                            includeAllEvents = action.eventIds.isNotEmpty()
+                            includeAllEvents = action.eventIds.isNotEmpty() || action.betslipComponentUUID != null
                         )
 
                     val statsNotificationViewModels =
