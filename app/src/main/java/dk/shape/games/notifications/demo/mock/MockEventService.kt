@@ -150,6 +150,10 @@ class MockEventService : DBPublishService {
     override fun liveLevelHierarchy(): Call<MutableList<Level>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override fun getStatsEventsByIds(eventIds: String?): Call<MutableList<Event>> {
+        TODO("Not yet implemented")
+    }
 }
 
 fun Context.readResource(resourceId: Int): String {
