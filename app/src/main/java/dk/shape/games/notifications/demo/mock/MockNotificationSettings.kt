@@ -13,6 +13,7 @@ import dk.shape.games.sportsbook.offerings.common.appconfig.AppConfig
 import dk.shape.games.sportsbook.offerings.common.appconfig.BetSlipConfig
 import dk.shape.games.sportsbook.offerings.common.appconfig.EventConfig
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
+import dk.shape.games.sportsbook.offerings.modules.event.data.ScoreType
 import dk.shape.games.sportsbook.offerings.modules.notification.NotificationsComponentInterface
 import dk.shape.games.sportsbook.offerings.modules.notification.Subscription
 import kotlinx.coroutines.delay
@@ -205,7 +206,9 @@ val mockEvents: List<Event> = listOf(
         lastUpdate = null,
         mainMarketId = "",
         streamId = null,
-        tvChannels = null
+        tvChannels = null,
+        stats = null,
+        scoreType = ScoreType.OVERALL_SCORE
     ),
     Event(
         id = "event:1235",
@@ -235,7 +238,9 @@ val mockEvents: List<Event> = listOf(
         lastUpdate = null,
         mainMarketId = "",
         streamId = null,
-        tvChannels = null
+        tvChannels = null,
+        stats = null,
+        scoreType = ScoreType.OVERALL_SCORE
     )
 )
 
