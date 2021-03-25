@@ -1,8 +1,8 @@
 package dk.shape.games.notifications.features.list
 
-import android.view.View
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.AsyncDifferConfig
+import dk.shape.games.feedbackui.FeedbackInfoViewModel
 import dk.shape.games.notifications.BR
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.aliases.ViewProvider
@@ -12,6 +12,7 @@ import dk.shape.games.notifications.usecases.EventNotificationsState
 import dk.shape.games.notifications.usecases.EventNotificationsUseCases
 import dk.shape.games.notifications.utils.ContentLiveDataEvent
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
+import dk.shape.games.uikit.databinding.UIText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import me.tatarka.bindingcollectionadapter2.OnItemBind
@@ -27,6 +28,11 @@ internal class EventNotificationsViewModel(
 
     private val mutableStateViewId = MutableLiveData<Int>()
     val stateViewId: LiveData<Int> = mutableStateViewId
+
+    val errorFeedbackViewModel = FeedbackInfoViewModel.ScreenError(
+        customTitleText = UIText.Raw.Resource(R.string.offerings_general_noConnection_title),
+        onScreenRetry = { loadSubscriptions() }
+    )
 
     private var currentNotificationViewModelSource: List<EventNotificationViewModel>? = null
         set(value) {
@@ -52,11 +58,6 @@ internal class EventNotificationsViewModel(
 
     private val mutableConfigurationEvent = MediatorLiveData<ContentLiveDataEvent<String>>()
     val configurationEvent: LiveData<ContentLiveDataEvent<String>> = mutableConfigurationEvent
-
-    val errorMessage = R.string.general_noConnection_title
-    val errorIcon = R.drawable.icon_network_error_grey
-    val errorButtonText = R.string.general_tryAgain_button
-    val onErrorButtonClicked = View.OnClickListener { v: View? -> loadSubscriptions() }
 
     init {
         state.observeForever { setState(it) }

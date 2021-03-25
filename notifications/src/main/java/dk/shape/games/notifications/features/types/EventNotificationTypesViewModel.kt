@@ -1,9 +1,9 @@
 package dk.shape.games.notifications.features.types
 
-import android.view.View
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.AsyncDifferConfig
 import dk.shape.danskespil.module.data.entities.Icon
+import dk.shape.games.feedbackui.FeedbackInfoViewModel
 import dk.shape.games.notifications.BR
 import dk.shape.games.notifications.R
 import dk.shape.games.notifications.aliases.ViewProvider
@@ -12,6 +12,7 @@ import dk.shape.games.notifications.usecases.EventNotificationTypesState
 import dk.shape.games.notifications.usecases.EventNotificationTypesUseCases
 import dk.shape.games.notifications.utils.ContentLiveDataEvent
 import dk.shape.games.toolbox_library.utils.RelativeDateUtils
+import dk.shape.games.uikit.databinding.UIImage
 import dk.shape.games.uikit.databinding.UIText
 import kotlinx.coroutines.*
 import me.tatarka.bindingcollectionadapter2.OnItemBind
@@ -49,6 +50,11 @@ internal class EventNotificationTypesViewModel(
     private val mutableLevel3Name = MutableLiveData<String>()
     val level3Name: LiveData<String> = mutableLevel3Name
 
+    val errorFeedbackViewModel = FeedbackInfoViewModel.ScreenError(
+        customTitleText = UIText.Raw.Resource(R.string.offerings_general_noConnection_title),
+        onScreenRetry = { loadNotificationTypes() }
+    )
+
     private var notificationTypeViewModelsSource: List<NotificationTypeViewModel>? = null
         set(value) {
             field?.forEach {
@@ -63,7 +69,8 @@ internal class EventNotificationTypesViewModel(
             }
             field = value
         }
-    private val _notificationTypeViewModelsCreator = MutableLiveData<ItemsCreator<NotificationTypeViewModel>>()
+    private val _notificationTypeViewModelsCreator =
+        MutableLiveData<ItemsCreator<NotificationTypeViewModel>>()
     val notificationTypeViewModelsCreator: LiveData<ItemsCreator<NotificationTypeViewModel>> =
         _notificationTypeViewModelsCreator
     val notificationTypesBinding: OnItemBind<NotificationTypeViewModel> =
@@ -88,11 +95,6 @@ internal class EventNotificationTypesViewModel(
                 toggleNotification(toggleData.notificationTypeId, toggleData.enabled)
             }
         }
-
-    val errorMessage = R.string.general_noConnection_title
-    val errorIcon = R.drawable.icon_network_error_grey
-    val errorButtonText = R.string.general_tryAgain_button
-    val onErrorButtonClicked = View.OnClickListener { v: View? -> loadNotificationTypes() }
 
     init {
         state.observeForever { setState(it) }
@@ -146,7 +148,7 @@ internal class EventNotificationTypesViewModel(
     }
 
     private fun toggleNotification(notificationTypeId: String, enabled: Boolean) =
-        (GlobalScope + SupervisorJob()).launch  {
+        (GlobalScope + SupervisorJob()).launch {
             useCases.toggleNotificationType(notificationTypeId, enabled)
         }
 

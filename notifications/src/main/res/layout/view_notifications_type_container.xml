@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:outlineSpotShadowColor="@color/grey_999_alpha_50"
-        app:cardBackgroundColor="@color/background_white"
+        app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="6dp"
         app:cardElevation="4dp"
         tools:layout_height="300dp">
