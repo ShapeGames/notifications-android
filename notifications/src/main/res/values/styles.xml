@@ -208,7 +208,7 @@
 
     <!-- BottomSheet Subject Notifications -->
     <style name="Notifications.Subjects.Screen.Container" parent="@style/Widget" >
-        <item name="android:background">@color/grey_100</item>
+        <item name="android:background">@color/offerings_grey_100</item>
     </style>
 
     <style name="Notifications.Subjects.Screen.Background" parent="@style/Widget" />
@@ -254,10 +254,10 @@
     </style>
 
     <style name="Notifications.Subjects.Loading.ProgressBar" parent="Widget.AppCompat.ProgressBar">
-        <item name="colorAccent">@color/background_white</item>
+        <item name="colorAccent">@android:color/white</item>
     </style>
 
     <style name="Notifications.Subjects.Type.Saving.ProgressBar" parent="Widget.AppCompat.ProgressBar">
-        <item name="colorAccent">@color/background_white</item>
+        <item name="colorAccent">@android:color/white</item>
     </style>
 </resources>

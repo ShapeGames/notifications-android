@@ -33,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/notifications_types_title" />
+                    android:text="@string/offerings_notifications_types_title" />
 
             </androidx.appcompat.widget.Toolbar>
 
