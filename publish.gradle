@@ -40,7 +40,7 @@ publishing {
     }
     repositories {
         maven {
-            url = 'http://artifactory.shape.dk:8081/artifactory/libs-release-local'
+            url = 'https://artifactory.shape.dev/artifactory/libs-release-local'
             credentials {
                 username = project.hasProperty("shape_publisher_username") ? "$shape_publisher_username" : "$System.env.shape_publisher_username"
                 password = project.hasProperty("shape_publisher_password") ? "$shape_publisher_password" : "$System.env.shape_publisher_password"

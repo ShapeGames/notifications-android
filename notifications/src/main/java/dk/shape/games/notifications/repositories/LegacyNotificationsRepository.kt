@@ -3,11 +3,11 @@ package dk.shape.games.notifications.repositories
 import dk.shape.danskespil.foundation.cache.Cache
 import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.entities.Subscription
+import dk.shape.games.notifications.entities.LegacySubscription
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.Flow
-import dk.shape.games.sportsbook.offerings.modules.notification.Subscription as LegacySubscription
 
 @ExperimentalCoroutinesApi
 class LegacyNotificationsRepository(
@@ -25,7 +25,7 @@ class LegacyNotificationsRepository(
                     eventId = subscription.eventId,
                     subjectId = subscription.eventId,
                     subjectType = SubjectType.EVENTS,
-                    types = subscription.types.toSet()
+                    types = subscription.types
                 )
             }
         }).asFlow()
@@ -38,7 +38,7 @@ class LegacyNotificationsRepository(
                     eventId = subscription.eventId,
                     subjectId = subscription.eventId,
                     subjectType = SubjectType.EVENTS,
-                    types = subscription.types.toSet()
+                    types = subscription.types
                 )
             }
         }).asFlow()

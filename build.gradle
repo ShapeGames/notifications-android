@@ -67,7 +67,7 @@ allprojects {
         }
         maven { url "https://github.com/adform/adform-tracking-android-sdk/raw/master/releases/" }
         maven {
-            url "http://artifactory.shape.dk:8081/artifactory/libs-release-local"
+            url "https://artifactory.shape.dev/artifactory/libs-release-local"
             credentials {
                 username = project.hasProperty("shape_consumer_username") ? "$shape_consumer_username" : "$System.env.shape_consumer_username"
                 password = project.hasProperty("shape_consumer_password") ? "$shape_consumer_password" : "$System.env.shape_consumer_password"
