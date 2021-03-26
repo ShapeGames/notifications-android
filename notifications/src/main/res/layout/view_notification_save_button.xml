@@ -35,7 +35,6 @@
             tools:padding="6dp"
             tools:text="Save my preferences"
             tools:textAllCaps="true"
-            tools:textColor="@color/grey_000"
             tools:textSize="13sp"
             tools:textStyle="bold" />
 

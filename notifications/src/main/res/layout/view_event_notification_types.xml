@@ -23,18 +23,12 @@
             android:visibility="gone"
             app:viewProvider="@{viewModel.loadingViewProvider}" />
 
-        <dk.shape.games.sportsbook.offerings.uiutils.ErrorView
-            android:id="@+id/layout_error"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <include
+            layout="@layout/feedback_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:visibility="gone"
-            app:errorButtonText="@{viewModel.errorButtonText}"
-            app:errorIcon="@{viewModel.errorIcon}"
-            app:errorMessage="@{viewModel.errorMessage}"
-            app:onRetryClicked="@{viewModel.onErrorButtonClicked}" />
+            app:viewModel="@{viewModel.errorFeedbackViewModel}" />
 
         <LinearLayout
             android:id="@+id/layout_content"

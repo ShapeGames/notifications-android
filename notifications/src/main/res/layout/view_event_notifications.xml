@@ -25,16 +25,12 @@
             android:visibility="gone"
             app:viewProvider="@{viewModel.loadingViewProvider}" />
 
-        <dk.shape.games.sportsbook.offerings.uiutils.ErrorView
-            android:id="@+id/layout_error"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <include
+            layout="@layout/feedback_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:visibility="gone"
-            app:errorButtonText="@{viewModel.errorButtonText}"
-            app:errorIcon="@{viewModel.errorIcon}"
-            app:errorMessage="@{viewModel.errorMessage}"
-            app:onRetryClicked="@{viewModel.onErrorButtonClicked}" />
+            app:viewModel="@{viewModel.errorFeedbackViewModel}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/layout_content"
@@ -69,7 +65,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
-                android:text="@string/notifications_empty_title" />
+                android:text="@string/offerings_notifications_empty_title" />
 
             <TextView
                 style="?attr/Notifications.Empty.Description"
@@ -80,7 +76,7 @@
                 android:layout_marginRight="16dp"
                 android:gravity="center"
                 android:lineSpacingExtra="4dp"
-                android:text="@string/notifications_empty_text" />
+                android:text="@string/offerings_notifications_empty_text" />
 
         </LinearLayout>
 
