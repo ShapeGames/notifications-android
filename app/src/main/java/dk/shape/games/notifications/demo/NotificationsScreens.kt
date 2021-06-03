@@ -3,12 +3,12 @@ package dk.shape.games.notifications.demo
 import dk.shape.games.demoskeleton.DemoScreen
 import dk.shape.games.notifications.actions.EventNotificationsAction
 import dk.shape.games.notifications.actions.NotificationSettingsAction
+import dk.shape.games.notifications.actions.SubjectNotificationsAction
 import dk.shape.games.notifications.demo.dependency.*
 import dk.shape.games.notifications.demo.mock.*
+import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.features.list.EventNotificationsFragment
-import dk.shape.games.notifications.presentation.NotificationSettingsEventFragment
-import dk.shape.games.notifications.presentation.NotificationSettingsFragment
-import dk.shape.games.notifications.presentation.NotificationSettingsSubjectFragment
+import dk.shape.games.notifications.presentation.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlin.time.ExperimentalTime
@@ -92,6 +92,23 @@ object NotificationsScreens {
                     arguments = NotificationSettingsEventFragment.Args.create(
                         mockNotificationSettingsEventAction,
                         MockNotificationSettingsEventDependencyProvider::class.java
+                    )
+                }
+            }
+        ),
+        DemoScreen(
+            name = "Notification Subject Error",
+            fragmentProvider = {
+                SubjectNotificationsFragment().apply {
+                    arguments = SubjectNotificationsFragment.Args.create(
+                        action = SubjectNotificationsAction(
+                            sportId = "123",
+                            subjectId = "256",
+                            subjectName = "Subject name",
+                            subjectType = SubjectType.TEAMS,
+                            shouldShowHeaderTitle = true
+                        ),
+                        configProvider = MockSubjectNotificationsDependencyProvider::class.java
                     )
                 }
             }
