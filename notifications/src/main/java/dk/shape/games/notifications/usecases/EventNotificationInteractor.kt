@@ -81,7 +81,7 @@ internal class EventNotificationInteractor(
                     event.id,
                     newNotificationTypes.map { it.identifier }.toSet()
                 )
-                
+
                 lastKnownNotificationTypes = newNotificationTypes
                 mutableState.sendBlocking(
                     EventNotificationState.Content.create(

@@ -13,4 +13,4 @@ formatting:
     autoCorrect: false
 
 build:
-  maxIssues: 156
+  maxIssues: 132

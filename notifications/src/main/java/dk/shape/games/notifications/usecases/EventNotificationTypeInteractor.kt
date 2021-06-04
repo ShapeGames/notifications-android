@@ -34,7 +34,7 @@ internal class EventNotificationTypeInteractor(
             val deviceId = provideDeviceId()
             notificationsDataSource.getSubscriptions(deviceId).apply {
                 collect { subscriptions ->
-                    if(!notificationsDataSource.isUpdatingSubscriptions(deviceId)) {
+                    if (!notificationsDataSource.isUpdatingSubscriptions(deviceId)) {
                         val event = eventRepository.getData(eventId)
                             .await(ComponentKit.createBackgroundExecutor())
                         val eventNotificationTypes = provideNotifications().group
@@ -43,7 +43,8 @@ internal class EventNotificationTypeInteractor(
                         val currentlyEnabledNotificationTypes =
                             subscriptions
                                 .find { it.eventId == eventId }
-                                ?.types?.mapNotNull { type -> eventNotificationTypes?.find { it.identifier == type } }?.toSet()
+                                ?.types?.mapNotNull { type -> eventNotificationTypes?.find { it.identifier == type } }
+                                ?.toSet()
                                 ?: emptySet()
                         val notificationType = eventNotificationTypes?.find {
                             it.identifier == notificationTypeId
@@ -64,5 +65,4 @@ internal class EventNotificationTypeInteractor(
             }
         }
     }
-
 }

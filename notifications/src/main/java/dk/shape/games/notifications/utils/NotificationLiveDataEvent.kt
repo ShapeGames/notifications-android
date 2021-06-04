@@ -11,5 +11,4 @@ internal class NotificationLiveDataEvent : LiveDataEvent() {
         notifyHandled()
         return handledAlready
     }
-
 }

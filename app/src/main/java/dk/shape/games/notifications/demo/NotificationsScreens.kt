@@ -33,7 +33,7 @@ object NotificationsScreens {
             fragmentProvider = {
                 MockSubjectNotificationsParentFragment().apply {
                     arguments = MockSubjectNotificationsParentFragment.Args.create(
-                        SubjectNotificationsAction(),
+                        MockSubjectNotificationsAction(),
                         MockNotificationsDependencyProvider::class.java
                     )
                 }
@@ -44,7 +44,7 @@ object NotificationsScreens {
             fragmentProvider = {
                 MockSubjectNotificationsParentFragment().apply {
                     arguments = MockSubjectNotificationsParentFragment.Args.create(
-                        action = SubjectNotificationsAction(
+                        action = MockSubjectNotificationsAction(
                             isError = true
                         ),
                         configProvider = MockNotificationsDependencyProvider::class.java

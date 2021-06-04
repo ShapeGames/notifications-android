@@ -40,7 +40,7 @@ internal class NotificationTypeViewModel(
     @ExperimentalCoroutinesApi
     fun onToggled(enabled: Boolean) = synchronized(this.enabled) {
         (state.value as? NotificationTypeState.Content)?.let {
-            if(this.enabled.value != enabled && this.enabled.value != null) {
+            if (this.enabled.value != enabled && this.enabled.value != null) {
                 _toggleEvent.postValue(
                     ContentLiveDataEvent(ToggleData(it.notificationTypeId, enabled))
                 )
@@ -55,7 +55,7 @@ internal class NotificationTypeViewModel(
         }
     }
 
-    override fun equals(other: Any?): Boolean = if(other is NotificationTypeViewModel) {
+    override fun equals(other: Any?): Boolean = if (other is NotificationTypeViewModel) {
         other.state.value == this.state.value
     } else false
 

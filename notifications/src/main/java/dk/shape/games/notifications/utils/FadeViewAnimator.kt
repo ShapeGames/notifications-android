@@ -15,5 +15,4 @@ class FadeViewAnimator : ViewAnimator {
         setInAnimation(context, android.R.anim.fade_in)
         setOutAnimation(context, android.R.anim.fade_out)
     }
-
 }
