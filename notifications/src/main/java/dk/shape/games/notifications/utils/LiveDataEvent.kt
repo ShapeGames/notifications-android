@@ -15,5 +15,4 @@ internal abstract class LiveDataEvent {
     protected open fun notifyHandled() = synchronized(handledFlagLock) {
         hasBeenHandled = true
     }
-
 }

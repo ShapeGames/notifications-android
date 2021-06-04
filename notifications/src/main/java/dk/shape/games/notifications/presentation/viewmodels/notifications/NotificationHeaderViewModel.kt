@@ -27,7 +27,7 @@ internal sealed class NotificationHeaderViewModel(
     ) : NotificationHeaderViewModel(
         isDisabled,
         onSwitchToggled
-    ){
+    ) {
         val titleVisibility = if (isHeaderTitleVisible) View.VISIBLE else View.GONE
     }
 

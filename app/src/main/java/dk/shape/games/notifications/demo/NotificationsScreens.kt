@@ -6,9 +6,7 @@ import dk.shape.games.notifications.actions.NotificationSettingsAction
 import dk.shape.games.notifications.demo.dependency.*
 import dk.shape.games.notifications.demo.mock.*
 import dk.shape.games.notifications.features.list.EventNotificationsFragment
-import dk.shape.games.notifications.presentation.NotificationSettingsEventFragment
-import dk.shape.games.notifications.presentation.NotificationSettingsFragment
-import dk.shape.games.notifications.presentation.NotificationSettingsSubjectFragment
+import dk.shape.games.notifications.presentation.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlin.time.ExperimentalTime
@@ -35,8 +33,21 @@ object NotificationsScreens {
             fragmentProvider = {
                 MockSubjectNotificationsParentFragment().apply {
                     arguments = MockSubjectNotificationsParentFragment.Args.create(
-                        SubjectNotificationsAction,
+                        MockSubjectNotificationsAction(),
                         MockNotificationsDependencyProvider::class.java
+                    )
+                }
+            }
+        ),
+        DemoScreen(
+            name = "Notification Sheet Subject Error",
+            fragmentProvider = {
+                MockSubjectNotificationsParentFragment().apply {
+                    arguments = MockSubjectNotificationsParentFragment.Args.create(
+                        action = MockSubjectNotificationsAction(
+                            isError = true
+                        ),
+                        configProvider = MockNotificationsDependencyProvider::class.java
                     )
                 }
             }

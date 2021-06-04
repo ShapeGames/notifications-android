@@ -16,8 +16,8 @@ internal class SubjectNotificationSwitcherViewModel(
 ) {
     val itemBinding: ItemBinding<Any> = ItemBinding.of(
         OnItemBindClass<Any>()
-            .map(FeedbackInfoViewModel::class.java, BR.viewModel, R.layout.feedback_info)
-            .map(FeedbackLoadingViewModel::class.java, BR.viewModel, R.layout.feedback_loading_vm)
+            .map(FeedbackInfoViewModel::class.java, BR.viewModel, R.layout.view_notifications_padded_error)
+            .map(FeedbackLoadingViewModel::class.java, BR.viewModel, R.layout.view_notifications_padded_loading_vm)
             .map(
                 NotificationSheetSubjectViewModel::class.java,
                 BR.viewModel,

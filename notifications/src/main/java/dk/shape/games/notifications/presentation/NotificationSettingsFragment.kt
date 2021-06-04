@@ -142,7 +142,6 @@ class NotificationSettingsFragment : Fragment() {
                             switcherViewModel.setContent(viewModels)
                         } else switcherViewModel.setEmpty()
                     }
-
                 } catch (e: Exception) {
                     if (e is IOException || e is HttpException || e is IllegalArgumentException) {
                         withContext(Dispatchers.Main) {

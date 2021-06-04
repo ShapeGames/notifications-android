@@ -115,7 +115,6 @@ data class LegacyEventNotificationsInteractor(
         } ?: emptyList()
     }
 
-
     @MainThread
     override fun updateNotifications(
         eventId: String,

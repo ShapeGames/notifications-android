@@ -3,9 +3,7 @@ package dk.shape.games.notifications.usecases
 import dk.shape.componentkit.bridge.coroutines.await
 import dk.shape.componentkit2.ComponentKit
 import dk.shape.games.notifications.aliases.Notifications
-import dk.shape.games.notifications.entities.Subscription
 import dk.shape.games.notifications.repositories.EventNotificationsDataSource
-import dk.shape.games.notifications.repositories.NotificationsDataSource
 import dk.shape.games.sportsbook.offerings.generics.event.data.EventRepository
 import dk.shape.games.sportsbook.offerings.modules.event.data.Event
 import kotlinx.coroutines.*
@@ -27,7 +25,8 @@ internal class EventNotificationTypesInteractor(
     private val onMainToggleError: (e: Throwable) -> Unit
 ) : EventNotificationTypesUseCases {
 
-    private val mutableState: BroadcastChannel<EventNotificationTypesState> = BroadcastChannel(Channel.CONFLATED)
+    private val mutableState: BroadcastChannel<EventNotificationTypesState> =
+        BroadcastChannel(Channel.CONFLATED)
     override val state: Flow<EventNotificationTypesState> = mutableState.asFlow()
 
     private var enabledNotificationTypes: Set<String>? = null
@@ -41,7 +40,7 @@ internal class EventNotificationTypesInteractor(
     ) {
         try {
             withContext(Dispatchers.Default) {
-                if(enabledNotificationTypes == null) {
+                if (enabledNotificationTypes == null) {
                     loadEnabledNotificationTypes(getEvent().notificationConfigurationId)
                 }
                 val currentlyEnabledTypes = enabledNotificationTypes ?: emptySet()
@@ -54,7 +53,7 @@ internal class EventNotificationTypesInteractor(
                     }
                 }
 
-                if(currentUpdateJob?.isActive == true) currentUpdateJob?.cancel()
+                if (currentUpdateJob?.isActive == true) currentUpdateJob?.cancel()
                 currentUpdateJob = async(Dispatchers.IO) {
                     val newNotificationTypeIds = enabledNotificationTypes ?: emptySet()
                     notificationsDataSource.updateEventSubscriptions(
@@ -83,7 +82,12 @@ internal class EventNotificationTypesInteractor(
                     .find { it.groupId == event.notificationConfigurationId }
                     ?.notificationTypes?.toSet() ?: emptySet()
                 loadEnabledNotificationTypes(getEvent().notificationConfigurationId)
-                mutableState.sendBlocking(EventNotificationTypesState.Content.create(event, eventNotificationTypes))
+                mutableState.sendBlocking(
+                    EventNotificationTypesState.Content.create(
+                        event,
+                        eventNotificationTypes
+                    )
+                )
             }
         } catch (e: Exception) {
             mutableState.sendBlocking(EventNotificationTypesState.Error)

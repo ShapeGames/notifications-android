@@ -115,5 +115,4 @@ class NotificationsRegistrationHelper(
     private fun getLastRegisteredDeviceId(): String? {
         return registeredDeviceId ?: sharedPrefs.getString(deviceIdKey, null)
     }
-
 }

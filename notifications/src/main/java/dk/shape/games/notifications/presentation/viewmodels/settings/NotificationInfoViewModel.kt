@@ -26,4 +26,3 @@ internal fun String.toNotificationInfoViewModel(): NotificationInfoViewModel.Tex
 
 internal fun List<NotificationTypeIconViewModel>.toNotificationInfoViewModel(): NotificationInfoViewModel.Icons =
     NotificationInfoViewModel.Icons(this)
-

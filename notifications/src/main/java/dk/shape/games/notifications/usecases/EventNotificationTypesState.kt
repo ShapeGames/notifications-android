@@ -16,7 +16,7 @@ internal sealed class EventNotificationTypesState {
         val level2Name: String?,
         val level3Name: String?,
         val notificationTypesIds: Set<String>
-        ) : EventNotificationTypesState() {
+    ) : EventNotificationTypesState() {
 
         companion object {
 
@@ -31,9 +31,7 @@ internal sealed class EventNotificationTypesState {
                     if (event.levelPath.size >= 3) event.levelPath.getOrNull(event.levelPath.size - 1)?.name else null,
                     notificationTypes.map { it.identifier }.toSet()
                 )
-
         }
-
     }
 
     object Loading : EventNotificationTypesState()

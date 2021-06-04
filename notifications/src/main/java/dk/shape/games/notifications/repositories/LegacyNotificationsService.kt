@@ -8,7 +8,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.http.*
 
-interface LegacyNotificationsService: NotificationsServiceBase {
+interface LegacyNotificationsService : NotificationsServiceBase {
 
     @Headers("Content-Type: application/json")
     @GET("/api/v1/subscriptions/{deviceId}")

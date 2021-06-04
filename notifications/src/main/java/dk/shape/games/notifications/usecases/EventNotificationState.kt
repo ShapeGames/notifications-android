@@ -22,7 +22,6 @@ internal sealed class EventNotificationState {
                     notificationTypes.map { it.name }
                 )
             }
-
         }
 
         fun isEnabled(): Boolean = enabledNotificationTypeNames.isNotEmpty()
