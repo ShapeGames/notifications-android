@@ -36,7 +36,9 @@ data class MockSubjectData(
 )
 
 @Parcelize
-object SubjectNotificationsAction: Parcelable
+data class SubjectNotificationsAction (
+    val isError: Boolean = false
+): Parcelable
 
 class MockSubjectNotificationsParentFragment : Fragment() {
 
@@ -44,6 +46,13 @@ class MockSubjectNotificationsParentFragment : Fragment() {
         sportId = "football:0000",
         subjectId = "team:0000",
         subjectName = "Manchester United",
+        subjectType = SubjectType.TEAMS
+    )
+
+    private val mockErrorData = MockSubjectData(
+        sportId = "",
+        subjectId = "",
+        subjectName = "Subject name",
         subjectType = SubjectType.TEAMS
     )
 
@@ -57,7 +66,9 @@ class MockSubjectNotificationsParentFragment : Fragment() {
 
         MockNotificationsViewModel(
             showNotifications = {
-                config.showNotificationsFragment(this, mockData)
+                if(action.isError){
+                    config.showNotificationsFragment(this, mockErrorData)
+                } else config.showNotificationsFragment(this, mockData)
             }
         )
     }

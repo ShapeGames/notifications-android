@@ -3,10 +3,8 @@ package dk.shape.games.notifications.demo
 import dk.shape.games.demoskeleton.DemoScreen
 import dk.shape.games.notifications.actions.EventNotificationsAction
 import dk.shape.games.notifications.actions.NotificationSettingsAction
-import dk.shape.games.notifications.actions.SubjectNotificationsAction
 import dk.shape.games.notifications.demo.dependency.*
 import dk.shape.games.notifications.demo.mock.*
-import dk.shape.games.notifications.entities.SubjectType
 import dk.shape.games.notifications.features.list.EventNotificationsFragment
 import dk.shape.games.notifications.presentation.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,8 +33,21 @@ object NotificationsScreens {
             fragmentProvider = {
                 MockSubjectNotificationsParentFragment().apply {
                     arguments = MockSubjectNotificationsParentFragment.Args.create(
-                        SubjectNotificationsAction,
+                        SubjectNotificationsAction(),
                         MockNotificationsDependencyProvider::class.java
+                    )
+                }
+            }
+        ),
+        DemoScreen(
+            name = "Notification Sheet Subject Error",
+            fragmentProvider = {
+                MockSubjectNotificationsParentFragment().apply {
+                    arguments = MockSubjectNotificationsParentFragment.Args.create(
+                        action = SubjectNotificationsAction(
+                            isError = true
+                        ),
+                        configProvider = MockNotificationsDependencyProvider::class.java
                     )
                 }
             }
@@ -92,23 +103,6 @@ object NotificationsScreens {
                     arguments = NotificationSettingsEventFragment.Args.create(
                         mockNotificationSettingsEventAction,
                         MockNotificationSettingsEventDependencyProvider::class.java
-                    )
-                }
-            }
-        ),
-        DemoScreen(
-            name = "Notification Subject Error",
-            fragmentProvider = {
-                SubjectNotificationsFragment().apply {
-                    arguments = SubjectNotificationsFragment.Args.create(
-                        action = SubjectNotificationsAction(
-                            sportId = "123",
-                            subjectId = "256",
-                            subjectName = "Subject name",
-                            subjectType = SubjectType.TEAMS,
-                            shouldShowHeaderTitle = true
-                        ),
-                        configProvider = MockSubjectNotificationsDependencyProvider::class.java
                     )
                 }
             }
