@@ -16,8 +16,8 @@ internal class EventNotificationSwitcherViewModel(
 ) {
     val itemBinding: ItemBinding<Any> = ItemBinding.of(
         OnItemBindClass<Any>()
-            .map(FeedbackInfoViewModel::class.java, BR.viewModel, R.layout.feedback_info)
-            .map(FeedbackLoadingViewModel::class.java, BR.viewModel, R.layout.feedback_loading_vm)
+            .map(FeedbackInfoViewModel::class.java, BR.viewModel, R.layout.feedback_info_padded)
+            .map(FeedbackLoadingViewModel::class.java, BR.viewModel, R.layout.feedback_loading_vm_padded)
             .map(
                 NotificationSheetEventViewModel::class.java,
                 BR.viewModel,
