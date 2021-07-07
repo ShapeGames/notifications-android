@@ -42,10 +42,6 @@ internal data class NotificationTypeCollectionViewModel(
     val hasChanges: Boolean
         get() = activatedTypeIds != selectedTypeIds
 
-    fun resetAll() {
-        selectedTypeIds = activatedTypeIds.toSet()
-    }
-
     fun allowItemInput(allowInput: Boolean) {
         notificationTypeItems.value {
             forEach {
