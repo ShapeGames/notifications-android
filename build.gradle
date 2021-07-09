@@ -15,6 +15,9 @@ buildscript {
     ext.common_styles_version_oddset = '2.1.3'
     ext.detekt_version = "1.2.2"
     ext.dokka_version = '1.5.0'
+    ext.gradle_version = '4.2.0'
+    ext.kotlinx_serialization_version = "1.2.1"
+    ext.kotlinx_coroutines_version = "1.5.0"
 
     repositories {
         google()
@@ -28,7 +31,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
