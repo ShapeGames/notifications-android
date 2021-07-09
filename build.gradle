@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.4.10'
+    ext.kotlin_version = '1.5.10'
     ext.mocking_version = '1.0.6'
     ext.uikit_version = '2.1.5'
     ext.feedback_ui_version = '1.9.5'
@@ -14,12 +14,15 @@ buildscript {
     ext.common_styles_version_bw = '1.0.0'
     ext.common_styles_version_oddset = '2.1.3'
     ext.detekt_version = "1.2.2"
+    ext.dokka_version = '1.5.0'
+    ext.gradle_version = '4.2.0'
+    ext.kotlinx_serialization_version = "1.2.1"
+    ext.kotlinx_coroutines_version = "1.5.0"
 
     repositories {
         google()
         jcenter()
         mavenCentral()
-        maven { url 'https://maven.fabric.io/public' }
         maven { url 'https://ensighten-mobile.bintray.com/maven' }
         maven { url "https://plugins.gradle.org/m2/" }
         maven { url "https://jitpack.io" }
@@ -28,16 +31,15 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.2'
+        classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.7.5"
-        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.16"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.16"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
         classpath "org.ajoberstar.reckon:org.ajoberstar.reckon.gradle.plugin:0.12.0"
-        classpath 'digital.wup:android-maven-publish:3.6.2'
+        classpath 'digital.wup:android-maven-publish:3.6.3'
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -61,7 +63,6 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
-        maven { url 'https://maven.fabric.io/public' }
         maven {
             url 'https://ensighten-mobile.bintray.com/maven'
         }
