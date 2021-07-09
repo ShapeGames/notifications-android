@@ -1,49 +1,53 @@
-apply plugin: 'digital.wup.android-maven-publish'
-apply plugin: 'org.jetbrains.dokka-android'
+apply plugin: 'maven-publish'
 
-dokka {
-    outputFormat = 'html'
-    outputDirectory = "$buildDir/javadoc"
-}
-
-task androidJavadocs(type: Javadoc, dependsOn: dokka) {
+task androidJavadocs(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    android.libraryVariants.all { variant ->
+        if (variant.name == 'release') {
+            owner.classpath += variant.javaCompileProvider.get().classpath
+        }
+    }
+    exclude '**/R.html', '**/R.*.html', '**/index.html'
 }
 
-task javadocJar(type: Jar, dependsOn: dokka) {
-    classifier = 'javadoc'
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    archiveClassifier.set('javadoc')
     from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.srcDirs
 }
 
 def libraryGroupId = "dk.shape.games.notifications"
 
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from android.sourceSets.main.java.srcDirs
-}
+// Because the components are created only during the afterEvaluate phase, you must
+// configure your publications using the afterEvaluate() lifecycle method
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "mavenAar"
+            mavenAar(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.release
 
-publishing {
-    publications {
-        mavenAar(MavenPublication) {
-            from components.android
-            artifact javadocJar
-            artifact sourcesJar
+                // Adds javadocs and sources as separate jars
+//                artifact androidJavadocsJar
+                artifact androidSourcesJar
 
-            groupId libraryGroupId
-            version project.version
-
-            pom {
-                name = project.name
+                // You can customize attributes of the publication here
+                groupId = libraryGroupId
             }
         }
-    }
-    repositories {
-        maven {
-            url = 'https://artifactory.shape.dev/artifactory/libs-release-local'
-            credentials {
-                username = project.hasProperty("shape_publisher_username") ? "$shape_publisher_username" : "$System.env.shape_publisher_username"
-                password = project.hasProperty("shape_publisher_password") ? "$shape_publisher_password" : "$System.env.shape_publisher_password"
+        repositories {
+            maven {
+                url = 'https://artifactory.shape.dev/artifactory/libs-release-local'
+                credentials {
+                    username = project.hasProperty("shape_publisher_username") ? "$shape_publisher_username" : "$System.env.shape_publisher_username"
+                    password = project.hasProperty("shape_publisher_password") ? "$shape_publisher_password" : "$System.env.shape_publisher_password"
+                }
             }
         }
     }
