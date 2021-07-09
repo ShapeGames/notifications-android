@@ -48,7 +48,6 @@ internal data class NotificationSheetEventViewModel(
     private val switchToggleHandler: (Boolean) -> Unit = { isChecked ->
         headerViewModel.activeNotificationState.awareSet(isChecked) {
             notificationTypesCollection.value {
-                resetAll()
                 onMasterActive(isChecked)
             }
             stateChangeHandler(isChecked, true)
